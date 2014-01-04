@@ -13,7 +13,7 @@ namespace QueryManagerTests
     [TestFixture]
     public class DataStorageTest
     {
-        private readonly string DbPath = "Data";
+        private string path;
 
         private DataStorage storage;
 
@@ -21,22 +21,34 @@ namespace QueryManagerTests
         public void DeleteDatabase()
         {
             storage.DocumentStore.Dispose();
-            var di = new DirectoryInfo(GetExecutingPath(DbPath));
+            var di = new DirectoryInfo(path);
             di.GetFiles().ToList().ForEach(f => f.Delete());
             di.GetDirectories().ToList().ForEach(d => d.Delete(true));
-            di.Delete(true);
+            path = null;
         }
 
         [Test]
         public void Test_Should_create_an_instance_of_RavenDB_when_folder_is_empty()
         {
+            string DbPath = "Data";
             storage = new DataStorage();
-            storage.ConnectionString = @"~\Data";
+            storage.ConnectionString = @"~\" + DbPath;
             storage.Initialize();
 
-            string path = GetExecutingPath(DbPath);
-            Assert.IsTrue(Directory.Exists(path));
+            path = GetExecutingPath(DbPath);
+            Assert.IsTrue(File.Exists(path + @"\Data"));
         }
+
+        [Test]
+        public void Test_Should_create_instance_of_RavenDB_in_MyDocuments_when_no_path_is_provided()
+        {
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
+            storage = new DataStorage();
+            storage.Initialize();
+
+            Assert.IsTrue(File.Exists(path + @"\Data"));
+        }
+
         private string GetExecutingPath(string lastPart)
         {
             string codeBase = System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase;

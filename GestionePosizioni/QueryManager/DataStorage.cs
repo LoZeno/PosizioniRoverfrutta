@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using Raven.Client.Embedded;
 
 namespace QueryManager
 {
     public class DataStorage : IDataStorage
     {
+        private string dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            @"Posizioni\Archive");
+
         private EmbeddableDocumentStore documentStore;
 
         public void Initialize()
@@ -17,7 +17,17 @@ namespace QueryManager
             documentStore.Initialize();
         }
 
-        public string ConnectionString { get; set; }
+        public string ConnectionString
+        {
+            get
+            {
+                return dataDirectory;
+            }
+            set
+            {
+                dataDirectory = value;
+            }
+        }
 
         public EmbeddableDocumentStore DocumentStore
         {
