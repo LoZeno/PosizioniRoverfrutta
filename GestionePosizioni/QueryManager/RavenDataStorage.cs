@@ -4,7 +4,7 @@ using Raven.Client.Embedded;
 
 namespace QueryManager
 {
-    public class DataStorage : IDataStorage
+    public class RavenDataStorage : IDataStorage
     {
         private string dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             @"Posizioni\Archive");

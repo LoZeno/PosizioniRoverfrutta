@@ -15,7 +15,7 @@ namespace QueryManagerTests
     {
         private string path;
 
-        private DataStorage storage;
+        private RavenDataStorage storage;
 
         [TearDown]
         public void DeleteDatabase()
@@ -31,7 +31,7 @@ namespace QueryManagerTests
         public void Test_Should_create_an_instance_of_RavenDB_when_folder_is_empty()
         {
             string DbPath = "Data";
-            storage = new DataStorage();
+            storage = new RavenDataStorage();
             storage.ConnectionString = @"~\" + DbPath;
             storage.Initialize();
 
@@ -43,7 +43,7 @@ namespace QueryManagerTests
         public void Test_Should_create_instance_of_RavenDB_in_MyDocuments_when_no_path_is_provided()
         {
             path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
-            storage = new DataStorage();
+            storage = new RavenDataStorage();
             storage.Initialize();
 
             Assert.IsTrue(File.Exists(path + @"\Data"));
