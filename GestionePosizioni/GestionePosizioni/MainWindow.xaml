@@ -3,108 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:baseClasses="clr-namespace:GestionePosizioni.BaseClasses"
         Title="Gestione Posizioni Roverfrutta" Height="350" Width="525" MinWidth="800" MinHeight="600">
-    <Grid>
-    	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="5*"/>
-    		<ColumnDefinition Width="17*"/>
-    	</Grid.ColumnDefinitions>
-    	<!--<StackPanel x:Name="leftPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>-->
-
-        <ListBox Grid.Column="0">
-            <ListBox.Resources>
-                <LinearGradientBrush x:Key="MouseOverBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFFFFFFF" Offset="0" />
-                    <GradientStop Color="#FFFEF3B5" Offset="0.318" />
-                    <GradientStop Color="#FFFFEB70" Offset="0.488" />
-                    <GradientStop Color="#FFFFE48A" Offset="0.502" />
-                    <GradientStop Color="#FFFFD932" Offset="0.834" />
-                    <GradientStop Color="#FFFFF48B" Offset="1" />
-                </LinearGradientBrush>
-                <LinearGradientBrush x:Key="MouseOverBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFEEE8CF" Offset="0" />
-                    <GradientStop Color="#FFC4AF8C" Offset="0.536" />
-                    <GradientStop Color="#FFDCD1BF" Offset="1" />
-                </LinearGradientBrush>
-                <LinearGradientBrush x:Key="PressedBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFC3BCAE" Offset="0" />
-                    <GradientStop Color="#FFFFE48A" Offset="0.046" />
-                    <GradientStop Color="#FFFFE48A" Offset="0.452" />
-                    <GradientStop Color="#FFFFE48A" Offset="0.461" />
-                    <GradientStop Color="#FFFFD932" Offset="0.724" />
-                    <GradientStop Color="#FFFFF48B" Offset="1" />
-                </LinearGradientBrush>
-                <LinearGradientBrush x:Key="PressedBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFC2762B" Offset="0" />
-                    <GradientStop Color="#FFC29E47" Offset="1" />
-                </LinearGradientBrush>
-
-                <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
-
-                <Style TargetType="{x:Type ListBox}">
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
-                    <Setter Property="Padding" Value="1"/>
-                </Style>
-
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListBoxItem">
-                                <Border x:Name="OuterBorder" Margin="1" BorderThickness="1" CornerRadius="3" BorderBrush="Transparent" Background="Transparent">
-                                    <Border x:Name="InnerBorder" BorderThickness="1" CornerRadius="2" BorderBrush="Transparent" Background="Transparent">
-                                        <ContentPresenter x:Name="Content" Margin="10,3,10,3" />
-                                    </Border>
-                                </Border>
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
-                                    </Trigger>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource MouseOverBorderBrush}" />
-                                        <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource MouseOverBrush}" />
-                                    </Trigger>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="IsMouseOver" Value="False" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource PressedBorderBrush}" />
-                                        <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource PressedBrush}" />
-                                    </MultiTrigger>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="IsMouseOver" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{DynamicResource PressedBorderBrush}" />
-                                        <Setter TargetName="OuterBorder" Property="Background" Value="{DynamicResource PressedBrush}" />
-                                    </MultiTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.Resources>
-            <ListBoxItem IsEnabled="False">
-                <Label>Posizioni</Label>
-            </ListBoxItem>
-            <ListBoxItem IsSelected="True">Visualizza Posizioni</ListBoxItem>
-            <ListBoxItem>Nuova Posizione</ListBoxItem>
-            <ListBoxItem IsEnabled="False">
-                <Separator Margin="-5,0,-5,0" />
-            </ListBoxItem>
-            <ListBoxItem IsEnabled="False">
-                <Label>Anagrafiche</Label>
-            </ListBoxItem>
-            <ListBoxItem>Clienti</ListBoxItem>
-            <ListBoxItem>Fornitori</ListBoxItem>
-            <ListBoxItem>Trasportatori</ListBoxItem>
-        </ListBox>
-
-        <Border Grid.Column="0" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
-            <Grid></Grid>
-        </Border>
-
+    <Grid x:Name="LayoutRoot">
+        <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" 
+                 Name="dockPanel1" VerticalAlignment="Stretch">
+            <Ribbon DockPanel.Dock="Top" Name="MainRibbon">
+                <Ribbon.HelpPaneContent>
+                    <RibbonButton SmallImageSource="" />
+                </Ribbon.HelpPaneContent>
+                <!-- Quick Access Toolbar - located at the upper-left corner -->
+                <Ribbon.QuickAccessToolBar>
+                    <RibbonQuickAccessToolBar>
+                        <RibbonButton x:Name ="Save" SmallImageSource="" />
+                        <RibbonSplitButton x:Name ="Undo" >
+                            <RibbonSplitMenuItem Header="Undo 1" />
+                            <RibbonSplitMenuItem Header="Undo 2" />
+                            <RibbonSplitMenuItem Header="Undo 3" />
+                        </RibbonSplitButton>
+                        <RibbonSplitButton x:Name="Redo" SmallImageSource="" >
+                            <RibbonSplitMenuItem Header="Redo 1" />
+                            <RibbonSplitMenuItem Header="Redo 2" />
+                        </RibbonSplitButton>
+                    </RibbonQuickAccessToolBar>
+                </Ribbon.QuickAccessToolBar>
+                <Ribbon.ApplicationMenu>
+                    <RibbonApplicationMenu KeyTip="F" SmallImageSource="">
+                        <Label>File</Label>
+                        <RibbonApplicationMenuItem Header="Options"/>
+                        <RibbonApplicationMenuItem Header="Exit" />
+                    </RibbonApplicationMenu>
+                </Ribbon.ApplicationMenu>
+                <RibbonTab Header="Posizioni">
+                    
+                </RibbonTab>
+                <RibbonTab Header="Clienti">
+                    
+                </RibbonTab>
+                <RibbonTab Header="Fornitori">
+                    
+                </RibbonTab>
+                <RibbonTab Header="Trasportatori">
+                    
+                </RibbonTab>
+            </Ribbon>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FFD9E1EF" Height="100">
+                <Label>Status</Label>
+            </StackPanel>
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFC0DBF2">
+                    <Label>Main</Label>
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </baseClasses:BaseWindow>
