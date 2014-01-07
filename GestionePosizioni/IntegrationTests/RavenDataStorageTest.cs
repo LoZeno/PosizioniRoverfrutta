@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using QueryManager;
 
-namespace QueryManagerTests
+namespace IntegrationTests
 {
     [TestFixture]
-    public class DataStorageTest
+    public class RavenDataStorageTest
     {
         private string path;
 
