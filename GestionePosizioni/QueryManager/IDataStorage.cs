@@ -4,5 +4,7 @@ namespace QueryManager
     {
         void Initialize();
         string ConnectionString { get; set; }
+
+
     }
 }

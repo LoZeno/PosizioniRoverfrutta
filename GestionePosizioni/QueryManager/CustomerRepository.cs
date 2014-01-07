@@ -10,34 +10,16 @@ using Raven.Storage.Esent;
 
 namespace QueryManager
 {
-    public class CustomerRepository : IDocumentRepository<Customer>
+    public class CustomerRepository : RepositoryBase<Customer>
     {
-        private IDocumentSession _session;
-
-        public CustomerRepository(DocumentStore storage)
+        public CustomerRepository(DocumentStore storage) : base(storage)
         {
-            _session = storage.OpenSession();
         }
 
-        public string Add(Customer customer)
+        public override string Add(Customer entity)
         {
-            _session.Store(customer);
-            return customer.Id;
-        }
-
-        public Customer FindById(string custId)
-        {
-            return _session.Load<Customer>(custId);
-        }
-
-        public void Save()
-        {
-            _session.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _session.Dispose();
+            _session.Store(entity);
+            return entity.Id;
         }
     }
 }

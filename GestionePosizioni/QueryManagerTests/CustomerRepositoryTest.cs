@@ -23,7 +23,7 @@ namespace QueryManagerTests
         }
 
         [Test]
-        public void CreateNewCustomer()
+        public void Test_CreateNewCustomer_ShouldReturnCreatedCustomerId()
         {
             var customer = new Customer();
             string custID;
@@ -32,12 +32,7 @@ namespace QueryManagerTests
                 custID = repository.Add(customer);
                 repository.Save();
             }
-            Customer oldCustomer = null;
-            using (repository = new CustomerRepository(storage.DocumentStore))
-            {
-                oldCustomer = repository.FindById(custID);
-            }
-            Assert.IsNotNull(oldCustomer);
+            Assert.That(custID.StartsWith("customers/"));
         }
     }
 }
