@@ -34,5 +34,33 @@ namespace QueryManagerTests
             }
             Assert.That(custID.StartsWith("customers/"));
         }
+
+        [Test]
+        public void Test_SearchCustomerById_shouldReturnCustomerObject()
+        {
+            var customer = new Customer
+            {
+                CompanyName = "Company 1",
+                Country = "Italy"
+            };
+            var customer2 = new Customer
+            {
+                CompanyName = "Company 2",
+                Country = "UK"
+            };
+            string id;
+            using (repository = new CustomerRepository(storage.DocumentStore))
+            {
+                repository.Add(customer);
+                id = repository.Add(customer2);
+                repository.Save();
+            }
+
+            using (repository = new CustomerRepository(storage.DocumentStore))
+            {
+                var retrievedData = repository.FindById(id);
+                Assert.AreEqual("Company 2",retrievedData.CompanyName);
+            }
+        }
     }
 }
