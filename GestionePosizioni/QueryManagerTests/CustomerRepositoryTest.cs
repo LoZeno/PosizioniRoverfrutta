@@ -99,5 +99,37 @@ namespace QueryManagerTests
                 Assert.AreEqual("New Company Name", customerToCheck.CompanyName);
             }
         }
+
+        [Test]
+        public void Test_DeleteCustomer()
+        {
+            string custId;
+            using (var mySession = storage.DocumentStore.OpenSession())
+            {
+                var customer = new Customer
+                {
+                    CompanyName = "Company Name",
+                    Country = "Italy"
+                };
+                repository = new CustomerRepository(mySession);
+                custId = repository.Add(customer);
+                mySession.SaveChanges();
+            }
+
+            using (var mySession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mySession);
+                var customerToDelete = repository.FindById(custId);
+                repository.Delete(customerToDelete);
+                mySession.SaveChanges();
+            }
+
+            using (var mySession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mySession);
+                var customerToCheck = repository.FindById(custId);
+                Assert.IsNull(customerToCheck);
+            }
+        }
     }
 }

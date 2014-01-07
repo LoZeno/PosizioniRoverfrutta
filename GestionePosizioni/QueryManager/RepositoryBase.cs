@@ -21,5 +21,10 @@ namespace QueryManager
             return _session.Load<T>(custID);
         }
 
+        public void Delete(T entity)
+        {
+            _session.Delete(entity);
+        }
+
     }
 }
