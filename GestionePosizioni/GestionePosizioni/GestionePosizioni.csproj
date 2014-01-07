@@ -195,6 +195,35 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-16.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-24.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-32.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-48.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-64.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-72.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon-96.png" />
+    <Resource Include="Content\Pictures\Help\Categories-system-help-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Help\question-faq-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Save\floppy-mount-icon-128.png" />
+    <Resource Include="Content\Pictures\Save\floppy-mount-icon-16.png" />
+    <Resource Include="Content\Pictures\Save\floppy-mount-icon-32.png" />
+    <Resource Include="Content\Pictures\Save\floppy-mount-icon-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Document\Document-icon-128.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-16.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-24.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-32.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-48.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-64.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-72.png" />
+    <Resource Include="Content\Pictures\Document\Document-icon-96.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

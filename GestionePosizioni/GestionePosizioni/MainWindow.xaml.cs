@@ -12,5 +12,10 @@ namespace GestionePosizioni
         {
             InitializeComponent();
         }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
