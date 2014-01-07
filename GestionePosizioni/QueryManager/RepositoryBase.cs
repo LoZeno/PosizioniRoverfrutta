@@ -5,13 +5,13 @@ using Raven.Client.Document;
 
 namespace QueryManager
 {
-    public abstract class RepositoryBase<T> : IDisposable
+    public abstract class RepositoryBase<T>
     {
         protected IDocumentSession _session;
 
-        public RepositoryBase(DocumentStore storage)
+        public RepositoryBase(IDocumentSession session)
         {
-            _session = storage.OpenSession();
+            _session = session;
         }
 
         public abstract string Add(T entity);
@@ -21,14 +21,5 @@ namespace QueryManager
             return _session.Load<T>(custID);
         }
 
-        public void Save()
-        {
-            _session.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _session.Dispose();
-        }
     }
 }

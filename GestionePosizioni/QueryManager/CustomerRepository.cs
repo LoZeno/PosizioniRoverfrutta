@@ -12,7 +12,7 @@ namespace QueryManager
 {
     public class CustomerRepository : RepositoryBase<Customer>
     {
-        public CustomerRepository(DocumentStore storage) : base(storage)
+        public CustomerRepository(IDocumentSession session) : base(session)
         {
         }
 
