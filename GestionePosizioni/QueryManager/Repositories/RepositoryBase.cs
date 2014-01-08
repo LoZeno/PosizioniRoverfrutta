@@ -1,9 +1,6 @@
-using System;
-using Models;
 using Raven.Client;
-using Raven.Client.Document;
 
-namespace QueryManager
+namespace QueryManager.Repositories
 {
     public abstract class RepositoryBase<T>
     {
@@ -24,6 +21,11 @@ namespace QueryManager
         public void Delete(T entity)
         {
             _session.Delete(entity);
+        }
+
+        public void Save()
+        {
+            _session.SaveChanges();
         }
 
     }

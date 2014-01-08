@@ -1,6 +1,6 @@
 using System;
 
-namespace QueryManager
+namespace QueryManager.Repositories
 {
     public interface IDocumentRepository<T> : IDisposable
     {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Models;
 using NUnit.Framework;
 using QueryManager;
-using Raven.Client;
+using QueryManager.Repositories;
+using Raven.Client.Document;
 
 namespace QueryManagerTests
 {
@@ -129,6 +125,32 @@ namespace QueryManagerTests
                 repository = new CustomerRepository(mySession);
                 var customerToCheck = repository.FindById(custId);
                 Assert.IsNull(customerToCheck);
+            }
+        }
+
+        [Test]
+        public void Test_FindCustomersByName()
+        {
+            using (var mysession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mysession);
+                for (int i = 0; i < 10; i++)
+                {
+                    var customer = new Customer
+                    {
+                        CompanyName = i % 2 == 0 ? "Search Company " + i : "Find This " + i,
+                        Country = "Italy"
+                    };
+                    repository.Add(customer);
+                }
+                mysession.SaveChanges();
+            }
+
+            using (var mysession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mysession);
+                var results = repository.FindByPartialName("This");
+                Assert.AreEqual(5, results.Count());
             }
         }
     }
