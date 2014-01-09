@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Indexes\Customer_ByCompanyName.cs" />
     <Compile Include="Indexes\Provider_ByCompanyName.cs" />
+    <Compile Include="Repositories\CompanyRepositoryBase.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\IDocumentRepository.cs" />
     <Compile Include="RavenDataStorage.cs" />
