@@ -7,10 +7,10 @@ using QueryManager.Repositories;
 namespace QueryManagerTests
 {
     [TestFixture]
-    public class CustomerRepositoryTest
+    public class ProviderRepositoryTest
     {
         private RavenDataStorage storage;
-        private CustomerRepository repository;
+        private ProviderRepository repository;
 
         [TestFixtureSetUp]
         public void FixtureSetup()
@@ -20,28 +20,28 @@ namespace QueryManagerTests
         }
 
         [Test]
-        public void Test_CreateNewCustomer_ShouldReturnCreatedCustomerId()
+        public void Test_CreateNewProvider_ShouldReturnCreatedProviderId()
         {
-            var customer = new Customer();
+            var provider = new Provider();
             string custID;
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                custID = repository.Add(customer);
+                repository = new ProviderRepository(mySession);
+                custID = repository.Add(provider);
                 mySession.SaveChanges();
             }
-            Assert.That(custID.StartsWith("customers/"));
+            Assert.That(custID.StartsWith("providers/"));
         }
 
         [Test]
-        public void Test_SearchCustomerById_shouldReturnCustomerObject()
+        public void Test_SearchProviderById_shouldReturnProviderObject()
         {
-            var customer = new Customer
+            var provider = new Provider
             {
                 CompanyName = "Company 1",
                 Country = "Italy"
             };
-            var customer2 = new Customer
+            var provider2 = new Provider
             {
                 CompanyName = "Company 2",
                 Country = "UK"
@@ -49,105 +49,105 @@ namespace QueryManagerTests
             string id;
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                repository.Add(customer);
-                id = repository.Add(customer2);
+                repository = new ProviderRepository(mySession);
+                repository.Add(provider);
+                id = repository.Add(provider2);
                 mySession.SaveChanges();
             }
 
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
+                repository = new ProviderRepository(mySession);
                 var retrievedData = repository.FindById(id);
-                Assert.AreEqual("Company 2",retrievedData.CompanyName);
+                Assert.AreEqual("Company 2", retrievedData.CompanyName);
             }
         }
 
         [Test]
-        public void Test_UpdateCustomer()
+        public void Test_UpdateProvider()
         {
             string custId;
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                var customer = new Customer
+                var provider = new Provider
                 {
                     CompanyName = "Company Name",
                     Country = "Italy"
                 };
-                repository = new CustomerRepository(mySession);
-                custId = repository.Add(customer);
+                repository = new ProviderRepository(mySession);
+                custId = repository.Add(provider);
                 mySession.SaveChanges();
             }
 
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                var customerToUpdate = repository.FindById(custId);
-                customerToUpdate.CompanyName = "New Company Name";
+                repository = new ProviderRepository(mySession);
+                var providerToUpdate = repository.FindById(custId);
+                providerToUpdate.CompanyName = "New Company Name";
                 mySession.SaveChanges();
             }
 
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                var customerToCheck = repository.FindById(custId);
-                Assert.AreEqual("New Company Name", customerToCheck.CompanyName);
+                repository = new ProviderRepository(mySession);
+                var providerToCheck = repository.FindById(custId);
+                Assert.AreEqual("New Company Name", providerToCheck.CompanyName);
             }
         }
 
         [Test]
-        public void Test_DeleteCustomer()
+        public void Test_DeleteProvider()
         {
             string custId;
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                var customer = new Customer
+                var provider = new Provider
                 {
                     CompanyName = "Company Name",
                     Country = "Italy"
                 };
-                repository = new CustomerRepository(mySession);
-                custId = repository.Add(customer);
+                repository = new ProviderRepository(mySession);
+                custId = repository.Add(provider);
                 mySession.SaveChanges();
             }
 
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                var customerToDelete = repository.FindById(custId);
-                repository.Delete(customerToDelete);
+                repository = new ProviderRepository(mySession);
+                var providerToDelete = repository.FindById(custId);
+                repository.Delete(providerToDelete);
                 mySession.SaveChanges();
             }
 
             using (var mySession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mySession);
-                var customerToCheck = repository.FindById(custId);
-                Assert.IsNull(customerToCheck);
+                repository = new ProviderRepository(mySession);
+                var providerToCheck = repository.FindById(custId);
+                Assert.IsNull(providerToCheck);
             }
         }
 
         [Test]
-        public void Test_FindCustomersByName()
+        public void Test_FindProvidersByName()
         {
             using (var mysession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mysession);
+                repository = new ProviderRepository(mysession);
                 for (int i = 0; i < 10; i++)
                 {
-                    var customer = new Customer
+                    var provider = new Provider
                     {
                         CompanyName = i % 2 == 0 ? "Search Company " + i : "Find This " + i,
                         Country = "Italy"
                     };
-                    repository.Add(customer);
+                    repository.Add(provider);
                 }
                 mysession.SaveChanges();
             }
 
             using (var mysession = storage.DocumentStore.OpenSession())
             {
-                repository = new CustomerRepository(mysession);
+                repository = new ProviderRepository(mysession);
                 var results = repository.FindByPartialName("This");
                 Assert.AreEqual(5, results.Count());
             }
