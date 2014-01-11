@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace QueryManager.Repositories
 {
-    public class CompanyRepositoryBase<T> : RepositoryBase<T> where T : CompanyBase
+    public abstract class CompanyRepositoryBase<T> : RepositoryBase<T> where T : CompanyBase
     {
         public CompanyRepositoryBase(IDocumentSession session)
             : base(session)

@@ -37,5 +37,11 @@ namespace QueryManager.Repositories
         {
             _session.SaveChanges();
         }
+
+        public IEnumerable<SaleConfirmation> FindByCustomerId(string customerId)
+        {
+            return _session.Query<SaleConfirmation>("SaleConfirmation/ByCustomerId")
+                .Where(sc => sc.Customer.Id.Equals(customerId));
+        }
     }
 }

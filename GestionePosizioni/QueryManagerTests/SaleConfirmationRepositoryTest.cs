@@ -111,5 +111,46 @@ namespace QueryManagerTests
                 Assert.AreEqual("Pears", document.Products[1].ProductDescription);
             }
         }
+
+        [Test]
+        public void Test_FindAllSaleDocumentByCustomer_ReturnsListOfDocuments()
+        {
+            var customer1 = new Customer
+            {
+                CompanyName = "Customer 1",
+                Country = "Italy"
+            };
+            var customer2 = new Customer
+            {
+                CompanyName = "Customer 2",
+                Country = "UK"
+            };
+            string customerId;
+            using (var session = storage.DocumentStore.OpenSession())
+            {
+                var customerRepository = new CustomerRepository(session);
+                customerId = customerRepository.Add(customer1);
+                customerRepository.Add(customer2);
+                session.SaveChanges();
+                var documentRepository = new SaleConfirmationRepository(session);
+                for (int i = 0; i < 10; i++)
+                {
+                    var saleDoc = new SaleConfirmation
+                    {
+                        Customer = i%2 == 0 ? customer1 : customer2,
+                        DeliveryDate = new DateTime(2014, 1, i+1)
+                    };
+                    documentRepository.Add(saleDoc);
+                }
+                session.SaveChanges();
+            }
+
+            using (var session = storage.DocumentStore.OpenSession())
+            {
+                var documentRepository = new SaleConfirmationRepository(session);
+                IEnumerable<SaleConfirmation> documents = documentRepository.FindByCustomerId(customerId);
+                Assert.AreEqual(5, documents.Count());
+            }
+        }
     }
 }
