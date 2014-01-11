@@ -87,6 +87,7 @@
     <Compile Include="CustomerRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderRepositoryTest.cs" />
+    <Compile Include="SaleConfirmationRepositoryTest.cs" />
     <Compile Include="TransporterRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
