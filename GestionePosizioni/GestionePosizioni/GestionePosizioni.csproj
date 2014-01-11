@@ -134,7 +134,8 @@
     </Compile>
     <Compile Include="CustomControls\WatermarkAdorner\WatermarkAdorner.cs" />
     <Compile Include="CustomControls\WatermarkAdorner\WatermarkService.cs" />
-    <Compile Include="ViewModels\CompanyDetailsViewModel.cs" />
+    <Compile Include="ViewModels\CustomerDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ICompanyDetailsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>

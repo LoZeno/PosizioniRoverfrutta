@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GestionePosizioni.ViewModels;
+using Models;
+using QueryManager.Repositories;
 
 namespace GestionePosizioni.CustomControls
 {
@@ -23,6 +26,16 @@ namespace GestionePosizioni.CustomControls
         public CompanyDetails()
         {
             InitializeComponent();
+        }
+
+        public CompanyDetails(ICompanyDetailsViewModel  model)
+            : this()
+        {
+            DataContext = model;
+            var companiesCombo = new Binding("Companies");
+            CompanyName.SetBinding(ItemsControl.ItemsSourceProperty, companiesCombo);
+            var myBinding = new Binding("Address");
+            Address.SetBinding(TextBox.TextProperty, myBinding);
         }
     }
 }

@@ -7,11 +7,9 @@
              xmlns:viewModels="clr-namespace:GestionePosizioni.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <viewModels:CompanyDetailsViewModel></viewModels:CompanyDetailsViewModel>
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -60,6 +58,13 @@
                     <ComboBoxItem IsSelected="True">Stato</ComboBoxItem>
                 </watermarkAdorner:WatermarkService.Watermark>
             </ComboBox>
+        </AdornerDecorator>
+        <AdornerDecorator Grid.Row="6">
+            <TextBox Name="VatCode">
+                <watermarkAdorner:WatermarkService.Watermark>
+                    <TextBlock>Partita IVA</TextBlock>
+                </watermarkAdorner:WatermarkService.Watermark>
+            </TextBox>
         </AdornerDecorator>
     </Grid>
 </UserControl>
