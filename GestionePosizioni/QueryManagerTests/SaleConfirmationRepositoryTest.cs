@@ -68,6 +68,29 @@ namespace QueryManagerTests
         }
 
         [Test]
+        public void Test_CreateNewDocumentWithSpecifiedID()
+        {
+            int scId = 149;
+            var saleConfirmation = new SaleConfirmation
+            {
+                Id = scId,
+                TruckLicensePlate = "LICENSE"
+            };
+            using (var session = storage.DocumentStore.OpenSession())
+            {
+                repository = new SaleConfirmationRepository(session);
+                repository.Add(saleConfirmation);
+                session.SaveChanges();
+            }
+            using (var session = storage.DocumentStore.OpenSession())
+            {
+                repository = new SaleConfirmationRepository(session);
+                var document = repository.FindById(scId);
+                Assert.AreEqual("LICENSE", document.TruckLicensePlate);
+            }
+        }
+
+        [Test]
         public void Test_AddSaleConfirmationWithProducts_ReturnsFullListOfProducts()
         {
             var sc1 = new SaleConfirmation
