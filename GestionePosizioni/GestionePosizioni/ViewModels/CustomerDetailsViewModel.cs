@@ -1,25 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models;
+using QueryManager;
+using QueryManager.Repositories;
 
 namespace GestionePosizioni.ViewModels
 {
     public class CustomerDetailsViewModel : ICompanyDetailsViewModel
     {
         private Customer _customer;
+        private ICustomerRepository _queryManager;
+        
 
-        public CustomerDetailsViewModel(Customer customer)
+        public CustomerDetailsViewModel(Customer customer, ICustomerRepository queryManager)
         {
             if (customer == null)
             {
                 customer = new Customer();
             }
             _customer = customer;
+            _queryManager = queryManager;
+        }
+
+        public CustomerDetailsViewModel(ICustomerRepository queryManager)
+            :this (null, queryManager)
+        {
+            
         }
 
         public string Id
@@ -27,7 +33,7 @@ namespace GestionePosizioni.ViewModels
             get { return _customer.Id; }
             set
             {
-                _customer.Id = value;
+                _customer = _queryManager.FindById(value);
                 OnPropertyChanged("Id");
             }
         }
@@ -38,6 +44,7 @@ namespace GestionePosizioni.ViewModels
             set
             {
                 _customer.CompanyName = value;
+                Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName(value));
                 OnPropertyChanged("CompanyName");
             }
         }

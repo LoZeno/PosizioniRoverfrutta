@@ -80,6 +80,7 @@
     <Compile Include="Indexes\Transporter_ByCompanyName.cs" />
     <Compile Include="Repositories\CompanyRepositoryBase.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
+    <Compile Include="Repositories\ICustomerRepository.cs" />
     <Compile Include="Repositories\IDocumentRepository.cs" />
     <Compile Include="RavenDataStorage.cs" />
     <Compile Include="IDataStorage.cs" />
