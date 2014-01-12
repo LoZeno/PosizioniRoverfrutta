@@ -59,24 +59,21 @@ namespace GestionePosizioniTests.ViewModels
         [Test]
         public void Test_ChangeCompanyName_LoadsCompaniesWithSameSubstring()
         {
-            var viewModel = new CustomerDetailsViewModel(customerRepo);
-            viewModel.CompanyName = "Comp";
+            var viewModel = new CustomerDetailsViewModel(customerRepo) {CompanyName = "Comp"};
             Assert.AreEqual(5, viewModel.Companies.Count);
         }
 
         [Test]
         public void Test_SettingID_LoadsCustomer()
         {
-            var viewModel = new CustomerDetailsViewModel(customerRepo);
-            viewModel.Id = "customers/6";
+            var viewModel = new CustomerDetailsViewModel(customerRepo) {Id = "customers/6"};
             Assert.AreEqual("Customer 6", viewModel.CompanyName);
         }
 
         [Test]
         public void Test_SettingNonExistantId_ReturnsNewCustomerObjectNotNull()
         {
-            var viewModel = new CustomerDetailsViewModel(customerRepo);
-            viewModel.Id = "customers/23";
+            var viewModel = new CustomerDetailsViewModel(customerRepo) {Id = "customers/23"};
             Assert.IsNotNull(viewModel.Company);
         }
 
@@ -88,11 +85,13 @@ namespace GestionePosizioniTests.ViewModels
         [Test]
         public void Test_SaveModifiedCustomer()
         {
-            var viewModel = new CustomerDetailsViewModel(customerRepo);
-            viewModel.Id = "customers/1";
-            viewModel.CompanyName = "TestCompany";
-            viewModel.City = "fake city";
-            viewModel.Country = "none";
+            var viewModel = new CustomerDetailsViewModel(customerRepo)
+            {
+                Id = "customers/1",
+                CompanyName = "TestCompany",
+                City = "fake city",
+                Country = "none"
+            };
             viewModel.Save.Execute(null);
             Assert.DoesNotThrow(CheckSaveMethod);
         }
@@ -105,10 +104,12 @@ namespace GestionePosizioniTests.ViewModels
         [Test]
         public void Test_AddNewCustomer()
         {
-            var viewModel = new CustomerDetailsViewModel(customerRepo);
-            viewModel.CompanyName = "NewTestCompany";
-            viewModel.City = "fake city";
-            viewModel.Country = "none";
+            var viewModel = new CustomerDetailsViewModel(customerRepo)
+            {
+                CompanyName = "NewTestCompany",
+                City = "fake city",
+                Country = "none"
+            };
             viewModel.Save.Execute(null);
             Assert.DoesNotThrow(CheckAddMethod);
             Assert.DoesNotThrow(CheckSaveMethod);
