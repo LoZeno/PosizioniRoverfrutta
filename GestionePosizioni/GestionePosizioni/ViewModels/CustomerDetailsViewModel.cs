@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 using Models;
 using QueryManager;
 using QueryManager.Repositories;
@@ -28,12 +30,22 @@ namespace GestionePosizioni.ViewModels
             
         }
 
+        public Customer Customer
+        {
+            get { return _customer; }
+            set
+            {
+                _customer = value ?? new Customer();
+                OnPropertyChanged("Customer");
+            }
+        }
+
         public string Id
         {
             get { return _customer.Id; }
             set
             {
-                _customer = _queryManager.FindById(value);
+                Customer = _queryManager.FindById(value);
                 OnPropertyChanged("Id");
             }
         }
@@ -118,6 +130,27 @@ namespace GestionePosizioni.ViewModels
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private ICommand saveCommand;
+
+        public ICommand Save
+        {
+            get
+            {
+                if (saveCommand == null)
+                {
+                    saveCommand = new DelegateCommand(delegate()
+                    {
+                        if (string.IsNullOrWhiteSpace(Id))
+                        {
+                            _queryManager.Add(_customer);
+                        }
+                        _queryManager.Save();
+                    });
+                }
+                return saveCommand;
             }
         }
     }
