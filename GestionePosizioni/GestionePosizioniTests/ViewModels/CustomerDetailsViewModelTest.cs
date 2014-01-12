@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GestionePosizioni.ViewModels;
 using Models;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using QueryManager.Repositories;
 
 namespace GestionePosizioniTests.ViewModels
@@ -81,7 +77,7 @@ namespace GestionePosizioniTests.ViewModels
         {
             var viewModel = new CustomerDetailsViewModel(customerRepo);
             viewModel.Id = "customers/23";
-            Assert.IsNotNull(viewModel.Customer);
+            Assert.IsNotNull(viewModel.Company);
         }
 
         private void CheckSaveMethod()

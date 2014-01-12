@@ -10,7 +10,7 @@ namespace GestionePosizioni.ViewModels
 {
     public class CustomerDetailsViewModel : ICompanyDetailsViewModel
     {
-        private Customer _customer;
+        private CompanyBase _customer;
         private ICustomerRepository _queryManager;
         
 
@@ -30,13 +30,13 @@ namespace GestionePosizioni.ViewModels
             
         }
 
-        public Customer Customer
+        public CompanyBase Company
         {
             get { return _customer; }
             set
             {
                 _customer = value ?? new Customer();
-                OnPropertyChanged("Customer");
+                OnPropertyChanged("Company");
             }
         }
 
@@ -45,7 +45,7 @@ namespace GestionePosizioni.ViewModels
             get { return _customer.Id; }
             set
             {
-                Customer = _queryManager.FindById(value);
+                Company = _queryManager.FindById(value);
                 OnPropertyChanged("Id");
             }
         }
@@ -145,7 +145,7 @@ namespace GestionePosizioni.ViewModels
                     {
                         if (string.IsNullOrWhiteSpace(Id))
                         {
-                            _queryManager.Add(_customer);
+                            _queryManager.Add((Customer)_customer);
                         }
                         _queryManager.Save();
                     });
