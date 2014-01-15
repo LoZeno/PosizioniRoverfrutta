@@ -22,6 +22,7 @@ namespace GestionePosizioni.ViewModels
             }
             _customer = customer;
             _queryManager = queryManager;
+            Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName("C"));
         }
 
         public CustomerDetailsViewModel(ICustomerRepository queryManager)
@@ -45,7 +46,21 @@ namespace GestionePosizioni.ViewModels
             get { return _customer.Id; }
             set
             {
-                Company = _queryManager.FindById(value);
+                if (value != null)
+                {
+                    var newCompany = _queryManager.FindById(value);
+                    if (newCompany != null)
+                    {
+                    this.Address = newCompany.Address;
+                    this.City = newCompany.City;
+                    this.CompanyName = newCompany.CompanyName;
+                    this.Country = newCompany.Country;
+                    this.PostCode = newCompany.PostCode;
+                    this.StateOrProvince = newCompany.StateOrProvince;
+                    this.VatCode = newCompany.StateOrProvince;
+                    this.Company.Id = value;
+                    }
+                }
                 OnPropertyChanged("Id");
             }
         }
@@ -121,7 +136,20 @@ namespace GestionePosizioni.ViewModels
             }
         }
 
-        public ObservableCollection<CompanyBase> Companies { get; set; }
+        private ObservableCollection<CompanyBase> _companies;
+
+        public ObservableCollection<CompanyBase> Companies
+        {
+            get
+            {
+                return _companies;
+            }
+            set
+            {
+                _companies = value;
+                OnPropertyChanged("Companies");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

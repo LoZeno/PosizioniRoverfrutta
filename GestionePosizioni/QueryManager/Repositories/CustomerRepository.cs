@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Models;
+﻿using Models;
 using Raven.Client;
 
 namespace QueryManager.Repositories

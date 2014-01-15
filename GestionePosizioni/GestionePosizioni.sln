@@ -30,6 +30,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionePosizioniTests", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{17C3B738-50D8-470D-B212-393830CB0EFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B7BFD0CB-8EB5-4F7E-B73D-A3E4CE5B952C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragonz.actb", "dragonz.actb\dragonz.actb.csproj", "{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +76,10 @@ Global
 		{17C3B738-50D8-470D-B212-393830CB0EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C3B738-50D8-470D-B212-393830CB0EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C3B738-50D8-470D-B212-393830CB0EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

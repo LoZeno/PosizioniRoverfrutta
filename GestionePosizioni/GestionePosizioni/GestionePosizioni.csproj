@@ -129,9 +129,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseClasses\BaseUserControl.cs" />
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\ControlServices\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="CustomControls\WatermarkAdorner\WatermarkAdorner.cs" />
     <Compile Include="CustomControls\WatermarkAdorner\WatermarkService.cs" />
     <Compile Include="ViewModels\CustomerDetailsViewModel.cs" />
@@ -195,6 +197,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\dragonz.actb\dragonz.actb.csproj">
+      <Project>{89bc47c7-f14d-46c5-8b9b-0db90ce2ac42}</Project>
+      <Name>dragonz.actb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{2ef21d46-0dc4-4ab1-b7f9-0a097a98b8b6}</Project>
       <Name>Models</Name>
@@ -214,7 +220,9 @@
   <ItemGroup>
     <Resource Include="Content\Pictures\archivio2.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
       <Visible>False</Visible>

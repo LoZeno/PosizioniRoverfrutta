@@ -14,7 +14,7 @@ namespace GestionePosizioni.BaseClasses
             get { return ((App) Application.Current).DataStorage; }
         }
 
-        protected IDocumentSession DatabaseSession
+        public IDocumentSession DatabaseSession
         {
             get
             {
