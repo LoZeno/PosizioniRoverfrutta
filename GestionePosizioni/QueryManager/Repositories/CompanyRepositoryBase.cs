@@ -23,21 +23,23 @@ namespace QueryManager.Repositories
         public IEnumerable<T> FindByPartialName(string partialName)
         {
             var terms = partialName.Split(' ');
-            var searchString = new StringBuilder("*");
-            foreach (var name in partialName)
-            {
-                searchString.Append(name);
-                searchString.Append("*");
-            }
+            //var searchString = new StringBuilder("*");
+            //foreach (var name in partialName)
+            //{
+            //    searchString.Append(name);
+            //    searchString.Append("*");
+            //}
 
             string objectName = typeof (T).Name;
-            return _session.Query<T>(objectName + "/ByCompanyName")
-                    .Search(c => c.CompanyName, searchString.ToString(), options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards);
-        }
-
-        public IEnumerable<string> GetCompaniesForListBox(string partialName)
-        {
-            return FindByPartialName(partialName).Select(x => x.CompanyName);
+            //return _session.Query<T>(objectName + "/ByCompanyName")
+            //        .Search(c => c.CompanyName, searchString.ToString(), options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards);
+            var query = _session.Query<T>(objectName + "/ByCompanyName");
+            foreach (var term in terms)
+            {
+                query = query.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And,
+                    escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards);
+            }
+            return query;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace GestionePosizioni.CustomControls.ControlServices
                     _repository.DatabaseSession = newSession;
             
                     _customerTemporaryStorage = _repository.FindByPartialName(textPattern)
-                        .Take(20)
+                        .Take(30)
                         .ToDictionary(x => x.CompanyName, x => x);
                 }
             }

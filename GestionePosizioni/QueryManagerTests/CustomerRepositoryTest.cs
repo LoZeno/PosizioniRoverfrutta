@@ -178,33 +178,5 @@ namespace QueryManagerTests
                 Assert.AreEqual(5, results.Count());
             }
         }
-
-        [Test]
-        public void Test_GetCustomersForList_ShouldReturnListOfNames()
-        {
-            using (var mySession = storage.DocumentStore.OpenSession())
-            {
-                repository = new CustomerRepository(mySession);
-                for (int i = 0; i < 10; i++)
-                {
-                    var customer = new Customer
-                    {
-                        CompanyName = i % 2 == 0 ? "Something with AAAA " + i : "Something with BBBB " + i,
-                        Country = "Italy"
-                    };
-                    repository.Add(customer);
-                }
-                mySession.SaveChanges();
-            }
-
-            using (var mysession = storage.DocumentStore.OpenSession())
-            {
-                repository = new CustomerRepository(mysession);
-                var results = repository.GetCompaniesForListBox("AAAA");
-                Assert.AreEqual(5, results.Count());
-                Assert.AreEqual(5, results.Select(x => x.Contains("AAAA")).Count());
-            }
-        }
-
     }
 }
