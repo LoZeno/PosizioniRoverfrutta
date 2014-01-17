@@ -154,6 +154,32 @@ namespace QueryManagerTests
         }
 
         [Test]
+        public void Test_FindCustomersByName_withWhiteSpace()
+        {
+            using (var mysession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mysession);
+                for (int i = 0; i < 10; i++)
+                {
+                    var customer = new Customer
+                    {
+                        CompanyName = i % 2 == 0 ? "Search my name " + i : "get the name " + i,
+                        Country = "Italy"
+                    };
+                    repository.Add(customer);
+                }
+                mysession.SaveChanges();
+            }
+
+            using (var mysession = storage.DocumentStore.OpenSession())
+            {
+                repository = new CustomerRepository(mysession);
+                var results = repository.FindByPartialName("get the");
+                Assert.AreEqual(5, results.Count());
+            }
+        }
+
+        [Test]
         public void Test_GetCustomersForList_ShouldReturnListOfNames()
         {
             using (var mySession = storage.DocumentStore.OpenSession())

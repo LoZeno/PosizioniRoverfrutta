@@ -32,5 +32,10 @@ namespace GestionePosizioni.BaseClasses
                 return _databaseSession;
             }
         }
+
+        protected IDocumentSession GetDatabaseSession()
+        {
+            return DataStorage.DocumentStore.OpenSession();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Models;
+using Raven.Client;
 
 namespace QueryManager.Repositories
 {
@@ -11,5 +12,6 @@ namespace QueryManager.Repositories
         Customer FindById(string custID);
         void Delete(Customer entity);
         void Save();
+        IDocumentSession DatabaseSession { get; set; }
     }
 }

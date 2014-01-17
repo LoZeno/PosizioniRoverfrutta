@@ -28,5 +28,17 @@ namespace QueryManager.Repositories
             _session.SaveChanges();
         }
 
+        public IDocumentSession DatabaseSession
+        {
+            get
+            {
+                return _session;
+            }
+            set
+            {
+                _session = value;
+            }
+        }
+
     }
 }
