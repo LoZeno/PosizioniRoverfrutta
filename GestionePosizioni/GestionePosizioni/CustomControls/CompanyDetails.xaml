@@ -27,28 +27,28 @@
         <AdornerDecorator Grid.Row="1">
             <TextBox Name="Address">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>Indirizzo</TextBlock>
+                    Indirizzo
                 </watermarkAdorner:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="2">
             <TextBox Name="PostalCode">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>CAP</TextBlock>
+                    CAP
                 </watermarkAdorner:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="3">
             <TextBox Name="City">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>Città</TextBlock>
+                    Città
                 </watermarkAdorner:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="4">
             <TextBox Name="County">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>Provincia</TextBlock>
+                    Provincia
                 </watermarkAdorner:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>
@@ -62,7 +62,7 @@
         <AdornerDecorator Grid.Row="6">
             <TextBox Name="VatCode">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>Partita IVA</TextBlock>
+                    Partita IVA
                 </watermarkAdorner:WatermarkService.Watermark>
             </TextBox>
         </AdornerDecorator>

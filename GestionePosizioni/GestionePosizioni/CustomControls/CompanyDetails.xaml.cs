@@ -1,13 +1,10 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using dragonz.actb.control;
-using dragonz.actb.core;
 using dragonz.actb.provider;
 using GestionePosizioni.BaseClasses;
 using GestionePosizioni.ViewModels;
-using iTextSharp.text.pdf.qrcode;
 
 namespace GestionePosizioni.CustomControls
 {
@@ -32,36 +29,50 @@ namespace GestionePosizioni.CustomControls
 
             DataContext = model;
 
-            var companyBinding = new Binding();
-            companyBinding.Source = model;
-            companyBinding.Path = new PropertyPath("Company");
-            companyBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            companyBinding.Mode = BindingMode.TwoWay;
+            var companyBinding = new Binding
+            {
+                Source = model,
+                Path = new PropertyPath("Company"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             CompanyNameTextBox.SetBinding(AutoCompleteTextBox.SelectedItemProperty, companyBinding);
 
-            var myBinding = new Binding("Address");
-            myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            myBinding.Mode = BindingMode.TwoWay;
+            var myBinding = new Binding("Address")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             Address.SetBinding(TextBox.TextProperty, myBinding);
-            var city = new Binding("City");
-            city.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            city.Mode = BindingMode.TwoWay;
+            var city = new Binding("City")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             City.SetBinding(TextBox.TextProperty, city);
-            var state = new Binding("StateOrProvince");
-            state.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            state.Mode = BindingMode.TwoWay;
+            var state = new Binding("StateOrProvince")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             County.SetBinding(TextBox.TextProperty, state);
-            var postcode = new Binding("PostCode");
-            postcode.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            postcode.Mode = BindingMode.TwoWay;
+            var postcode = new Binding("PostCode")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             PostalCode.SetBinding(TextBox.TextProperty, postcode);
-            var country = new Binding("Country");
-            country.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            country.Mode = BindingMode.TwoWay;
+            var country = new Binding("Country")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             Country.SetBinding(ComboBox.TextProperty, country);
-            var vat = new Binding("VatCode");
-            vat.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            vat.Mode = BindingMode.TwoWay;
+            var vat = new Binding("VatCode")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
             VatCode.SetBinding(TextBox.TextProperty, vat);
         }
     }

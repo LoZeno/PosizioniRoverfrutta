@@ -40,6 +40,10 @@ namespace GestionePosizioni.ViewModels
                 OnPropertyChanged("Company");
                 OnPropertyChanged("Address");
                 OnPropertyChanged("City");
+                OnPropertyChanged("StateOrProvince");
+                OnPropertyChanged("PostCode");
+                OnPropertyChanged("Country");
+                OnPropertyChanged("VatCode");
             }
         }
 
