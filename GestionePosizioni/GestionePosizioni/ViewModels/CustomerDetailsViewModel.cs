@@ -38,6 +38,8 @@ namespace GestionePosizioni.ViewModels
             {
                 _customer = value ?? new Customer();
                 OnPropertyChanged("Company");
+                OnPropertyChanged("Address");
+                OnPropertyChanged("City");
             }
         }
 

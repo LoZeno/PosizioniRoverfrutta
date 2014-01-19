@@ -60,6 +60,10 @@ namespace dragonz.actb.core
           |                                                                     |
           +---------------------------------------------------------------------*/
 
+        public delegate void SelectedItemHandler(object source, AutoCompleteSelectedEventArgs e);
+
+        public event SelectedItemHandler OnSelectedItem;
+
         public IAutoCompleteDataProvider DataProvider
         {
             get { return _dataProvider; }
@@ -71,6 +75,7 @@ namespace dragonz.actb.core
         public object SelectedItem
         {
             get { return _selectedItem; }
+            set { _selectedItem = value; }
         }
 
         public bool Disabled
@@ -716,6 +721,11 @@ namespace dragonz.actb.core
             else
             {
                 _selectedItem = text;
+            }
+            //triggering event for selection
+            if (OnSelectedItem != null)
+            {
+                OnSelectedItem(this, new AutoCompleteSelectedEventArgs(_selectedItem));
             }
             if (selectAll)
             {

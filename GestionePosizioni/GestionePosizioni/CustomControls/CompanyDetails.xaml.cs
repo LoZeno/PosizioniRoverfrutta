@@ -1,10 +1,13 @@
-﻿using System.Windows.Controls;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using dragonz.actb.control;
 using dragonz.actb.core;
 using dragonz.actb.provider;
 using GestionePosizioni.BaseClasses;
 using GestionePosizioni.ViewModels;
+using iTextSharp.text.pdf.qrcode;
 
 namespace GestionePosizioni.CustomControls
 {
@@ -28,29 +31,38 @@ namespace GestionePosizioni.CustomControls
             CompanyNameTextBox.AutoCompleteManager.Asynchronous = true;
 
             DataContext = model;
-            //var companiesCombo = new Binding("Companies");
-            //CompanyNameTextBox.SetBinding(ComboBox.ItemsSourceProperty, companiesCombo);
 
-            //var companyId = new Binding("Id");
-            //CompanyNameTextBox.SetBinding(ComboBox.SelectedValueProperty, companyId);
-            //CompanyNameTextBox.SetBinding(ComboBox.SelectedValuePathProperty, companyId);
-            //var companyName = new Binding("CompanyName");
-            //CompanyNameTextBox.SetBinding(ComboBox.TextProperty, companyName);
-            //var myBinding = new Binding("Address");
-            //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            //myBinding.Mode = BindingMode.TwoWay;
-            //Address.SetBinding(TextBox.TextProperty, myBinding);
-            //var city = new Binding("City");
-            //city.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            //City.SetBinding(TextBox.TextProperty, city);
-            //var state = new Binding("StateOrProvince");
-            //County.SetBinding(TextBox.TextProperty, state);
-            //var postcode = new Binding("PostCode");
-            //PostalCode.SetBinding(TextBox.TextProperty, postcode);
-            //var country = new Binding("Country");
-            //Country.SetBinding(ComboBox.TextProperty, country);
-            //var vat = new Binding("VatCode");
-            //VatCode.SetBinding(TextBox.TextProperty, vat);
+            var companyBinding = new Binding();
+            companyBinding.Source = model;
+            companyBinding.Path = new PropertyPath("Company");
+            companyBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            companyBinding.Mode = BindingMode.TwoWay;
+            CompanyNameTextBox.SetBinding(AutoCompleteTextBox.SelectedItemProperty, companyBinding);
+
+            var myBinding = new Binding("Address");
+            myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            myBinding.Mode = BindingMode.TwoWay;
+            Address.SetBinding(TextBox.TextProperty, myBinding);
+            var city = new Binding("City");
+            city.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            city.Mode = BindingMode.TwoWay;
+            City.SetBinding(TextBox.TextProperty, city);
+            var state = new Binding("StateOrProvince");
+            state.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            state.Mode = BindingMode.TwoWay;
+            County.SetBinding(TextBox.TextProperty, state);
+            var postcode = new Binding("PostCode");
+            postcode.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            postcode.Mode = BindingMode.TwoWay;
+            PostalCode.SetBinding(TextBox.TextProperty, postcode);
+            var country = new Binding("Country");
+            country.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            country.Mode = BindingMode.TwoWay;
+            Country.SetBinding(ComboBox.TextProperty, country);
+            var vat = new Binding("VatCode");
+            vat.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            vat.Mode = BindingMode.TwoWay;
+            VatCode.SetBinding(TextBox.TextProperty, vat);
         }
     }
 }
