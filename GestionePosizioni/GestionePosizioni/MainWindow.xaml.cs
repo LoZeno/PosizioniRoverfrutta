@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using dragonz.actb.provider;
 using GestionePosizioni.BaseClasses;
 using GestionePosizioni.CustomControls;
@@ -22,7 +23,11 @@ namespace GestionePosizioni
             var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
             cvm = new CustomerDetailsViewModel(customerRepo);
             CompanyDetails cd = new CompanyDetails(cvm, dataProviderForCustomer);
-            MainPanel.Children.Add(cd);
+            Grid.SetColumn(cd, 0);
+            Grid.SetRow(cd, 1);
+            ContentGrid.Children.Add(cd);
+            
+            
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)

@@ -65,11 +65,15 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>Internet</TargetZone>
+  </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetZone>Internet</TargetZone>
+    <ApplicationIcon>Content\Pictures\ring-binders.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="itextsharp">
@@ -291,6 +295,12 @@
     <Resource Include="Content\Pictures\Document\Document-icon-64.png" />
     <Resource Include="Content\Pictures\Document\Document-icon-72.png" />
     <Resource Include="Content\Pictures\Document\Document-icon-96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\ring-binders.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\ring-binders.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

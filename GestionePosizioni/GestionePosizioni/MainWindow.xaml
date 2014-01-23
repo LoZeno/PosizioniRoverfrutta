@@ -45,9 +45,24 @@
                 <Label Content="Status"/>
             </StackPanel>
             <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFC0DBF2" Name="MainPanel">
-                    <Label Content="Main"/>
-                </StackPanel>
+                <Grid Name="ContentGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
+                        <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
+                        <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
+                        <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Name="TitlePanel" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                        <Label Name="Title" FontWeight="Bold" FontSize="20">Conferma d'Ordine</Label>
+                        <TextBox Name="PositionNumberTextBox" MinWidth="200" MaxHeight="30"></TextBox>
+                    </StackPanel>
+                    <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></DataGrid>
+                </Grid>
             </ScrollViewer>
         </DockPanel>
     </Grid>
