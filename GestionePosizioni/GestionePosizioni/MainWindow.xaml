@@ -50,23 +50,58 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
                         <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
-                        <RowDefinition Name="DetailsRow" Height="1*" MaxHeight="50"></RowDefinition>
+                        <RowDefinition Name="DetailsFirstRow" Height="1*" MaxHeight="50"></RowDefinition>
+                        <RowDefinition Name="DetailsSecondRow" Height="1*" MaxHeight="50"></RowDefinition>
                         <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
                         <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <StackPanel Name="TitlePanel" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-                        <Label Name="Title" FontWeight="Bold" FontSize="20">Conferma d'Ordine</Label>
+                    <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Targhe Camion</Label>
+                        <TextBox MinLines="1" MaxLines="10" Name="TruckLicensePlateTextBox" MaxLength="60" Height="80"></TextBox>
+                    </StackPanel>
+                    
+                    <StackPanel Name="TitlePanel" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+                        <Label FontWeight="Bold" FontSize="20">Conferma d'Ordine</Label>
                         <TextBox Name="PositionNumberTextBox" MinWidth="200" MaxHeight="30"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Name="DetailsPanel" Grid.Column="0"  Orientation="Vertical" Margin="3">
-                        <Label FontWeight="Bold" FontSize="11">Pagamento</Label>
-                        <TextBox Name="PaymentTypeTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                            <Label FontWeight="Bold" FontSize="11">Data Spedizione</Label>
+                            <TextBox Name="ShippingDateTextBox" MaxLength="60" MaxHeight="20"></TextBox>
                     </StackPanel>
-                    <DataGrid Name="ProductsGrid" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Data Consegna</Label>
+                        <TextBox Name="DeliveryDateTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Nolo (€)</Label>
+                        <TextBox Name="RentalTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Resa Franco</Label>
+                        <TextBox Name="DeliveryExTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Condizioni di Pagamento</Label>
+                        <TextBox Name="TermsOfPaymentTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Sconto in fattura</Label>
+                        <TextBox Name="InvoiceDiscountTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Provvigione (Cliente)</Label>
+                        <TextBox Name="CustomerCommissionTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Provvigione (Fornitore)</Label>
+                        <TextBox Name="ProviderCommissionTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <DataGrid Name="ProductsGrid" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Prodotto" Width="4*">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -83,6 +118,10 @@
                             <DataGridTextColumn Header="Parametro" Width="1*"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <Label Name="TotalPalletsLabel" Grid.Row="5" Grid.Column="0">Pallet:</Label>
+                    <Label Name="TotalPackagesLabel" Grid.Row="5" Grid.Column="1">Colli:</Label>
+                    <Label Name="TotalGrossWeightLabel" Grid.Row="5" Grid.Column="2">Lordo:</Label>
+                    <Label Name="TotalNetWeightLabel" Grid.Row="5" Grid.Column="3">Netto:</Label>
                 </Grid>
             </ScrollViewer>
         </DockPanel>

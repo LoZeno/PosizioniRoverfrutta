@@ -4,7 +4,7 @@ using Raven.Client;
 
 namespace QueryManager.Repositories
 {
-    public class ProviderRepository : CompanyRepositoryBase<Provider>
+    public class ProviderRepository : CompanyRepositoryBase<Provider>, IProviderRepository
     {
         public ProviderRepository(IDocumentSession session)
             : base(session)

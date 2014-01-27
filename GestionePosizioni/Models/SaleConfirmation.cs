@@ -21,8 +21,8 @@ namespace Models
         public string DeliveryEx { get; set; }
         public string TermsOfPayment { get; set; }
         public decimal InvoiceDiscount { get; set; }
-        public decimal Commission { get; set; }
-
+        public decimal CustomerCommission { get; set; }
+        public decimal ProviderCommission { get; set; }
         public List<ProductSold> Products { get; set; } 
 
     }

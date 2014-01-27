@@ -5,9 +5,14 @@ using Raven.Client;
 
 namespace QueryManager.Repositories
 {
-    public class SaleConfirmationRepository
+    public class SaleConfirmationRepository : ISaleConfirmationRepository
     {
         private IDocumentSession _session;
+
+        public SaleConfirmationRepository()
+        {
+            
+        }
 
         public SaleConfirmationRepository(IDocumentSession session)
         {
@@ -39,6 +44,12 @@ namespace QueryManager.Repositories
         {
             return _session.Query<SaleConfirmation>("SaleConfirmation/ByCustomerId")
                 .Where(sc => sc.Customer.Id.Equals(customerId));
+        }
+
+        public IDocumentSession Session
+        {
+            get { return _session; }
+            set { _session = value; }
         }
     }
 }
