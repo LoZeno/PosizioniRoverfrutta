@@ -53,11 +53,11 @@
             </TextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="5">
-            <ComboBox Name="Country" IsEditable="True">
+            <TextBox Name="Country">
                 <watermarkAdorner:WatermarkService.Watermark>
-                    <ComboBoxItem IsSelected="True">Stato</ComboBoxItem>
+                    Stato
                 </watermarkAdorner:WatermarkService.Watermark>
-            </ComboBox>
+            </TextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="6">
             <TextBox Name="VatCode">

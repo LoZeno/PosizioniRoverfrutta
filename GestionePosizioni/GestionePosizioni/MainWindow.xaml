@@ -1,4 +1,4 @@
-﻿<baseClasses:BaseWindow
+﻿<baseClasses:BaseWindow xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:baseClasses="clr-namespace:GestionePosizioni.BaseClasses"
@@ -41,7 +41,7 @@
                 </RibbonTab>
                 <RibbonTab Header="Anagrafiche"/>
             </Ribbon>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FFD9E1EF" Height="100">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FFD9E1EF" Height="60">
                 <Label Content="Status"/>
             </StackPanel>
             <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -54,6 +54,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
                         <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
+                        <RowDefinition Name="DetailsRow" Height="1*" MaxHeight="50"></RowDefinition>
                         <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
                         <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
                     </Grid.RowDefinitions>
@@ -61,7 +62,27 @@
                         <Label Name="Title" FontWeight="Bold" FontSize="20">Conferma d'Ordine</Label>
                         <TextBox Name="PositionNumberTextBox" MinWidth="200" MaxHeight="30"></TextBox>
                     </StackPanel>
-                    <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"></DataGrid>
+                    <StackPanel Grid.Row="2" Name="DetailsPanel" Grid.Column="0"  Orientation="Vertical" Margin="3">
+                        <Label FontWeight="Bold" FontSize="11">Pagamento</Label>
+                        <TextBox Name="PaymentTypeTextBox" MaxLength="60" MaxHeight="20"></TextBox>
+                    </StackPanel>
+                    <DataGrid Name="ProductsGrid" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Prodotto" Width="4*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox></TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Pallet" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Colli" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Kg Lordo" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="kg Netto" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Prezzo Euro" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Parametro" Width="1*"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </ScrollViewer>
         </DockPanel>
