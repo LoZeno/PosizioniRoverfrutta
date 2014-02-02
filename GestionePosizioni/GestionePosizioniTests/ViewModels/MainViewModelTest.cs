@@ -147,8 +147,11 @@ namespace GestionePosizioniTests.ViewModels
         [Test]
         public void Given_one_saleConfirmation_Saving_changes_productsSold()
         {
-            SaleConfirmation document = CreateSaleConfirmation(123, true);
-            _viewModel = new MainViewModel(document, _repository);
+            var document = CreateSaleConfirmation(123, true);
+            var mockProviderRepository = new Mock<IProviderRepository>();
+            mockProviderRepository.Setup(x => x.Add(It.IsAny<Provider>())).Verifiable();
+
+            _viewModel = new MainViewModel(document, _repository, mockProviderRepository.Object);
             _viewModel.Products.RemoveAt(0);
             _viewModel.Products.Add(new ProductSold
             {

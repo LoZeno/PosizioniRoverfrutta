@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using dragonz.actb.provider;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
 using GestionePosizioni.BaseClasses;
 using GestionePosizioni.CustomControls;
 using GestionePosizioni.CustomControls.ControlServices;
@@ -15,6 +17,9 @@ namespace GestionePosizioni
     public partial class MainWindow : BaseWindow
     {
         private CustomerDetailsViewModel cvm;
+        private int _errors = 0;
+
+        private IMainViewModel _windowViewModel;
 
         public MainWindow()
         {
@@ -26,8 +31,60 @@ namespace GestionePosizioni
             Grid.SetColumn(cd, 0);
             Grid.SetRow(cd, 1);
             ContentGrid.Children.Add(cd);
-            
-            
+        }
+
+        public MainWindow(IMainViewModel viewModel)
+            : this()
+        {
+            _windowViewModel = viewModel;
+            this.DataContext = viewModel;
+            var saveBinding = new CommandBinding
+            {
+                Command = viewModel.Save,
+            };
+            saveBinding.CanExecute += OnCanExecute;
+            saveBinding.Executed += saveBinding_Executed;
+            CommandBindings.Add(saveBinding);
+            SetBindings();
+        }
+
+        void saveBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            StatusLabel.Content = "Salvataggio eseguito ";
+            e.Handled = true;
+        }
+
+        private void OnCanExecute(object sender, CanExecuteRoutedEventArgs canExecuteRoutedEventArgs)
+        {
+            canExecuteRoutedEventArgs.CanExecute = _errors == 0;
+            canExecuteRoutedEventArgs.Handled = true;
+        }
+
+        private void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _errors++;
+            else
+                _errors--;
+        }
+
+        private void SetBindings()
+        {
+            SaveButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = _windowViewModel,
+                Path = new PropertyPath("Save")
+            });
+
+            PositionNumberTextBox.SetBinding(TextBox.TextProperty, new Binding
+            {
+                Source = _windowViewModel,
+                Path = new PropertyPath("DocumentId"),
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                Mode = BindingMode.TwoWay
+            });
+
+
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)

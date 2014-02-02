@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Microsoft.Practices.Unity;
 using QueryManager;
 
 namespace GestionePosizioni
@@ -19,15 +18,11 @@ namespace GestionePosizioni
         {
             base.OnStartup(e);
 
-            var iocContainer = new UnityContainer();
-            iocContainer.RegisterType<IDataStorage, RavenDataStorage>();
-            
-            //Initialize DataStorage
-            _dataStorage = iocContainer.Resolve<IDataStorage>();
-            _dataStorage.Initialize();
+            var bootstrapper = Bootstrapper.Instance;
+            _dataStorage = bootstrapper.Resolve<IDataStorage>();
 
             //Show main window
-            var mainWindow = iocContainer.Resolve<MainWindow>(); // Creating Main window
+            var mainWindow = bootstrapper.Resolve<MainWindow>(); // Creating Main window
             mainWindow.Show();
         }
     }

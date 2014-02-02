@@ -54,10 +54,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>FEA725DE2E0523148C88F384610B277796745CD2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>28A3C389BCA3B237158A943CBEE2069328259F9C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>GestionePosizioni_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>GestionePosizioni_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -155,6 +155,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseClasses\BaseUserControl.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
@@ -163,6 +164,7 @@
     <Compile Include="CustomControls\WatermarkAdorner\WatermarkService.cs" />
     <Compile Include="ViewModels\CustomerDetailsViewModel.cs" />
     <Compile Include="ViewModels\ICompanyDetailsViewModel.cs" />
+    <Compile Include="ViewModels\IMainViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>
@@ -211,7 +213,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GestionePosizioni_TemporaryKey.pfx" />
+    <None Include="GestionePosizioni_1_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

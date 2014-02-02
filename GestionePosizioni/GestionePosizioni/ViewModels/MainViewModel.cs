@@ -10,12 +10,12 @@ using Raven.Abstractions.Extensions;
 
 namespace GestionePosizioni.ViewModels
 {
-    public class MainViewModel :INotifyPropertyChanged
+    public class MainViewModel : IMainViewModel
     {
         private SaleConfirmation _saleConfirmation;
         private readonly ISaleConfirmationRepository _saleConfirmationRepository;
         private IProviderRepository _providerRepository;
-        private ObservableCollection<ProductSold> _products; 
+        private ObservableCollection<ProductSold> _products;
 
         public MainViewModel(SaleConfirmation saleConfirmation, ISaleConfirmationRepository saleConfirmationRepository)
         {
@@ -39,15 +39,14 @@ namespace GestionePosizioni.ViewModels
             OnPropertyChanged("TotalPackages");
         }
 
-        public int DocumentId
+        public int? DocumentId
         {
-            get
-            {
-                return _saleConfirmation.Id;
-            }
+            get { return _saleConfirmation.Id == 0 ? (int?) null : _saleConfirmation.Id; }
             set
             {
-                _saleConfirmation = _saleConfirmationRepository.FindById(value) ?? new SaleConfirmation();
+                _saleConfirmation = value.HasValue
+                    ? (_saleConfirmationRepository.FindById(value.Value) ?? new SaleConfirmation())
+                    : new SaleConfirmation();
                 _products.Clear();
                 _products.AddRange(_saleConfirmation.Products);
                 OnPropertyChanged("SaleConfirmationId");
