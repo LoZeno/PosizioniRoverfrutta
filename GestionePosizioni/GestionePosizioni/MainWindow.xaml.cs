@@ -16,18 +16,18 @@ namespace GestionePosizioni
     /// </summary>
     public partial class MainWindow : BaseWindow
     {
-        private CustomerDetailsViewModel cvm;
+        private readonly CustomerDetailsViewModel _cvm;
         private int _errors = 0;
 
-        private IMainViewModel _windowViewModel;
+        private readonly IMainViewModel _windowViewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            var customerRepo = new CustomerRepository(this.DatabaseSession);
+            var customerRepo = new CustomerRepository(DatabaseSession);
             var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
-            cvm = new CustomerDetailsViewModel(customerRepo);
-            CompanyDetails cd = new CompanyDetails(cvm, dataProviderForCustomer);
+            _cvm = new CustomerDetailsViewModel(customerRepo);
+            CompanyDetails cd = new CompanyDetails(_cvm, dataProviderForCustomer);
             Grid.SetColumn(cd, 0);
             Grid.SetRow(cd, 1);
             ContentGrid.Children.Add(cd);
@@ -37,7 +37,7 @@ namespace GestionePosizioni
             : this()
         {
             _windowViewModel = viewModel;
-            this.DataContext = viewModel;
+            DataContext = viewModel;
             var saveBinding = new CommandBinding
             {
                 Command = viewModel.Save,
@@ -84,7 +84,12 @@ namespace GestionePosizioni
                 Mode = BindingMode.TwoWay
             });
 
-
+            ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
+            {
+                Source = _windowViewModel,
+                Path = new PropertyPath("Products"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            });
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -94,7 +99,7 @@ namespace GestionePosizioni
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
         {
-            cvm.Save.Execute(null);
+            _cvm.Save.Execute(null);
         }
     }
 }

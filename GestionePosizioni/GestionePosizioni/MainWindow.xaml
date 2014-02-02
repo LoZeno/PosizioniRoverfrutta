@@ -100,16 +100,16 @@
                         <Label FontWeight="Bold" FontSize="11">Provvigione (Fornitore)</Label>
                         <TextBox Name="ProviderCommissionTextBox" MaxLength="60" MaxHeight="20" Validation.Error="Validation_Error"></TextBox>
                     </StackPanel>
-                    <DataGrid Name="ProductsGrid" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto">
+                    <DataGrid Name="ProductsGrid" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Prodotto" Width="4*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox></TextBox>
+                                        <TextBox Text="{Binding Item.ProductDescription,Mode=TwoWay}"></TextBox>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Pallet" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Pallet" Width="1*" Binding="{Binding Item.Pallet,Mode=TwoWay}"></DataGridTextColumn>
                             <DataGridTextColumn Header="Colli" Width="1*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Kg Lordo" Width="1*"></DataGridTextColumn>
                             <DataGridTextColumn Header="kg Netto" Width="1*"></DataGridTextColumn>

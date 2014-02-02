@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Media.Imaging;
 using QueryManager;
@@ -9,16 +8,16 @@ namespace GestionePosizioni.BaseClasses
 {
     public class BaseWindow : RibbonWindow
     {
-        public BaseWindow() : base()
+        public BaseWindow()
         {
-            this.Icon = new BitmapImage(new Uri(@"pack://application:,,,/Content/Pictures/ring-binders.ico"));
+            Icon = new BitmapImage(new Uri(@"pack://application:,,,/Content/Pictures/ring-binders.ico"));
         }
 
         private IDocumentSession _databaseSession;
 
         public IDataStorage DataStorage
         {
-            get { return ((App) Application.Current).DataStorage; }
+            get { return Bootstrapper.Instance.Resolve<IDataStorage>(); }
         }
 
         public IDocumentSession DatabaseSession
