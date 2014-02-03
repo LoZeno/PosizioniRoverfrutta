@@ -23,6 +23,12 @@ namespace Models
         private ProductData backupData;
         private bool inTransaction = false;
 
+        public ProductSold()
+        {
+            custData.currency = "EUR";
+            backupData.currency = "EUR";
+        }
+
         public int ProductId
         {
             get { return custData.productId; }

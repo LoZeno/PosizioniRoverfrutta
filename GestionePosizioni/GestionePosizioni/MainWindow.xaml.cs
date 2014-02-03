@@ -18,6 +18,7 @@ namespace GestionePosizioni
     {
         private readonly CustomerDetailsViewModel _cvm;
         private int _errors = 0;
+        private CompanyDetails _providerControl;
 
         private readonly IMainViewModel _windowViewModel;
 
@@ -27,10 +28,10 @@ namespace GestionePosizioni
             var customerRepo = new CustomerRepository(DatabaseSession);
             var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
             _cvm = new CustomerDetailsViewModel(customerRepo);
-            CompanyDetails cd = new CompanyDetails(_cvm, dataProviderForCustomer);
-            Grid.SetColumn(cd, 0);
-            Grid.SetRow(cd, 1);
-            ContentGrid.Children.Add(cd);
+            _providerControl = new CompanyDetails(_cvm, dataProviderForCustomer);
+            Grid.SetColumn(_providerControl, 0);
+            Grid.SetRow(_providerControl, 1);
+            ContentGrid.Children.Add(_providerControl);
         }
 
         public MainWindow(IMainViewModel viewModel)
@@ -84,12 +85,114 @@ namespace GestionePosizioni
                 Mode = BindingMode.TwoWay
             });
 
+            _providerControl.SetBinding(CompanyDetails.SelectedCompanyProperty, new Binding
+            {
+                Source = _windowViewModel,
+                Path = new PropertyPath("Provider"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            });
+
             ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
             {
                 Source = _windowViewModel,
                 Path = new PropertyPath("Products"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
             });
+            
+            BuildProductGridColumns();
+        }
+
+        private void BuildProductGridColumns()
+        {
+            var productDescriptionColumn = new DataGridTextColumn
+            {
+                Header = "Prodotto",
+                Binding = new Binding("ProductDescription")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(4, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(productDescriptionColumn);
+            var palletsColumn = new DataGridTextColumn
+            {
+                Header = "Pallets",
+                Binding = new Binding("Pallets")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(palletsColumn);
+            var packagesColumn = new DataGridTextColumn
+            {
+                Header = "Colli",
+                Binding = new Binding("Packages")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(packagesColumn);
+            var grossWeightColumn = new DataGridTextColumn
+            {
+                Header = "Kg Lordo",
+                Binding = new Binding("GrossWeight")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(grossWeightColumn);
+            var netWeightColumn = new DataGridTextColumn
+            {
+                Header = "Kg Netto",
+                Binding = new Binding("NetWeight")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(netWeightColumn);
+            var priceColumn = new DataGridTextColumn
+            {
+                Header = "Prezzo",
+                Binding = new Binding("Price")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(priceColumn);
+            var currencyColumn = new DataGridTextColumn
+            {
+                Header = "Valuta",
+                Binding = new Binding("Currency")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(currencyColumn);
+            var priceParameterColumn = new DataGridTextColumn
+            {
+                Header = "Parametro",
+                Binding = new Binding("PriceParameter")
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+            ProductsGrid.Columns.Add(priceParameterColumn);
         }
 
         private void MenuItem_OnClick(object sender, RoutedEventArgs e)

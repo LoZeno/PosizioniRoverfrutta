@@ -71,6 +71,7 @@
     <Compile Include="control\AutoCompleteTextBox.cs" />
     <Compile Include="core\AutoCompleteManager.cs" />
     <Compile Include="provider\AnotherDataProvider.cs" />
+    <Compile Include="provider\AutoCompleteSelectedEventArgs.cs" />
     <Compile Include="provider\FileSysDataProvider.cs" />
     <Compile Include="provider\FileSysPathDataProvider.cs" />
     <Compile Include="provider\IAutoAppendDataProvider.cs" />

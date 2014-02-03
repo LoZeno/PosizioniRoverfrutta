@@ -5,6 +5,7 @@ using dragonz.actb.control;
 using dragonz.actb.provider;
 using GestionePosizioni.BaseClasses;
 using GestionePosizioni.ViewModels;
+using Models;
 
 namespace GestionePosizioni.CustomControls
 {
@@ -14,6 +15,7 @@ namespace GestionePosizioni.CustomControls
     public partial class CompanyDetails : BaseUserControl
     {
         private IAutoCompleteWithReturnValueDataProvider _companyDataProvider;
+        private ICompanyDetailsViewModel _model;
 
         public CompanyDetails()
         {
@@ -26,17 +28,18 @@ namespace GestionePosizioni.CustomControls
             _companyDataProvider = companyDataProvider;
             CompanyNameTextBox.AutoCompleteManager.DataProvider = _companyDataProvider;
             CompanyNameTextBox.AutoCompleteManager.Asynchronous = true;
-
-            DataContext = model;
+            _model = model;
+            DataContext = _model;
 
             var companyBinding = new Binding
             {
-                Source = model,
+                Source = _model,
                 Path = new PropertyPath("Company"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 Mode = BindingMode.TwoWay
             };
             CompanyNameTextBox.SetBinding(AutoCompleteTextBox.SelectedItemProperty, companyBinding);
+            SetBinding(CompanyDetails.SelectedCompanyProperty, companyBinding);
 
             var myBinding = new Binding("Address")
             {
@@ -75,5 +78,14 @@ namespace GestionePosizioni.CustomControls
             };
             VatCode.SetBinding(TextBox.TextProperty, vat);
         }
+
+        public object SelectedCompany
+        {
+            get { return (object)this.GetValue(SelectedCompanyProperty); }
+            set { SetValue(SelectedCompanyProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectedCompanyProperty = DependencyProperty.Register(
+    "SelectedCompany", typeof(object), typeof(CompanyDetails), new PropertyMetadata(false));
     }
 }

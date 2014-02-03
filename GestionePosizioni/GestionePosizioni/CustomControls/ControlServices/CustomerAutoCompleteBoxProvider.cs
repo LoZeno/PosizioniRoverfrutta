@@ -16,7 +16,7 @@ namespace GestionePosizioni.CustomControls.ControlServices
 
         private IDataStorage DataStorage
         {
-            get { return ((App)Application.Current).DataStorage; }
+            get { return Bootstrapper.Instance.Resolve<IDataStorage>(); }
         }
 
         private IDocumentSession OpenSession()
