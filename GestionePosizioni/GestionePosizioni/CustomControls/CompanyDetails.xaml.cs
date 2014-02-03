@@ -85,7 +85,15 @@ namespace GestionePosizioni.CustomControls
             set { SetValue(SelectedCompanyProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedCompanyProperty = DependencyProperty.Register(
-    "SelectedCompany", typeof(object), typeof(CompanyDetails), new PropertyMetadata(false));
+        public static readonly DependencyProperty SelectedCompanyProperty =
+            AutoCompleteTextBox.SelectedItemProperty.AddOwner(typeof (CompanyDetails),
+                new FrameworkPropertyMetadata(SelectedCompanyPropertyChanged));
+
+        private static void SelectedCompanyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var cd = obj as CompanyDetails;
+            cd.CompanyNameTextBox.SelectedItem = e.NewValue;
+        }
+
     }
 }
