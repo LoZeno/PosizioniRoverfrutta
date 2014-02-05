@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Models;
-using QueryManager;
 using QueryManager.Repositories;
 
 namespace GestionePosizioni.ViewModels
@@ -22,7 +21,6 @@ namespace GestionePosizioni.ViewModels
             }
             _customer = customer;
             _queryManager = queryManager;
-            Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName("C"));
         }
 
         public CustomerDetailsViewModel(ICustomerRepository queryManager)
@@ -57,14 +55,14 @@ namespace GestionePosizioni.ViewModels
                     var newCompany = _queryManager.FindById(value);
                     if (newCompany != null)
                     {
-                    this.Address = newCompany.Address;
-                    this.City = newCompany.City;
-                    this.CompanyName = newCompany.CompanyName;
-                    this.Country = newCompany.Country;
-                    this.PostCode = newCompany.PostCode;
-                    this.StateOrProvince = newCompany.StateOrProvince;
-                    this.VatCode = newCompany.StateOrProvince;
-                    this.Company.Id = value;
+                    Address = newCompany.Address;
+                    City = newCompany.City;
+                    CompanyName = newCompany.CompanyName;
+                    Country = newCompany.Country;
+                    PostCode = newCompany.PostCode;
+                    StateOrProvince = newCompany.StateOrProvince;
+                    VatCode = newCompany.StateOrProvince;
+                    Company.Id = value;
                     }
                 }
                 OnPropertyChanged("Id");
@@ -79,6 +77,7 @@ namespace GestionePosizioni.ViewModels
                 _customer.CompanyName = value;
                 Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName(value));
                 OnPropertyChanged("CompanyName");
+                OnPropertyChanged("Companies");
             }
         }
 
@@ -167,15 +166,15 @@ namespace GestionePosizioni.ViewModels
             }
         }
 
-        private ICommand saveCommand;
+        private ICommand _saveCommand;
 
         public ICommand Save
         {
             get
             {
-                if (saveCommand == null)
+                if (_saveCommand == null)
                 {
-                    saveCommand = new DelegateCommand(delegate()
+                    _saveCommand = new DelegateCommand(delegate
                     {
                         if (string.IsNullOrWhiteSpace(Id))
                         {
@@ -184,7 +183,7 @@ namespace GestionePosizioni.ViewModels
                         _queryManager.Save();
                     });
                 }
-                return saveCommand;
+                return _saveCommand;
             }
         }
     }
