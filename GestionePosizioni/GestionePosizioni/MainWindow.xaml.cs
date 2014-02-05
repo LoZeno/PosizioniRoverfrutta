@@ -27,7 +27,7 @@ namespace GestionePosizioni
             InitializeComponent();
             var customerRepo = new CustomerRepository(DatabaseSession);
             var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
-            _cvm = new CustomerDetailsViewModel(customerRepo);
+            _cvm = new CustomerDetailsViewModel(_windowViewModel.Customer, customerRepo);
             _providerControl = new CompanyDetails(_cvm, dataProviderForCustomer);
             Grid.SetColumn(_providerControl, 0);
             Grid.SetRow(_providerControl, 1);
