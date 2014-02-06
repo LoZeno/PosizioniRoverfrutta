@@ -19,11 +19,11 @@ namespace GestionePosizioni
             _iocContainer.RegisterInstance(dataStorage);
             _iocContainer.RegisterType<ISaleConfirmationRepository, SaleConfirmationRepository>(new InjectionConstructor(
                 dataStorage.DocumentStore.OpenSession()));
-            _iocContainer.RegisterType<IProviderRepository, ProviderRepository>(
+            _iocContainer.RegisterType<ICustomerRepository, CustomerRepository>(
                 new InjectionConstructor(dataStorage.DocumentStore.OpenSession()));
             _iocContainer.RegisterType<IMainViewModel, MainViewModel>(
                 new InjectionConstructor(new SaleConfirmation(),
-                    _iocContainer.Resolve<ISaleConfirmationRepository>(), _iocContainer.Resolve<IProviderRepository>()));
+                    _iocContainer.Resolve<ISaleConfirmationRepository>(), _iocContainer.Resolve<ICustomerRepository>()));
             _iocContainer.RegisterType<MainWindow>(new InjectionConstructor(_iocContainer.Resolve<IMainViewModel>()));
         }
 

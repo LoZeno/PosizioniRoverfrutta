@@ -15,8 +15,8 @@ namespace GestionePosizioniTests.ViewModels
     {
         private ISaleConfirmationRepository _repository;
         private MainViewModel _viewModel;
-        private Mock<ISaleConfirmationRepository> mockRepository;
-        private bool _totalsChanged = false;
+        private Mock<ISaleConfirmationRepository> _mockRepository;
+        private bool _totalsChanged;
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             if (propertyChangedEventArgs.PropertyName == "TotalPallets")
@@ -29,12 +29,12 @@ namespace GestionePosizioniTests.ViewModels
         public void Setup()
         {
             _totalsChanged = false;
-            mockRepository = new Mock<ISaleConfirmationRepository>();
-            _repository = mockRepository.Object;
-            mockRepository.Setup(x => x.FindById(121)).Returns(CreateSaleConfirmation(121, true));
-            mockRepository.Setup(x => x.FindById(122)).Returns(CreateSaleConfirmation(122, false));
-            mockRepository.Setup(x => x.Add(It.IsAny<SaleConfirmation>())).Verifiable();
-            mockRepository.Setup(x => x.Save()).Verifiable();
+            _mockRepository = new Mock<ISaleConfirmationRepository>();
+            _repository = _mockRepository.Object;
+            _mockRepository.Setup(x => x.FindById(121)).Returns(CreateSaleConfirmation(121, true));
+            _mockRepository.Setup(x => x.FindById(122)).Returns(CreateSaleConfirmation(122, false));
+            _mockRepository.Setup(x => x.Add(It.IsAny<SaleConfirmation>())).Verifiable();
+            _mockRepository.Setup(x => x.Save()).Verifiable();
 
             _viewModel = new MainViewModel(new SaleConfirmation(), _repository);
         }
@@ -55,7 +55,7 @@ namespace GestionePosizioniTests.ViewModels
                 DeliveryEx = "Partenza",
                 InvoiceDiscount = 0,
                 Products = new List<ProductSold>(),
-                Provider = new Provider
+                Provider = new Customer
                 {
                     Id = "providers/"+documentId,
                     CompanyName = "Provider "+documentId,
@@ -89,7 +89,7 @@ namespace GestionePosizioniTests.ViewModels
         [Test]
         public void Given_SaleConfirmationId_should_load_SaleConfirmation()
         {
-            _viewModel.DocumentId = (int)121;
+            _viewModel.DocumentId = 121;
 
             Assert.IsNotNull(_viewModel.Customer);
             Assert.AreEqual("Customer 121",_viewModel.Customer.CompanyName);
@@ -148,8 +148,8 @@ namespace GestionePosizioniTests.ViewModels
         public void Given_one_saleConfirmation_Saving_changes_productsSold()
         {
             var document = CreateSaleConfirmation(123, true);
-            var mockProviderRepository = new Mock<IProviderRepository>();
-            mockProviderRepository.Setup(x => x.Add(It.IsAny<Provider>())).Verifiable();
+            var mockProviderRepository = new Mock<ICustomerRepository>();
+            mockProviderRepository.Setup(x => x.Add(It.IsAny<Customer>())).Verifiable();
 
             _viewModel = new MainViewModel(document, _repository, mockProviderRepository.Object);
             _viewModel.Products.RemoveAt(0);
@@ -166,19 +166,19 @@ namespace GestionePosizioniTests.ViewModels
 
             _viewModel.Save.Execute(null);
             Assert.AreEqual("New Product", document.Products.ElementAt(0).ProductDescription);
-            mockRepository.Verify();
+            _mockRepository.Verify();
         }
 
         [Test]
         public void Given_one_saleConfirmation_when_change_provider_and_save_provider_is_saved_in_providerRepository()
         {
-            var mockProviderRepository = new Mock<IProviderRepository>();
-            mockProviderRepository.Setup(x => x.Add(It.IsAny<Provider>())).Verifiable();
+            var mockProviderRepository = new Mock<ICustomerRepository>();
+            mockProviderRepository.Setup(x => x.Add(It.IsAny<Customer>())).Verifiable();
 
             var document = CreateSaleConfirmation(123, true);
             _viewModel = new MainViewModel(document, _repository, mockProviderRepository.Object);
 
-            _viewModel.Provider = new Provider
+            _viewModel.Provider = new Customer
             {
                 Id = "providers/125",
                 CompanyName = "Test Provider",

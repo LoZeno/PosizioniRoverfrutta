@@ -35,10 +35,10 @@ namespace IntegrationTests
         }
 
         [Test]
-        public void should_initialize_ProviderRepository()
+        public void should_initialize_CustomerRepository()
         {
             var bootstrapper = Bootstrapper.Instance;
-            Assert.IsTrue(bootstrapper.Resolve<IProviderRepository>().GetType() == typeof (ProviderRepository));
+            Assert.IsTrue(bootstrapper.Resolve<ICustomerRepository>().GetType() == typeof (CustomerRepository));
         }
 
         [Test]

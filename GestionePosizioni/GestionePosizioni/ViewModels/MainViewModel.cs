@@ -14,7 +14,7 @@ namespace GestionePosizioni.ViewModels
     {
         private SaleConfirmation _saleConfirmation;
         private readonly ISaleConfirmationRepository _saleConfirmationRepository;
-        private IProviderRepository _providerRepository;
+        private ICustomerRepository _providerRepository;
         private ObservableCollection<ProductSold> _products;
 
         public MainViewModel(SaleConfirmation saleConfirmation, ISaleConfirmationRepository saleConfirmationRepository)
@@ -25,7 +25,7 @@ namespace GestionePosizioni.ViewModels
             _saleConfirmationRepository = saleConfirmationRepository;
         }
 
-        public MainViewModel(SaleConfirmation document, ISaleConfirmationRepository _repository, IProviderRepository providerRepository)
+        public MainViewModel(SaleConfirmation document, ISaleConfirmationRepository _repository, ICustomerRepository providerRepository)
             :this(document, _repository)
         {
             _providerRepository = providerRepository;
@@ -68,7 +68,7 @@ namespace GestionePosizioni.ViewModels
                 OnPropertyChanged("Customer");
             } 
         }
-        public Provider Provider 
+        public Customer Provider 
         {
             get
             {
@@ -120,7 +120,7 @@ namespace GestionePosizioni.ViewModels
                     {
                         _saleConfirmation.Products = _products.ToList();
                         _saleConfirmationRepository.Add(_saleConfirmation);
-                        _providerRepository.Add(_saleConfirmation.Provider);
+                        _providerRepository.Add(_saleConfirmation.Customer);
                         _saleConfirmationRepository.Save();
                     });
                 }

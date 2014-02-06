@@ -9,7 +9,7 @@ namespace GestionePosizioni.ViewModels
     {
         int? DocumentId { get; set; }
         Customer Customer { get; set; }
-        Provider Provider { get; set; }
+        Customer Provider { get; set; }
         ObservableCollection<ProductSold> Products { get; }
         int TotalPallets { get; }
         decimal TotalGrossWeight { get; }

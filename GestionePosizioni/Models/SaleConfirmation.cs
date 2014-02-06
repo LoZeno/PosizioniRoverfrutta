@@ -8,11 +8,14 @@ namespace Models
         public SaleConfirmation()
         {
             Products = new List<ProductSold>();
+            Provider = new Customer();
+            Customer = new Customer();
+            Transporter = new Transporter();
         }
 
         public int Id { get; set; }
         public Customer Customer { get; set; }
-        public Provider Provider { get; set; }
+        public Customer Provider { get; set; }
         public Transporter Transporter { get; set; }
         public DateTime? ShippingDate { get; set; }
         public DateTime? DeliveryDate { get; set; }

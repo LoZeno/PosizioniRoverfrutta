@@ -75,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Indexes\Customer_ByCompanyName.cs" />
-    <Compile Include="Indexes\Provider_ByCompanyName.cs" />
     <Compile Include="Indexes\SaleConfirmation_ByCustomerId.cs" />
     <Compile Include="Indexes\Transporter_ByCompanyName.cs" />
     <Compile Include="Repositories\CompanyRepositoryBase.cs" />
@@ -85,10 +84,8 @@
     <Compile Include="RavenDataStorage.cs" />
     <Compile Include="IDataStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IProviderRepository.cs" />
     <Compile Include="Repositories\ISaleConfirmationRepository.cs" />
     <Compile Include="Repositories\ITransporterRepository.cs" />
-    <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\SaleConfirmationRepository.cs" />
     <Compile Include="Repositories\TransporterRepository.cs" />

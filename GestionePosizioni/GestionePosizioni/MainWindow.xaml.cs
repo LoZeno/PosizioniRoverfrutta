@@ -25,13 +25,6 @@ namespace GestionePosizioni
         public MainWindow()
         {
             InitializeComponent();
-            var customerRepo = new CustomerRepository(DatabaseSession);
-            var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
-            _cvm = new CustomerDetailsViewModel(_windowViewModel.Customer, customerRepo);
-            _providerControl = new CompanyDetails(_cvm, dataProviderForCustomer);
-            Grid.SetColumn(_providerControl, 0);
-            Grid.SetRow(_providerControl, 1);
-            ContentGrid.Children.Add(_providerControl);
         }
 
         public MainWindow(IMainViewModel viewModel)
@@ -47,6 +40,13 @@ namespace GestionePosizioni
             saveBinding.Executed += saveBinding_Executed;
             CommandBindings.Add(saveBinding);
             SetBindings();
+            var customerRepo = new CustomerRepository(DatabaseSession);
+            var dataProviderForCustomer = new CustomerAutoCompleteBoxProvider(customerRepo);
+            _cvm = new CustomerDetailsViewModel(_windowViewModel.Customer, customerRepo);
+            _providerControl = new CompanyDetails(_cvm, dataProviderForCustomer);
+            Grid.SetColumn(_providerControl, 0);
+            Grid.SetRow(_providerControl, 1);
+            ContentGrid.Children.Add(_providerControl);
         }
 
         void saveBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -85,13 +85,13 @@ namespace GestionePosizioni
                 Mode = BindingMode.TwoWay
             });
 
-            _providerControl.SetBinding(CompanyDetails.SelectedCompanyProperty, new Binding
-            {
-                Source = _windowViewModel,
-                Path = new PropertyPath("Provider"),
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.TwoWay
-            });
+            //_providerControl.SetBinding(CompanyDetails.SelectedCompanyProperty, new Binding
+            //{
+            //    Source = _windowViewModel,
+            //    Path = new PropertyPath("Provider"),
+            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            //    Mode = BindingMode.TwoWay
+            //});
 
             ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
             {
