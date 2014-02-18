@@ -56,12 +56,6 @@ namespace GestionePosizioniTests.ViewModels
         {
             return allCustomers.FirstOrDefault(c => c.Id == customerId);
         }
-        [Test]
-        public void Test_ChangeCompanyName_LoadsCompaniesWithSameSubstring()
-        {
-            var viewModel = new CustomerDetailsViewModel(customerRepo) {CompanyName = "Comp"};
-            Assert.AreEqual(5, viewModel.Companies.Count);
-        }
 
         [Test]
         public void Test_SettingID_LoadsCustomer()

@@ -36,6 +36,8 @@ namespace GestionePosizioni.ViewModels
             {
                 _customer = value ?? new Customer();
                 OnPropertyChanged("Company");
+                OnPropertyChanged("Id");
+                OnPropertyChanged("CompanyName");
                 OnPropertyChanged("Address");
                 OnPropertyChanged("City");
                 OnPropertyChanged("StateOrProvince");
@@ -50,21 +52,7 @@ namespace GestionePosizioni.ViewModels
             get { return _customer.Id; }
             set
             {
-                if (value != null)
-                {
-                    var newCompany = _queryManager.FindById(value);
-                    if (newCompany != null)
-                    {
-                    Address = newCompany.Address;
-                    City = newCompany.City;
-                    CompanyName = newCompany.CompanyName;
-                    Country = newCompany.Country;
-                    PostCode = newCompany.PostCode;
-                    StateOrProvince = newCompany.StateOrProvince;
-                    VatCode = newCompany.StateOrProvince;
-                    Company.Id = value;
-                    }
-                }
+                _customer.Id = value;
                 OnPropertyChanged("Id");
             }
         }
@@ -75,7 +63,7 @@ namespace GestionePosizioni.ViewModels
             set
             {
                 _customer.CompanyName = value;
-                Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName(value));
+                //Companies = new ObservableCollection<CompanyBase>(_queryManager.FindByPartialName(value));
                 OnPropertyChanged("CompanyName");
                 OnPropertyChanged("Companies");
             }
@@ -138,21 +126,6 @@ namespace GestionePosizioni.ViewModels
             {
                 _customer.VatCode = value;
                 OnPropertyChanged("VatCode");
-            }
-        }
-
-        private ObservableCollection<CompanyBase> _companies;
-
-        public ObservableCollection<CompanyBase> Companies
-        {
-            get
-            {
-                return _companies;
-            }
-            set
-            {
-                _companies = value;
-                OnPropertyChanged("Companies");
             }
         }
 

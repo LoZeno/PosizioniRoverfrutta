@@ -16,7 +16,5 @@ namespace GestionePosizioni.ViewModels
         string VatCode { get; set; }
 
         Models.CompanyBase Company { get; set; }
-
-        ObservableCollection<CompanyBase> Companies { get; set; } 
     }
 }
