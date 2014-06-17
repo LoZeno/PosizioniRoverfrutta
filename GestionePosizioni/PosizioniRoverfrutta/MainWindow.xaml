@@ -18,12 +18,19 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Padding="5" Margin="3" Grid.Column="0">Conf. Vendita</Button>
-                        <Button Padding="5" Margin="3" Grid.Column="1">Carico</Button>
-                        <Button Padding="5" Margin="3" Grid.Column="2">Conf. Prezzo</Button>
+                        <Button Padding="5" Margin="3" Grid.Column="0">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">Conferme di Vendita</TextBlock>
+                        </Button>
+                        <Button Padding="5" Margin="3" Grid.Column="1">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">Distinte di Carico</TextBlock>
+                        </Button>
+                        <Button Padding="5" Margin="3" Grid.Column="2">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">Conferme Prezzi</TextBlock>
+                        </Button>
                     </Grid>
                 </StackPanel>
             </GroupBox>
+            <Button Name="NewDocumentButton" Padding="5" Margin="3" Click="NewDocumentButton_OnClick">Nuova Posizione</Button>
         </StackPanel>
     </Grid>
 </Window>

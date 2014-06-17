@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using PosizioniRoverfrutta.Windows;
 
 namespace PosizioniRoverfrutta
 {
@@ -10,6 +11,12 @@ namespace PosizioniRoverfrutta
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var documentWindow = new DocumentWindow();
+            documentWindow.Show();
         }
     }
 }
