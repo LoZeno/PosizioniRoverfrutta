@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using PosizioniRoverfrutta.Windows;
+using QueryManager;
 
 namespace PosizioniRoverfrutta
 {
@@ -8,15 +9,16 @@ namespace PosizioniRoverfrutta
     /// </summary>
     public partial class MainWindow : Window
     {
+        private WindowManager _windowsManager;
         public MainWindow()
         {
             InitializeComponent();
+            _windowsManager = new WindowManager((IDataStorage)App.Current.Properties["DataStorage"]);
         }
 
         private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var documentWindow = new DocumentWindow();
-            documentWindow.Show();
+            _windowsManager.InstantiateWindow("1", WindowTypes.ConfermaVendita);
         }
     }
 }
