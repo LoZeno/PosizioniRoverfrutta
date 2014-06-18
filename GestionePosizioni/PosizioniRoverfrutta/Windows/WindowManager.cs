@@ -51,11 +51,20 @@ namespace PosizioniRoverfrutta.Windows
 
         private void InstantiateNewWindow(string key, Type windowType)
         {
-            var window = (Window)Activator.CreateInstance(windowType);
+            var window = (Window)Activator.CreateInstance(windowType, _dataStorage);
             window.Name = key;
-            window.Closing += window_Closing;
+            window.Closed += window_Closed;
             _windows.Add(window.Name, window);
             window.Show();
+        }
+
+        void window_Closed(object sender, EventArgs e)
+        {
+            var key = ((Window)sender).Name;
+            if (_windows.ContainsKey(key))
+            {
+                _windows.Remove(key);
+            }
         }
 
         private bool WindowIsAlreadyOpen(string name)
@@ -63,15 +72,6 @@ namespace PosizioniRoverfrutta.Windows
             if (!_windows.ContainsKey(name)) return false;
             _windows[name].Activate();
             return true;
-        }
-
-        void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var key = ((Window) sender).Name;
-            if (_windows.ContainsKey(key))
-            {
-                _windows.Remove(key);
-            }
         }
     }
 

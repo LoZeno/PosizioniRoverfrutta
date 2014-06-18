@@ -15,11 +15,11 @@ namespace PosizioniRoverfrutta
         {
             base.OnStartup(e);
 
-            InitializeWindowManager();
+            SetApplicationBehaviour();
 
             InitializeDataStorage();
 
-            SetApplicationBehaviour();
+            InitializeWindowManager();
 
             ShowMainWindow();
         }
