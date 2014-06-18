@@ -18,7 +18,7 @@ namespace PosizioniRoverfrutta
 
         private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)
         {
-            _windowsManager.InstantiateWindow("1", WindowTypes.ConfermaVendita);
+            _windowsManager.InstantiateWindow("new", WindowTypes.ConfermaVendita);
         }
     }
 }

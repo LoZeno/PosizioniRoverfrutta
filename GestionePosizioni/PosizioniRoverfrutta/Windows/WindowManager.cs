@@ -44,7 +44,7 @@ namespace PosizioniRoverfrutta.Windows
         {
             if (!WindowIsAlreadyOpen(windowName))
             {
-                //caricare il viewmodel corrispondente
+                //caricare il viewmodel corrispondente?
                 InstantiateNewWindow(windowName, windowType);
             }
         }
@@ -70,6 +70,10 @@ namespace PosizioniRoverfrutta.Windows
         private bool WindowIsAlreadyOpen(string name)
         {
             if (!_windows.ContainsKey(name)) return false;
+            if (_windows[name].WindowState == WindowState.Minimized)
+            {
+                _windows[name].WindowState = WindowState.Normal;
+            }
             _windows[name].Activate();
             return true;
         }
