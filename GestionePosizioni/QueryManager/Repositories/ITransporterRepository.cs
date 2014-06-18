@@ -8,7 +8,7 @@ namespace QueryManager.Repositories
     {
         string Add(Transporter entity);
         IEnumerable<Transporter> FindByPartialName(string partialName);
-        Transporter FindById(string custID);
+        Transporter FindById(string custId);
         void Delete(Transporter entity);
         void Save();
         IDocumentSession DatabaseSession { get; set; }

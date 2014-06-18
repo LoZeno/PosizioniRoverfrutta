@@ -9,48 +9,48 @@ namespace QueryManager
 {
     public class RavenDataStorage : IDataStorage
     {
-        private string dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             @"Posizioni\Archive");
 
-        private EmbeddableDocumentStore documentStore;
+        private EmbeddableDocumentStore _documentStore;
 
         /// <summary>
         /// Initializes the database and creates the necessary indexes
         /// </summary>
         public void Initialize()
         {
-            documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
-            documentStore.Initialize();
+            _documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
+            _documentStore.Initialize();
             CreateIndexes();
 
             string alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
             if ("True" == alwaysWaitForLastWrite)
             {
-                documentStore.Conventions.DefaultQueryingConsistency =
+                _documentStore.Conventions.DefaultQueryingConsistency =
                     ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             }
         }
 
         private void CreateIndexes()
         {
-            IndexCreation.CreateIndexes(this.GetType().Assembly, documentStore);
+            IndexCreation.CreateIndexes(GetType().Assembly, _documentStore);
         }
 
         public string ConnectionString
         {
             get
             {
-                return dataDirectory;
+                return _dataDirectory;
             }
             set
             {
-                dataDirectory = value;
+                _dataDirectory = value;
             }
         }
 
         public EmbeddableDocumentStore DocumentStore
         {
-            get { return documentStore; }
+            get { return _documentStore; }
         }
     }
 }

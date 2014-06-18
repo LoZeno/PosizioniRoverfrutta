@@ -8,7 +8,7 @@ namespace QueryManager.Repositories
     {
         string Add(Customer entity);
         IEnumerable<Customer> FindByPartialName(string partialName);
-        Customer FindById(string custID);
+        Customer FindById(string custId);
         void Delete(Customer entity);
         void Save();
         IDocumentSession DatabaseSession { get; set; }

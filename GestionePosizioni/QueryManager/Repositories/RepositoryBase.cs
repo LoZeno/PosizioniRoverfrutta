@@ -4,39 +4,39 @@ namespace QueryManager.Repositories
 {
     public abstract class RepositoryBase<T>
     {
-        protected IDocumentSession _session;
+        protected IDocumentSession Session;
 
         public RepositoryBase(IDocumentSession session)
         {
-            _session = session;
+            Session = session;
         }
 
         public abstract string Add(T entity);
 
-        public T FindById(string custID)
+        public T FindById(string custId)
         {
-            return _session.Load<T>(custID);
+            return Session.Load<T>(custId);
         }
 
         public void Delete(T entity)
         {
-            _session.Delete(entity);
+            Session.Delete(entity);
         }
 
         public void Save()
         {
-            _session.SaveChanges();
+            Session.SaveChanges();
         }
 
         public IDocumentSession DatabaseSession
         {
             get
             {
-                return _session;
+                return Session;
             }
             set
             {
-                _session = value;
+                Session = value;
             }
         }
 

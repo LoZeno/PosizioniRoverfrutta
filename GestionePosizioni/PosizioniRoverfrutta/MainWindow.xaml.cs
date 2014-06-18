@@ -9,11 +9,11 @@ namespace PosizioniRoverfrutta
     /// </summary>
     public partial class MainWindow : Window
     {
-        private WindowManager _windowsManager;
-        public MainWindow()
+        private readonly WindowManager _windowsManager;
+        public MainWindow(WindowManager windowManager)
         {
             InitializeComponent();
-            _windowsManager = new WindowManager((IDataStorage)App.Current.Properties["DataStorage"]);
+            _windowsManager = windowManager;
         }
 
         private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)

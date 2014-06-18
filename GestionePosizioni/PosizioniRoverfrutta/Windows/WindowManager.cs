@@ -5,36 +5,39 @@ using QueryManager;
 
 namespace PosizioniRoverfrutta.Windows
 {
-    internal class WindowManager
+    public class WindowManager
     {
         private readonly IDataStorage _dataStorage;
         private readonly Dictionary<string, Window> _windows;
+        private readonly Dictionary<WindowTypes, Type> _windowClasses; 
 
         public WindowManager(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
             _windows = new Dictionary<string, Window>();
+            _windowClasses = new Dictionary<WindowTypes, Type>();
+        }
+
+        public void RegisterWindowClass(WindowTypes key, Type windowType)
+        {
+            if (_windowClasses.ContainsKey(key))
+            {
+                _windowClasses[key] = windowType;
+            }
+            else
+            {
+                _windowClasses.Add(key, windowType);
+            }
         }
 
         public void InstantiateWindow(string documentId, WindowTypes windowType)
         {
-            Window window = null;
-            string key = null;
-            switch (windowType)
+            if (!_windowClasses.ContainsKey(windowType))
             {
-                case WindowTypes.ConfermaPrezzi:
-                    key = "confermaprezzi_" + documentId;
-                    ManageWindows(key, typeof(DocumentWindow));
-                    break;
-                case WindowTypes.DistintaCarico:
-                    key = "distintacarico_" + documentId;
-                    ManageWindows(key, typeof(DocumentWindow));
-                    break;
-                case WindowTypes.ConfermaVendita:
-                    key = "confermavendita_" + documentId;
-                    ManageWindows(key, typeof(DocumentWindow));
-                    break;
+                return;
             }
+            var key = String.Format("{0}_{1}", windowType, documentId);
+            ManageWindows(key, _windowClasses[windowType]);
         }
 
         private void ManageWindows(string windowName, Type windowType)
@@ -72,7 +75,7 @@ namespace PosizioniRoverfrutta.Windows
         }
     }
 
-    internal enum WindowTypes
+    public enum WindowTypes
     {
         ConfermaVendita,
         DistintaCarico,
