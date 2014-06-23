@@ -36,6 +36,10 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public CustomerViewModel CustomerViewModel { get; private set; }
+
+        public CustomerViewModel ProviderViewModel { get; private set; }
+
         public Customer Customer
         {
             get
@@ -88,22 +92,22 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return Products.Sum(x => x.Packages); }
         }
 
-        private ICommand saveCommand;
+        private ICommand _saveCommand;
 
         public ICommand Save
         {
             get
             {
-                if (saveCommand == null)
+                if (_saveCommand == null)
                 {
-                    saveCommand = new DelegateCommand(delegate()
+                    _saveCommand = new DelegateCommand(delegate()
                     {
                         _saleConfirmation.Products = _products.ToList();
                         _saleConfirmationRepository.Add(_saleConfirmation);
                         _saleConfirmationRepository.Save();
                     });
                 }
-                return saveCommand;
+                return _saveCommand;
             }
         }
 

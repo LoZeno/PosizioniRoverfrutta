@@ -8,6 +8,10 @@ namespace QueryManager.Repositories
 
     public abstract class CompanyRepositoryBase<T> : RepositoryBase<T> where T : CompanyBase
     {
+        protected CompanyRepositoryBase() : base()
+        {
+        }
+
         protected CompanyRepositoryBase(IDocumentSession session)
             : base(session)
         {

@@ -6,7 +6,11 @@ namespace QueryManager.Repositories
     {
         protected IDocumentSession Session;
 
-        public RepositoryBase(IDocumentSession session)
+        protected RepositoryBase()
+        {
+        }
+
+        protected RepositoryBase(IDocumentSession session)
         {
             Session = session;
         }
