@@ -1,0 +1,21 @@
+public static class Global
+{
+    private static readonly Lazy<IDocumentStore> theDocStore = new Lazy<IDocumentStore>(()=>
+        {
+            var docStore = new DocumentStore
+                {
+                    ConnectionStringName = "RavenDB"
+                };
+            docStore.Initialize();
+
+            //OPTIONAL:
+            //IndexCreation.CreateIndexes(typeof(Global).Assembly, docStore);
+
+            return docStore;
+        });
+
+    public static IDocumentStore DocumentStore
+    {
+        get { return theDocStore.Value; }
+    }
+}
