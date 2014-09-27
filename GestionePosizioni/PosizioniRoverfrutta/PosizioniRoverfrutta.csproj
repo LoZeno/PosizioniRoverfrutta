@@ -14,6 +14,8 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,14 +112,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\CompanyData.xaml.cs">
+      <DependentUpon>CompanyData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\CustomerViewModel.cs" />
-    <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\CustomerControlViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
+    <Page Include="Controls\CompanyData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,6 +174,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\WpfControls\WpfControls\WpfControls.vbproj">
+      <Project>{d010f52c-140c-410d-b897-c1091b81aa13}</Project>
+      <Name>WpfControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\dragonz.actb\dragonz.actb.csproj">
       <Project>{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}</Project>
       <Name>dragonz.actb</Name>
@@ -254,7 +266,17 @@
   <ItemGroup>
     <Resource Include="Content\Pictures\Save\floppy-mount-icon-48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

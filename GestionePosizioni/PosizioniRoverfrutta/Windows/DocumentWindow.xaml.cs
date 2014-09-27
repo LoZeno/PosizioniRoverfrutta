@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using PosizioniRoverfrutta.ViewModels;
-using QueryManager;
+﻿using QueryManager;
 
 namespace PosizioniRoverfrutta.Windows
 {
@@ -11,7 +9,7 @@ namespace PosizioniRoverfrutta.Windows
     {
         public DocumentWindow(IDataStorage dataStorage) : base(dataStorage)
         {
-            DataContext = new DocumentViewModel(DataStorage);
+            
         }
 
         public override int Index { get; set; }

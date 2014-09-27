@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
 using Raven.Client.Indexes;
@@ -51,6 +52,11 @@ namespace QueryManager
         public EmbeddableDocumentStore DocumentStore
         {
             get { return _documentStore; }
+        }
+
+        public IDocumentSession CreateSession()
+        {
+            return _documentStore.OpenSession();
         }
     }
 }
