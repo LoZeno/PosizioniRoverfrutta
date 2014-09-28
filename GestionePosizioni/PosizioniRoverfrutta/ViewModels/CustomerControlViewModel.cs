@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Models;
 using PosizioniRoverfrutta.Annotations;
-using QueryManager;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
