@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CustomerControlViewModelTests.cs" />
+    <Compile Include="ViewModels\SaleConfirmationViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
