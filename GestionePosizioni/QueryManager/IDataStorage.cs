@@ -1,3 +1,4 @@
+using Raven.Client;
 using Raven.Client.Embedded;
 
 namespace QueryManager
@@ -7,5 +8,6 @@ namespace QueryManager
         void Initialize();
         string ConnectionString { get; set; }
         EmbeddableDocumentStore DocumentStore { get; }
+        IDocumentSession CreateSession();
     }
 }

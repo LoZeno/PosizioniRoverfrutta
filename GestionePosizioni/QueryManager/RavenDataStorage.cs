@@ -24,7 +24,7 @@ namespace QueryManager
             _documentStore.Initialize();
             CreateIndexes();
 
-            string alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
+            var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
             if ("True" == alwaysWaitForLastWrite)
             {
                 _documentStore.Conventions.DefaultQueryingConsistency =

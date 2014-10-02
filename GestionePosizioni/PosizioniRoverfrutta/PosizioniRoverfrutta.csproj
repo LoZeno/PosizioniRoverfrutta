@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CustomerControlViewModel.cs" />
+    <Compile Include="ViewModels\SaleConfirmationDetailsViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\DocumentWindow.xaml.cs">
