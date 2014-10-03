@@ -26,7 +26,10 @@ namespace Models
         public decimal InvoiceDiscount { get; set; }
         public decimal CustomerCommission { get; set; }
         public decimal ProviderCommission { get; set; }
+        [Obsolete]
         public List<ProductSold> Products { get; set; } 
+
+        public List<ProductDetails> ProductDetails { get; set; }
 
     }
 }

@@ -116,7 +116,9 @@
       <DependentUpon>CompanyData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CustomerControlViewModel.cs" />
+    <Compile Include="ViewModels\ProductRowViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationDetailsViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />

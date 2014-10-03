@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Models
 {
+    [Obsolete("This should be a pure model, instead it acts like a viewmodel")]
     public class ProductSold : IEditableObject
     {
         struct ProductData

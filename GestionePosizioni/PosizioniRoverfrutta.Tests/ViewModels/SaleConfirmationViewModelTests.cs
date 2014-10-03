@@ -20,6 +20,18 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _mainViewModel = new SaleConfirmationViewModel(_dataStorage);
         }
 
+        [TearDown]
+        public void CleanUpData()
+        {
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Delete(session.Load<SaleConfirmation>(_documentId));
+                session.Delete(session.Load<Customer>(_providerId));
+                session.Delete(session.Load<Customer>(_customerId));
+                session.SaveChanges();
+            }
+        }
+
         [Test]
         public void when_passing_a_document_id_it_retrieves_the_document()
         {
@@ -50,6 +62,34 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
             Assert.That(_mainViewModel.SaleConfirmation, Is.Not.Null);
             Assert.That(_mainViewModel.SaleConfirmation.TruckLicensePlate, Is.Null);
+        }
+
+        [Test]
+        public void when_adding_products_to_the_viewmodel_it_saves_the_list_of_products_sold()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.ProductDetails.Add(new ProductRowViewModel
+            {
+                Description = "Prodotto 1",
+                Price = 12,
+                Currency = "EUR"
+            });
+            _mainViewModel.ProductDetails.Add(new ProductRowViewModel
+            {
+                Description = "Prodotto 2",
+                Price = 13,
+                Currency = "EUR"
+            });
+
+            _mainViewModel.SaveAll.Execute(null);
+
+            SaleConfirmation document;
+            using (var session = _dataStorage.CreateSession())
+            {
+                document = session.Load<SaleConfirmation>(_documentId);
+            }
+            Assert.That(document.ProductDetails, Is.Not.Null);
+            Assert.That(document.ProductDetails.Count, Is.EqualTo(2));
         }
 
         private void CreateBasicData()
