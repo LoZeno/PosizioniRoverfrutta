@@ -77,6 +77,7 @@
     <Compile Include="Indexes\Customer_ByCompanyName.cs" />
     <Compile Include="Indexes\SaleConfirmation_ByCustomerId.cs" />
     <Compile Include="Indexes\Transporter_ByCompanyName.cs" />
+    <Compile Include="QueryHelpers\CompanyQueryHelper.cs" />
     <Compile Include="Repositories\CompanyRepositoryBase.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\ICustomerRepository.cs" />

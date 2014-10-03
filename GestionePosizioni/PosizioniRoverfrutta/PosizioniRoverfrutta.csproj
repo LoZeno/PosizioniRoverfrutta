@@ -116,6 +116,7 @@
       <DependentUpon>CompanyData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CustomerControlViewModel.cs" />
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
@@ -270,9 +271,7 @@
   <ItemGroup>
     <Resource Include="Content\Pictures\Save\floppy-mount-icon-48.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
