@@ -115,6 +115,9 @@
     <Compile Include="Controls\CompanyData.xaml.cs">
       <DependentUpon>CompanyData.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\CompanyDetails.xaml.cs">
+      <DependentUpon>CompanyDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
@@ -128,6 +131,10 @@
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="Controls\CompanyData.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

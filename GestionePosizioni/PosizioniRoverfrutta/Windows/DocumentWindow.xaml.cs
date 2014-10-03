@@ -1,4 +1,6 @@
-﻿using QueryManager;
+﻿using PosizioniRoverfrutta.CustomControls;
+using PosizioniRoverfrutta.ViewModels;
+using QueryManager;
 
 namespace PosizioniRoverfrutta.Windows
 {
@@ -9,7 +11,8 @@ namespace PosizioniRoverfrutta.Windows
     {
         public DocumentWindow(IDataStorage dataStorage) : base(dataStorage)
         {
-            
+            InitializeComponent();
+            MyPanel.Children.Add(new CompanyDetails(dataStorage, new CustomerControlViewModel()));
         }
 
         public override int Index { get; set; }

@@ -5,6 +5,13 @@
         Title="DocumentWindow" Height="400" Width="500" Left="301"
         >
     <Grid>
-        <Ribbon Name="Ribbon"></Ribbon>
+        <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" x:Name="DockPanel1" VerticalAlignment="Stretch">
+            <Ribbon DockPanel.Dock="Top" x:Name="MainRibbon">
+                
+            </Ribbon>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">
+                
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </windows:BaseWindow>
