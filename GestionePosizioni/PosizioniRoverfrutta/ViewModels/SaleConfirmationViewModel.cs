@@ -71,8 +71,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     SaleConfirmation.ProductDetails.Add(productRowViewModel.ProductDetails);
                 }
+                SaleConfirmation.Customer = CustomerControlViewModel.Customer;
                 using (var session = _dataStorage.CreateSession())
                 {
+                    session.Store(CustomerControlViewModel.Customer);
                     session.Store(SaleConfirmation);
                     session.SaveChanges();
                 }

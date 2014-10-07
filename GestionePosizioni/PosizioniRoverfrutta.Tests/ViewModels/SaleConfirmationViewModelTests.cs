@@ -92,6 +92,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(document.ProductDetails.Count, Is.EqualTo(2));
         }
 
+
         private void CreateBasicData()
         {
             var document = new SaleConfirmation

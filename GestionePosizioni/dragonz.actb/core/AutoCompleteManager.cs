@@ -585,11 +585,11 @@ namespace dragonz.actb.core
                 return;
             }
             var firstSuggestion = _listBox.Items[0] as string;
-            if (_listBox.Items.Count == 1 && text.Equals(firstSuggestion, StringComparison.OrdinalIgnoreCase))
-            {
-                _popup.IsOpen = false;
-            }
-            else
+            //if (_listBox.Items.Count == 1 && text.Equals(firstSuggestion, StringComparison.OrdinalIgnoreCase))
+            //{
+            //    _popup.IsOpen = false;
+            //}
+            //else
             {
                 _listBox.SelectedIndex = -1;
                 _textBeforeChangedByCode = text;

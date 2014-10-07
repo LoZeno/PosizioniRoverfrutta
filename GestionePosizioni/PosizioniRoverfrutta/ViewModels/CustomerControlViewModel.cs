@@ -51,10 +51,10 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Address
         {
-            get { return Customer.CompanyName; }
+            get { return Customer.Address; }
             set
             {
-                Customer.CompanyName = value; 
+                Customer.Address = value; 
                 OnPropertyChanged();
             }
         }
