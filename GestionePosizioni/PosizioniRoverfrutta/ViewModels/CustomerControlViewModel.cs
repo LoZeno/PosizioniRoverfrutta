@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Models;
 using PosizioniRoverfrutta.Annotations;
+using QueryManager;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
     public class CustomerControlViewModel : INotifyPropertyChanged
     {
-        public CustomerControlViewModel()
+        public CustomerControlViewModel(IDataStorage dataStorage)
         {
+            _dataStorage = dataStorage;
             _customer = new Customer();
         }
 
@@ -42,10 +45,28 @@ namespace PosizioniRoverfrutta.ViewModels
         public string CompanyName
         {
             get { return Customer.CompanyName; }
-            set
+            set {
+                LoadCustomerByName(value);
+            }
+        }
+
+        private void LoadCustomerByName(string companyName)
+        {
+            Customer customer;
+            using (var session = _dataStorage.CreateSession())
             {
-                Customer.CompanyName = value;
-                OnPropertyChanged();
+                customer = session.Query<Customer>("Customer/ByCompanyName").FirstOrDefault(c => c.CompanyName.Equals(companyName));
+            }
+            if (customer != null)
+            {
+                Customer = customer;
+            }
+            else
+            {
+                Customer = new Customer
+                {
+                    CompanyName = companyName
+                };
             }
         }
 
@@ -117,6 +138,8 @@ namespace PosizioniRoverfrutta.ViewModels
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
         private Customer _customer;
+        private readonly IDataStorage _dataStorage;
     }
 }

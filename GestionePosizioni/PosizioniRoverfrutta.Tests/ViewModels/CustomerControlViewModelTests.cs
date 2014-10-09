@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Models;
+using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
+using QueryManager;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels
 {
@@ -10,7 +12,21 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [SetUp]
         public void SetUp()
         {
-            _viewModel = new CustomerControlViewModel();
+            _dataStorage = new RavenDataStorage();
+            _dataStorage.Initialize();
+            _viewModel = new CustomerControlViewModel(_dataStorage);
+
+            CreateBasicData();
+        }
+
+        [TearDown]
+        public void CleanUpData()
+        {
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Delete(session.Load<Customer>(_customerId));
+                session.SaveChanges();
+            }
         }
 
         [Test]
@@ -19,6 +35,49 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_viewModel.Customer, Is.Not.Null);
         }
 
+        [Test]
+        public void when_writing_a_new_company_name_it_creates_a_new_company()
+        {
+            _viewModel.CompanyName = "Nuovo Cliente";
+            Assert.That(_viewModel.Customer.Id, Is.EqualTo(null));
+            Assert.That(_viewModel.Customer.CompanyName, Is.EqualTo("Nuovo Cliente"));
+            Assert.That(_viewModel.Customer.VatCode, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void when_writing_an_existing_company_name_it_loads_the_first_match()
+        {
+            _viewModel.CompanyName = "Cliente";
+
+            Assert.That(_viewModel.Id, Is.EqualTo(_customerId));
+            Assert.That(_viewModel.CompanyName, Is.EqualTo("Cliente"));
+            Assert.That(_viewModel.VatCode, Is.EqualTo("partitaiva000000"));
+        }
+
+        private void CreateBasicData()
+        {
+            var customer = new Customer
+            {
+                CompanyName = "Cliente",
+                Address = "da qualche parte",
+                City = "MANTOVA",
+                Country = "Italia",
+                PostCode = "46100",
+                StateOrProvince = "MN",
+                VatCode = "partitaiva000000"
+            };
+
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Store(customer);
+                _customerId = customer.Id;
+                session.SaveChanges();
+            }
+        }
+
         private CustomerControlViewModel _viewModel;
+
+        private IDataStorage _dataStorage;
+        private string _customerId;
     }
 }

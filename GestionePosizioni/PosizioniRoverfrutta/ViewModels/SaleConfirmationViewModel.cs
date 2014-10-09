@@ -16,8 +16,8 @@ namespace PosizioniRoverfrutta.ViewModels
         public SaleConfirmationViewModel(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
-            CustomerControlViewModel = new CustomerControlViewModel();
-            ProviderControlViewModel = new CustomerControlViewModel();
+            CustomerControlViewModel = new CustomerControlViewModel(_dataStorage);
+            ProviderControlViewModel = new CustomerControlViewModel(_dataStorage);
             //inizializzare viewmodel del trasportatore
             //viewmodel dei prodotti
             //model del documento vero e proprio

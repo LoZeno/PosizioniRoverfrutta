@@ -16,7 +16,7 @@ namespace PosizioniRoverfrutta.Controls
 
         public CompanyData(IDataStorage dataStorage)
         {
-            DataContext = new CustomerControlViewModel();
+            DataContext = new CustomerControlViewModel(dataStorage);
         }
     }
 }
