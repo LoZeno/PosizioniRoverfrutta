@@ -12,9 +12,9 @@
              BorderBrush="Black"
              BorderThickness="5"
              d:DesignHeight="200" d:DesignWidth="200">
-    <Grid Margin="10,5,10,5" MaxWidth="200">
+    <Grid Margin="10,5,10,5" MaxWidth="300">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -35,27 +35,27 @@
                 </watermarkAdorner:WatermarkService.Watermark>
             </control:AutoCompleteTextBox>
         </AdornerDecorator>
-        <TextBlock Grid.Row="1">Via/strada/piazza</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="1">Via/strada/piazza</TextBlock>
         <AdornerDecorator Grid.Row="2">
             <TextBox Name="Address" />
         </AdornerDecorator>
-        <TextBlock Grid.Row="3">CAP</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="3">CAP</TextBlock>
         <AdornerDecorator Grid.Row="4">
             <TextBox Name="PostalCode" />
         </AdornerDecorator>
-        <TextBlock Grid.Row="5">Cittá</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="5">Cittá</TextBlock>
         <AdornerDecorator Grid.Row="6">
             <TextBox Name="City" />
         </AdornerDecorator>
-        <TextBlock Grid.Row="7">Cittá</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="7">Cittá</TextBlock>
         <AdornerDecorator Grid.Row="8">
             <TextBox Name="County" />
         </AdornerDecorator>
-        <TextBlock Grid.Row="9">Nazione</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="9">Nazione</TextBlock>
         <AdornerDecorator Grid.Row="10">
             <TextBox Name="Country" />
         </AdornerDecorator>
-        <TextBlock Grid.Row="11">Partita IVA</TextBlock>
+        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="11">Partita IVA</TextBlock>
         <AdornerDecorator Grid.Row="12">
             <TextBox Name="VatCode" />
         </AdornerDecorator>
