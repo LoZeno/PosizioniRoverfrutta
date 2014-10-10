@@ -25,6 +25,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Id");
                 OnPropertyChanged("CompanyName");
                 OnPropertyChanged("Address");
+                OnPropertyChanged("PostCode");
                 OnPropertyChanged("City");
                 OnPropertyChanged("StateOrProvince");
                 OnPropertyChanged("Country");
@@ -46,24 +47,16 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             get { return Customer.CompanyName; }
             set {
-                LoadCustomerByName(value);
+                Customer = LoadCustomerByName(value);
             }
         }
 
-        private void LoadCustomerByName(string companyName)
+        private Customer LoadCustomerByName(string companyName)
         {
-            Customer customer;
             using (var session = _dataStorage.CreateSession())
             {
-                customer = session.Query<Customer>("Customer/ByCompanyName").FirstOrDefault(c => c.CompanyName.Equals(companyName));
-            }
-            if (customer != null)
-            {
-                Customer = customer;
-            }
-            else
-            {
-                Customer = new Customer
+                var customer = session.Query<Customer>("Customer/ByCompanyName").FirstOrDefault(c => c.CompanyName.Equals(companyName));
+                return customer ?? new Customer
                 {
                     CompanyName = companyName
                 };

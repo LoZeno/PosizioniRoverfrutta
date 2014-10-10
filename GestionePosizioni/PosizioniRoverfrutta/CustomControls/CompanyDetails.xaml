@@ -6,21 +6,27 @@
              xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
              xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             MinHeight="150"
+             MaxHeight="200"
+             MaxWidth="100"
+             MinWidth="20"
+             d:DesignHeight="200" d:DesignWidth="200">
+    <Grid Margin="10,0,0,10">
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <AdornerDecorator Grid.Row="0">
-            <control:AutoCompleteComboBox Name="CompanyNameComboBox">
-                <watermarkAdorner:WatermarkService.Watermark>Digita le prime 4 lettere per cercare</watermarkAdorner:WatermarkService.Watermark>
-            </control:AutoCompleteComboBox>
+            <control:AutoCompleteTextBox Name="CompanyNameBox">
+                <watermarkAdorner:WatermarkService.Watermark>
+                    <TextBlock>Digita le prime quattro lettere per cercare</TextBlock>
+                </watermarkAdorner:WatermarkService.Watermark>
+            </control:AutoCompleteTextBox>
         </AdornerDecorator>
         <AdornerDecorator Grid.Row="1">
             <TextBox Name="Address">

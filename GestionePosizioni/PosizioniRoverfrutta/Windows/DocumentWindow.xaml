@@ -19,8 +19,27 @@
                 </RibbonTab>
             </Ribbon>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">
-                
+                <Label Name="StatusLabel" Content="Status"/>
             </StackPanel>
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <Grid Name="ContentGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
+                        <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
+                        <RowDefinition Name="DetailsFirstRow" Height="1*" MaxHeight="50"></RowDefinition>
+                        <RowDefinition Name="DetailsSecondRow" Height="1*" MaxHeight="50"></RowDefinition>
+                        <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
+                        <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Name="CompaniesPanel" Grid.Row="1" Grid.Column="0"></WrapPanel>
+                </Grid>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </windows:BaseWindow>

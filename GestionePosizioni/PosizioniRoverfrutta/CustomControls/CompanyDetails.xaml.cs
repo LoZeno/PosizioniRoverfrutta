@@ -22,22 +22,11 @@ namespace PosizioniRoverfrutta.CustomControls
         public CompanyDetails(IDataStorage dataStorage, CustomerControlViewModel viewModel)
             : this()
         {
-            //var companyDataProvider = new CustomerAutoCompleteBoxProvider<Customer>(dataStorage);
             var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
-            CompanyNameComboBox.AutoCompleteManager.DataProvider = companyDataProvider;
-            CompanyNameComboBox.AutoCompleteManager.Asynchronous = true;
+            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
+            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
             //CompanyNameComboBox.AutoCompleteManager.AutoAppend = true;
             DataContext = viewModel;
-
-            //var companyBinding = new Binding
-            //{
-            //    Source = viewModel,
-            //    Path = new PropertyPath("Customer"),
-            //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            //    Mode = BindingMode.TwoWay
-            //};
-            //CompanyNameComboBox.SetBinding(AutoCompleteTextBox.SelectedItemProperty, companyBinding);
-            //SetBinding(SelectedCompanyProperty, companyBinding);
 
             var companyNameBinding = new Binding
             {
@@ -46,7 +35,7 @@ namespace PosizioniRoverfrutta.CustomControls
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.TwoWay
             };
-            CompanyNameComboBox.SetBinding(ComboBox.TextProperty, companyNameBinding);
+            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
 
             SetTextboxBinding(Address, "Address");
             SetTextboxBinding(City, "City");
@@ -79,7 +68,7 @@ namespace PosizioniRoverfrutta.CustomControls
         private static void SelectedCompanyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var cd = obj as CompanyDetails;
-            cd.CompanyNameComboBox.SelectedItem = e.NewValue;
+            cd.CompanyNameBox.SelectedItem = e.NewValue;
         }
     }
 }

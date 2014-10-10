@@ -20,7 +20,7 @@ namespace PosizioniRoverfrutta.Windows
 
             var companyDetailsControl = new CompanyDetails(dataStorage, viewModel.CustomerControlViewModel);
             companyDetailsControl.MinWidth = 300;
-            MyPanel.Children.Add(companyDetailsControl);
+            CompaniesPanel.Children.Add(companyDetailsControl);
 
             DataContext = viewModel;
 
