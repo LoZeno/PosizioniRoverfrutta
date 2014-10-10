@@ -25,6 +25,45 @@ namespace PosizioniRoverfrutta.ViewModels
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
         }
 
+        public int Id
+        {
+            get { return SaleConfirmation.Id; }
+            set
+            {
+                LoadDocument(value);
+
+                OnPropertyChanged();
+                OnPropertyChanged("SaleConfirmation");
+            }
+        }
+
+        private void LoadDocument(int value)
+        {
+            SaleConfirmation saleConfirmation = null;
+            using (var session = _dataStorage.CreateSession())
+            {
+                saleConfirmation = session.Load<SaleConfirmation>(value);
+            }
+            if (saleConfirmation == null)
+            {
+                saleConfirmation = new SaleConfirmation();
+            }
+            SaleConfirmation = saleConfirmation;
+            CustomerControlViewModel.Customer = SaleConfirmation.Customer;
+            ProviderControlViewModel.Customer = SaleConfirmation.Provider;
+            Status = "Documento numero " + SaleConfirmation.Id + " caricato correttamente";
+        }
+
+        public string Status
+        {
+            get { return _status; }
+            private set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CustomerControlViewModel CustomerControlViewModel { get; private set; }
 
         public CustomerControlViewModel ProviderControlViewModel { get; private set; }
@@ -32,27 +71,6 @@ namespace PosizioniRoverfrutta.ViewModels
         public ObservableCollection<ProductRowViewModel> ProductDetails { get; private set; }
 
         public SaleConfirmation SaleConfirmation { get; set; }
-
-        public int Id
-        {
-            get { return SaleConfirmation.Id; }
-            set
-            {
-                SaleConfirmation saleConfirmation = null;
-                using (var session = _dataStorage.CreateSession())
-                {
-                    saleConfirmation = session.Load<SaleConfirmation>(value);
-                }
-                if (saleConfirmation == null)
-                {
-                    saleConfirmation = new SaleConfirmation();
-                }
-                SaleConfirmation = saleConfirmation;
-                CustomerControlViewModel.Customer = SaleConfirmation.Customer;
-                ProviderControlViewModel.Customer = SaleConfirmation.Provider;
-                OnPropertyChanged("SaleConfirmation");
-            }
-        }
 
         public ICommand SaveAll
         {
@@ -73,12 +91,21 @@ namespace PosizioniRoverfrutta.ViewModels
                 }
                 SaleConfirmation.Customer = CustomerControlViewModel.Customer;
                 SaleConfirmation.Provider = ProviderControlViewModel.Customer;
-                using (var session = _dataStorage.CreateSession())
+                try
                 {
-                    session.Store(CustomerControlViewModel.Customer);
-                    session.Store(ProviderControlViewModel.Customer);
-                    session.Store(SaleConfirmation);
-                    session.SaveChanges();
+                    using (var session = _dataStorage.CreateSession())
+                    {
+                        session.Store(CustomerControlViewModel.Customer);
+                        session.Store(ProviderControlViewModel.Customer);
+                        session.Store(SaleConfirmation);
+                        session.SaveChanges();
+                    }
+                    OnPropertyChanged("Id");
+                    Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
+                }
+                catch (Exception exception)
+                {
+                    Status = "Errore durante il salvataggio: " + exception.Message;
                 }
             };
         }
@@ -95,5 +122,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand saveAllCommand;
 
         private readonly IDataStorage _dataStorage;
+        private string _status;
     }
 }

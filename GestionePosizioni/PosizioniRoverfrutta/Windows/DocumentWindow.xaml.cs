@@ -23,7 +23,31 @@ namespace PosizioniRoverfrutta.Windows
 
             DataContext = viewModel;
 
+            SetPropertiesBindings();
+
             SetSaveButtonBindings(viewModel);
+
+            SetStatusBinding();
+        }
+
+        private void SetPropertiesBindings()
+        {
+            var idBinding = new Binding("Id")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.TwoWay
+            };
+            IdBox.SetBinding(TextBox.TextProperty, idBinding);
+        }
+
+        private void SetStatusBinding()
+        {
+            var statusBinding = new Binding("Status")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.OneWay
+            };
+            StatusLabel.SetBinding(ContentProperty, statusBinding);
         }
 
         public override int Index { get; set; }
@@ -31,9 +55,11 @@ namespace PosizioniRoverfrutta.Windows
         private void AddCompanyDetailsControls(IDataStorage dataStorage, SaleConfirmationViewModel viewModel)
         {
             var customerDetailsControl = new CompanyDetails(dataStorage, viewModel.CustomerControlViewModel);
+            customerDetailsControl.TitleBlock.Text = "Cliente";
             AddControlToGrid(customerDetailsControl, 0, 1);
 
             var providerDetailsControl = new CompanyDetails(dataStorage, viewModel.ProviderControlViewModel);
+            providerDetailsControl.TitleBlock.Text = "Fornitore";
             AddControlToGrid(providerDetailsControl, 1, 1);
         }
 

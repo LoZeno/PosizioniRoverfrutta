@@ -5,15 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
              xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
+             xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
              mc:Ignorable="d" 
              MinHeight="150"
-             MaxHeight="300"
+             
              MinWidth="100"
              BorderBrush="Black"
              BorderThickness="5"
              d:DesignHeight="200" d:DesignWidth="200">
+
+    <UserControl.Resources>
+
+        <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
+        <SolidColorBrush x:Key="brushWatermarkForeground" Color="LightSteelBlue" />
+        <SolidColorBrush x:Key="brushWatermarkBorder" Color="Indigo" />
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <xamlWatermarkAdorner:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
+
+        <Style x:Key="EntryFieldStyle" TargetType="Grid" >
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Background" Value="{StaticResource brushWatermarkBackground}"></Setter>
+        </Style>
+
+    </UserControl.Resources>
+
     <Grid Margin="10,5,10,5" MaxWidth="300">
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="1.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -22,42 +42,63 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <AdornerDecorator Grid.Row="0" Margin="2">
-            <control:AutoCompleteTextBox Name="CompanyNameBox" MinWidth="80">
-                <watermarkAdorner:WatermarkService.Watermark>
-                    <TextBlock>Digita il nome per cercare</TextBlock>
-                </watermarkAdorner:WatermarkService.Watermark>
-            </control:AutoCompleteTextBox>
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="1">Via/strada/piazza</TextBlock>
-        <AdornerDecorator Grid.Row="2">
-            <TextBox Name="Address" />
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="3">CAP</TextBlock>
-        <AdornerDecorator Grid.Row="4">
-            <TextBox Name="PostalCode" />
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="5">Cittá</TextBlock>
-        <AdornerDecorator Grid.Row="6">
-            <TextBox Name="City" />
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="7">Cittá</TextBlock>
-        <AdornerDecorator Grid.Row="8">
-            <TextBox Name="County" />
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="9">Nazione</TextBlock>
-        <AdornerDecorator Grid.Row="10">
-            <TextBox Name="Country" />
-        </AdornerDecorator>
-        <TextBlock FontStyle="Italic" FontWeight="Light" Grid.Row="11">Partita IVA</TextBlock>
-        <AdornerDecorator Grid.Row="12">
-            <TextBox Name="VatCode" />
-        </AdornerDecorator>
+        <TextBlock Name="TitleBlock" Grid.Row="0" FontSize="14" FontWeight="Bold" TextAlignment="Left">Cliente</TextBlock>
+
+        <Grid Grid.Row="1" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <control:AutoCompleteTextBox Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="2" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Via/Piazza/Città" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=Address, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="Address" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="3" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="CAP" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=PostalCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="PostalCode" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="4" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Località" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=City, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="City" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+        
+        <Grid Grid.Row="5" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Provincia" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=County, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="County" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="6" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Nazione" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=Country, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="Country" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="7" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Partita IVA/C. Fiscale" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=VatCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="VatCode" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
     </Grid>
 </UserControl>
