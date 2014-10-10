@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -28,6 +29,21 @@ namespace PosizioniRoverfrutta.Windows
             SetSaveButtonBindings(viewModel);
 
             SetStatusBinding();
+        }
+
+        public DocumentWindow(IDataStorage dataStorage, string documentId) : this (dataStorage)
+        {
+            try
+            {
+                var myId = int.Parse(documentId);
+                ((SaleConfirmationViewModel) DataContext).Id = myId;
+                IdBox.IsReadOnly = true;
+            }
+            catch (Exception)
+            {
+                if (!documentId.Equals("new"))
+                    StatusLabel.Content = "La conferma di vendita " + documentId + " non è stata trovata.";
+            }
         }
 
         private void SetPropertiesBindings()

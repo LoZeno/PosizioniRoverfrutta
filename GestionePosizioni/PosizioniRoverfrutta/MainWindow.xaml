@@ -18,7 +18,7 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Padding="5" Margin="3" Grid.Column="0">
+                        <Button Name="SaleConfirmSearchButton" Padding="5" Margin="3" Grid.Column="0" Click="SaleConfirmSearchButton_OnClick">
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Conferme di Vendita</TextBlock>
                         </Button>
                         <Button Padding="5" Margin="3" Grid.Column="1">

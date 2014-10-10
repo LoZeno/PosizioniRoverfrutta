@@ -37,21 +37,21 @@ namespace PosizioniRoverfrutta.Windows
                 return;
             }
             var key = String.Format("{0}_{1}", windowType, documentId);
-            ManageWindows(key, _windowClasses[windowType]);
+            ManageWindows(key, _windowClasses[windowType], documentId);
         }
 
-        private void ManageWindows(string windowName, Type windowType)
+        private void ManageWindows(string windowName, Type windowType, string documentId)
         {
             if (!WindowIsAlreadyOpen(windowName))
             {
                 //caricare il viewmodel corrispondente?
-                InstantiateNewWindow(windowName, windowType);
+                InstantiateNewWindow(windowName, windowType, documentId);
             }
         }
 
-        private void InstantiateNewWindow(string key, Type windowType)
+        private void InstantiateNewWindow(string key, Type windowType, string documentId)
         {
-            var window = (Window)Activator.CreateInstance(windowType, _dataStorage);
+            var window = (Window)Activator.CreateInstance(windowType, _dataStorage, documentId);
             window.Name = key;
             window.Closed += window_Closed;
             _windows.Add(window.Name, window);
