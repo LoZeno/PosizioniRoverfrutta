@@ -16,14 +16,15 @@ namespace PosizioniRoverfrutta.Services
 
         public IEnumerable<string> GetItems(string textPattern)
         {
+            IEnumerable<string> results = null;
             if (textPattern.Length > 3)
             {
                 using (var session = _dataStorage.CreateSession())
                 {
-                    return session.FindByPartialName<T>(textPattern).Take(30).Select(c => c.CompanyName).OrderBy(x => x);
+                    results = session.FindByPartialName<T>(textPattern).Take(30).Select(c => c.CompanyName).OrderBy(x => x);
                 }
             }
-            return new List<string>();
+            return results ?? new List<string>();
         }
 
         private readonly IDataStorage _dataStorage;
