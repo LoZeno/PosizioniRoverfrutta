@@ -26,5 +26,10 @@ namespace PosizioniRoverfrutta
             var documentId = SearchTextBox.Text.Trim();
             _windowsManager.InstantiateWindow(documentId, WindowTypes.ConfermaVendita);
         }
+
+        private void ListAllDocumentsButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _windowsManager.InstantiateWindow("", WindowTypes.ElencoPosizioni);
+        }
     }
 }

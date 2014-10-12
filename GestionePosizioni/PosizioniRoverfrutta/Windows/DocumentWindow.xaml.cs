@@ -70,20 +70,23 @@ namespace PosizioniRoverfrutta.Windows
 
         private void AddCompanyDetailsControls(IDataStorage dataStorage, SaleConfirmationViewModel viewModel)
         {
-            var customerDetailsControl = new CompanyDetails(dataStorage, viewModel.CustomerControlViewModel);
+            var customerDetailsControl = new CompanyDetails(dataStorage, viewModel.CompanyControlViewModel);
             customerDetailsControl.TitleBlock.Text = "Cliente";
-            AddControlToGrid(customerDetailsControl, 0, 1);
+            AddControlToGrid(customerDetailsControl, 0);
 
             var providerDetailsControl = new CompanyDetails(dataStorage, viewModel.ProviderControlViewModel);
             providerDetailsControl.TitleBlock.Text = "Fornitore";
-            AddControlToGrid(providerDetailsControl, 1, 1);
+            AddControlToGrid(providerDetailsControl, 1);
+
+            var transporterDetailsControl = new TransporterDetails(dataStorage, viewModel.TransporterControlViewModel);
+            transporterDetailsControl.TitleBlock.Text = "Trasportatore";
+            AddControlToGrid(transporterDetailsControl, 2);
         }
 
-        private void AddControlToGrid(CompanyDetails control, int column, int row)
+        private void AddControlToGrid(UserControl control, int column)
         {
             Grid.SetColumn(control, column);
-            Grid.SetRow(control, row);
-            ContentGrid.Children.Add(control);
+            CompaniesGrid.Children.Add(control);
         }
 
         private void SetSaveButtonBindings(SaleConfirmationViewModel viewModel)

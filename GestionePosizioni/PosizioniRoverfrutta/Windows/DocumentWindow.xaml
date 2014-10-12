@@ -24,12 +24,6 @@
             </StackPanel>
             <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <Grid Name="ContentGrid">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
                         <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
@@ -38,10 +32,17 @@
                         <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
                         <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <StackPanel Name="TitlePanel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <StackPanel Name="TitlePanel" Grid.Row="0" Orientation="Horizontal">
                         <Label Name="TitleLabel" FontWeight="Bold" FontStyle="Italic" FontSize="20">CONFERMA DI VENDITA N°</Label>
                         <TextBox Name="IdBox" MinWidth="50" Width="100" TextAlignment="Left" FontSize="20"></TextBox>
                     </StackPanel>
+                    <Grid Grid.Row="1" Name="CompaniesGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
                 </Grid>
             </ScrollViewer>
         </DockPanel>

@@ -83,6 +83,7 @@ namespace PosizioniRoverfrutta.Windows
     {
         ConfermaVendita,
         DistintaCarico,
-        ConfermaPrezzi
+        ConfermaPrezzi,
+        ElencoPosizioni
     }
 }

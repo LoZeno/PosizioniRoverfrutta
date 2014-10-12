@@ -16,9 +16,9 @@ namespace PosizioniRoverfrutta.ViewModels
         public SaleConfirmationViewModel(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
-            CustomerControlViewModel = new CustomerControlViewModel(_dataStorage);
-            ProviderControlViewModel = new CustomerControlViewModel(_dataStorage);
-            //inizializzare viewmodel del trasportatore
+            CompanyControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
+            ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
+            TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
             //viewmodel dei prodotti
             //model del documento vero e proprio
             SaleConfirmation = new SaleConfirmation();
@@ -49,8 +49,9 @@ namespace PosizioniRoverfrutta.ViewModels
                 saleConfirmation = new SaleConfirmation();
             }
             SaleConfirmation = saleConfirmation;
-            CustomerControlViewModel.Customer = SaleConfirmation.Customer;
-            ProviderControlViewModel.Customer = SaleConfirmation.Provider;
+            CompanyControlViewModel.Company = SaleConfirmation.Customer;
+            ProviderControlViewModel.Company = SaleConfirmation.Provider;
+            TransporterControlViewModel.Company = SaleConfirmation.Transporter;
             Status = "Documento numero " + SaleConfirmation.Id + " caricato correttamente";
         }
 
@@ -64,9 +65,11 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public CustomerControlViewModel CustomerControlViewModel { get; private set; }
+        public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
-        public CustomerControlViewModel ProviderControlViewModel { get; private set; }
+        public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
+
+        public CompanyControlViewModel<Transporter> TransporterControlViewModel { get; private set; }
 
         public ObservableCollection<ProductRowViewModel> ProductDetails { get; private set; }
 
@@ -89,14 +92,16 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     SaleConfirmation.ProductDetails.Add(productRowViewModel.ProductDetails);
                 }
-                SaleConfirmation.Customer = CustomerControlViewModel.Customer;
-                SaleConfirmation.Provider = ProviderControlViewModel.Customer;
+                SaleConfirmation.Customer = CompanyControlViewModel.Company;
+                SaleConfirmation.Provider = ProviderControlViewModel.Company;
+                SaleConfirmation.Transporter = TransporterControlViewModel.Company;
                 try
                 {
                     using (var session = _dataStorage.CreateSession())
                     {
-                        session.Store(CustomerControlViewModel.Customer);
-                        session.Store(ProviderControlViewModel.Customer);
+                        session.Store(CompanyControlViewModel.Company);
+                        session.Store(ProviderControlViewModel.Company);
+                        session.Store(TransporterControlViewModel.Company);
                         session.Store(SaleConfirmation);
                         session.SaveChanges();
                     }

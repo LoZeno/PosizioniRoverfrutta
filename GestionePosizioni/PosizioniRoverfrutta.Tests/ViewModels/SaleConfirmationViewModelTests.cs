@@ -49,7 +49,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _mainViewModel.Id = _documentId;
 
             Assert.That(_mainViewModel.SaleConfirmation.Customer.Id, Is.EqualTo(_customerId));
-            Assert.That(_mainViewModel.CustomerControlViewModel.Id, Is.EqualTo(_customerId));
+            Assert.That(_mainViewModel.CompanyControlViewModel.Id, Is.EqualTo(_customerId));
 
             Assert.That(_mainViewModel.SaleConfirmation.Provider.Id, Is.EqualTo(_providerId));
             Assert.That(_mainViewModel.ProviderControlViewModel.Id, Is.EqualTo(_providerId));

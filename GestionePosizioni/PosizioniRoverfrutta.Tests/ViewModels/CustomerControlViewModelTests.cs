@@ -14,7 +14,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
-            _viewModel = new CustomerControlViewModel(_dataStorage);
+            _viewModel = new CompanyControlViewModel<Customer>(_dataStorage);
 
             CreateBasicData();
         }
@@ -32,16 +32,16 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_initialized_returns_a_new_customer_objects()
         {
-            Assert.That(_viewModel.Customer, Is.Not.Null);
+            Assert.That(_viewModel.Company, Is.Not.Null);
         }
 
         [Test]
         public void when_writing_a_new_company_name_it_creates_a_new_company()
         {
             _viewModel.CompanyName = "Nuovo Cliente";
-            Assert.That(_viewModel.Customer.Id, Is.EqualTo(null));
-            Assert.That(_viewModel.Customer.CompanyName, Is.EqualTo("Nuovo Cliente"));
-            Assert.That(_viewModel.Customer.VatCode, Is.EqualTo(null));
+            Assert.That(_viewModel.Company.Id, Is.EqualTo(null));
+            Assert.That(_viewModel.Company.CompanyName, Is.EqualTo("Nuovo Cliente"));
+            Assert.That(_viewModel.Company.VatCode, Is.EqualTo(null));
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             }
         }
 
-        private CustomerControlViewModel _viewModel;
+        private CompanyControlViewModel<Customer> _viewModel;
 
         private IDataStorage _dataStorage;
         private string _customerId;

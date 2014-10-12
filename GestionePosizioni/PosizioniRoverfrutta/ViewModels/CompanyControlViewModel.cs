@@ -7,20 +7,21 @@ using QueryManager;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
-    public class CustomerControlViewModel : INotifyPropertyChanged
+    public class CompanyControlViewModel<T> : INotifyPropertyChanged where T : CompanyBase, new()
     {
-        public CustomerControlViewModel(IDataStorage dataStorage)
+        public CompanyControlViewModel(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
-            _customer = new Customer();
+            _company = new T();
+            _objectName = typeof(T).Name;
         }
 
-        public Customer Customer
+        public T Company
         {
-            get { return _customer; }
+            get { return _company; }
             set
             {
-                _customer = value;
+                _company = value;
                 OnPropertyChanged();
                 OnPropertyChanged("Id");
                 OnPropertyChanged("CompanyName");
@@ -35,28 +36,28 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Id
         {
-            get { return Customer.Id; }
+            get { return Company.Id; }
             set
             {
-                Customer.Id = value;
+                Company.Id = value;
                 OnPropertyChanged();
             }
         }
 
         public string CompanyName
         {
-            get { return Customer.CompanyName; }
+            get { return Company.CompanyName; }
             set {
-                Customer = LoadCustomerByName(value);
+                Company = LoadCustomerByName(value);
             }
         }
 
-        private Customer LoadCustomerByName(string companyName)
+        private T LoadCustomerByName(string companyName)
         {
             using (var session = _dataStorage.CreateSession())
             {
-                var customer = session.Query<Customer>("Customer/ByCompanyName").FirstOrDefault(c => c.CompanyName.Equals(companyName));
-                return customer ?? new Customer
+                var customer = session.Query<T>(_objectName + "/ByCompanyName").FirstOrDefault(c => c.CompanyName.Equals(companyName));
+                return customer ?? new T
                 {
                     CompanyName = companyName
                 };
@@ -65,60 +66,60 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Address
         {
-            get { return Customer.Address; }
+            get { return Company.Address; }
             set
             {
-                Customer.Address = value; 
+                Company.Address = value; 
                 OnPropertyChanged();
             }
         }
 
         public string City
         {
-            get { return Customer.City; }
+            get { return Company.City; }
             set
             {
-                Customer.City = value;
+                Company.City = value;
                 OnPropertyChanged();
             }
         }
 
         public string StateOrProvince
         {
-            get { return Customer.StateOrProvince; }
+            get { return Company.StateOrProvince; }
             set
             {
-                Customer.StateOrProvince = value;
+                Company.StateOrProvince = value;
                 OnPropertyChanged();
             }
         }
 
         public string PostCode
         {
-            get { return Customer.PostCode; }
+            get { return Company.PostCode; }
             set
             {
-                Customer.PostCode = value;
+                Company.PostCode = value;
                 OnPropertyChanged();
             }
         }
 
         public string Country
         {
-            get { return Customer.Country; }
+            get { return Company.Country; }
             set
             {
-                Customer.Country = value;
+                Company.Country = value;
                 OnPropertyChanged();
             }
         }
 
         public string VatCode
         {
-            get { return Customer.VatCode; }
+            get { return Company.VatCode; }
             set
             {
-                Customer.VatCode = value;
+                Company.VatCode = value;
                 OnPropertyChanged();
             }
         }
@@ -132,7 +133,8 @@ namespace PosizioniRoverfrutta.ViewModels
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private Customer _customer;
+        private T _company;
         private readonly IDataStorage _dataStorage;
+        private readonly string _objectName;
     }
 }

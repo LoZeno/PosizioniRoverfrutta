@@ -1,16 +1,16 @@
-﻿<UserControl x:Class="PosizioniRoverfrutta.CustomControls.CompanyDetails"
+﻿<UserControl x:Class="PosizioniRoverfrutta.CustomControls.TransporterDetails"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
              xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
-             mc:Ignorable="d" 
+             xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+             mc:Ignorable="d"
              MinHeight="150"
              MinWidth="100"
              BorderBrush="Black"
              BorderThickness="5"
-             d:DesignHeight="200" d:DesignWidth="200">
+             d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
 
@@ -29,7 +29,6 @@
     </UserControl.Resources>
 
     <Grid Margin="10,5,10,5" MaxWidth="300">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="1.5*"></RowDefinition>
@@ -41,7 +40,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Name="TitleBlock" Grid.Row="0" FontSize="14" FontWeight="Bold" TextAlignment="Left">Cliente</TextBlock>
+        <TextBlock Name="TitleBlock" Grid.Row="0" FontSize="14" FontWeight="Bold" TextAlignment="Left">Trasportatore</TextBlock>
 
         <Grid Grid.Row="1" Style="{StaticResource EntryFieldStyle}">
             <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}"
@@ -74,7 +73,7 @@
                 <TextBox Name="City" Background="Transparent"/>
             </AdornerDecorator>
         </Grid>
-        
+
         <Grid Grid.Row="5" Style="{StaticResource EntryFieldStyle}">
             <TextBlock Text="Provincia" Foreground="{StaticResource brushWatermarkForeground}"
                        Visibility="{Binding ElementName=County, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />

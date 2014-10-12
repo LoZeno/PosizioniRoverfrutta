@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Models;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;
 
@@ -16,7 +17,7 @@ namespace PosizioniRoverfrutta.Controls
 
         public CompanyData(IDataStorage dataStorage)
         {
-            DataContext = new CustomerControlViewModel(dataStorage);
+            DataContext = new CompanyControlViewModel<Customer>(dataStorage);
         }
     }
 }

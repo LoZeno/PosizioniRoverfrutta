@@ -28,6 +28,7 @@ namespace PosizioniRoverfrutta
         {
             _windowManager = new WindowManager(DataStorage);
             _windowManager.RegisterWindowClass(WindowTypes.ConfermaVendita, typeof(DocumentWindow));
+            _windowManager.RegisterWindowClass(WindowTypes.ElencoPosizioni, typeof(ListPositions));
         }
 
         private void ShowMainWindow()

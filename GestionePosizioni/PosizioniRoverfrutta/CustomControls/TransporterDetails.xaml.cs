@@ -10,19 +10,19 @@ using QueryManager;
 namespace PosizioniRoverfrutta.CustomControls
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for TransporterDetails.xaml
     /// </summary>
-    public partial class CompanyDetails : UserControl
+    public partial class TransporterDetails : UserControl
     {
-        public CompanyDetails()
+        public TransporterDetails()
         {
             InitializeComponent();
         }
 
-        public CompanyDetails(IDataStorage dataStorage, CompanyControlViewModel<Customer> viewModel)
+        public TransporterDetails(IDataStorage dataStorage, CompanyControlViewModel<Transporter> viewModel)
             : this()
         {
-            var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
+            var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Transporter>(dataStorage);
             CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
             CompanyNameBox.AutoCompleteManager.Asynchronous = true;
             DataContext = viewModel;
@@ -61,12 +61,12 @@ namespace PosizioniRoverfrutta.CustomControls
         }
 
         public static readonly DependencyProperty SelectedCompanyProperty =
-            AutoCompleteTextBox.SelectedItemProperty.AddOwner(typeof(CompanyDetails),
+            AutoCompleteTextBox.SelectedItemProperty.AddOwner(typeof(TransporterDetails),
                 new FrameworkPropertyMetadata(SelectedCompanyPropertyChanged));
 
         private static void SelectedCompanyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var cd = obj as CompanyDetails;
+            var cd = obj as TransporterDetails;
             cd.CompanyNameBox.SelectedItem = e.NewValue;
         }
     }
