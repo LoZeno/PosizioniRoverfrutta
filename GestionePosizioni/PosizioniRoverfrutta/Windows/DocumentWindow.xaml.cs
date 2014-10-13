@@ -85,16 +85,16 @@ namespace PosizioniRoverfrutta.Windows
             var packagesColumn = BuildNumericColumn("Colli", "Packages");
             ProductsGrid.Columns.Add(packagesColumn);
 
-            var grossWeightColumn = BuildNumericColumn("Lordo KG", "GrossWeight");
+            var grossWeightColumn = BuildDecimalColumn("Lordo KG", "GrossWeight");
             ProductsGrid.Columns.Add(grossWeightColumn);
 
-            var netWeightColumn = BuildNumericColumn("Netto KG", "NetWeight");
+            var netWeightColumn = BuildDecimalColumn("Netto KG", "NetWeight");
             ProductsGrid.Columns.Add(netWeightColumn);
 
-            var parameterColumn = BuildNumericColumn("Parametro", "PriceParameter");
+            var parameterColumn = BuildDecimalColumn("Parametro", "PriceParameter");
             ProductsGrid.Columns.Add(parameterColumn);
 
-            var priceColumn = BuildNumericColumn("Prezzo", "Price");
+            var priceColumn = BuildDecimalColumn("Prezzo", "Price");
             ProductsGrid.Columns.Add(priceColumn);
 
             var currencyColumn = BuildCurrenciesDataGridColumn();
@@ -187,6 +187,20 @@ namespace PosizioniRoverfrutta.Windows
         private static DataGridNumericColumn BuildNumericColumn(string header, string propertyName)
         {
             return new DataGridNumericColumn
+            {
+                Header = header,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+        }
+
+        private static DataGridDecimalColumn BuildDecimalColumn(string header, string propertyName)
+        {
+            return new DataGridDecimalColumn
             {
                 Header = header,
                 Binding = new Binding(propertyName)

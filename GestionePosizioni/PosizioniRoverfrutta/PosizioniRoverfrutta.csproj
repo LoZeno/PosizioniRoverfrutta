@@ -119,6 +119,7 @@
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\CurrenciesAutocompleteBoxWrapper.cs" />
+    <Compile Include="CustomControls\DataGridColumns\DataGridDecimalColumn.cs" />
     <Compile Include="CustomControls\DataGridColumns\DataGridNumericColumn.cs" />
     <Compile Include="CustomControls\ProductDescriptionAutocompleteBoxWrapper.cs" />
     <Compile Include="CustomControls\TransporterDetails.xaml.cs">
