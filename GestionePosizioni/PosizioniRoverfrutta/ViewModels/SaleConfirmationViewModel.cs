@@ -141,8 +141,8 @@ namespace PosizioniRoverfrutta.ViewModels
                     };
                     session.Store(productDescription);
                 }
-                productDetails.ProductId = productDescription.ProductId;
-                savedProductIds.Add(productDescription.ProductId);
+                productDetails.ProductId = productDescription.Id;
+                savedProductIds.Add(productDescription.Id);
             }
             if (!string.IsNullOrWhiteSpace(productDetails.Currency) && !savedCurrencies.Contains(productDetails.Currency.ToLowerInvariant()))
             {
