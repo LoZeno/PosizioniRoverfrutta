@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using PosizioniRoverfrutta.CustomControls;
+using PosizioniRoverfrutta.CustomControls.DataGridColumns;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;
 
@@ -18,17 +19,32 @@ namespace PosizioniRoverfrutta.Windows
         public DocumentWindow(IDataStorage dataStorage) : base(dataStorage)
         {
             InitializeComponent();
+
             var viewModel = new SaleConfirmationViewModel(dataStorage);
 
+            BuildDataGridColumns();
+            
+            SetDataGridBinding(viewModel);
+            
             AddCompanyDetailsControls(dataStorage, viewModel);
 
             DataContext = viewModel;
 
             SetPropertiesBindings();
-
+            
             SetSaveButtonBindings(viewModel);
 
             SetStatusBinding();
+        }
+
+        private void SetDataGridBinding(SaleConfirmationViewModel viewModel)
+        {
+            ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("ProductDetails"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            });
         }
 
         public DocumentWindow(IDataStorage dataStorage, string documentId) : this (dataStorage)
@@ -44,6 +60,157 @@ namespace PosizioniRoverfrutta.Windows
                 if (!documentId.Equals("new"))
                     StatusLabel.Content = "La conferma di vendita " + documentId + " non è stata trovata.";
             }
+        }
+
+        private void BuildDataGridColumns()
+        {
+            var descriptionColumn = BuildAutocompleteBoxDataGridColumn();
+            ProductsGrid.Columns.Add(descriptionColumn);
+
+            var hiddenColumn = new DataGridTextColumn
+            {
+                Header = "Id Prodotto",
+                Visibility = Visibility.Hidden,
+                Binding = new Binding("ProductId")
+                {
+                    Mode = BindingMode.Default,
+                    UpdateSourceTrigger = UpdateSourceTrigger.Default
+                }
+            };
+            ProductsGrid.Columns.Add(hiddenColumn);
+
+            var palletsColumn = BuildNumericColumn("Pallets", "Pallets");
+            ProductsGrid.Columns.Add(palletsColumn);
+
+            var packagesColumn = BuildNumericColumn("Colli", "Packages");
+            ProductsGrid.Columns.Add(packagesColumn);
+
+            var grossWeightColumn = BuildNumericColumn("Lordo KG", "GrossWeight");
+            ProductsGrid.Columns.Add(grossWeightColumn);
+
+            var netWeightColumn = BuildNumericColumn("Netto KG", "NetWeight");
+            ProductsGrid.Columns.Add(netWeightColumn);
+
+            var parameterColumn = BuildNumericColumn("Parametro", "PriceParameter");
+            ProductsGrid.Columns.Add(parameterColumn);
+
+            var priceColumn = BuildNumericColumn("Prezzo", "Price");
+            ProductsGrid.Columns.Add(priceColumn);
+
+            var currencyColumn = BuildCurrenciesDataGridColumn();
+            ProductsGrid.Columns.Add(currencyColumn);
+
+            var totalPrice = BuildReadOnlyTextColumn("Importo", "TotalPrice");
+            ProductsGrid.Columns.Add(totalPrice);
+        }
+
+        private DataGridTemplateColumn BuildAutocompleteBoxDataGridColumn()
+        {
+            // Create The Column
+            var templateColumn = new DataGridTemplateColumn
+            {
+                Header = "Prodotto",
+                Width = new DataGridLength(3, DataGridLengthUnitType.Star)
+            };
+
+            var binding = new Binding("Description")
+            {
+                Mode = BindingMode.OneWay
+            };
+
+            // Create the TextBlock
+            var textFactory = new FrameworkElementFactory(typeof(TextBlock));
+            textFactory.SetBinding(TextBlock.TextProperty, binding);
+            var textTemplate = new DataTemplate();
+            textTemplate.VisualTree = textFactory;
+
+            // Create the ComboBox
+            var autocompleteBinding = new Binding("Description")
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.Default
+            };
+
+            var autocompleteBoxFactory = new FrameworkElementFactory(typeof(ProductDescriptionAutocompleteBoxWrapper));
+            autocompleteBoxFactory.SetBinding(ProductDescriptionAutocompleteBoxWrapper.TextProperty, autocompleteBinding);
+
+            var autocompleteTemplate = new DataTemplate();
+            autocompleteTemplate.VisualTree = autocompleteBoxFactory;
+
+            // Set the Templates to the Column
+            templateColumn.CellTemplate = textTemplate;
+            templateColumn.CellEditingTemplate = autocompleteTemplate;
+
+            return templateColumn;
+        }
+
+        private DataGridTemplateColumn BuildCurrenciesDataGridColumn()
+        {
+            // Create The Column
+            var templateColumn = new DataGridTemplateColumn
+            {
+                Header = "Valuta",
+                Width = new DataGridLength(3, DataGridLengthUnitType.Star)
+            };
+
+            var binding = new Binding("Currency")
+            {
+                Mode = BindingMode.OneWay
+            };
+
+            // Create the TextBlock
+            var textFactory = new FrameworkElementFactory(typeof(TextBlock));
+            textFactory.SetBinding(TextBlock.TextProperty, binding);
+            var textTemplate = new DataTemplate();
+            textTemplate.VisualTree = textFactory;
+
+            // Create the ComboBox
+            var autocompleteBinding = new Binding("Currency")
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.Default
+            };
+
+            var autocompleteBoxFactory = new FrameworkElementFactory(typeof(CurrenciesAutocompleteBoxWrapper));
+            autocompleteBoxFactory.SetBinding(CurrenciesAutocompleteBoxWrapper.TextProperty, autocompleteBinding);
+
+            var autocompleteTemplate = new DataTemplate();
+            autocompleteTemplate.VisualTree = autocompleteBoxFactory;
+
+            // Set the Templates to the Column
+            templateColumn.CellTemplate = textTemplate;
+            templateColumn.CellEditingTemplate = autocompleteTemplate;
+
+            return templateColumn;
+        }
+
+        private static DataGridNumericColumn BuildNumericColumn(string header, string propertyName)
+        {
+            return new DataGridNumericColumn
+            {
+                Header = header,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+        }
+
+        private static DataGridTextColumn BuildReadOnlyTextColumn(string header, string propertyName)
+        {
+            return new DataGridTextColumn
+            {
+                Header = header,
+                IsReadOnly = true,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.Default,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                },
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
         }
 
         private void SetPropertiesBindings()

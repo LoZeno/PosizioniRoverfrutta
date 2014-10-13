@@ -43,6 +43,10 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                     </Grid>
+                    
+                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True">
+                        
+                    </DataGrid>
                 </Grid>
             </ScrollViewer>
         </DockPanel>

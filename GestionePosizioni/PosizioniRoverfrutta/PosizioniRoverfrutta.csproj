@@ -118,11 +118,15 @@
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\CurrenciesAutocompleteBoxWrapper.cs" />
+    <Compile Include="CustomControls\DataGridColumns\DataGridNumericColumn.cs" />
+    <Compile Include="CustomControls\ProductDescriptionAutocompleteBoxWrapper.cs" />
     <Compile Include="CustomControls\TransporterDetails.xaml.cs">
       <DependentUpon>TransporterDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\XamlWatermarkAdorner\TextInputToVisibilityConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Services\CurrenciesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerNamesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\ProductNamesAutoCompleteBoxProvider.cs" />

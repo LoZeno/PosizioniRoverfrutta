@@ -12,9 +12,10 @@ namespace PosizioniRoverfrutta.ViewModels
         public ProductRowViewModel(ProductDetails productDetails)
         {
             ProductDetails = productDetails;
+            UpdateTotalPrice();
         }
 
-        public int ProductId 
+        public int? ProductId 
         {
             get { return ProductDetails.ProductId; }
             set { ProductDetails.ProductId = value; } 
@@ -44,10 +45,20 @@ namespace PosizioniRoverfrutta.ViewModels
             set { ProductDetails.GrossWeight = value; }
         }
 
+        public decimal NetWeight
+        {
+            get { return ProductDetails.NetWeight; }
+            set { ProductDetails.NetWeight = value; }
+        }
+
         public decimal Price
         {
             get { return ProductDetails.Price; }
-            set { ProductDetails.Price = value; }
+            set
+            {
+                ProductDetails.Price = value;
+                UpdateTotalPrice();
+            }
         }
 
         public string Currency
@@ -59,7 +70,18 @@ namespace PosizioniRoverfrutta.ViewModels
         public decimal PriceParameter
         {
             get { return ProductDetails.PriceParameter; }
-            set { ProductDetails.PriceParameter = value; }
+            set
+            {
+                ProductDetails.PriceParameter = value;
+                UpdateTotalPrice();
+            }
+        }
+
+        public decimal TotalPrice { get; set; }
+
+        private void UpdateTotalPrice()
+        {
+            TotalPrice = Price * PriceParameter;
         }
 
         public ProductDetails ProductDetails { get; set; }
