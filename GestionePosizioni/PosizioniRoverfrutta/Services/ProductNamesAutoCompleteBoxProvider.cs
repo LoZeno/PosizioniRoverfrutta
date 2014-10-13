@@ -23,7 +23,7 @@ namespace PosizioniRoverfrutta.Services
                 using (var session = _dataStorage.CreateSession())
                 {
                     results = session.Query<ProductDescription>()
-                        .Where(p => p.Description.StartsWith(textPattern, StringComparison.OrdinalIgnoreCase))
+                        .Where(p => p.Description.StartsWith(textPattern, StringComparison.CurrentCultureIgnoreCase))
                         .OrderBy(p => p.Description)
                         .Take(10)
                         .Select(p => p.Description);

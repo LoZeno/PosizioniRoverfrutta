@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -150,7 +151,7 @@ namespace PosizioniRoverfrutta.Windows
             var templateColumn = new DataGridTemplateColumn
             {
                 Header = "Valuta",
-                Width = new DataGridLength(3, DataGridLengthUnitType.Star)
+                Width = new DataGridLength(1.5, DataGridLengthUnitType.Star)
             };
 
             var binding = new Binding("Currency")
@@ -206,7 +207,9 @@ namespace PosizioniRoverfrutta.Windows
                 Binding = new Binding(propertyName)
                 {
                     Mode = BindingMode.TwoWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    StringFormat = "F2",
+                    ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
             };
@@ -221,7 +224,9 @@ namespace PosizioniRoverfrutta.Windows
                 Binding = new Binding(propertyName)
                 {
                     Mode = BindingMode.Default,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    StringFormat = "F2",
+                    ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
             };
@@ -235,6 +240,13 @@ namespace PosizioniRoverfrutta.Windows
                 Mode = BindingMode.TwoWay
             };
             IdBox.SetBinding(TextBox.TextProperty, idBinding);
+
+            var dateBinding = new Binding("DocumentDate")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            DocumentDateControl.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
         }
 
         private void SetStatusBinding()

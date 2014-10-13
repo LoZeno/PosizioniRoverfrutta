@@ -35,6 +35,17 @@ namespace PosizioniRoverfrutta.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged("SaleConfirmation");
+                OnPropertyChanged("DocumentDate");
+            }
+        }
+
+        public DateTime? DocumentDate
+        {
+            get { return SaleConfirmation.DocumentDate; }
+            set
+            {
+                SaleConfirmation.DocumentDate = value;
+                OnPropertyChanged();
             }
         }
 

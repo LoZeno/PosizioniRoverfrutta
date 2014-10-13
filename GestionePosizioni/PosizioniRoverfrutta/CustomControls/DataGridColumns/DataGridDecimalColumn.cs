@@ -17,7 +17,7 @@ namespace PosizioniRoverfrutta.CustomControls.DataGridColumns
         {
             try
             {
-                Convert.ToDecimal(e.Text);
+                Convert.ToDouble(e.Text);
             }
             catch
             {

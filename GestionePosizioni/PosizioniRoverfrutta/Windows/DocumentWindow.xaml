@@ -32,10 +32,14 @@
                         <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
                         <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
                     </Grid.RowDefinitions>
+                    
                     <StackPanel Name="TitlePanel" Grid.Row="0" Orientation="Horizontal">
                         <Label Name="TitleLabel" FontWeight="Bold" FontStyle="Italic" FontSize="20">CONFERMA DI VENDITA N°</Label>
                         <TextBox Name="IdBox" MinWidth="50" Width="100" TextAlignment="Left" FontSize="20"></TextBox>
+                        <Separator MinWidth="50"></Separator>
+                        <DatePicker Name="DocumentDateControl" SelectedDateFormat="Short" FirstDayOfWeek="Monday"></DatePicker>
                     </StackPanel>
+                    
                     <Grid Grid.Row="1" Name="CompaniesGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>

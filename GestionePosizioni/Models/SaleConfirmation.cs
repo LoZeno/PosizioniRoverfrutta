@@ -11,12 +11,14 @@ namespace Models
             Provider = new Customer();
             Customer = new Customer();
             Transporter = new Transporter();
+            DocumentDate = DateTime.Today;
         }
 
         public int Id { get; set; }
         public Customer Customer { get; set; }
         public Customer Provider { get; set; }
         public Transporter Transporter { get; set; }
+        public DateTime? DocumentDate { get; set; }
         public DateTime? ShippingDate { get; set; }
         public DateTime? DeliveryDate { get; set; }
         public string TruckLicensePlate { get; set; }
