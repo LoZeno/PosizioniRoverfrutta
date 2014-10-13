@@ -127,6 +127,13 @@ namespace PosizioniRoverfrutta.ViewModels
         private void UpdateProductDescriptionsAndCurrencies(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds, List<string> savedCurrencies)
         {
             SaleConfirmation.ProductDetails.Add(productDetails);
+            CheckIfProductDescriptionIsNew(productDetails, session, savedProductIds);
+            CheckIfCurrencyIsNew(productDetails.Currency, session, savedCurrencies);
+        }
+
+        private static void CheckIfProductDescriptionIsNew(ProductDetails productDetails, IDocumentSession session,
+            List<int?> savedProductIds)
+        {
             if (!productDetails.ProductId.HasValue || !savedProductIds.Contains(productDetails.ProductId))
             {
                 var productDescription =
@@ -144,16 +151,21 @@ namespace PosizioniRoverfrutta.ViewModels
                 productDetails.ProductId = productDescription.Id;
                 savedProductIds.Add(productDescription.Id);
             }
-            if (!string.IsNullOrWhiteSpace(productDetails.Currency) && !savedCurrencies.Contains(productDetails.Currency.ToLowerInvariant()))
+        }
+
+        private static void CheckIfCurrencyIsNew(string currencyUsed, IDocumentSession session, List<string> savedCurrencies)
+        {
+            if (!string.IsNullOrWhiteSpace(currencyUsed) &&
+                !savedCurrencies.Contains(currencyUsed.ToLowerInvariant()))
             {
                 var currency =
                     session.Query<Currency>()
-                        .FirstOrDefault(p => p.Name.Equals(productDetails.Currency, StringComparison.CurrentCultureIgnoreCase));
+                        .FirstOrDefault(p => p.Name.Equals(currencyUsed, StringComparison.CurrentCultureIgnoreCase));
                 if (currency == null)
                 {
                     currency = new Currency
                     {
-                        Name = productDetails.Currency
+                        Name = currencyUsed
                     };
                     session.Store(currency);
                 }
