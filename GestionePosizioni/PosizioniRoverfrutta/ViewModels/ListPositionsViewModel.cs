@@ -21,8 +21,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 using (var session = _dataStorage.CreateSession())
                 {
-                    var positions = session.Query<SaleConfirmation>().Customize(cr => cr.WaitForNonStaleResults()).Take(100).ToList();
-                    return positions.Select<SaleConfirmation, int>(s => s.Id);
+                    return session.Query<SaleConfirmation>().Customize(cr => cr.WaitForNonStaleResults()).ToList().OrderBy(sc => sc.Id).Select(s => s.Id);
                 }
             }
         }
