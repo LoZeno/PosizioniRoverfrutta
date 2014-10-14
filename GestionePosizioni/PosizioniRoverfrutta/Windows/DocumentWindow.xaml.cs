@@ -248,43 +248,26 @@ namespace PosizioniRoverfrutta.Windows
             };
             DocumentDateControl.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
 
-            var totalPalletsBinding = new Binding("TotalPallets")
+            SetBindingsForTotals("TotalPallets", TotalPalletsText);
+
+            SetBindingsForTotals("TotalPackages", TotalPackagesText);
+
+            SetBindingsForTotals("TotalGross", TotalGrossText);
+
+            SetBindingsForTotals("TotalNet", TotalNetText);
+
+            SetBindingsForTotals("TotalAmount", TotalAmountText);
+        }
+
+        private static void SetBindingsForTotals(string propertyName, TextBlock textBlock)
+        {
+            var totalsBinding = new Binding(propertyName)
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.OneWay
             };
-            TotalPalletsText.SetBinding(TextBlock.TextProperty, totalPalletsBinding);
 
-            var totalPackagesBinding = new Binding("TotalPackages")
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay
-            };
-            TotalPackagesText.SetBinding(TextBlock.TextProperty, totalPackagesBinding);
-
-            var totalGrossBinding = new Binding("TotalGross")
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "F2"
-            };
-            TotalGrossText.SetBinding(TextBlock.TextProperty, totalGrossBinding);
-
-            var totalNetBinding = new Binding("TotalNet")
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "F2"
-            };
-            TotalNetText.SetBinding(TextBlock.TextProperty, totalNetBinding);
-
-            var totalAmountBinding = new Binding("TotalAmount")
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "F2"
-            };
-            TotalAmountText.SetBinding(TextBlock.TextProperty, totalAmountBinding);
+            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
         }
 
         private void SetStatusBinding()
