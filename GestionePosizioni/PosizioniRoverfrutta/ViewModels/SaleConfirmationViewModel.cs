@@ -24,6 +24,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
             SaleConfirmation = new SaleConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
+            ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
         }
 
         public int Id
@@ -49,27 +50,29 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        private void LoadDocument(int value)
+        public int TotalPallets
         {
-            SaleConfirmation saleConfirmation = null;
-            using (var session = _dataStorage.CreateSession())
-            {
-                saleConfirmation = session.Load<SaleConfirmation>(value);
-            }
-            if (saleConfirmation == null)
-            {
-                saleConfirmation = new SaleConfirmation();
-            }
-            SaleConfirmation = saleConfirmation;
-            CompanyControlViewModel.Company = SaleConfirmation.Customer;
-            ProviderControlViewModel.Company = SaleConfirmation.Provider;
-            TransporterControlViewModel.Company = SaleConfirmation.Transporter;
-            ProductDetails.Clear();
-            foreach (var productDetail in saleConfirmation.ProductDetails)
-            {
-                ProductDetails.Add(new ProductRowViewModel(productDetail));
-            }
-            Status = "Documento numero " + SaleConfirmation.Id + " caricato correttamente";
+            get { return ProductDetails.Sum(p => p.Pallets); }
+        }
+
+        public int TotalPackages
+        {
+            get { return ProductDetails.Sum(p => p.Packages); }
+        }
+
+        public decimal TotalGross
+        {
+            get { return ProductDetails.Sum(p => p.GrossWeight); }
+        }
+
+        public decimal TotalNet
+        {
+            get { return ProductDetails.Sum(p => p.NetWeight); }
+        }
+
+        public decimal TotalAmount
+        {
+            get { return ProductDetails.Sum(p => p.TotalPrice); }
         }
 
         public string Status
@@ -98,6 +101,30 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 return saveAllCommand ?? (saveAllCommand = new DelegateCommand(SaveDocumentAction()));
             }
+        }
+
+        private void LoadDocument(int value)
+        {
+            SaleConfirmation saleConfirmation = null;
+            using (var session = _dataStorage.CreateSession())
+            {
+                saleConfirmation = session.Load<SaleConfirmation>(value);
+            }
+            if (saleConfirmation == null)
+            {
+                saleConfirmation = new SaleConfirmation();
+            }
+            SaleConfirmation = saleConfirmation;
+            CompanyControlViewModel.Company = SaleConfirmation.Customer;
+            ProviderControlViewModel.Company = SaleConfirmation.Provider;
+            TransporterControlViewModel.Company = SaleConfirmation.Transporter;
+            ProductDetails.Clear();
+            foreach (var productDetail in saleConfirmation.ProductDetails)
+            {
+                ProductDetails.Add(new ProductRowViewModel(productDetail));
+            }
+            UpdateTotals();
+            Status = "Documento numero " + SaleConfirmation.Id + " caricato correttamente";
         }
 
         private Action SaveDocumentAction()
@@ -182,6 +209,31 @@ namespace PosizioniRoverfrutta.ViewModels
                 }
                 savedCurrencies.Add(currency.Name.ToLowerInvariant());
             }
+        }
+
+        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (ProductRowViewModel item in e.NewItems)
+                    item.PropertyChanged += item_PropertyChanged;
+
+            if (e.OldItems != null)
+                foreach (ProductRowViewModel item in e.OldItems)
+                    item.PropertyChanged -= item_PropertyChanged;
+        }
+
+        void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateTotals();
+        }
+
+        private void UpdateTotals()
+        {
+            OnPropertyChanged("TotalPallets");
+            OnPropertyChanged("TotalPackages");
+            OnPropertyChanged("TotalGross");
+            OnPropertyChanged("TotalNet");
+            OnPropertyChanged("TotalAmount");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -38,16 +38,6 @@ namespace PosizioniRoverfrutta.Windows
             SetStatusBinding();
         }
 
-        private void SetDataGridBinding(SaleConfirmationViewModel viewModel)
-        {
-            ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("ProductDetails"),
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            });
-        }
-
         public DocumentWindow(IDataStorage dataStorage, string documentId) : this (dataStorage)
         {
             try
@@ -61,6 +51,16 @@ namespace PosizioniRoverfrutta.Windows
                 if (!documentId.Equals("new"))
                     StatusLabel.Content = "La conferma di vendita " + documentId + " non è stata trovata.";
             }
+        }
+
+        private void SetDataGridBinding(SaleConfirmationViewModel viewModel)
+        {
+            ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("ProductDetails"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            });
         }
 
         private void BuildDataGridColumns()
@@ -247,6 +247,44 @@ namespace PosizioniRoverfrutta.Windows
                 Mode = BindingMode.TwoWay
             };
             DocumentDateControl.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
+
+            var totalPalletsBinding = new Binding("TotalPallets")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay
+            };
+            TotalPalletsText.SetBinding(TextBlock.TextProperty, totalPalletsBinding);
+
+            var totalPackagesBinding = new Binding("TotalPackages")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay
+            };
+            TotalPackagesText.SetBinding(TextBlock.TextProperty, totalPackagesBinding);
+
+            var totalGrossBinding = new Binding("TotalGross")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2"
+            };
+            TotalGrossText.SetBinding(TextBlock.TextProperty, totalGrossBinding);
+
+            var totalNetBinding = new Binding("TotalNet")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2"
+            };
+            TotalNetText.SetBinding(TextBlock.TextProperty, totalNetBinding);
+
+            var totalAmountBinding = new Binding("TotalAmount")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2"
+            };
+            TotalAmountText.SetBinding(TextBlock.TextProperty, totalAmountBinding);
         }
 
         private void SetStatusBinding()
