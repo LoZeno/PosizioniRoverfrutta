@@ -30,7 +30,7 @@
                         <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
                         <RowDefinition Name="DetailsFirstRow" Height="1*" MaxHeight="50"></RowDefinition>
                         <RowDefinition Name="DetailsSecondRow" Height="1*" MaxHeight="50"></RowDefinition>
-                        <RowDefinition Name="ProductsRow" Height="5*" MinHeight="200"></RowDefinition>
+                        <RowDefinition Name="ProductsRow" Height="3*" MinHeight="100"></RowDefinition>
                         <RowDefinition Name="ResultsRow" Height="*" MinHeight="40"></RowDefinition>
                     </Grid.RowDefinitions>
                     
