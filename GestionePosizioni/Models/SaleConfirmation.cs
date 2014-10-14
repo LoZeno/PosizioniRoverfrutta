@@ -7,7 +7,7 @@ namespace Models
     {
         public SaleConfirmation()
         {
-            Products = new List<ProductSold>();
+            ProductDetails = new List<ProductDetails>();
             Provider = new Customer();
             Customer = new Customer();
             Transporter = new Transporter();

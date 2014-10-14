@@ -115,6 +115,7 @@
     <Compile Include="Controls\CompanyData.xaml.cs">
       <DependentUpon>CompanyData.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\AssociatedDataGrid\AssociatedDataGrid.cs" />
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
     </Compile>
