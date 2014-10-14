@@ -49,9 +49,10 @@
                         </Grid.ColumnDefinitions>
                     </Grid>
                     
-                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True">
+                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
                         
                     </DataGrid>
+                    
                     <Grid Grid.Row="5" Name="TotalsGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"></ColumnDefinition>
