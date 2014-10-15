@@ -19,7 +19,7 @@ namespace ReportManager
         {
             
             string template;
-            using (var streamReader = new StreamReader(@"..\Debug\Templates\ConfermaVendita.cshtml", System.Text.Encoding.UTF8))
+            using (var streamReader = new StreamReader(@".\Templates\ConfermaVendita.cshtml", System.Text.Encoding.UTF8))
             {
                 template = streamReader.ReadToEnd();
             }
