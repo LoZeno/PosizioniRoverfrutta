@@ -136,7 +136,6 @@
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />
     <Compile Include="ViewModels\ListPositionsViewModel.cs" />
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
-    <Compile Include="ViewModels\SaleConfirmationDetailsViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\DocumentWindow.xaml.cs">
@@ -302,7 +301,18 @@
   <ItemGroup>
     <Resource Include="Content\Pictures\Save\floppy-mount-icon-48.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Undo\edit_undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Eraser\eraser_48x48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Pdf\pdf-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\Pictures\Email\email-001.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
