@@ -10,6 +10,7 @@ namespace PosizioniRoverfrutta.ViewModels
     {
         public ProductRowViewModel() : this(new ProductDetails())
         {
+            Currency = "Euro";
         }
 
         public ProductRowViewModel(ProductDetails productDetails)
