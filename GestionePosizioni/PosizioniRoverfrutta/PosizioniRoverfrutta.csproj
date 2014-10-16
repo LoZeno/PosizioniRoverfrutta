@@ -313,6 +313,9 @@
   <ItemGroup>
     <Resource Include="Content\Pictures\Email\email-001.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\ReportTemplates\ConfermaVenditaModello.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

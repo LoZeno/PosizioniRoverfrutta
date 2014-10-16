@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using System;
+using Models;
 using NUnit.Framework;
 
 namespace ReportManager.Tests
@@ -9,9 +10,8 @@ namespace ReportManager.Tests
         [Test]
         public void FirstTest()
         {
-            var engine = new PdfEngine(new SaleConfirmation {Customer = new Customer {CompanyName = "HELLO COMPANY"}},
-                @"C:\Users\LucaZ\Documents\parsehtml.pdf");
-            engine.ExportPdf();
+            var engine = new PdfCreator(new SaleConfirmation { DocumentDate = DateTime.Today, Customer = new Customer { CompanyName = "HELLO COMPANY" } }, @".\Templates\ConfermaVendita.cshtml", @"C:\Users\LucaZ\Documents\parsehtml.pdf");
+            engine.GeneratePdf();
         }
     }
 }
