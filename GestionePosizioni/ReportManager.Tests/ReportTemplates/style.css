@@ -1,0 +1,13 @@
+﻿body
+{
+}
+
+.myDiv {
+    position: absolute; 
+    min-height: 12em; 
+    right: 0;
+    bottom: 0;
+    color: red;
+    border-style: solid;
+    border-color: blue;
+}

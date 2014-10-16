@@ -6,6 +6,11 @@
     <title>Conferma di vendita n. @Model.Id</title>
 </head>
 <body>
-
+    <div style="horiz-align: right; min-height: 12em;">
+        Cliente:<br/>
+        @Model.Customer.CompanyName <br/>
+        @Model.Customer.Address <br/>
+        @Model.Customer.VatCode
+    </div>
 </body>
 </html>

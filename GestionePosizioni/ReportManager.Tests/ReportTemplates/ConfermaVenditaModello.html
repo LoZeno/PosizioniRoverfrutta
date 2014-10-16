@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Conferma di vendita n. @Model.Id</title>
+    <style>
+        .myDiv {
+            float: right;
+            min-height: 12em;
+            color: red;
+            border-style: solid;
+            border-color: blue;
+            max-width: 10em;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="myDiv">
+        Cliente:<br/>
+        @Model.Customer.CompanyName <br/>
+        @Model.Customer.Address <br/>
+        @Model.Customer.VatCode
+    </div>
+</body>
+</html>

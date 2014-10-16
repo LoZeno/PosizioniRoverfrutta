@@ -9,6 +9,12 @@ namespace ReportManager
 {
     public class PdfCreator
     {
+        public PdfCreator(object model, string templatePath, string cssPath, string destinationPath)
+            : this(model, templatePath, destinationPath)
+        {
+            CssPath = cssPath;
+        }
+
         public PdfCreator(object model, string templatePath, string destinationPath)
         {
             DestinationPath = destinationPath;
@@ -32,7 +38,17 @@ namespace ReportManager
             {
                 newDocument.Open();
                 var reader = new StringReader(htmlDocument);
-                XMLWorkerHelper.GetInstance().ParseXHtml(writer, newDocument, reader);
+                if (string.IsNullOrWhiteSpace(CssPath))
+                {
+                    var cssStream = new StreamReader(CssPath, System.Text.Encoding.UTF8).BaseStream;
+                    var templateStream = new StreamReader(TemplatePath, System.Text.Encoding.UTF8).BaseStream;
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, newDocument, templateStream, cssStream);
+                }
+                else
+                {
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, newDocument, reader);
+                }
+                
                 newDocument.Close();
             }
         }
@@ -41,5 +57,6 @@ namespace ReportManager
 
         public string DestinationPath { get; private set; }
         public string TemplatePath { get; private set; }
+        public string CssPath { get; private set; }
     }
 }
