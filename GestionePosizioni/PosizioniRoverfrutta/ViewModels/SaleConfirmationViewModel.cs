@@ -38,6 +38,15 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("SaleConfirmation");
                 OnPropertyChanged("ShippingDate");
                 OnPropertyChanged("DeliveryDate");
+                OnPropertyChanged("TruckLicensePlate");
+                OnPropertyChanged("Rental");
+                OnPropertyChanged("DeliveryEx");
+                OnPropertyChanged("TermsOfPayment");
+                OnPropertyChanged("InvoiceDiscount");
+                OnPropertyChanged("CustomerCommission");
+                OnPropertyChanged("Notes");
+                OnPropertyChanged("Lot");
+                OnPropertyChanged("OrderCode");
             }
         }
 
@@ -59,6 +68,97 @@ namespace PosizioniRoverfrutta.ViewModels
                 SaleConfirmation.DeliveryDate = value;
                 OnPropertyChanged();
             }
+        }
+
+        public string TruckLicensePlate
+        {
+            get { return SaleConfirmation.TruckLicensePlate; }
+            set
+            {
+                SaleConfirmation.TruckLicensePlate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal? Rental
+        {
+            get { return SaleConfirmation.Rental; }
+            set
+            {
+                SaleConfirmation.Rental = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string DeliveryEx
+        {
+            get { return SaleConfirmation.DeliveryEx; }
+            set
+            {
+                SaleConfirmation.DeliveryEx = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string TermsOfPayment
+        {
+            get { return SaleConfirmation.TermsOfPayment; }
+            set
+            {
+                SaleConfirmation.TermsOfPayment = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal? InvoiceDiscount
+        {
+            get { return SaleConfirmation.InvoiceDiscount; }
+            set
+            {
+                SaleConfirmation.InvoiceDiscount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal? CustomerCommission
+        {
+            get { return SaleConfirmation.CustomerCommission; }
+            set
+            {
+                SaleConfirmation.CustomerCommission = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Notes
+        {
+            get { return SaleConfirmation.Notes; }
+            set
+            {
+                SaleConfirmation.Notes = value;
+                OnPropertyChanged();
+            }
+
+        }
+        public string Lot
+        {
+            get { return SaleConfirmation.Lot; }
+            set
+            {
+                SaleConfirmation.Lot = value;
+                OnPropertyChanged();
+            }
+
+        }
+        public string OrderCode
+        {
+            get { return SaleConfirmation.OrderCode; }
+            set
+            {
+                SaleConfirmation.OrderCode = value;
+                OnPropertyChanged();
+            }
+
         }
 
         public int TotalPallets
@@ -103,6 +203,11 @@ namespace PosizioniRoverfrutta.ViewModels
         public CompanyControlViewModel<Transporter> TransporterControlViewModel { get; private set; }
 
         public ObservableCollection<ProductRowViewModel> ProductDetails { get; private set; }
+
+        public ICommand Reload
+        {
+            get { return reloadCommand ?? (reloadCommand = new DelegateCommand(ReloadAction())); }
+        }
 
         public SaleConfirmation SaleConfirmation { get; set; }
 
@@ -157,13 +262,18 @@ namespace PosizioniRoverfrutta.ViewModels
                             UpdateProductDescriptionsAndCurrencies(productRowViewModel.ProductDetails, session, savedProductIds, savedCurrencies);
                         }
 
-                        session.Store(CompanyControlViewModel.Company);
-                        session.Store(ProviderControlViewModel.Company);
-                        session.Store(TransporterControlViewModel.Company);
+                        UpdateTermsOfPayment(SaleConfirmation.TermsOfPayment, session);
+
+                        if (!string.IsNullOrWhiteSpace(CompanyControlViewModel.Company.CompanyName))
+                            session.Store(CompanyControlViewModel.Company);
+                        if (!string.IsNullOrWhiteSpace(ProviderControlViewModel.Company.CompanyName))
+                            session.Store(ProviderControlViewModel.Company);
+                        if (!string.IsNullOrWhiteSpace(TransporterControlViewModel.Company.CompanyName))
+                            session.Store(TransporterControlViewModel.Company);
                         session.Store(SaleConfirmation);
                         session.SaveChanges();
                     }
-                    OnPropertyChanged("Id");
+                    Id = SaleConfirmation.Id;
                     Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
                 }
                 catch (Exception exception)
@@ -171,6 +281,20 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Errore durante il salvataggio: " + exception.Message;
                 }
             };
+        }
+
+        private Action ReloadAction()
+        {
+            return () => LoadDocument(Id);
+        }
+
+        private static void UpdateTermsOfPayment(string termsOfPayment, IDocumentSession session)
+        {
+            if (string.IsNullOrWhiteSpace(termsOfPayment)) return;
+            var top = session.Query<TermOfPayment>()
+                .FirstOrDefault(tp => tp.Description.Equals(termsOfPayment, StringComparison.CurrentCultureIgnoreCase)) ??
+                new TermOfPayment {Description = termsOfPayment};
+            session.Store(top);
         }
 
         private void UpdateProductDescriptionsAndCurrencies(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds, List<string> savedCurrencies)
@@ -260,5 +384,6 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private readonly IDataStorage _dataStorage;
         private string _status;
+        private ICommand reloadCommand;
     }
 }

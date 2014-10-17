@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using dragonz.actb.control;
 using PosizioniRoverfrutta.CustomControls;
 using PosizioniRoverfrutta.CustomControls.DataGridColumns;
+using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;
 
@@ -34,6 +37,8 @@ namespace PosizioniRoverfrutta.Windows
             SetPropertiesBindings();
             
             SetSaveButtonBindings(viewModel);
+
+            SetReloadButtonBinding(viewModel);
 
             SetStatusBinding();
         }
@@ -68,15 +73,17 @@ namespace PosizioniRoverfrutta.Windows
             var descriptionColumn = BuildAutocompleteBoxDataGridColumn();
             ProductsGrid.Columns.Add(descriptionColumn);
 
+            var binding = new Binding("ProductId")
+            {
+                Mode = BindingMode.Default,
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+            };
+            binding.ValidationRules.Add(new ExceptionValidationRule());
             var hiddenColumn = new DataGridTextColumn
             {
                 Header = "Id Prodotto",
                 Visibility = Visibility.Hidden,
-                Binding = new Binding("ProductId")
-                {
-                    Mode = BindingMode.Default,
-                    UpdateSourceTrigger = UpdateSourceTrigger.Default
-                }
+                Binding = binding
             };
             ProductsGrid.Columns.Add(hiddenColumn);
 
@@ -185,7 +192,7 @@ namespace PosizioniRoverfrutta.Windows
             return templateColumn;
         }
 
-        private static DataGridNumericColumn BuildNumericColumn(string header, string propertyName)
+        private static DataGridColumn BuildNumericColumn(string header, string propertyName)
         {
             return new DataGridNumericColumn
             {
@@ -199,18 +206,20 @@ namespace PosizioniRoverfrutta.Windows
             };
         }
 
-        private static DataGridDecimalColumn BuildDecimalColumn(string header, string propertyName)
+        private static DataGridColumn BuildDecimalColumn(string header, string propertyName)
         {
-            return new DataGridDecimalColumn
+            var binding = new Binding(propertyName)
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                StringFormat = "F",
+                ConverterCulture = CultureInfo.CurrentCulture
+            };
+            binding.ValidationRules.Add(new ExceptionValidationRule());
+            return new DataGridTextColumn
             {
                 Header = header,
-                Binding = new Binding(propertyName)
-                {
-                    Mode = BindingMode.TwoWay,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    StringFormat = "F",
-                    ConverterCulture = CultureInfo.CurrentCulture
-                },
+                Binding = binding,
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
             };
         }
@@ -245,6 +254,18 @@ namespace PosizioniRoverfrutta.Windows
             
             SetBindingsForDatePickers("DeliveryDate", DeliveryDatePicker);
 
+            SetBindingsForTextBox("TruckLicensePlate", LicensePlate);
+
+            SetBindingsForNumericTextBox("Rental", Rental);
+
+            SetBindingsForTextBox("DeliveryEx", DeliveryEx);
+
+            SetBindingForTermsOfPaymentAutocomplete();
+
+            SetBindingsForNumericTextBox("InvoiceDiscount", Discount);
+
+            SetBindingsForNumericTextBox("CustomerCommission", CustomerCommission);
+
             SetBindingsForTotals("TotalPallets", TotalPalletsText);
 
             SetBindingsForTotals("TotalPackages", TotalPackagesText);
@@ -254,6 +275,49 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForTotals("TotalNet", TotalNetText);
 
             SetBindingsForTotals("TotalAmount", TotalAmountText);
+
+            SetBindingsForTextBox("Notes", Notes);
+
+            SetBindingsForTextBox("Lot", Lot);
+
+            SetBindingsForTextBox("OrderCode", OrderCode);
+        }
+
+        private void SetBindingForTermsOfPaymentAutocomplete()
+        {
+            var provider = new TermsOfPaymentAutoCompleteBoxProvider(DataStorage);
+            TermsOfPayment.AutoCompleteManager.DataProvider = provider;
+            TermsOfPayment.AutoCompleteManager.Asynchronous = true;
+            TermsOfPayment.AutoCompleteManager.AutoAppend = true;
+
+            var binding = new Binding("TermsOfPayment")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.TwoWay
+            };
+            TermsOfPayment.SetBinding(ComboBox.TextProperty, binding);
+        }
+
+        private static void SetBindingsForTextBox(string property, TextBox control)
+        {
+            var binding = new Binding(property)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            control.SetBinding(TextBox.TextProperty, binding);
+        }
+        
+        private static void SetBindingsForNumericTextBox(string property, TextBox control)
+        {
+            var binding = new Binding(property)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                Mode = BindingMode.TwoWay,
+                ConverterCulture = CultureInfo.CurrentCulture
+            };
+            binding.ValidationRules.Add(new ExceptionValidationRule());
+            control.SetBinding(TextBox.TextProperty, binding);
         }
 
         private static void SetBindingsForDatePickers(string property, DatePicker datePicker)
@@ -322,6 +386,21 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Source = viewModel,
                 Path = new PropertyPath("SaveAll")
+            });
+        }
+
+        private void SetReloadButtonBinding(SaleConfirmationViewModel viewModel)
+        {
+            var reloadBinding = new CommandBinding
+            {
+                Command = viewModel.Reload
+            };
+            CommandBindings.Add(reloadBinding);
+
+            UndoButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("Reload")
             });
         }
     }

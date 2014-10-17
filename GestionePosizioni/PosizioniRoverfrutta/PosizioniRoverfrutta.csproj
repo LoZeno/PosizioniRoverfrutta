@@ -132,6 +132,7 @@
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerNamesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\ProductNamesAutoCompleteBoxProvider.cs" />
+    <Compile Include="Services\TermsOfPaymentAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />
     <Compile Include="ViewModels\ListPositionsViewModel.cs" />
