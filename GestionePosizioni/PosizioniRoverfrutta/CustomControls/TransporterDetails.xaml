@@ -8,8 +8,9 @@
              mc:Ignorable="d"
              MinHeight="150"
              MinWidth="100"
-             BorderBrush="Black"
-             BorderThickness="5"
+             BorderBrush="DarkGray"
+             BorderThickness="1"
+             Margin="2"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>

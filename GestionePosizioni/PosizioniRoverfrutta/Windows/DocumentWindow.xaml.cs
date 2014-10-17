@@ -208,7 +208,7 @@ namespace PosizioniRoverfrutta.Windows
                 {
                     Mode = BindingMode.TwoWay,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    StringFormat = "F2",
+                    StringFormat = "F",
                     ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
@@ -225,7 +225,7 @@ namespace PosizioniRoverfrutta.Windows
                 {
                     Mode = BindingMode.Default,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                    StringFormat = "F2",
+                    StringFormat = "F",
                     ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
@@ -241,12 +241,9 @@ namespace PosizioniRoverfrutta.Windows
             };
             IdBox.SetBinding(TextBox.TextProperty, idBinding);
 
-            var dateBinding = new Binding("DocumentDate")
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.TwoWay
-            };
-            DocumentDateControl.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
+            SetBindingsForDatePickers("ShippingDate", ShippingDatePicker);
+            
+            SetBindingsForDatePickers("DeliveryDate", DeliveryDatePicker);
 
             SetBindingsForTotals("TotalPallets", TotalPalletsText);
 
@@ -257,6 +254,16 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForTotals("TotalNet", TotalNetText);
 
             SetBindingsForTotals("TotalAmount", TotalAmountText);
+        }
+
+        private static void SetBindingsForDatePickers(string property, DatePicker datePicker)
+        {
+            var dateBinding = new Binding(property)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.TwoWay
+            };
+            datePicker.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
         }
 
         private static void SetBindingsForTotals(string propertyName, TextBlock textBlock)

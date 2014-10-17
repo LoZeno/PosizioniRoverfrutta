@@ -41,8 +41,6 @@
                     <StackPanel Name="TitlePanel" Grid.Row="0" Orientation="Horizontal">
                         <Label Name="TitleLabel" FontWeight="Bold" FontStyle="Italic" FontSize="20">CONFERMA DI VENDITA N°</Label>
                         <TextBox Name="IdBox" MinWidth="50" Width="100" TextAlignment="Left" FontSize="20"></TextBox>
-                        <Separator MinWidth="50"></Separator>
-                        <DatePicker Name="DocumentDateControl" SelectedDateFormat="Short" FirstDayOfWeek="Monday"></DatePicker>
                     </StackPanel>
                     
                     <Grid Grid.Row="1" Name="CompaniesGrid">
@@ -52,6 +50,32 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                     </Grid>
+                    
+                    <Border Grid.Row="2" BorderBrush="DarkGray" BorderThickness="1" Margin="2">
+                        <Grid ShowGridLines="True" Name="TopDetailsGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" FontStyle="Italic">Data Spedizione</TextBlock>
+                            <DatePicker Grid.Row="1" Grid.Column="0" Name="ShippingDatePicker"></DatePicker>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontStyle="Italic">Data Consegna</TextBlock>
+                            <DatePicker Grid.Row="1" Grid.Column="1" Name="DeliveryDatePicker"></DatePicker>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Targa Camion</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Nolo EUR</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="4" FontWeight="Bold" FontStyle="Italic">Resa Franco:</TextBlock>
+                        </Grid>
+                    </Border>
                     
                     <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
                         
