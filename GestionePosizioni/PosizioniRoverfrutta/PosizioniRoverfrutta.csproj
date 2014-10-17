@@ -141,6 +141,7 @@
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\IWindowManager.cs" />
     <Compile Include="Windows\ListPositions.xaml.cs">
       <DependentUpon>ListPositions.xaml</DependentUpon>
     </Compile>

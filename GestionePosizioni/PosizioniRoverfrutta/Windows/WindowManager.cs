@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using Microsoft.Win32;
 using QueryManager;
 
 namespace PosizioniRoverfrutta.Windows
 {
-    public class WindowManager
+    public class WindowManager : IWindowManager
     {
         private readonly IDataStorage _dataStorage;
         private readonly Dictionary<string, Window> _windows;
@@ -38,6 +39,26 @@ namespace PosizioniRoverfrutta.Windows
             }
             var key = String.Format("{0}_{1}", windowType, documentId);
             ManageWindows(key, _windowClasses[windowType], documentId);
+        }
+
+        public string OpenSaveToPdfDialog(Window ownerWindow, string filename)
+        {
+            return OpenSaveFileDialog(ownerWindow, filename, ".pdf", "Documenti PDF (.pdf)|*.pdf");
+        }
+
+        private string OpenSaveFileDialog(Window ownerWindow, string filename, string extension, string filter)
+        {
+            var savefileDialog = new SaveFileDialog
+            {
+                FileName = filename,
+                DefaultExt = extension,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = filter
+            };
+
+            var result = savefileDialog.ShowDialog(ownerWindow);
+
+            return result == true ? savefileDialog.FileName : null;
         }
 
         private void ManageWindows(string windowName, Type windowType, string documentId)

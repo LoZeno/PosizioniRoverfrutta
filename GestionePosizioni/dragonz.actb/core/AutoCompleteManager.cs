@@ -594,8 +594,14 @@ namespace dragonz.actb.core
                 _listBox.SelectedIndex = -1;
                 _textBeforeChangedByCode = text;
                 _scrollViewer.ScrollToHome();
-                ShowPopup();
-
+                try
+                {
+                    ShowPopup();
+                }
+                catch
+                {
+                    
+                }
                 //
                 if (AutoAppend && !_supressAutoAppend && 
                      _textBox.SelectionLength == 0 && 
