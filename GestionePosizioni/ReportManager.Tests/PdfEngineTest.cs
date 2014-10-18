@@ -17,7 +17,7 @@ namespace ReportManager.Tests
         [Test]
         public void pechkinTest()
         {
-            var engine = new PechkinPdfCreator(new SaleConfirmation { ShippingDate = DateTime.Today, Customer = new Customer { CompanyName = "HELLO COMPANY", Address = "Via Qualcosa", VatCode = "123456789456123" } }, @".\ReportTemplates\ConfermaVenditaModello.html", @"C:\Users\LucaZ\Documents\parsehtml.pdf");
+            var engine = new PechkinPdfCreator(new SaleConfirmation { ShippingDate = DateTime.Today, Customer = new Customer { CompanyName = "HELLO COMPANY", Address = "Via Qualcosa", VatCode = "123456789456123" } }, @".\ReportTemplates\ConfermaVenditaModello.html", @"D:\LoZeno\Documenti\parsehtml.pdf");
             engine.CreatePdf();
         }
 

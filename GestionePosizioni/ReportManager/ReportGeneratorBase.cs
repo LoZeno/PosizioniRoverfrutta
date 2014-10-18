@@ -5,9 +5,9 @@ using RazorEngine;
 
 namespace ReportManager
 {
-    public abstract class ReportGeneratorBase
+    public abstract class ReportGeneratorBase<T>
     {
-        protected ReportGeneratorBase(object model, string destinationPath)
+        protected ReportGeneratorBase(T model, string destinationPath)
         {
             _model = model;
             _destinationPath = destinationPath;
@@ -19,7 +19,7 @@ namespace ReportManager
         {
             var template = LoadTemplate();
 
-            var htmlDocument = Razor.Parse(template, _model);
+            var htmlDocument = Razor.Parse<T>(template, _model);
 
             var globalConfig = new GlobalConfig();
             globalConfig.SetPaperSize(PaperKind.A4);
@@ -38,6 +38,6 @@ namespace ReportManager
         }
 
         private readonly string _destinationPath;
-        private readonly object _model;
+        private readonly T _model;
     }
 }
