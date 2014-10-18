@@ -3,11 +3,11 @@
     <meta charset="utf-8" />
     <title>Conferma di vendita n. @Model.Id</title>
     <style type="text/css">
-        .header {
-            width: 100%;
-            border-bottom-color: black;
-            border-bottom-style: groove;
-        }
+         .header {
+             width: 100%;
+             border-bottom-color: black;
+             border-bottom-style: groove;
+         }
 
         .companyNameLarge {
             font-size: 24pt;
@@ -71,7 +71,14 @@
         .borderedTable {
             width: 100%;
             text-align: left;
+            border-collapse:collapse;
+            border:1px solid black;
         }
+
+        .borderedTable td {
+            border:1px solid black;
+        }
+
         .borderedColumn {
             border-style: solid;
             border-color: black;
@@ -192,6 +199,81 @@
                 @Model.DeliveryEx
             </td>
         </tr>
+    </table>
+    
+    <div style="width: 100%; height: 2em;"></div>
+    
+    <table class="borderedTable">
+        <tr class="boldGridHeader">
+            <td class="borderedColumn">
+                CONDIZIONI DI PAGAMENTO
+            </td>
+            <td class="borderedColumn">
+                SCONTO IN FATTURA
+            </td>
+            <td class="borderedColumn">
+                PROVVIGIONE ROVERFRUTTA
+            </td>
+        </tr>
+        <tr class="normalText">
+            <td class="borderedColumn">
+                @Model.TermsOfPayment
+            </td>
+            <td class="borderedColumn">
+                @Model.InvoiceDiscount %
+            </td>
+            <td class="borderedColumn">
+                @Model.CustomerCommission %
+            </td>
+        </tr>
+    </table>
+
+    <div style="width: 100%; height: 2em;"></div>
+    
+    <table class="borderedTable">
+        <thead>
+            <tr class="boldGridHeader">
+                <td>Prodotto</td>
+                <td>N° Pallets</td>
+                <td>N° Colli</td>
+                <td>Kg Lordo</td>
+                <td>Kg Netto</td>
+                <td>Prezzo</td>
+                <td>Valuta</td>
+                <td>Parametro</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.ProductDetails)
+            {
+            <tr class="normalText">
+                <td style="width: 30%">
+                    @product.Description
+                </td>
+                <td>
+                    @product.Pallets
+                </td>
+                <td>
+                    @product.Packages
+                </td>
+                <td>
+                    @product.GrossWeight
+                </td>
+                <td>
+                    @product.NetWeight
+                </td>
+                <td>
+                    @product.Price
+                </td>
+                <td>
+                    @product.Currency
+                </td>
+                <td>
+                    @product.PriceParameter
+                </td>
+            </tr>
+            }
+        </tbody>
     </table>
 
 </body>
