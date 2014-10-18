@@ -154,6 +154,45 @@
             </td>
         </tr>
     </table>
+    
+    <div style="width: 100%; height: 4em;"></div>
+    
+    <table class="borderedTable">
+        <tr class="boldGridHeader">
+            <td class="borderedColumn">
+                DATA SPED.
+            </td>
+            <td class="borderedColumn">
+                DATA CONS.
+            </td>
+            <td class="borderedColumn">
+                TARGA CAMION
+            </td>
+            <td class="borderedColumn">
+                NOLO Eur
+            </td>
+            <td class="borderedColumn">
+                RESA FRANCO
+            </td>
+        </tr>
+        <tr class="normalText">
+            <td class="borderedColumn">
+                @Model.ShippingDateString
+            </td>
+            <td class="borderedColumn">
+                @Model.DeliveryDateString
+            </td>
+            <td class="borderedColumn">
+                @Model.TruckLicensePlate
+            </td>
+            <td class="borderedColumn">
+                @Model.Rental
+            </td>
+            <td class="borderedColumn">
+                @Model.DeliveryEx
+            </td>
+        </tr>
+    </table>
 
 </body>
 </html>

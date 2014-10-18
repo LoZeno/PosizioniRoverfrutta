@@ -21,7 +21,21 @@ namespace Models
         public Transporter Transporter { get; set; }
         public DateTime DocumentDate { get; set; }
         public DateTime? ShippingDate { get; set; }
+        public string ShippingDateString 
+        { 
+            get
+            {
+                return ShippingDate.HasValue ? ShippingDate.Value.ToShortDateString() : string.Empty;
+            } 
+        }
         public DateTime? DeliveryDate { get; set; }
+        public string DeliveryDateString
+        {
+            get
+            {
+                return DeliveryDate.HasValue ? DeliveryDate.Value.ToShortDateString() : string.Empty;
+            }
+        }
         public string TruckLicensePlate { get; set; }
         public decimal? Rental { get; set; }
         public string DeliveryEx { get; set; }
