@@ -41,6 +41,8 @@ namespace PosizioniRoverfrutta.Windows
             SetReloadButtonBinding(viewModel);
 
             SetStatusBinding();
+
+            SetPrintButtonBinding(viewModel);
         }
 
         public DocumentWindow(IDataStorage dataStorage, string documentId) : this (dataStorage)
@@ -401,6 +403,21 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Source = viewModel,
                 Path = new PropertyPath("Reload")
+            });
+        }
+
+        private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
+        {
+            var printBinding = new CommandBinding
+            {
+                Command = viewModel.Print
+            };
+            CommandBindings.Add(printBinding);
+
+            PdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("Print")
             });
         }
     }

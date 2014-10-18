@@ -4,13 +4,185 @@
 <head>
     <meta charset="utf-8" />
     <title>Conferma di vendita n. @Model.Id</title>
+    <style type="text/css">
+        .header {
+            width: 100%;
+            border-bottom-color: black;
+            border-bottom-style: groove;
+        }
+        .companyNameLarge {
+            font-size: 24pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            text-decoration: underline;
+        }
+        .companyDesc {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+        .headerSmallText {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            width: 60%;
+        }
+        .cursiveHeader {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-style: italic;
+        }
+        .title {
+            margin-top: 2em;
+            width: 100%;
+            font-size: 12pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-style: italic;
+            text-decoration: underline;
+        }
+        .cursiveDescription {
+            font-size: 10pt;
+            font-family: sans-serif;
+            font-style: italic;
+            width: 100%;
+            margin-top: 1.5em;
+        }
+        .boldGridHeader {
+            font-size: 10pt;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+        .normalText {
+            font-size: 10pt;
+            font-family: sans-serif;
+        }
+        .onethird {
+            width: 33%;
+        }
+        /*.borderedTable {
+            width: 100%;
+            text-align: left;
+        }
+        .borderedColumn {
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
+        }*/
+    </style>
 </head>
 <body>
-    <div style="horiz-align: right; min-height: 12em;">
-        Cliente:<br/>
-        @Model.Customer.CompanyName <br/>
-        @Model.Customer.Address <br/>
-        @Model.Customer.VatCode
+    <table class="header">
+        <tr>
+            <td colspan="2" class="companyNameLarge">
+                Roverfrutta s.a.s.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="companyDesc">
+                di Zenari Giovanni & C.
+            </td>
+        </tr>
+        <tr>
+            <td class="headerSmallText">
+                Via Fienili, 63<br/>
+                46048 Roverbella MN<br />
+                P. IVA: 01954370209<br />
+            </td>
+            <td class="cursiveHeader">
+                Telefono: +39 335 6320593<br/>
+                Fax: +39 0376 696792<br />
+                email: giovanni.zenari@gmail.com<br />
+            </td>
+        </tr>
+    </table>
+    
+    <div style="width: 100%; margin-top: 0.5em;" class="normalText">
+        Roverbella, @Model.DocumentDate.ToString("dd-MM-yyyy")
     </div>
+    
+    <div class="title">
+        CONFERMA DI VENDITA N° @Model.Id
+    </div>
+    
+    <div class="cursiveDescription">
+        Facciamo seguito agli accordi intercorsi per confermare il seguente ordine:
+    </div>
+    
+    <table width="100%" style="margin-top: 1em;">
+        <tr class="boldGridHeader">
+            <td class="onethird">Cliente</td>
+            <td class="onethird">Fornitore</td>
+            <td class="onethird">Trasportatore</td>
+        </tr>
+        <tr>
+            <td class="normalText">
+                @Model.Customer.CompanyName<br />
+                @Model.Customer.Address<br />
+                @Model.Customer.City<br />
+                @Model.Customer.StateOrProvince<br />
+                @Model.Customer.PostCode<br />
+                @Model.Customer.Country<br />
+                P. IVA: @Model.Customer.VatCode
+            </td>
+            <td class="normalText">
+                @Model.Provider.CompanyName<br />
+                @Model.Provider.Address<br />
+                @Model.Provider.City<br />
+                @Model.Provider.StateOrProvince<br />
+                @Model.Provider.PostCode<br />
+                @Model.Provider.Country<br />
+                P. IVA: @Model.Provider.VatCode
+            </td>
+            <td class="normalText">
+                @Model.Transporter.CompanyName<br />
+                @Model.Transporter.Address<br />
+                @Model.Transporter.City<br />
+                @Model.Transporter.StateOrProvince<br />
+                @Model.Transporter.PostCode<br />
+                @Model.Transporter.Country<br />
+                P. IVA: @Model.Transporter.VatCode
+            </td>
+        </tr>
+    </table>
+    
+    <!--<table class="borderedTable">
+        <tr class="boldGridHeader">
+            <td class="borderedColumn">
+                DATA SPED.
+            </td>
+            <td class="borderedColumn">
+                DATA CONS.
+            </td>
+            <td class="borderedColumn">
+                TARGA CAMION
+            </td>
+            <td class="borderedColumn">
+                NOLO Eur
+            </td>
+            <td class="borderedColumn">
+                RESA FRANCO
+            </td>
+        </tr>
+        <tr>
+            <td class="borderedColumn">
+                @Model.ShippingDate.ToString("dd-MM-yyyy")
+            </td>
+            <td class="borderedColumn">
+                @Model.DeliveryDate.ToString("dd-MM-yyyy")
+            </td>
+            <td class="borderedColumn">
+                @model.TruckLicensePlate
+            </td>
+            <td class="borderedColumn">
+                @Model.Rental
+            </td>
+            <td class="borderedColumn">
+                @Model.DeliveryEx
+            </td>
+        </tr>
+    </table>-->
+
 </body>
 </html>

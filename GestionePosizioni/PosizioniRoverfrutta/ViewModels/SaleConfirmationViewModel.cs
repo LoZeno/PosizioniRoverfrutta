@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Models;
 using PosizioniRoverfrutta.Annotations;
+using PosizioniRoverfrutta.Reports;
 using QueryManager;
 using Raven.Client;
 
@@ -219,6 +220,20 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public ICommand Print
+        {
+            get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument())); }
+        }
+
+        private Action PrintDocument()
+        {
+            return delegate
+            {
+                var report = new SaleConfirmationReport(this.SaleConfirmation, @"D:\LoZeno\Documenti\ConfermaVendita-" + Id + ".pdf");
+                report.CreatePdf();
+            };
+        }
+
         private void LoadDocument(int value)
         {
             SaleConfirmation saleConfirmation = null;
@@ -385,5 +400,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private readonly IDataStorage _dataStorage;
         private string _status;
         private ICommand reloadCommand;
+        private ICommand printDocument;
     }
 }
