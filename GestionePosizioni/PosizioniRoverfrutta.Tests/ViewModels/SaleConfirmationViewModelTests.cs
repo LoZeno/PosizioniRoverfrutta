@@ -1,5 +1,6 @@
 ﻿using System;
 using Models;
+using Models.DocumentTypes;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;

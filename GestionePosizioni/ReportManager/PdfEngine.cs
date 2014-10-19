@@ -3,6 +3,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
 using Models;
+using Models.DocumentTypes;
 using RazorEngine;
 
 namespace ReportManager

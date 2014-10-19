@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Models;
+using Models.DocumentTypes;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Windows;

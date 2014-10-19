@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.DocumentTypes;
 using ReportManager;
 
 namespace PosizioniRoverfrutta.Reports

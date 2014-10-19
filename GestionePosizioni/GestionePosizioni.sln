@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosizioniRoverfrutta.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportManager.Tests", "ReportManager.Tests\ReportManager.Tests.csproj", "{5FA664D8-59A7-49D6-B6CF-D01F01D466D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryManager.Tests", "Tests\QueryManager.Tests\QueryManager.Tests.csproj", "{800175A4-B096-4A32-96D5-B33E2420C09F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,12 @@ Global
 		{5FA664D8-59A7-49D6-B6CF-D01F01D466D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FA664D8-59A7-49D6-B6CF-D01F01D466D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FA664D8-59A7-49D6-B6CF-D01F01D466D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800175A4-B096-4A32-96D5-B33E2420C09F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +110,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42} = {F203D79B-89BF-4FF0-B224-B50946E11D65}
 		{5FA664D8-59A7-49D6-B6CF-D01F01D466D8} = {F203D79B-89BF-4FF0-B224-B50946E11D65}
+		{800175A4-B096-4A32-96D5-B33E2420C09F} = {F203D79B-89BF-4FF0-B224-B50946E11D65}
 	EndGlobalSection
 EndGlobal

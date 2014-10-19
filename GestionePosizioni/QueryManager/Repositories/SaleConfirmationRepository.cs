@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Models;
+using Models.DocumentTypes;
 using Raven.Client;
 
 namespace QueryManager.Repositories

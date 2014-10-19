@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Models
+namespace Models.DocumentTypes
 {
-    public class SaleConfirmation
+    public abstract class DocumentBase
     {
-        public SaleConfirmation()
+        protected DocumentBase()
         {
             ProductDetails = new List<ProductDetails>();
             Provider = new Customer();
             Customer = new Customer();
-            Transporter = new Transporter();
+            Transporter = new Transporter(); 
             DocumentDate = DateTime.Today.Date;
             Notes = "Le coordinate bancarie verranno indicate sulla fattura.";
         }
@@ -20,6 +20,7 @@ namespace Models
         public Customer Provider { get; set; }
         public Transporter Transporter { get; set; }
         public DateTime? DocumentDate { get; set; }
+
         public string DocumentDateString
         {
             get
@@ -27,7 +28,9 @@ namespace Models
                 return DocumentDate.HasValue ? DocumentDate.Value.ToShortDateString() : string.Empty;
             }
         }
+
         public DateTime? ShippingDate { get; set; }
+
         public string ShippingDateString 
         { 
             get
@@ -35,7 +38,9 @@ namespace Models
                 return ShippingDate.HasValue ? ShippingDate.Value.ToShortDateString() : string.Empty;
             } 
         }
+
         public DateTime? DeliveryDate { get; set; }
+
         public string DeliveryDateString
         {
             get
@@ -43,6 +48,7 @@ namespace Models
                 return DeliveryDate.HasValue ? DeliveryDate.Value.ToShortDateString() : string.Empty;
             }
         }
+
         public string TruckLicensePlate { get; set; }
         public decimal? Rental { get; set; }
         public string DeliveryEx { get; set; }
@@ -53,8 +59,6 @@ namespace Models
         public string Notes { get; set; }
         public string Lot { get; set; }
         public string OrderCode { get; set; }
-
         public List<ProductDetails> ProductDetails { get; set; }
-
     }
 }

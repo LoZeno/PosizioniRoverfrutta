@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Models;
+using Models.DocumentTypes;
 using Raven.Client.Indexes;
 
 namespace QueryManager.Indexes
