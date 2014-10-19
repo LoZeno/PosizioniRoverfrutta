@@ -277,6 +277,8 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForNumericTextBox("CustomerCommission", CustomerCommission);
 
+            SetBindingsForNumericTextBox("ProviderCommission", ProviderCommission);
+
             SetBindingsForTotals("TotalPallets", TotalPalletsText);
 
             SetBindingsForTotals("TotalPackages", TotalPackagesText);

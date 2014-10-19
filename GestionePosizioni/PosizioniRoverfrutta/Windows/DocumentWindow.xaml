@@ -96,6 +96,7 @@
                                 <ColumnDefinition Width="2*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" FontStyle="Italic">Condizioni di pagamento</TextBlock>
@@ -104,8 +105,11 @@
                             <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontStyle="Italic">Sconto in Fattura (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="1" Name="Discount"></TextBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Provvigione Roverfrutta (%)</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Provvigione Roverfrutta (%) Cliente</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="2" Name="CustomerCommission"></TextBox>
+
+                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Provvigione Roverfrutta (%) Fornitore</TextBlock>
+                            <TextBox Grid.Row="1" Grid.Column="3" Name="ProviderCommission"></TextBox>
                         </Grid>
                     </Border>
 

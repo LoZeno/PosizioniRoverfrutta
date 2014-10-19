@@ -48,6 +48,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("TermsOfPayment");
                 OnPropertyChanged("InvoiceDiscount");
                 OnPropertyChanged("CustomerCommission");
+                OnPropertyChanged("ProviderCommission");
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
@@ -140,6 +141,17 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 SaleConfirmation.CustomerCommission = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public decimal? ProviderCommission
+        {
+            get { return SaleConfirmation.ProviderCommission; }
+            set
+            {
+                SaleConfirmation.ProviderCommission = value;
                 OnPropertyChanged();
             }
         }

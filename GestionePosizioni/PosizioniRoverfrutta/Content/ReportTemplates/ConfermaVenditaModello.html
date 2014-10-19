@@ -241,7 +241,7 @@
             <td class="borderedColumn">
                 SCONTO IN FATTURA
             </td>
-            <td class="borderedColumn">
+            <td colspan="2" class="borderedColumn">
                 PROVVIGIONE ROVERFRUTTA
             </td>
         </tr>
@@ -253,8 +253,9 @@
                 @Model.InvoiceDiscount %
             </td>
             <td class="borderedColumn">
-                @Model.CustomerCommission %
+                Cliente: @Model.CustomerCommission %
             </td>
+            <td>Fornitore: @Model.ProviderCommission %</td>
         </tr>
     </table>
 
