@@ -19,7 +19,14 @@ namespace Models
         public Customer Customer { get; set; }
         public Customer Provider { get; set; }
         public Transporter Transporter { get; set; }
-        public DateTime DocumentDate { get; set; }
+        public DateTime? DocumentDate { get; set; }
+        public string DocumentDateString
+        {
+            get
+            {
+                return DocumentDate.HasValue ? DocumentDate.Value.ToShortDateString() : string.Empty;
+            }
+        }
         public DateTime? ShippingDate { get; set; }
         public string ShippingDateString 
         { 

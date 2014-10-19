@@ -11,6 +11,7 @@ namespace PosizioniRoverfrutta.Windows
     /// </summary>
     public partial class ListPositions : Window
     {
+        private readonly IWindowManager _windowManager;
         private readonly IDataStorage _dataStorage;
 
         public ListPositions()
@@ -18,8 +19,9 @@ namespace PosizioniRoverfrutta.Windows
             InitializeComponent();
         }
 
-        public ListPositions(IDataStorage dataStorage, string documentId)
+        public ListPositions(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
         {
+            _windowManager = windowManager;
             _dataStorage = dataStorage;
             InitializeComponent();
 

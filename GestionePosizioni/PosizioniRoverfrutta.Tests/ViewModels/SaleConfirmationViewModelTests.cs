@@ -17,7 +17,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
             CreateBasicData();
 
-            _mainViewModel = new SaleConfirmationViewModel(_dataStorage);
+            _mainViewModel = new SaleConfirmationViewModel(_dataStorage, null);
         }
 
         [TearDown]

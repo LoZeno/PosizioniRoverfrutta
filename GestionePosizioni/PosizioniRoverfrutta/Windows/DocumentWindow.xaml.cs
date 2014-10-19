@@ -20,11 +20,17 @@ namespace PosizioniRoverfrutta.Windows
     /// </summary>
     public partial class DocumentWindow
     {
-        public DocumentWindow(IDataStorage dataStorage) : base(dataStorage)
+        public DocumentWindow()
+            : this(null, null)
+        {
+            
+        }
+
+        public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage) : base(windowManager, dataStorage)
         {
             InitializeComponent();
 
-            var viewModel = new SaleConfirmationViewModel(dataStorage);
+            var viewModel = new SaleConfirmationViewModel(dataStorage, _windowManager);
 
             BuildDataGridColumns();
             
@@ -45,7 +51,8 @@ namespace PosizioniRoverfrutta.Windows
             SetPrintButtonBinding(viewModel);
         }
 
-        public DocumentWindow(IDataStorage dataStorage, string documentId) : this (dataStorage)
+        public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
+            : this(windowManager, dataStorage)
         {
             try
             {
@@ -251,6 +258,8 @@ namespace PosizioniRoverfrutta.Windows
                 Mode = BindingMode.TwoWay
             };
             IdBox.SetBinding(TextBox.TextProperty, idBinding);
+
+            SetBindingsForDatePickers("DocumentDate", DocumentDatePicker);
 
             SetBindingsForDatePickers("ShippingDate", ShippingDatePicker);
             

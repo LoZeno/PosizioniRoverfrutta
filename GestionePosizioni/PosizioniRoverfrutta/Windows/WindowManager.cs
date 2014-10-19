@@ -41,12 +41,12 @@ namespace PosizioniRoverfrutta.Windows
             ManageWindows(key, _windowClasses[windowType], documentId);
         }
 
-        public string OpenSaveToPdfDialog(Window ownerWindow, string filename)
+        public string OpenSaveToPdfDialog(string filename)
         {
-            return OpenSaveFileDialog(ownerWindow, filename, ".pdf", "Documenti PDF (.pdf)|*.pdf");
+            return OpenSaveFileDialog(filename, ".pdf", "Documenti PDF (.pdf)|*.pdf");
         }
 
-        private string OpenSaveFileDialog(Window ownerWindow, string filename, string extension, string filter)
+        private string OpenSaveFileDialog(string filename, string extension, string filter)
         {
             var savefileDialog = new SaveFileDialog
             {
@@ -56,7 +56,7 @@ namespace PosizioniRoverfrutta.Windows
                 Filter = filter
             };
 
-            var result = savefileDialog.ShowDialog(ownerWindow);
+            var result = savefileDialog.ShowDialog();
 
             return result == true ? savefileDialog.FileName : null;
         }
@@ -72,7 +72,7 @@ namespace PosizioniRoverfrutta.Windows
 
         private void InstantiateNewWindow(string key, Type windowType, string documentId)
         {
-            var window = (Window)Activator.CreateInstance(windowType, _dataStorage, documentId);
+            var window = (Window)Activator.CreateInstance(windowType, this, _dataStorage, documentId);
             window.Name = key;
             window.Closed += window_Closed;
             _windows.Add(window.Name, window);

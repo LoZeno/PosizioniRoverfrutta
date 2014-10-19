@@ -9,6 +9,7 @@ using Microsoft.Practices.Prism.Commands;
 using Models;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
+using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
 
@@ -16,9 +17,10 @@ namespace PosizioniRoverfrutta.ViewModels
 {
     public class SaleConfirmationViewModel : INotifyPropertyChanged
     {
-        public SaleConfirmationViewModel(IDataStorage dataStorage)
+        public SaleConfirmationViewModel(IDataStorage dataStorage, IWindowManager windowManager)
         {
             _dataStorage = dataStorage;
+            _windowManager = windowManager;
             CompanyControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
@@ -37,6 +39,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
                 OnPropertyChanged();
                 OnPropertyChanged("SaleConfirmation");
+                OnPropertyChanged("DocumentDate");
                 OnPropertyChanged("ShippingDate");
                 OnPropertyChanged("DeliveryDate");
                 OnPropertyChanged("TruckLicensePlate");
@@ -48,6 +51,16 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
+            }
+        }
+
+        public DateTime? DocumentDate
+        {
+            get { return SaleConfirmation.DocumentDate; }
+            set
+            {
+                SaleConfirmation.DocumentDate = value;
+                OnPropertyChanged();
             }
         }
 
@@ -229,8 +242,18 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                var report = new SaleConfirmationReport(this.SaleConfirmation, @"D:\LoZeno\Documenti\ConfermaVendita-" + Id + ".pdf");
-                report.CreatePdf();
+                SaveAllData();
+                var path = _windowManager.OpenSaveToPdfDialog(string.Format("ConfermaVendita-{0}", Id));
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    Status = "Creazione del PDF annullata";
+                }
+                else
+                {
+                    var report = new SaleConfirmationReport(SaleConfirmation, path);
+                    report.CreatePdf();
+                    Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
+                }
             };
         }
 
@@ -260,42 +283,45 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private Action SaveDocumentAction()
         {
-            return delegate
+            return SaveAllData;
+        }
+
+        private void SaveAllData()
+        {
+            SaleConfirmation.Customer = CompanyControlViewModel.Company;
+            SaleConfirmation.Provider = ProviderControlViewModel.Company;
+            SaleConfirmation.Transporter = TransporterControlViewModel.Company;
+            SaleConfirmation.ProductDetails = new List<ProductDetails>();
+            try
             {
-                SaleConfirmation.Customer = CompanyControlViewModel.Company;
-                SaleConfirmation.Provider = ProviderControlViewModel.Company;
-                SaleConfirmation.Transporter = TransporterControlViewModel.Company;
-                SaleConfirmation.ProductDetails = new List<ProductDetails>();
-                try
+                using (var session = _dataStorage.CreateSession())
                 {
-                    using (var session = _dataStorage.CreateSession())
+                    var savedProductIds = new List<int?>();
+                    var savedCurrencies = new List<string>();
+                    foreach (var productRowViewModel in ProductDetails)
                     {
-                        var savedProductIds = new List<int?>();
-                        var savedCurrencies = new List<string>();
-                        foreach (var productRowViewModel in ProductDetails)
-                        {
-                            UpdateProductDescriptionsAndCurrencies(productRowViewModel.ProductDetails, session, savedProductIds, savedCurrencies);
-                        }
-
-                        UpdateTermsOfPayment(SaleConfirmation.TermsOfPayment, session);
-
-                        if (!string.IsNullOrWhiteSpace(CompanyControlViewModel.Company.CompanyName))
-                            session.Store(CompanyControlViewModel.Company);
-                        if (!string.IsNullOrWhiteSpace(ProviderControlViewModel.Company.CompanyName))
-                            session.Store(ProviderControlViewModel.Company);
-                        if (!string.IsNullOrWhiteSpace(TransporterControlViewModel.Company.CompanyName))
-                            session.Store(TransporterControlViewModel.Company);
-                        session.Store(SaleConfirmation);
-                        session.SaveChanges();
+                        UpdateProductDescriptionsAndCurrencies(productRowViewModel.ProductDetails, session, savedProductIds,
+                            savedCurrencies);
                     }
-                    Id = SaleConfirmation.Id;
-                    Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
+
+                    UpdateTermsOfPayment(SaleConfirmation.TermsOfPayment, session);
+
+                    if (!string.IsNullOrWhiteSpace(CompanyControlViewModel.Company.CompanyName))
+                        session.Store(CompanyControlViewModel.Company);
+                    if (!string.IsNullOrWhiteSpace(ProviderControlViewModel.Company.CompanyName))
+                        session.Store(ProviderControlViewModel.Company);
+                    if (!string.IsNullOrWhiteSpace(TransporterControlViewModel.Company.CompanyName))
+                        session.Store(TransporterControlViewModel.Company);
+                    session.Store(SaleConfirmation);
+                    session.SaveChanges();
                 }
-                catch (Exception exception)
-                {
-                    Status = "Errore durante il salvataggio: " + exception.Message;
-                }
-            };
+                Id = SaleConfirmation.Id;
+                Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
+            }
+            catch (Exception exception)
+            {
+                Status = "Errore durante il salvataggio: " + exception.Message;
+            }
         }
 
         private Action ReloadAction()
@@ -398,6 +424,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand saveAllCommand;
 
         private readonly IDataStorage _dataStorage;
+        private readonly IWindowManager _windowManager;
         private string _status;
         private ICommand reloadCommand;
         private ICommand printDocument;

@@ -7,8 +7,11 @@ namespace PosizioniRoverfrutta.Windows
 {
     public abstract class BaseWindow : RibbonWindow
     {
-        protected BaseWindow(IDataStorage dataStorage)
+        protected readonly IWindowManager _windowManager;
+
+        protected BaseWindow(IWindowManager windowManager, IDataStorage dataStorage)
         {
+            _windowManager = windowManager;
             DataStorage = dataStorage;
             Icon = new BitmapImage(new Uri(@"pack://application:,,,/Content/Pictures/ring-binders.ico"));
         }
