@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Models;
@@ -55,6 +53,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
+                OnPropertyChanged("EnableButtons");
             }
         }
 
@@ -225,6 +224,11 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool EnableButtons
+        {
+            get { return Id != -1; }
+        }
+
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -251,6 +255,20 @@ namespace PosizioniRoverfrutta.ViewModels
         public ICommand Print
         {
             get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument())); }
+        }
+
+        public ICommand Convert
+        {
+            get { return convertDocument ?? (convertDocument = new DelegateCommand(ConvertDocument())); }
+        }
+
+        private Action ConvertDocument()
+        {
+            return delegate
+            {
+                SaveAllData();
+                _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
+            };
         }
 
         private Action PrintDocument()
@@ -292,15 +310,32 @@ namespace PosizioniRoverfrutta.ViewModels
                             Transporter = saleconfirmation.Transporter,
                             DocumentDate = saleconfirmation.DocumentDate,
                             ProductDetails = saleconfirmation.ProductDetails,
-                            ShippingDate = saleconfirmation.ShippingDate
-                            //and so on...
+                            ShippingDate = saleconfirmation.ShippingDate,
+                            DeliveryDate = saleconfirmation.DeliveryDate,
+                            TruckLicensePlate = saleconfirmation.TruckLicensePlate,
+                            Rental = saleconfirmation.Rental,
+                            DeliveryEx = saleconfirmation.DeliveryEx,
+                            TermsOfPayment = saleconfirmation.TermsOfPayment,
+                            InvoiceDiscount = saleconfirmation.InvoiceDiscount,
+                            CustomerCommission = saleconfirmation.CustomerCommission,
+                            ProviderCommission = saleconfirmation.ProviderCommission,
+                            Notes = saleconfirmation.Notes,
+                            Lot = saleconfirmation.Lot,
+                            OrderCode = saleconfirmation.OrderCode
                         };
+                        Status = "Documento numero " + value + " caricato correttamente";
+                        session.Store(loadingDocument);
+                        session.SaveChanges();
                     }
                     else
                     {
+                        loadingDocument = new LoadingDocument{ Id = -1 };
                         Status = "Documento numero " + value + "non trovato";
-                        return;
                     }
+                }
+                else
+                {
+                    Status = "Documento numero " + value + " caricato correttamente";
                 }
             }
             LoadingDocument = loadingDocument;
@@ -313,7 +348,6 @@ namespace PosizioniRoverfrutta.ViewModels
                 ProductDetails.Add(new ProductRowViewModel(productDetail));
             }
             UpdateTotals();
-            Status = "Documento numero " + LoadingDocument.Id + " caricato correttamente";
         }
 
         private Action SaveDocumentAction()
@@ -463,5 +497,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
         private ICommand reloadCommand;
         private ICommand printDocument;
+        private ICommand convertDocument;
     }
 }

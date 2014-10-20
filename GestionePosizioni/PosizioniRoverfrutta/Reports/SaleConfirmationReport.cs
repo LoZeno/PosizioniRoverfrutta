@@ -16,12 +16,4 @@ namespace PosizioniRoverfrutta.Reports
             return @".\Content\ReportTemplates\ConfermaVenditaModello.html";
         }
     }
-
-    //public class SaleConfirmationReport : PechkinPdfCreator
-    //{
-    //    public SaleConfirmationReport(object model, string destinationPath)
-    //        : base(model, @".\Content\ReportTemplates\ConfermaVenditaModello.html", destinationPath)
-    //    {
-    //    }
-    //}
 }

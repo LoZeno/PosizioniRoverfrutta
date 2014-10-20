@@ -10,7 +10,7 @@
             <GroupBox Header="Ricerca Posizioni">
                 <StackPanel Orientation="Vertical">
                     <TextBox Name="SearchTextBox">
-                        <watermarkAdorner:WatermarkService.Watermark>Numero, Compagnia o Data</watermarkAdorner:WatermarkService.Watermark>
+                        <watermarkAdorner:WatermarkService.Watermark>Numero posizione</watermarkAdorner:WatermarkService.Watermark>
                     </TextBox>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
                         <Button Name="SaleConfirmSearchButton" Padding="5" Margin="3" Grid.Column="0" Click="SaleConfirmSearchButton_OnClick">
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Conferme di Vendita</TextBlock>
                         </Button>
-                        <Button Padding="5" Margin="3" Grid.Column="1">
+                        <Button Padding="5" Margin="3" Grid.Column="1" Click="LoadingDocumentSearch_OnClick">
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Distinte di Carico</TextBlock>
                         </Button>
                         <Button Padding="5" Margin="3" Grid.Column="2">

@@ -85,6 +85,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -141,6 +142,7 @@
     <Compile Include="ViewModels\LoadingDocumentViewModel.cs" />
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\SendGmailViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
@@ -148,6 +150,12 @@
     <Compile Include="Windows\IWindowManager.cs" />
     <Compile Include="Windows\ListPositions.xaml.cs">
       <DependentUpon>ListPositions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\LoadingDocumentWindow.xaml.cs">
+      <DependentUpon>LoadingDocumentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SendGmailAttachment.xaml.cs">
+      <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="Controls\CompanyData.xaml">
@@ -181,6 +189,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ListPositions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoadingDocumentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SendGmailAttachment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -323,6 +339,7 @@
     <Resource Include="Content\Pictures\Email\email-001.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Content\Pictures\Document\Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" />
     <Content Include="Content\ReportTemplates\ConfermaVenditaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -31,5 +31,11 @@ namespace PosizioniRoverfrutta
         {
             _windowsManager.InstantiateWindow("", WindowTypes.ElencoPosizioni);
         }
+
+        private void LoadingDocumentSearch_OnClick(object sender, RoutedEventArgs e)
+        {
+            var documentId = SearchTextBox.Text.Trim();
+            _windowsManager.InstantiateWindow(documentId, WindowTypes.DistintaCarico);
+        }
     }
 }

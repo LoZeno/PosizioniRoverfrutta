@@ -95,6 +95,10 @@
             border:3px solid black;
         }
 
+        .removeBorder tr td{
+            border: 0px;
+        }
+
         .borderedColumn {
             border-style: solid;
             border-color: black;
@@ -260,7 +264,6 @@
     </table>
 
     <div style="width: 100%; height: 2em;"></div>
-    
     <table class="borderedTable">
         <thead class="borderedThickTable">
             <tr class="boldGridHeader">
@@ -305,6 +308,18 @@
             </tr>
             }
         </tbody>
+        <tfoot class="normalText removeBorder">
+            <tr>
+                <td>Totali:</td>
+                <td>@Model.ProductDetails.Sum(p => p.Pallets)</td>
+                <td>@Model.ProductDetails.Sum(p => p.Packages)</td>
+                <td>@Model.ProductDetails.Sum(p => p.GrossWeight)</td>
+                <td>@Model.ProductDetails.Sum(p => p.NetWeight)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
     
     <div style="width: 100%; height: 4em;"></div>

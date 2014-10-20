@@ -251,23 +251,56 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument())); }
         }
 
+        public ICommand Convert
+        {
+            get { return convertDocument ?? (convertDocument = new DelegateCommand(ConvertDocument())); }
+        }
+
+        public ICommand Email
+        {
+            get { return emailDocument ?? (emailDocument = new DelegateCommand(SendEmail())); }
+        }
+
+        private Action SendEmail()
+        {
+            return delegate
+            {
+                SaveAllData();
+                var path = SavePdf();
+                _windowManager.InstantiateWindow(path, WindowTypes.InviaEmail);
+            };
+        }
+
+        private Action ConvertDocument()
+        {
+            return delegate
+            {
+                SaveAllData();
+                _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
+            };
+        }
+
         private Action PrintDocument()
         {
             return delegate
             {
                 SaveAllData();
-                var path = _windowManager.OpenSaveToPdfDialog(string.Format("ConfermaVendita-{0}", Id));
-                if (string.IsNullOrWhiteSpace(path))
-                {
-                    Status = "Creazione del PDF annullata";
-                }
-                else
-                {
-                    var report = new SaleConfirmationReport(SaleConfirmation, path);
-                    report.CreatePdf();
-                    Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
-                }
+                SavePdf();
             };
+        }
+
+        private string SavePdf()
+        {
+            var path = _windowManager.OpenSaveToPdfDialog(string.Format("ConfermaVendita-{0}", Id));
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                Status = "Creazione del PDF annullata";
+                return string.Empty;
+            }
+            var report = new SaleConfirmationReport(SaleConfirmation, path);
+            report.CreatePdf();
+            Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
+            return path;
         }
 
         private void LoadDocument(int value)
@@ -441,5 +474,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
         private ICommand reloadCommand;
         private ICommand printDocument;
+        private ICommand convertDocument;
+        private ICommand emailDocument;
     }
 }

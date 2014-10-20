@@ -14,21 +14,21 @@ using QueryManager;
 namespace PosizioniRoverfrutta.Windows
 {
     /// <summary>
-    /// Interaction logic for DocumentWindow.xaml
+    /// Interaction logic for LoadingDocumentWindow.xaml
     /// </summary>
-    public partial class DocumentWindow
+    public partial class LoadingDocumentWindow : BaseWindow
     {
-        public DocumentWindow()
+        public LoadingDocumentWindow()
             : this(null, null)
         {
             
         }
 
-        public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage) : base(windowManager, dataStorage)
+        public LoadingDocumentWindow(IWindowManager windowManager, IDataStorage dataStorage) : base(windowManager, dataStorage)
         {
             InitializeComponent();
 
-            var viewModel = new SaleConfirmationViewModel(dataStorage, _windowManager);
+            var viewModel = new LoadingDocumentViewModel(dataStorage, _windowManager);
 
             BuildDataGridColumns();
             
@@ -46,30 +46,28 @@ namespace PosizioniRoverfrutta.Windows
 
             SetConvertButtonBinding(viewModel);
 
-            SetSendtButtonBinding(viewModel);
-
             SetStatusBinding();
 
             SetPrintButtonBinding(viewModel);
         }
 
-        public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
+        public LoadingDocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
             : this(windowManager, dataStorage)
         {
             try
             {
                 var myId = int.Parse(documentId);
-                ((SaleConfirmationViewModel) DataContext).Id = myId;
+                ((LoadingDocumentViewModel) DataContext).Id = myId;
                 IdBox.IsReadOnly = true;
             }
             catch (Exception)
             {
                 if (!documentId.Equals("new"))
-                    StatusLabel.Content = "La conferma di vendita " + documentId + " non è stata trovata.";
+                    StatusLabel.Content = "La distinta di carico " + documentId + " non è stata trovata.";
             }
         }
 
-        private void SetDataGridBinding(SaleConfirmationViewModel viewModel)
+        private void SetDataGridBinding(LoadingDocumentViewModel viewModel)
         {
             ProductsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
             {
@@ -368,7 +366,7 @@ namespace PosizioniRoverfrutta.Windows
 
         public override int Index { get; set; }
 
-        private void AddCompanyDetailsControls(IDataStorage dataStorage, SaleConfirmationViewModel viewModel)
+        private void AddCompanyDetailsControls(IDataStorage dataStorage, LoadingDocumentViewModel viewModel)
         {
             var customerDetailsControl = new CompanyDetails(dataStorage, viewModel.CompanyControlViewModel);
             customerDetailsControl.TitleBlock.Text = "Cliente";
@@ -389,7 +387,7 @@ namespace PosizioniRoverfrutta.Windows
             CompaniesGrid.Children.Add(control);
         }
 
-        private void SetSaveButtonBindings(SaleConfirmationViewModel viewModel)
+        private void SetSaveButtonBindings(LoadingDocumentViewModel viewModel)
         {
             var saveBinding = new CommandBinding
             {
@@ -402,9 +400,14 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("SaveAll")
             });
+
+            SaveButton.SetBinding(IsEnabledProperty, new Binding
+            {
+                Path = new PropertyPath("EnableButtons")
+            });
         }
 
-        private void SetReloadButtonBinding(SaleConfirmationViewModel viewModel)
+        private void SetReloadButtonBinding(LoadingDocumentViewModel viewModel)
         {
             var reloadBinding = new CommandBinding
             {
@@ -417,9 +420,14 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("Reload")
             });
+
+            UndoButton.SetBinding(IsEnabledProperty, new Binding
+            {
+                Path = new PropertyPath("EnableButtons")
+            });
         }
 
-        private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
+        private void SetPrintButtonBinding(LoadingDocumentViewModel viewModel)
         {
             var printBinding = new CommandBinding
             {
@@ -432,9 +440,14 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("Print")
             });
+
+            PdfButton.SetBinding(IsEnabledProperty, new Binding
+            {
+                Path = new PropertyPath("EnableButtons")
+            });
         }
 
-        private void SetConvertButtonBinding(SaleConfirmationViewModel viewModel)
+        private void SetConvertButtonBinding(LoadingDocumentViewModel viewModel)
         {
             var convertBinding = new CommandBinding
             {
@@ -447,20 +460,10 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("Convert")
             });
-        }
 
-        private void SetSendtButtonBinding(SaleConfirmationViewModel viewModel)
-        {
-            var sendBinding = new CommandBinding
+            ConvertButton.SetBinding(IsEnabledProperty, new Binding
             {
-                Command = viewModel.Email
-            };
-            CommandBindings.Add(sendBinding);
-
-            EmailButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("Email")
+                Path = new PropertyPath("EnableButtons")
             });
         }
     }
