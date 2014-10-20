@@ -343,7 +343,9 @@
     <Content Include="Content\ReportTemplates\ConfermaVenditaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\ReportTemplates\DocumentoTrasportoModello.html" />
+    <Content Include="Content\ReportTemplates\DocumentoTrasportoModello.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

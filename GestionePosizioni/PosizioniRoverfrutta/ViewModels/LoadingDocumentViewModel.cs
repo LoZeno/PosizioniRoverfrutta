@@ -42,7 +42,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("LoadingDocument");
                 OnPropertyChanged("DocumentDate");
                 OnPropertyChanged("ShippingDate");
-                OnPropertyChanged("DeliveryDate");
+                OnPropertyChanged("TransportDocument");
                 OnPropertyChanged("TruckLicensePlate");
                 OnPropertyChanged("Rental");
                 OnPropertyChanged("DeliveryEx");
@@ -77,12 +77,12 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public DateTime? DeliveryDate
+        public string TransportDocument
         {
-            get { return LoadingDocument.DeliveryDate; }
+            get { return LoadingDocument.TransportDocument; }
             set
             {
-                LoadingDocument.DeliveryDate = value;
+                LoadingDocument.TransportDocument = value;
                 OnPropertyChanged();
             }
         }
@@ -276,7 +276,7 @@ namespace PosizioniRoverfrutta.ViewModels
             return delegate
             {
                 SaveAllData();
-                var path = _windowManager.OpenSaveToPdfDialog(string.Format("ConfermaVendita-{0}", Id));
+                var path = _windowManager.OpenSaveToPdfDialog(string.Format("DistintaCarico-{0}", Id));
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     Status = "Creazione del PDF annullata";

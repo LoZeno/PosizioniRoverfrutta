@@ -262,8 +262,8 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForDatePickers("DocumentDate", DocumentDatePicker);
 
             SetBindingsForDatePickers("ShippingDate", ShippingDatePicker);
-            
-            SetBindingsForDatePickers("DeliveryDate", DeliveryDatePicker);
+
+            SetBindingsForTextBox("TransportDocument", TransportDocumentCode);
 
             SetBindingsForTextBox("TruckLicensePlate", LicensePlate);
 

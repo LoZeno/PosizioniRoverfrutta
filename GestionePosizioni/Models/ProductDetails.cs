@@ -11,5 +11,7 @@
         public decimal Price { get; set; }
         public string Currency { get; set; }
         public decimal PriceParameter { get; set; }
+
+        public decimal TotalPrice { get { return Price*PriceParameter; } }
     }
 }
