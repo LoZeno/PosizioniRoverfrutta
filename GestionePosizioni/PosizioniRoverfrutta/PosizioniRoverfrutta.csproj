@@ -130,6 +130,7 @@
     <Compile Include="CustomControls\XamlWatermarkAdorner\TextInputToVisibilityConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Reports\LoadingDocumentReport.cs" />
+    <Compile Include="Reports\PriceConfirmationReport.cs" />
     <Compile Include="Reports\SaleConfirmationReport.cs" />
     <Compile Include="Services\CurrenciesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
@@ -340,6 +341,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Pictures\Document\Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" />
+    <Content Include="Content\ReportTemplates\ConfermaPrezziModello.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\ReportTemplates\ConfermaVenditaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

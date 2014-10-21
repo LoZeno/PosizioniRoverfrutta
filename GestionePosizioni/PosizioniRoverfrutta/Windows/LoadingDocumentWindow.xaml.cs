@@ -46,6 +46,8 @@ namespace PosizioniRoverfrutta.Windows
 
             SetConvertButtonBinding(viewModel);
 
+            SetSendtButtonBinding(viewModel);
+
             SetStatusBinding();
 
             SetPrintButtonBinding(viewModel);
@@ -465,6 +467,26 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Path = new PropertyPath("EnableButtons")
             });
+        }
+
+        private void SetSendtButtonBinding(LoadingDocumentViewModel viewModel)
+        {
+            var sendBinding = new CommandBinding
+            {
+                Command = viewModel.Email
+            };
+            CommandBindings.Add(sendBinding);
+
+            EmailButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("Email")
+            });
+
+            //EmailButton.SetBinding(IsEnabledProperty, new Binding
+            //{
+            //    Path = new PropertyPath("EnableButtons")
+            //});
         }
     }
 }
