@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Models;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
@@ -48,6 +49,22 @@ namespace PosizioniRoverfrutta
         {
             DataStorage = new RavenDataStorage();
             DataStorage.Initialize();
+
+            InitializeDefaultData();
+        }
+
+        private void InitializeDefaultData()
+        {
+            using (var session = DataStorage.CreateSession())
+            {
+                var defaults = session.Load<DefaultValues>(1);
+                if (defaults == null)
+                {
+                    defaults = new DefaultValues {Id = 1, Vat = 4};
+                    session.Store(defaults);
+                    session.SaveChanges();
+                }
+            }
         }
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="CompanyBase.cs" />
     <Compile Include="Currencies.cs" />
     <Compile Include="Customer.cs" />
+    <Compile Include="DefaultValues.cs" />
     <Compile Include="DocumentTypes\DocumentBase.cs" />
     <Compile Include="DocumentTypes\SaleConfirmation.cs" />
     <Compile Include="ProductDescription.cs" />
