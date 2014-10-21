@@ -11,8 +11,8 @@ namespace Models.DocumentTypes
 
     public class PriceConfirmation : LoadingDocument
     {
-        public decimal GrandTotal { get; set; }
-        public string GrandTotalString {get { return GrandTotal.ToString("F2"); }}
+        public decimal TotalAmount { get; set; }
+        public string GrandTotalString {get { return TotalAmount.ToString("F2"); }}
         public decimal CalculatedDiscount { get; set; }
         public string CalculatedDiscountString { get { return CalculatedDiscount.ToString("F2"); }}
         public decimal TaxableAmount { get; set; }

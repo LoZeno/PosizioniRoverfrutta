@@ -141,6 +141,7 @@
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />
     <Compile Include="ViewModels\ListPositionsViewModel.cs" />
     <Compile Include="ViewModels\LoadingDocumentViewModel.cs" />
+    <Compile Include="ViewModels\PriceConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />

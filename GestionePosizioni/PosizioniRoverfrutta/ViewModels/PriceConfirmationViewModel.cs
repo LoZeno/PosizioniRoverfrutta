@@ -16,9 +16,9 @@ using Raven.Client;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
-    public class LoadingDocumentViewModel : INotifyPropertyChanged
+    public class PriceConfirmationViewModel : INotifyPropertyChanged
     {
-        public LoadingDocumentViewModel(IDataStorage dataStorage, IWindowManager windowManager)
+        public PriceConfirmationViewModel(IDataStorage dataStorage, IWindowManager windowManager)
         {
             _dataStorage = dataStorage;
             _windowManager = windowManager;
@@ -26,20 +26,20 @@ namespace PosizioniRoverfrutta.ViewModels
             ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
 
-            LoadingDocument = new LoadingDocument();
+            PriceConfirmation = new PriceConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
         }
 
         public int Id
         {
-            get { return LoadingDocument.Id; }
+            get { return PriceConfirmation.Id; }
             set
             {
                 LoadDocument(value);
 
                 OnPropertyChanged();
-                OnPropertyChanged("LoadingDocument");
+                OnPropertyChanged("PriceConfirmation");
                 OnPropertyChanged("DocumentDate");
                 OnPropertyChanged("ShippingDate");
                 OnPropertyChanged("TransportDocument");
@@ -59,90 +59,90 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public DateTime? DocumentDate
         {
-            get { return LoadingDocument.DocumentDate; }
+            get { return PriceConfirmation.DocumentDate; }
             set
             {
-                LoadingDocument.DocumentDate = value;
+                PriceConfirmation.DocumentDate = value;
                 OnPropertyChanged();
             }
         }
 
         public DateTime? ShippingDate
         {
-            get { return LoadingDocument.ShippingDate; }
+            get { return PriceConfirmation.ShippingDate; }
             set
             {
-                LoadingDocument.ShippingDate = value;
+                PriceConfirmation.ShippingDate = value;
                 OnPropertyChanged();
             }
         }
 
         public string TransportDocument
         {
-            get { return LoadingDocument.TransportDocument; }
+            get { return PriceConfirmation.TransportDocument; }
             set
             {
-                LoadingDocument.TransportDocument = value;
+                PriceConfirmation.TransportDocument = value;
                 OnPropertyChanged();
             }
         }
 
         public string TruckLicensePlate
         {
-            get { return LoadingDocument.TruckLicensePlate; }
+            get { return PriceConfirmation.TruckLicensePlate; }
             set
             {
-                LoadingDocument.TruckLicensePlate = value;
+                PriceConfirmation.TruckLicensePlate = value;
                 OnPropertyChanged();
             }
         }
 
         public decimal? Rental
         {
-            get { return LoadingDocument.Rental; }
+            get { return PriceConfirmation.Rental; }
             set
             {
-                LoadingDocument.Rental = value;
+                PriceConfirmation.Rental = value;
                 OnPropertyChanged();
             }
         }
 
         public string DeliveryEx
         {
-            get { return LoadingDocument.DeliveryEx; }
+            get { return PriceConfirmation.DeliveryEx; }
             set
             {
-                LoadingDocument.DeliveryEx = value;
+                PriceConfirmation.DeliveryEx = value;
                 OnPropertyChanged();
             }
         }
 
         public string TermsOfPayment
         {
-            get { return LoadingDocument.TermsOfPayment; }
+            get { return PriceConfirmation.TermsOfPayment; }
             set
             {
-                LoadingDocument.TermsOfPayment = value;
+                PriceConfirmation.TermsOfPayment = value;
                 OnPropertyChanged();
             }
         }
 
         public decimal? InvoiceDiscount
         {
-            get { return LoadingDocument.InvoiceDiscount; }
+            get { return PriceConfirmation.InvoiceDiscount; }
             set
             {
-                LoadingDocument.InvoiceDiscount = value;
+                PriceConfirmation.InvoiceDiscount = value ?? 0;
                 OnPropertyChanged();
             }
         }
 
         public decimal? CustomerCommission
         {
-            get { return LoadingDocument.CustomerCommission; }
+            get { return PriceConfirmation.CustomerCommission; }
             set
             {
-                LoadingDocument.CustomerCommission = value;
+                PriceConfirmation.CustomerCommission = value;
                 OnPropertyChanged();
             }
         }
@@ -150,40 +150,40 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal? ProviderCommission
         {
-            get { return LoadingDocument.ProviderCommission; }
+            get { return PriceConfirmation.ProviderCommission; }
             set
             {
-                LoadingDocument.ProviderCommission = value;
+                PriceConfirmation.ProviderCommission = value;
                 OnPropertyChanged();
             }
         }
 
         public string Notes
         {
-            get { return LoadingDocument.Notes; }
+            get { return PriceConfirmation.Notes; }
             set
             {
-                LoadingDocument.Notes = value;
+                PriceConfirmation.Notes = value;
                 OnPropertyChanged();
             }
 
         }
         public string Lot
         {
-            get { return LoadingDocument.Lot; }
+            get { return PriceConfirmation.Lot; }
             set
             {
-                LoadingDocument.Lot = value;
+                PriceConfirmation.Lot = value;
                 OnPropertyChanged();
             }
 
         }
         public string OrderCode
         {
-            get { return LoadingDocument.OrderCode; }
+            get { return PriceConfirmation.OrderCode; }
             set
             {
-                LoadingDocument.OrderCode = value;
+                PriceConfirmation.OrderCode = value;
                 OnPropertyChanged();
             }
 
@@ -211,7 +211,62 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal TotalAmount
         {
-            get { return ProductDetails.Sum(p => p.TotalPrice); }
+            get { return PriceConfirmation.TotalAmount; }
+            set
+            {
+                PriceConfirmation.TotalAmount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal CalculatedDiscount
+        {
+            get { return PriceConfirmation.CalculatedDiscount; }
+            set
+            {
+                PriceConfirmation.CalculatedDiscount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal TaxableAmount
+        {
+            get { return PriceConfirmation.TaxableAmount; }
+            set
+            {
+                PriceConfirmation.TaxableAmount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal Vat
+        {
+            get { return PriceConfirmation.Vat; }
+            set
+            {
+                PriceConfirmation.Vat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal CalculatedVat
+        {
+            get { return PriceConfirmation.CalculatedVat; }
+            set
+            {
+                PriceConfirmation.CalculatedVat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public decimal FinalTotal
+        {
+            get { return PriceConfirmation.FinalTotal; }
+            set
+            {
+                PriceConfirmation.FinalTotal = value;
+                OnPropertyChanged();
+            }
         }
 
         public string Status
@@ -242,7 +297,7 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return reloadCommand ?? (reloadCommand = new DelegateCommand(ReloadAction())); }
         }
 
-        public LoadingDocument LoadingDocument { get; set; }
+        public PriceConfirmation PriceConfirmation { get; set; }
 
         public ICommand SaveAll
         {
@@ -255,11 +310,6 @@ namespace PosizioniRoverfrutta.ViewModels
         public ICommand Print
         {
             get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument())); }
-        }
-
-        public ICommand Convert
-        {
-            get { return convertDocument ?? (convertDocument = new DelegateCommand(ConvertDocument())); }
         }
 
         public ICommand Email
@@ -277,15 +327,6 @@ namespace PosizioniRoverfrutta.ViewModels
             };
         }
 
-        private Action ConvertDocument()
-        {
-            return delegate
-            {
-                //SaveAllData();
-                _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
-            };
-        }
-
         private Action PrintDocument()
         {
             return delegate
@@ -297,13 +338,13 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private string SavePdf()
         {
-            var path = _windowManager.OpenSaveToPdfDialog(string.Format("DistintaCarico-{0}", Id));
+            var path = _windowManager.OpenSaveToPdfDialog(string.Format("ConfermaPrezzi-{0}", Id));
             if (string.IsNullOrWhiteSpace(path))
             {
                 Status = "Creazione del PDF annullata";
                 return string.Empty;
             }
-            var report = new LoadingDocumentReport(LoadingDocument, path);
+            var report = new PriceConfirmationReport(PriceConfirmation, path);
             report.CreatePdf();
             Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
             return path;
@@ -311,44 +352,44 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void LoadDocument(int value)
         {
-            LoadingDocument loadingDocument = null;
+            PriceConfirmation priceConfirmation;
             using (var session = _dataStorage.CreateSession())
             {
-                loadingDocument = session.Load<LoadingDocument>(value);
+                priceConfirmation = session.Load<PriceConfirmation>(value);
             
-                if (loadingDocument == null)
+                if (priceConfirmation == null)
                 {
-                    var saleconfirmation = session.Load<SaleConfirmation>(value);
-                    if (saleconfirmation != null)
+                    var loadingDocument = session.Load<LoadingDocument>(value);
+                    if (loadingDocument != null)
                     {
-                        loadingDocument = new LoadingDocument
+                        priceConfirmation = new PriceConfirmation
                         {
                             Id = value,
-                            Customer = saleconfirmation.Customer,
-                            Provider = saleconfirmation.Provider,
-                            Transporter = saleconfirmation.Transporter,
-                            DocumentDate = saleconfirmation.DocumentDate,
-                            ProductDetails = saleconfirmation.ProductDetails,
-                            ShippingDate = saleconfirmation.ShippingDate,
-                            DeliveryDate = saleconfirmation.DeliveryDate,
-                            TruckLicensePlate = saleconfirmation.TruckLicensePlate,
-                            Rental = saleconfirmation.Rental,
-                            DeliveryEx = saleconfirmation.DeliveryEx,
-                            TermsOfPayment = saleconfirmation.TermsOfPayment,
-                            InvoiceDiscount = saleconfirmation.InvoiceDiscount,
-                            CustomerCommission = saleconfirmation.CustomerCommission,
-                            ProviderCommission = saleconfirmation.ProviderCommission,
-                            Notes = saleconfirmation.Notes,
-                            Lot = saleconfirmation.Lot,
-                            OrderCode = saleconfirmation.OrderCode
+                            Customer = loadingDocument.Customer,
+                            Provider = loadingDocument.Provider,
+                            Transporter = loadingDocument.Transporter,
+                            DocumentDate = loadingDocument.DocumentDate,
+                            ProductDetails = loadingDocument.ProductDetails,
+                            ShippingDate = loadingDocument.ShippingDate,
+                            DeliveryDate = loadingDocument.DeliveryDate,
+                            TruckLicensePlate = loadingDocument.TruckLicensePlate,
+                            Rental = loadingDocument.Rental,
+                            DeliveryEx = loadingDocument.DeliveryEx,
+                            TermsOfPayment = loadingDocument.TermsOfPayment,
+                            InvoiceDiscount = loadingDocument.InvoiceDiscount,
+                            CustomerCommission = loadingDocument.CustomerCommission,
+                            ProviderCommission = loadingDocument.ProviderCommission,
+                            Notes = loadingDocument.Notes,
+                            Lot = loadingDocument.Lot,
+                            OrderCode = loadingDocument.OrderCode
                         };
                         Status = "Documento numero " + value + " caricato correttamente";
-                        session.Store(loadingDocument);
+                        session.Store(priceConfirmation);
                         session.SaveChanges();
                     }
                     else
                     {
-                        loadingDocument = new LoadingDocument{ Id = -1 };
+                        priceConfirmation = new PriceConfirmation{ Id = -1 };
                         Status = "Documento numero " + value + "non trovato";
                     }
                 }
@@ -357,12 +398,12 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Documento numero " + value + " caricato correttamente";
                 }
             }
-            LoadingDocument = loadingDocument;
-            CompanyControlViewModel.Company = LoadingDocument.Customer;
-            ProviderControlViewModel.Company = LoadingDocument.Provider;
-            TransporterControlViewModel.Company = LoadingDocument.Transporter;
+            PriceConfirmation = priceConfirmation;
+            CompanyControlViewModel.Company = PriceConfirmation.Customer;
+            ProviderControlViewModel.Company = PriceConfirmation.Provider;
+            TransporterControlViewModel.Company = PriceConfirmation.Transporter;
             ProductDetails.Clear();
-            foreach (var productDetail in loadingDocument.ProductDetails)
+            foreach (var productDetail in priceConfirmation.ProductDetails)
             {
                 ProductDetails.Add(new ProductRowViewModel(productDetail));
             }
@@ -376,10 +417,10 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void SaveAllData()
         {
-            LoadingDocument.Customer = CompanyControlViewModel.Company;
-            LoadingDocument.Provider = ProviderControlViewModel.Company;
-            LoadingDocument.Transporter = TransporterControlViewModel.Company;
-            LoadingDocument.ProductDetails = new List<ProductDetails>();
+            PriceConfirmation.Customer = CompanyControlViewModel.Company;
+            PriceConfirmation.Provider = ProviderControlViewModel.Company;
+            PriceConfirmation.Transporter = TransporterControlViewModel.Company;
+            PriceConfirmation.ProductDetails = new List<ProductDetails>();
             try
             {
                 using (var session = _dataStorage.CreateSession())
@@ -392,7 +433,7 @@ namespace PosizioniRoverfrutta.ViewModels
                             savedCurrencies);
                     }
 
-                    UpdateTermsOfPayment(LoadingDocument.TermsOfPayment, session);
+                    UpdateTermsOfPayment(PriceConfirmation.TermsOfPayment, session);
 
                     if (!string.IsNullOrWhiteSpace(CompanyControlViewModel.Company.CompanyName))
                         session.Store(CompanyControlViewModel.Company);
@@ -400,10 +441,10 @@ namespace PosizioniRoverfrutta.ViewModels
                         session.Store(ProviderControlViewModel.Company);
                     if (!string.IsNullOrWhiteSpace(TransporterControlViewModel.Company.CompanyName))
                         session.Store(TransporterControlViewModel.Company);
-                    session.Store(LoadingDocument);
+                    session.Store(PriceConfirmation);
                     session.SaveChanges();
                 }
-                Id = LoadingDocument.Id;
+                Id = PriceConfirmation.Id;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
             }
             catch (Exception exception)
@@ -428,7 +469,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void UpdateProductDescriptionsAndCurrencies(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds, List<string> savedCurrencies)
         {
-            LoadingDocument.ProductDetails.Add(productDetails);
+            PriceConfirmation.ProductDetails.Add(productDetails);
             CheckIfProductDescriptionIsNew(productDetails, session, savedProductIds);
             CheckIfCurrencyIsNew(productDetails.Currency, session, savedCurrencies);
         }
@@ -497,7 +538,12 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalPackages");
             OnPropertyChanged("TotalGross");
             OnPropertyChanged("TotalNet");
-            OnPropertyChanged("TotalAmount");
+            TotalAmount = PriceConfirmation.ProductDetails.Sum(p => p.TotalPrice);
+            CalculatedDiscount = PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value/100;
+            TaxableAmount = PriceConfirmation.TotalAmount - PriceConfirmation.CalculatedDiscount;
+            var calculatedVat = ((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100);
+            CalculatedVat = Math.Round(calculatedVat, 2);
+            FinalTotal = PriceConfirmation.TaxableAmount + PriceConfirmation.CalculatedVat;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -516,7 +562,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
         private ICommand reloadCommand;
         private ICommand printDocument;
-        private ICommand convertDocument;
         private ICommand emailDocument;
     }
 }
