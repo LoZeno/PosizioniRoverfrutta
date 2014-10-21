@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Models;
 using PosizioniRoverfrutta.Annotations;
@@ -112,7 +113,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal TotalPrice
         {
-            get { return Price*PriceParameter; }
+            get { return Math.Round(Price*PriceParameter, 2); }
         }
 
         public ProductDetails ProductDetails { get; set; }

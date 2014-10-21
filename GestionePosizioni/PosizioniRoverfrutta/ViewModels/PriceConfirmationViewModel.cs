@@ -201,12 +201,12 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal TotalGross
         {
-            get { return ProductDetails.Sum(p => p.GrossWeight); }
+            get { return Math.Round(ProductDetails.Sum(p => p.GrossWeight), 2); }
         }
 
         public decimal TotalNet
         {
-            get { return ProductDetails.Sum(p => p.NetWeight); }
+            get { return Math.Round(ProductDetails.Sum(p => p.NetWeight), 2); }
         }
 
         public decimal TotalAmount
@@ -538,10 +538,10 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalPackages");
             OnPropertyChanged("TotalGross");
             OnPropertyChanged("TotalNet");
-            TotalAmount = PriceConfirmation.ProductDetails.Sum(p => p.TotalPrice);
-            CalculatedDiscount = PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value/100;
+            TotalAmount = Math.Round(PriceConfirmation.ProductDetails.Sum(p => p.TotalPrice), 2);
+            CalculatedDiscount = Math.Round(((PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value)/100), 2);
             TaxableAmount = PriceConfirmation.TotalAmount - PriceConfirmation.CalculatedDiscount;
-            var calculatedVat = ((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100);
+            var calculatedVat = Math.Round(((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100), 2);
             CalculatedVat = Math.Round(calculatedVat, 2);
             FinalTotal = PriceConfirmation.TaxableAmount + PriceConfirmation.CalculatedVat;
         }

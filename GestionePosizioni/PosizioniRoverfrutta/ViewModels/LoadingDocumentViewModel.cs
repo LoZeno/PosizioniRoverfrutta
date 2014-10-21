@@ -201,17 +201,17 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal TotalGross
         {
-            get { return ProductDetails.Sum(p => p.GrossWeight); }
+            get { return Math.Round(ProductDetails.Sum(p => p.GrossWeight), 2); }
         }
 
         public decimal TotalNet
         {
-            get { return ProductDetails.Sum(p => p.NetWeight); }
+            get { return Math.Round(ProductDetails.Sum(p => p.NetWeight), 2); }
         }
 
         public decimal TotalAmount
         {
-            get { return ProductDetails.Sum(p => p.TotalPrice); }
+            get { return Math.Round(ProductDetails.Sum(p => p.TotalPrice), 2); }
         }
 
         public string Status

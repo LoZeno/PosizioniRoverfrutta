@@ -1,0 +1,9 @@
+﻿<windows:BaseWindow x:Class="PosizioniRoverfrutta.Windows.PriceConfirmationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
+        Title="PriceConfirmationWindow" Height="300" Width="300">
+    <Grid>
+        
+    </Grid>
+</windows:BaseWindow>
