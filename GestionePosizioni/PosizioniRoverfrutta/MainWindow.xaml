@@ -24,7 +24,7 @@
                         <Button Padding="5" Margin="3" Grid.Column="1" Click="LoadingDocumentSearch_OnClick">
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Distinte di Carico</TextBlock>
                         </Button>
-                        <Button Padding="5" Margin="3" Grid.Column="2">
+                        <Button Padding="5" Margin="3" Grid.Column="2" Click="PriceConfirmationSearch_OnClick">
                             <TextBlock TextWrapping="Wrap" TextAlignment="Center">Conferme Prezzi</TextBlock>
                         </Button>
                     </Grid>

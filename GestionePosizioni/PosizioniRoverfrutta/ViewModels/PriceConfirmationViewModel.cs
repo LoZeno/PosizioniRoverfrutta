@@ -54,6 +54,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
                 OnPropertyChanged("EnableButtons");
+                OnPropertyChanged("Vat");
             }
         }
 
@@ -134,6 +135,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 PriceConfirmation.InvoiceDiscount = value ?? 0;
                 OnPropertyChanged();
+                UpdateTotals();
             }
         }
 
@@ -144,6 +146,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 PriceConfirmation.CustomerCommission = value;
                 OnPropertyChanged();
+                UpdateTotals();
             }
         }
 
@@ -155,6 +158,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 PriceConfirmation.ProviderCommission = value;
                 OnPropertyChanged();
+                UpdateTotals();
             }
         }
 
@@ -246,6 +250,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 PriceConfirmation.Vat = value;
                 OnPropertyChanged();
+                UpdateTotals();
             }
         }
 
@@ -383,6 +388,8 @@ namespace PosizioniRoverfrutta.ViewModels
                             Lot = loadingDocument.Lot,
                             OrderCode = loadingDocument.OrderCode
                         };
+                        var initialVat = session.Load<DefaultValues>(1).Vat;
+                        priceConfirmation.Vat = initialVat;
                         Status = "Documento numero " + value + " caricato correttamente";
                         session.Store(priceConfirmation);
                         session.SaveChanges();
@@ -435,6 +442,8 @@ namespace PosizioniRoverfrutta.ViewModels
 
                     UpdateTermsOfPayment(PriceConfirmation.TermsOfPayment, session);
 
+                    UpdateDefaultVat(PriceConfirmation.Vat, session);
+
                     if (!string.IsNullOrWhiteSpace(CompanyControlViewModel.Company.CompanyName))
                         session.Store(CompanyControlViewModel.Company);
                     if (!string.IsNullOrWhiteSpace(ProviderControlViewModel.Company.CompanyName))
@@ -456,6 +465,13 @@ namespace PosizioniRoverfrutta.ViewModels
         private Action ReloadAction()
         {
             return () => LoadDocument(Id);
+        }
+
+        private void UpdateDefaultVat(decimal vat, IDocumentSession session)
+        {
+            var defaults = session.Load<DefaultValues>(1);
+            defaults.Vat = vat;
+            session.Store(defaults);
         }
 
         private static void UpdateTermsOfPayment(string termsOfPayment, IDocumentSession session)
