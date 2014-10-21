@@ -33,6 +33,7 @@ namespace PosizioniRoverfrutta
             _windowManager.RegisterWindowClass(WindowTypes.DistintaCarico, typeof(LoadingDocumentWindow));
             _windowManager.RegisterWindowClass(WindowTypes.InviaEmail, typeof(SendGmailAttachment));
             _windowManager.RegisterWindowClass(WindowTypes.ConfermaPrezzi, typeof(PriceConfirmationWindow));
+            _windowManager.RegisterWindowClass(WindowTypes.Riepiloghi, typeof(SummaryAndInvoicesWindow));
         }
 
         private void ShowMainWindow()

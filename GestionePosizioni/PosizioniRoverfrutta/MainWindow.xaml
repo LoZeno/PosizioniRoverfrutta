@@ -31,7 +31,7 @@
                 </StackPanel>
             </GroupBox>
             <Button Name="NewDocumentButton" Padding="5" Margin="3" Click="NewDocumentButton_OnClick">Nuova Posizione</Button>
-            <Button Name="ListAllDocumentsButton" Padding="5" Margin="3" Click="ListAllDocumentsButton_OnClick">Elenco Posizioni</Button>
+            <Button Name="SummaryButton" Padding="5" Margin="3" Click="SummaryButton_OnClick">Riepiloghi e Fatture</Button>
         </StackPanel>
     </Grid>
 </Window>

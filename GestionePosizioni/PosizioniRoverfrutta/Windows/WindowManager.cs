@@ -114,6 +114,7 @@ namespace PosizioniRoverfrutta.Windows
         DistintaCarico,
         ConfermaPrezzi,
         ElencoPosizioni,
-        InviaEmail
+        InviaEmail,
+        Riepiloghi
     }
 }

@@ -162,6 +162,9 @@
     <Compile Include="Windows\SendGmailAttachment.xaml.cs">
       <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
+      <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="Controls\CompanyData.xaml">
       <SubType>Designer</SubType>
@@ -206,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SendGmailAttachment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SummaryAndInvoicesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
