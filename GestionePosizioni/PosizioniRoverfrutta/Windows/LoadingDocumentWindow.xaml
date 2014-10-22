@@ -107,10 +107,10 @@
                             <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontStyle="Italic">Sconto in Fattura (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="1" Name="Discount"></TextBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Provvigione Roverfrutta (%) Cliente</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Provvigione Cliente (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="2" Name="CustomerCommission"></TextBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Provvigione Roverfrutta (%) Fornitore</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Provvigione Fornitore (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="3" Name="ProviderCommission"></TextBox>
                         </Grid>
                     </Border>

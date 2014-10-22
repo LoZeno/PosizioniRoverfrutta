@@ -63,7 +63,13 @@ namespace PosizioniRoverfrutta
                 var defaults = session.Load<DefaultValues>(1);
                 if (defaults == null)
                 {
-                    defaults = new DefaultValues {Id = 1, Vat = 4};
+                    defaults = new DefaultValues
+                    {
+                        Id = 1, 
+                        Vat = 4, 
+                        InvoiceVat = 22,
+                        Witholding = 23
+                    };
                     session.Store(defaults);
                     session.SaveChanges();
                 }

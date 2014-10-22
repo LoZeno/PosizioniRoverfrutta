@@ -12,5 +12,11 @@ namespace Models.DocumentTypes
         public DateTime? EndDate { get; set; }
         public List<SummaryRow> SummaryRows { get; set; }
         public decimal CommissionsTotal { get; set; }
+        public decimal InvoiceVat { get; set; }
+        public decimal CalculatedInvoiceVat { get; set; }
+        public decimal TaxedAmount { get; set; }
+        public decimal Witholding { get; set; }
+        public decimal CalculatedWitholding { get; set; }
+        public decimal NetAmount { get; set; }
     }
 }
