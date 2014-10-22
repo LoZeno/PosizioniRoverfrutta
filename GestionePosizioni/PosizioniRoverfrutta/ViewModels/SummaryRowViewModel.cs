@@ -7,7 +7,7 @@ using PosizioniRoverfrutta.ViewModels.BaseClasses;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
-    public class SummaryRowViewModel : EditableModelBase<ProductRowViewModel>, INotifyPropertyChanged
+    public class SummaryRowViewModel : EditableModelBase<SummaryRowViewModel>, INotifyPropertyChanged
     {
         public SummaryRowViewModel() : this(new SummaryRow())
         {
