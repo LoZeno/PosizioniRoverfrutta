@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 using dragonz.actb.control;
-using Models;
+using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;

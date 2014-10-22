@@ -1,4 +1,4 @@
-﻿namespace Models
+﻿namespace Models.Companies
 {
     public abstract class CompanyBase
     {

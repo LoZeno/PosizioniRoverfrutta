@@ -1,5 +1,6 @@
 ﻿using System;
 using Models;
+using Models.Companies;
 using Models.DocumentTypes;
 using NUnit.Framework;
 

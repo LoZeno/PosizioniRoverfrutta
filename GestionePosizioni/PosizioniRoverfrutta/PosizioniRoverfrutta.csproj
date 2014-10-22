@@ -113,9 +113,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\CompanyData.xaml.cs">
-      <DependentUpon>CompanyData.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CustomControls\AssociatedDataGrid\AssociatedDataGrid.cs" />
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
@@ -145,6 +142,8 @@
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
+    <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
+    <Compile Include="ViewModels\SummaryRowViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
@@ -166,10 +165,6 @@
       <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
-    <Page Include="Controls\CompanyData.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Companies;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;

@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Companies;
 using Raven.Client.Indexes;
 using System.Linq;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Models;
+using Models.DocumentTypes;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.ViewModels.BaseClasses;
 

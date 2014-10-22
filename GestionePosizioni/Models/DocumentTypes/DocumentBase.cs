@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Models.Companies;
 
 namespace Models.DocumentTypes
 {

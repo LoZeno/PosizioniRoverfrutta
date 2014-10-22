@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Models;
+using Models.Companies;
 using PosizioniRoverfrutta.Annotations;
 using QueryManager;
 

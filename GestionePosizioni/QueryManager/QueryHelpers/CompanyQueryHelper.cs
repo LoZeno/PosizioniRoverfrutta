@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Models;
+using Models.Companies;
 using Raven.Client;
 
 namespace QueryManager.QueryHelpers

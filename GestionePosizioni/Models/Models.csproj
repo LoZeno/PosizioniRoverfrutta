@@ -41,17 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompanyBase.cs" />
-    <Compile Include="Currencies.cs" />
-    <Compile Include="Customer.cs" />
-    <Compile Include="DefaultValues.cs" />
+    <Compile Include="Companies\CompanyBase.cs" />
+    <Compile Include="Companies\Customer.cs" />
+    <Compile Include="Companies\Transporter.cs" />
     <Compile Include="DocumentTypes\DocumentBase.cs" />
+    <Compile Include="DocumentTypes\LoadingDocument.cs" />
+    <Compile Include="DocumentTypes\PriceConfirmation.cs" />
+    <Compile Include="DocumentTypes\ProductDetails.cs" />
     <Compile Include="DocumentTypes\SaleConfirmation.cs" />
-    <Compile Include="ProductDescription.cs" />
-    <Compile Include="ProductDetails.cs" />
+    <Compile Include="DocumentTypes\SummaryAndInvoice.cs" />
+    <Compile Include="Entities\Currencies.cs" />
+    <Compile Include="Entities\DefaultValues.cs" />
+    <Compile Include="Entities\ProductDescription.cs" />
+    <Compile Include="Entities\SummaryRow.cs" />
+    <Compile Include="Entities\TermOfPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TermOfPayment.cs" />
-    <Compile Include="Transporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
