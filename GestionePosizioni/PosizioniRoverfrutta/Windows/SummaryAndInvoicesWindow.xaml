@@ -67,7 +67,7 @@
                         <DatePicker Name="ToDatePicker"></DatePicker>
                     </StackPanel>
 
-                    <DataGrid Name="SummaryDataGrid" Grid.Row="3" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False" CanUserReorderColumns="True" CanUserResizeColumns="True"></DataGrid>
+                    <DataGrid Name="SummaryDataGrid" Grid.Row="3" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
                     
                     <DockPanel Grid.Row="4" Margin="5px">
                         <Grid HorizontalAlignment="Right">
