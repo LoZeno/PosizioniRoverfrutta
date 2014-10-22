@@ -4,6 +4,7 @@
         xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
         Title="Posizioni Roverfrutta - Menu" Height="600" Width="300" MaxWidth="300"
         Left="0" Top="0"
+        Icon="Content/Pictures/Logo/Shield.png"
         Name="MenuWindow">
     <Grid>
         <StackPanel Orientation="Vertical" CanHorizontallyScroll="False" CanVerticallyScroll="True">

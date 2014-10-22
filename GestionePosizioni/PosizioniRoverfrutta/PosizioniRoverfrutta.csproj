@@ -351,6 +351,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Pictures\Document\Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" />
+    <Resource Include="Content\Pictures\Logo\Shield.png" />
     <Content Include="Content\ReportTemplates\ConfermaPrezziModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -235,7 +235,7 @@ namespace PosizioniRoverfrutta.ViewModels
             CalculatedInvoiceVat = Math.Round((CommissionsTotal*InvoiceVat/100), 2);
             TaxedAmount = CommissionsTotal + CalculatedInvoiceVat;
             CalculatedWitholding = Math.Round(((CommissionsTotal/2)*Witholding)/100, 2);
-            NetAmount = TaxedAmount - Witholding;
+            NetAmount = TaxedAmount - CalculatedWitholding;
         }
 
         void SummaryRows_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

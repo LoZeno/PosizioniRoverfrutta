@@ -121,7 +121,8 @@ namespace PosizioniRoverfrutta.Windows
             var totalsBinding = new Binding(propertyName)
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2"
             };
 
             textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
