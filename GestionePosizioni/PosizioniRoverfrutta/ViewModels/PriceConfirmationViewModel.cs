@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using Models;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
@@ -557,6 +556,10 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalGross");
             OnPropertyChanged("TotalNet");
             TotalAmount = Math.Round(PriceConfirmation.ProductDetails.Sum(p => p.TotalPrice), 2);
+            if (!PriceConfirmation.InvoiceDiscount.HasValue)
+            {
+                PriceConfirmation.InvoiceDiscount = 0;
+            }
             CalculatedDiscount = Math.Round(((PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value)/100), 2);
             TaxableAmount = PriceConfirmation.TotalAmount - PriceConfirmation.CalculatedDiscount;
             var calculatedVat = Math.Round(((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100), 2);

@@ -228,7 +228,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
                     customerDataRows = summaryRows.ToList();
 
-                    tempResults = session.Query<PriceConfirmation>()
+                    var moreTempResults = session.Query<PriceConfirmation>()
                         .Where(
                             pc =>
                                 pc.Provider.Id.Equals(_summaryAndInvoice.Customer.Id) &&
@@ -236,7 +236,7 @@ namespace PosizioniRoverfrutta.ViewModels
                                 pc.ProviderCommission.HasValue)
                         .Select(pc => pc).ToList();
 
-                    var providerSummaryRows = tempResults.Select(pc =>
+                    var providerSummaryRows = moreTempResults.Select(pc =>
                         new SummaryRowViewModel
                         {
                             DocumentId = pc.Id,

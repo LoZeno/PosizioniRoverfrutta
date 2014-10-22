@@ -22,7 +22,7 @@
                         <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="False"></RibbonButton>
                     </RibbonGroup>
                     <RibbonGroup Header="Altro documento">
-                        <RibbonButton x:Name="ConvertButton" LargeImageSource="../Content/Pictures/Document/Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" Label="Vai a Conferma di Vendita"></RibbonButton>
+                        <RibbonButton x:Name="ConvertButton" LargeImageSource="../Content/Pictures/Document/Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" Label="Vai a Conferma Prezzi"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
             </Ribbon>

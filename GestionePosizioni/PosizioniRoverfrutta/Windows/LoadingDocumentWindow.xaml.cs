@@ -285,11 +285,11 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForTotals("TotalPackages", TotalPackagesText);
 
-            SetBindingsForTotals("TotalGross", TotalGrossText);
+            SetBindingsForDecimalTotals("TotalGross", TotalGrossText);
 
-            SetBindingsForTotals("TotalNet", TotalNetText);
+            SetBindingsForDecimalTotals("TotalNet", TotalNetText);
 
-            SetBindingsForTotals("TotalAmount", TotalAmountText);
+            SetBindingsForDecimalTotals("TotalAmount", TotalAmountText);
 
             SetBindingsForTextBox("Notes", Notes);
 
@@ -351,6 +351,19 @@ namespace PosizioniRoverfrutta.Windows
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.OneWay
+            };
+
+            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
+        }
+
+        private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
+        {
+            var totalsBinding = new Binding(propertyName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2",
+                ConverterCulture = CultureInfo.CurrentCulture
             };
 
             textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);

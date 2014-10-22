@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using dragonz.actb.provider;
-using Models;
 using Models.Companies;
 using QueryManager;
 using QueryManager.QueryHelpers;

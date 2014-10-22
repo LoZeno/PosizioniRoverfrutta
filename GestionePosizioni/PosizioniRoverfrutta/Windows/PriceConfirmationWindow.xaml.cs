@@ -283,11 +283,11 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForTotals("TotalPackages", TotalPackagesText);
 
-            SetBindingsForTotals("TotalGross", TotalGrossText);
+            SetBindingsForDecimalTotals("TotalGross", TotalGrossText);
 
-            SetBindingsForTotals("TotalNet", TotalNetText);
+            SetBindingsForDecimalTotals("TotalNet", TotalNetText);
 
-            SetBindingsForTotals("TotalAmount", TotalAmountText);
+            SetBindingsForDecimalTotals("TotalAmount", TotalAmountText);
 
             SetBindingsForTextBox("Notes", Notes);
 
@@ -295,19 +295,19 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForTextBox("OrderCode", OrderCode);
 
-            SetBindingsForTotals("TotalAmount", TotalAmountBlock);
+            SetBindingsForDecimalTotals("TotalAmount", TotalAmountBlock);
 
             SetBindingsForTotals("InvoiceDiscount", DiscountTextBlock);
 
-            SetBindingsForTotals("CalculatedDiscount", CalculatedDiscountBlock);
+            SetBindingsForDecimalTotals("CalculatedDiscount", CalculatedDiscountBlock);
 
-            SetBindingsForTotals("TaxableAmount", TaxableAmountBlock);
+            SetBindingsForDecimalTotals("TaxableAmount", TaxableAmountBlock);
 
             SetBindingsForTextBox("Vat", VatBox);
 
-            SetBindingsForTotals("CalculatedVat", CalculatedVatBlock);
+            SetBindingsForDecimalTotals("CalculatedVat", CalculatedVatBlock);
 
-            SetBindingsForTotals("FinalTotal", FinalTotalBlock);
+            SetBindingsForDecimalTotals("FinalTotal", FinalTotalBlock);
         }
 
         private void SetBindingForTermsOfPaymentAutocomplete()
@@ -363,6 +363,19 @@ namespace PosizioniRoverfrutta.Windows
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.OneWay
+            };
+
+            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
+        }
+
+        private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
+        {
+            var totalsBinding = new Binding(propertyName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "F2",
+                ConverterCulture = CultureInfo.CurrentCulture
             };
 
             textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);

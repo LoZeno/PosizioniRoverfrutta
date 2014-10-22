@@ -51,13 +51,13 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForDatePickers("StartDate", FromDatePicker);
             SetBindingsForDatePickers("EndDate", ToDatePicker);
-            SetBindingsForTotals("CommissionsTotal", CommissionsBlock);
+            SetBindingsForDecimalTotals("CommissionsTotal", CommissionsBlock);
             SetBindingsForNumericTextBox("InvoiceVat", InvoiceVatTextBox);
-            SetBindingsForTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
-            SetBindingsForTotals("TaxedAmount", TaxedAmountTextBox);
+            SetBindingsForDecimalTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
+            SetBindingsForDecimalTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
-            SetBindingsForTotals("CalculatedWitholding", WitholdingTextBlock);
-            SetBindingsForTotals("NetAmount", NetAmountTextBlock);
+            SetBindingsForDecimalTotals("CalculatedWitholding", WitholdingTextBlock);
+            SetBindingsForDecimalTotals("NetAmount", NetAmountTextBlock);
             SetPrintSummaryButtonBinding(viewModel);
             SetStatusBinding();
 
@@ -120,13 +120,14 @@ namespace PosizioniRoverfrutta.Windows
             datePicker.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
         }
 
-        private static void SetBindingsForTotals(string propertyName, TextBlock textBlock)
+        private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
         {
             var totalsBinding = new Binding(propertyName)
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.OneWay,
-                StringFormat = "F2"
+                StringFormat = "F2",
+                ConverterCulture = CultureInfo.CurrentCulture
             };
 
             textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
