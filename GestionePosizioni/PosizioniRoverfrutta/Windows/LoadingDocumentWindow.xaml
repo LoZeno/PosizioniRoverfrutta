@@ -115,7 +115,7 @@
                         </Grid>
                     </Border>
 
-                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False">
 
                     </DataGrid>
 
