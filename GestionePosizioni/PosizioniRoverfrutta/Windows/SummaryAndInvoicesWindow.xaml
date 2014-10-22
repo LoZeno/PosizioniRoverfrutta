@@ -29,10 +29,10 @@
                 </Ribbon.HelpPaneContent>
                 <RibbonTab Header="Riepilogo e Fattura">
                     <RibbonGroup Header="Stampa Riepilogo" VerticalAlignment="Top">
-                        <RibbonButton x:Name="SummaryPdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva formato PDF"></RibbonButton>
+                        <RibbonButton x:Name="SummaryPdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva Riepilogo in formato PDF"></RibbonButton>
                     </RibbonGroup>
                     <RibbonGroup Header="Stampa Fattura" VerticalAlignment="Top">
-                        <RibbonButton x:Name="InvoicePdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva formato PDF"></RibbonButton>
+                        <RibbonButton x:Name="InvoicePdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva Fattura in formato PDF"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
             </Ribbon>
