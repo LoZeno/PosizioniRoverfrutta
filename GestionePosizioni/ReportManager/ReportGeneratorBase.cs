@@ -22,7 +22,7 @@ namespace ReportManager
             var htmlDocument = Razor.Parse<T>(template, _model);
 
             var globalConfig = new GlobalConfig();
-            globalConfig.SetPaperSize(PaperKind.A4);
+            globalConfig.SetPaperSize(PaperKind);
 
             var pdfBuf = new SimplePechkin(globalConfig).Convert(htmlDocument);
 
@@ -39,5 +39,6 @@ namespace ReportManager
 
         private readonly string _destinationPath;
         private readonly T _model;
+        protected PaperKind PaperKind = PaperKind.A4;
     }
 }

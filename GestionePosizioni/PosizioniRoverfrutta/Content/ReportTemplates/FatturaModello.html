@@ -1,7 +1,7 @@
 ﻿<html>
 <head>
     <meta charset="utf-8" />
-    <title>Conferma Prezzi n. @Model.Id</title>
+    <title>Fattura</title>
     <style type="text/css">
         .header {
             width: 100%;
@@ -164,11 +164,11 @@
     <div style="width: 100%; margin-top: 0.5em;" class="normalText">
         Roverbella, @Model.DocumentDateString
     </div>
-    
+
     <div class="title documentHeader">
         CONFERMA DATI PER LA FATTURAZIONE
     </div>
-    
+
     <table width="100%" style="margin-top: 1em;">
         <tr class="boldGridHeader">
             <td class="onethird">Spett.le Cliente</td>
@@ -199,9 +199,9 @@
     <div class="title" style="float: left; display: inline-block">
         Distinta di carico n° @Model.Id
     </div>
-    
+
     <div class="normalText" style="width: 45%; float: right; display: inline-block; height: 12em">
-        TRASPORTATORE<br/>
+        TRASPORTATORE<br />
         @Model.Transporter.CompanyName<br />
         @Model.Transporter.Address<br />
         @Model.Transporter.City<br />
@@ -341,7 +341,7 @@
             </tr>
         </tfoot>
     </table>
-    
+
     <div class="calculationsDiv">
         <table class="normalText">
             <tr>
@@ -363,7 +363,7 @@
             <tr>
                 <td style="text-align: left">Iva @Model.Vat %</td>
                 <td style="text-align: right">@Model.CalculatedVatString</td>
-            </tr>            
+            </tr>
             <tr>
                 <td style="text-align: left">Totale fattura EURO</td>
                 <td style="text-align: right; text-decoration: underline; font-weight: bold; border: 3px solid black ;">@Model.FinalTotalString</td>

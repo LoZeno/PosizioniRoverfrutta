@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using Models;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;

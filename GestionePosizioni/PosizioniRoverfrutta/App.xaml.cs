@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Models;
 using Models.Entities;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;

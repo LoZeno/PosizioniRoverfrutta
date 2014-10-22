@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -35,7 +37,7 @@ namespace PosizioniRoverfrutta.Windows
             CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
             CompanyNameBox.AutoCompleteManager.Asynchronous = true;
 
-            var viewModel = new SummaryAndInvoiceViewModel(dataStorage);
+            var viewModel = new SummaryAndInvoiceViewModel(dataStorage, _windowManager);
             DataContext = viewModel;
 
             var companyNameBinding = new Binding
@@ -56,6 +58,8 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
             SetBindingsForTotals("CalculatedWitholding", WitholdingTextBlock);
             SetBindingsForTotals("NetAmount", NetAmountTextBlock);
+            SetPrintSummaryButtonBinding(viewModel);
+            SetStatusBinding();
 
             BuildDataGridColumns();
 
@@ -148,6 +152,31 @@ namespace PosizioniRoverfrutta.Windows
             };
             binding.ValidationRules.Add(new ExceptionValidationRule());
             control.SetBinding(TextBox.TextProperty, binding);
+        }
+
+        private void SetPrintSummaryButtonBinding(SummaryAndInvoiceViewModel viewModel)
+        {
+            var printBinding = new CommandBinding
+            {
+                Command = viewModel.PrintSummary
+            };
+            CommandBindings.Add(printBinding);
+
+            SummaryPdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("PrintSummary")
+            });
+        }
+
+        private void SetStatusBinding()
+        {
+            var statusBinding = new Binding("Status")
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.OneWay
+            };
+            StatusLabel.SetBinding(ContentProperty, statusBinding);
         }
     }
 }

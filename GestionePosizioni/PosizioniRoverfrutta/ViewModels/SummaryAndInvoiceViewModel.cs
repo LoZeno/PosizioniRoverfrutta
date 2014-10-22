@@ -4,20 +4,25 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Microsoft.Practices.Prism;
+using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
+using PosizioniRoverfrutta.Reports;
+using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
     public class SummaryAndInvoiceViewModel : INotifyPropertyChanged
     {
-        public SummaryAndInvoiceViewModel(IDataStorage dataStorage)
+        public SummaryAndInvoiceViewModel(IDataStorage dataStorage, IWindowManager windowManager)
         {
             _dataStorage = dataStorage;
+            _windowManager = windowManager;
 
             _summaryAndInvoice = new SummaryAndInvoice();
 
@@ -139,6 +144,48 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public string Status
+        {
+            get { return _status; }
+            private set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<SummaryRowViewModel> SummaryRows { get; private set; }
+
+        public ICommand PrintSummary
+        {
+            get { return printSummmary ?? (printSummmary = new DelegateCommand(PrintSummaryDocument())); }
+        }
+
+        private Action PrintSummaryDocument()
+        {
+            return delegate
+            {
+                var startDateString = StartDate.HasValue ? StartDate.Value.ToString("yyyyMMdd") : "0000";
+                var endDateString = EndDate.HasValue ? EndDate.Value.ToString("yyyyMMdd") : "0000";
+                var path = _windowManager.OpenSaveToPdfDialog(string.Format("Repilogo-{0}-{1}-{2}", CustomerName, startDateString, endDateString));
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    Status = "Creazione del PDF annullata";
+                    return;
+                }
+
+                _summaryAndInvoice.SummaryRows.Clear();
+                foreach (var summaryRowViewModel in SummaryRows)
+                {
+                    _summaryAndInvoice.SummaryRows.Add(summaryRowViewModel.SummaryRow);
+                }
+
+                var report = new SummaryReport(_summaryAndInvoice, path);
+                report.CreatePdf();
+                Status = string.Format("PDF del Documento creato correttamente");
+            };
+        }
+
         private void UpdateDefaultValues()
         {
             using (var session = _dataStorage.CreateSession())
@@ -225,8 +272,6 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public ObservableCollection<SummaryRowViewModel> SummaryRows { get; private set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void UpdateTotals()
@@ -262,6 +307,9 @@ namespace PosizioniRoverfrutta.ViewModels
         }
 
         private readonly IDataStorage _dataStorage;
+        private readonly IWindowManager _windowManager;
         private SummaryAndInvoice _summaryAndInvoice;
+        private ICommand printSummmary;
+        private string _status;
     }
 }

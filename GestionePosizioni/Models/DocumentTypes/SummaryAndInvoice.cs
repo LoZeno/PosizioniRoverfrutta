@@ -7,9 +7,27 @@ namespace Models.DocumentTypes
 {
     public class SummaryAndInvoice
     {
+        public SummaryAndInvoice()
+        {
+            SummaryRows = new List<SummaryRow>();
+        }
         public Customer Customer { get; set; }
         public DateTime? StartDate { get; set; }
+        public string StartDateString
+        {
+            get
+            {
+                return StartDate.HasValue ? StartDate.Value.ToLongDateString() : string.Empty;
+            }
+        }
         public DateTime? EndDate { get; set; }
+        public string EndDateString
+        {
+            get
+            {
+                return EndDate.HasValue ? EndDate.Value.ToLongDateString() : string.Empty;
+            }
+        }
         public List<SummaryRow> SummaryRows { get; set; }
         public decimal CommissionsTotal { get; set; }
         public decimal InvoiceVat { get; set; }

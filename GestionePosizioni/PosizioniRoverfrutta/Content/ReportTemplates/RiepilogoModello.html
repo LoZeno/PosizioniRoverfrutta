@@ -1,0 +1,239 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Riepilogo Commissioni</title>
+    <style type="text/css">
+        .header {
+            width: 100%;
+            border-bottom-color: black;
+            border-bottom-style: groove;
+        }
+
+        .companyNameLarge {
+            font-size: 24pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            text-decoration: underline;
+        }
+
+        .companyDesc {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+
+        .headerSmallText {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            width: 60%;
+        }
+
+        .cursiveHeader {
+            font-size: 10pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-style: italic;
+        }
+
+        .title {
+            margin-top: 2em;
+            width: 100%;
+            font-size: 12pt;
+            font-weight: bold;
+            font-family: sans-serif;
+            font-style: italic;
+            text-decoration: underline;
+        }
+
+        .documentHeader {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            text-align: center;
+        }
+
+        .cursiveDescription {
+            font-size: 10pt;
+            font-family: sans-serif;
+            font-style: italic;
+            width: 100%;
+            margin-top: 1.5em;
+        }
+
+        .boldGridHeader {
+            font-size: 10pt;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        .normalText {
+            font-size: 10pt;
+            font-family: sans-serif;
+        }
+
+            .normalText .bold {
+                font-weight: bold;
+            }
+
+        .onethird {
+            width: 33%;
+        }
+
+        .borderedTable {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+            .borderedTable td {
+                border: 1px solid black;
+            }
+
+        .borderedThickTable {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            border: 3px solid black;
+        }
+
+            .borderedThickTable td {
+                border: 3px solid black;
+            }
+
+        .removeBorder tr td {
+            border: 0px;
+        }
+
+        .borderedColumn {
+            border-style: solid;
+            border-color: black;
+            border-width: 1px;
+        }
+
+        .borderedDiv {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        .thickBorderedDiv {
+            text-align: left;
+            border-collapse: collapse;
+            border: 3px solid black;
+            display: inline-block;
+        }
+
+        .calculationsDiv {
+            margin-top: 2em;
+            margin-right: 0;
+            margin-left: auto;
+            width: 20%;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <table class="header">
+        <tr>
+            <td colspan="2" class="companyNameLarge">
+                Roverfrutta s.a.s.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="companyDesc">
+                di Zenari Giovanni & C.
+            </td>
+        </tr>
+        <tr>
+            <td class="headerSmallText">
+                Via Fienili, 63<br />
+                46048 Roverbella MN<br />
+                P. IVA: 01954370209<br />
+            </td>
+            <td class="cursiveHeader">
+                Telefono: +39 335 6320593<br />
+                Fax: +39 0376 696792<br />
+                email: giovanni.zenari@gmail.com<br />
+            </td>
+        </tr>
+    </table>
+    
+    <div style="width: 100%; height: 2em;"></div>    
+    
+    <div class="normalText" style="width: 45%; display: inline-block; margin-left: 1em;">
+        Spett.le<br />
+        @Model.Customer.CompanyName<br />
+        @Model.Customer.Address<br />
+        @Model.Customer.City<br />
+        @Model.Customer.StateOrProvince<br />
+        @Model.Customer.PostCode<br />
+        @Model.Customer.Country<br />
+        P. IVA: @Model.Customer.VatCode
+    </div>
+    
+    <div class="title" style="float: left; display: inline-block">
+        Riepilogo Provvigioni Maturate da @Model.StartDateString a @Model.EndDateString
+    </div>
+    
+    <div style="width: 100%; height: 2em;"></div>    
+    
+    <table class="borderedTable">
+        <thead class="borderedThickTable">
+            <tr class="boldGridHeader">
+                <td>Posizione N°</td>
+                <td>Data</td>
+                <td>D.D.T.</td>
+                <td>Cliente/Fornitore</td>
+                <td>Imponibile</td>
+                <td>Commissione %</td>
+                <td>Provvigione</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var summaryRow in Model.SummaryRows)
+            {
+            <tr class="normalText">
+                <td class="borderedColumn">
+                    @summaryRow.DocumentId
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.DocumentDateString
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.TransportDocument
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.CompanyName
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.TaxableAmount
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.Commission
+                </td>
+                <td class="borderedColumn">
+                    @summaryRow.PayableAmount
+                </td>
+            </tr>
+            }
+        </tbody>
+        <tfoot class="normalText removeBorder">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right; font-weight: bold;">Totale:</td>
+                <td style="text-align: right; font-weight: bold;">@Model.CommissionsTotal</td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+</body>
+</html>
