@@ -12,6 +12,7 @@ using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
+using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
@@ -156,24 +157,44 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public ObservableCollection<SummaryRowViewModel> SummaryRows { get; private set; }
 
+        public ICommand PrintInvoice
+        {
+            get { return printInvoice ?? (printInvoice = new DelegateCommand(PrintInvoiceCommand())); }
+        }
+
         public ICommand PrintSummary
         {
             get { return printSummmary ?? (printSummmary = new DelegateCommand(PrintSummaryDocument())); }
+        }
+
+        private Action PrintInvoiceCommand()
+        {
+            return delegate
+            {
+                var path = OpenSavePdfDialog("Fattura");
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    Status = "Creazione del PDF annullata";
+                    return;
+                }
+                _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
+                var report = new InvoiceReport(_summaryAndInvoice, path);
+                report.CreatePdf();
+                Status = string.Format("PDF della Fattura creato correttamente");
+            };
         }
 
         private Action PrintSummaryDocument()
         {
             return delegate
             {
-                var startDateString = StartDate.HasValue ? StartDate.Value.ToString("yyyyMMdd") : "0000";
-                var endDateString = EndDate.HasValue ? EndDate.Value.ToString("yyyyMMdd") : "0000";
-                var path = _windowManager.OpenSaveToPdfDialog(string.Format("Repilogo-{0}-{1}-{2}", CustomerName, startDateString, endDateString));
+                var path = OpenSavePdfDialog("Riepilogo");
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     Status = "Creazione del PDF annullata";
                     return;
                 }
-
+                _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
                 _summaryAndInvoice.SummaryRows.Clear();
                 foreach (var summaryRowViewModel in SummaryRows)
                 {
@@ -184,6 +205,21 @@ namespace PosizioniRoverfrutta.ViewModels
                 report.CreatePdf();
                 Status = string.Format("PDF del Documento creato correttamente");
             };
+        }
+
+        private string OpenSavePdfDialog(string filePrefix)
+        {
+            return _windowManager.OpenSaveToPdfDialog(string.Format("{0}-{1}-{2}-{3}", filePrefix, CustomerName, GetStartDateString(), GetEndDateString()));
+        }
+
+        private string GetEndDateString()
+        {
+            return EndDate.HasValue ? EndDate.Value.ToString("yyyyMMdd") : "0000";
+        }
+
+        private string GetStartDateString()
+        {
+            return StartDate.HasValue ? StartDate.Value.ToString("yyyyMMdd") : "0000";
         }
 
         private void UpdateDefaultValues()
@@ -311,5 +347,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private SummaryAndInvoice _summaryAndInvoice;
         private ICommand printSummmary;
         private string _status;
+        private ICommand printInvoice;
     }
 }

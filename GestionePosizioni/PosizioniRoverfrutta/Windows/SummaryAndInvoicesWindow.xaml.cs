@@ -59,6 +59,7 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForDecimalTotals("CalculatedWitholding", WitholdingTextBlock);
             SetBindingsForDecimalTotals("NetAmount", NetAmountTextBlock);
             SetPrintSummaryButtonBinding(viewModel);
+            SetPrintInvoicButtonBinding(viewModel);
             SetStatusBinding();
 
             BuildDataGridColumns();
@@ -70,17 +71,17 @@ namespace PosizioniRoverfrutta.Windows
         {
             var idColumn = BuildReadOnlyTextColumn("Posizione", "DocumentId", 1);
             SummaryDataGrid.Columns.Add(idColumn);
-            var dateColumn = BuildReadOnlyTextColumn("Data", "DocumentDate", 2);
+            var dateColumn = BuildReadOnlyDateColumn("Data", "DocumentDate", 2);
             SummaryDataGrid.Columns.Add(dateColumn);
             var ddtColumn = BuildReadOnlyTextColumn("D.D.T.", "TransportDocument", 2);
             SummaryDataGrid.Columns.Add(ddtColumn);
             var companyColumn = BuildReadOnlyTextColumn("Cliente/Fornitore", "CompanyName", 2.5);
             SummaryDataGrid.Columns.Add(companyColumn);
-            var taxableColumn = BuildReadOnlyTextColumn("Imponibile EURO", "TaxableAmount", 1.6);
+            var taxableColumn = BuildReadOnlyDecimalColumn("Imponibile EURO", "TaxableAmount", 1.6);
             SummaryDataGrid.Columns.Add(taxableColumn);
-            var commissionColumn = BuildReadOnlyTextColumn("Commissione %", "Commission", 1.5);
+            var commissionColumn = BuildReadOnlyDecimalColumn("Commissione %", "Commission", 1.5);
             SummaryDataGrid.Columns.Add(commissionColumn);
-            var payableColumn = BuildReadOnlyTextColumn("Provvigione", "PayableAmount", 1.5);
+            var payableColumn = BuildReadOnlyDecimalColumn("Provvigione", "PayableAmount", 1.5);
             SummaryDataGrid.Columns.Add(payableColumn);
         }
 
@@ -94,6 +95,40 @@ namespace PosizioniRoverfrutta.Windows
                 {
                     Mode = BindingMode.Default,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    ConverterCulture = CultureInfo.CurrentCulture
+                },
+                Width = new DataGridLength(size, DataGridLengthUnitType.Star),
+            };
+        }
+
+        private static DataGridTextColumn BuildReadOnlyDateColumn(string header, string propertyName, double size)
+        {
+            return new DataGridTextColumn
+            {
+                Header = header,
+                IsReadOnly = true,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.Default,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    StringFormat = "d",
+                    ConverterCulture = CultureInfo.CurrentCulture
+                },
+                Width = new DataGridLength(size, DataGridLengthUnitType.Star),
+            };
+        }
+
+        private static DataGridTextColumn BuildReadOnlyDecimalColumn(string header, string propertyName, double size)
+        {
+            return new DataGridTextColumn
+            {
+                Header = header,
+                IsReadOnly = true,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.Default,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    StringFormat = "F2",
                     ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(size, DataGridLengthUnitType.Star),
@@ -167,6 +202,21 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Source = viewModel,
                 Path = new PropertyPath("PrintSummary")
+            });
+        }
+
+        private void SetPrintInvoicButtonBinding(SummaryAndInvoiceViewModel viewModel)
+        {
+            var printBinding = new CommandBinding
+            {
+                Command = viewModel.PrintInvoice
+            };
+            CommandBindings.Add(printBinding);
+
+            InvoicePdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("PrintInvoice")
             });
         }
 

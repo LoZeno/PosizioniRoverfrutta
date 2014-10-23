@@ -7,6 +7,7 @@
              width: 100%;
              border-bottom-color: black;
              border-bottom-style: groove;
+             table-layout: auto;
          }
 
         .companyNameLarge {
@@ -14,6 +15,7 @@
             font-weight: bold;
             font-family: sans-serif;
             text-decoration: underline;
+            font-style: italic;
         }
 
         .companyDesc {
@@ -132,29 +134,39 @@
     
     <table class="header">
         <tr>
-            <td colspan="2" class="companyNameLarge">
-                Roverfrutta s.a.s.
+            <td>
+                <img alt="Shield.png" src="data:image/png;base64,@Model.Base64Logo" />
+            </td>
+            <td style="width: 100%">
+                <table style="width: 100%">
+                    <tr>
+                        <td colspan="2" class="companyNameLarge">
+                            Roverfrutta s.a.s.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="companyDesc">
+                            di Zenari Giovanni & C.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="headerSmallText">
+                            Via Fienili, 63<br />
+                            46048 Roverbella MN<br />
+                            P. IVA: 01954370209<br />
+                        </td>
+                        <td class="cursiveHeader">
+                            Telefono: +39 335 6320593<br />
+                            Fax: +39 0376 696792<br />
+                            email: giovanni.zenari@gmail.com<br />
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
-        <tr>
-            <td colspan="2" class="companyDesc">
-                di Zenari Giovanni & C.
-            </td>
-        </tr>
-        <tr>
-            <td class="headerSmallText">
-                Via Fienili, 63<br />
-                46048 Roverbella MN<br />
-                P. IVA: 01954370209<br />
-            </td>
-            <td class="cursiveHeader">
-                Telefono: +39 335 6320593<br />
-                Fax: +39 0376 696792<br />
-                email: giovanni.zenari@gmail.com<br />
-            </td>
-        </tr>
+        
     </table>
-    
+
     <div style="width: 100%; height: 2em;"></div>    
     
     <div class="normalText" style="width: 45%; display: inline-block; margin-left: 1em;">

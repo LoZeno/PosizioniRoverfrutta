@@ -7,6 +7,7 @@
              width: 100%;
              border-bottom-color: black;
              border-bottom-style: groove;
+             table-layout: auto;
          }
 
         .companyNameLarge {
@@ -14,6 +15,7 @@
             font-weight: bold;
             font-family: sans-serif;
             text-decoration: underline;
+            font-style: italic;
         }
 
         .companyDesc {
@@ -125,31 +127,67 @@
             margin-left: auto;
             width: 20%;
         }
+        .mainContent {
+            width: 100%;
+            font-size: 14pt;
+            font-family: sans-serif;
+        }
+        .largeColumn {
+            width: 60%;
+            text-align: left;
+        }
+        .centralColumn {
+            width: 20%;
+            text-align: left;
+        }
+        .numbersColumn {
+            width: 20%;
+            text-align: right;
+        }
+        .underlineCell {
+            border-bottom: 3px solid black;
+        }
+        .bankTable {
+            margin-top: 2em;
+            width: 100%;
+            font-size: 14pt;
+            font-family: sans-serif;
+            text-align: center;
+        }
     </style>
 
 </head>
 <body>
     <table class="header">
         <tr>
-            <td colspan="2" class="companyNameLarge">
-                Roverfrutta s.a.s.
+            <td>
+                <img alt="Shield.png" src="data:image/png;base64,@Model.Base64Logo" />
             </td>
-        </tr>
-        <tr>
-            <td colspan="2" class="companyDesc">
-                di Zenari Giovanni & C.
-            </td>
-        </tr>
-        <tr>
-            <td class="headerSmallText">
-                Via Fienili, 63<br />
-                46048 Roverbella MN<br />
-                P. IVA: 01954370209<br />
-            </td>
-            <td class="cursiveHeader">
-                Telefono: +39 335 6320593<br />
-                Fax: +39 0376 696792<br />
-                email: giovanni.zenari@gmail.com<br />
+            <td style="width: 100%">
+                <table style="width: 100%">
+                    <tr>
+                        <td colspan="2" class="companyNameLarge">
+                            Roverfrutta s.a.s.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="companyDesc">
+                            di Zenari Giovanni & C.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="headerSmallText">
+                            Via Fienili, 63<br />
+                            46048 Roverbella MN<br />
+                            P. IVA: 01954370209<br />
+                        </td>
+                        <td class="cursiveHeader">
+                            Telefono: +39 335 6320593<br />
+                            Fax: +39 0376 696792<br />
+                            email: giovanni.zenari@gmail.com<br />
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
@@ -158,7 +196,7 @@
         FATTURA N. @Model.InvoiceNumber
     </div>
 
-   <div class="normalText" style="width: 45%; float: right; display: inline-block;">
+   <div class="normalText" style="margin-right: 0; width: 33%; margin-left: auto; display: block;">
        <span class="cursiveDescription">Spett.le</span><br/>
         @Model.Customer.CompanyName<br />
         @Model.Customer.Address<br />
@@ -170,185 +208,85 @@
     </div>
 
     <div style="width: 100%; margin-top: 0.5em;" class="normalText">
-        Roverbella, @Model.DocumentDateString
+        Roverbella, 
     </div>
 
 
 
-    <div style="width: 100%; height: 4em;"></div>
+    <div style="width: 100%; height: 6em;"></div>
 
-    <table class="borderedTable">
-        <tr class="boldGridHeader">
-            <td class="borderedColumn">
-                DATA SPED.
-            </td>
-            <td class="borderedColumn">
-                D.D.T. N°
-            </td>
-            <td class="borderedColumn">
-                TARGA CAMION
-            </td>
-            <td class="borderedColumn">
-                NOLO Eur
-            </td>
-            <td class="borderedColumn">
-                RESA FRANCO
-            </td>
+    <table class="mainContent">
+        <tr>
+            <td class="largeColumn">Compenso per incarico di procacciamento di affari</td>
+            <td class="centralColumn">Imponibile</td>
+            <td class="numbersColumn">@Model.CommissionsTotal</td>
         </tr>
-        <tr class="normalText">
-            <td class="borderedColumn">
-                @Model.ShippingDateString
+        <tr>
+            <td class="largeColumn"></td>
+            <td class="centralColumn">I.V.A. @Model.InvoiceVat %</td>
+            <td class="numbersColumn underlineCell">@Model.CalculatedInvoiceVat</td>
+        </tr>
+        <tr>
+            <td class="largeColumn"></td>
+            <td class="centralColumn">Totale €</td>
+            <td class="numbersColumn">@Model.TaxedAmount</td>
+        </tr>
+        <tr>
+            <td class="largeColumn">Ritenuta di acconto @Model.Witholding % su 50 % dell'Imponibile</td>
+            <td class="centralColumn"></td>
+            <td class="numbersColumn underlineCell">@Model.CalculatedWitholding</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td class="largeColumn"></td>
+            <td class="centralColumn">Netto da pagare €</td>
+            <td class="numbersColumn">@Model.NetAmount</td>
+        </tr>
+    </table>
+    
+    <div style="width: 100%; height: 6em;"></div>
+    
+    <div class="mainContent" style="height: 2em;">
+        Pagamento: vista fattura
+    </div>
+    <div class="mainContent underlineCell"></div>
+    <table class="mainContent">
+        <tr>
+            <td>
+                Banca di appoggio:
             </td>
-            <td class="borderedColumn">
-                @Model.TransportDocument
-            </td>
-            <td class="borderedColumn">
-                @Model.TruckLicensePlate
-            </td>
-            <td class="borderedColumn">
-                @Model.Rental
-            </td>
-            <td class="borderedColumn">
-                @Model.DeliveryEx
+            <td>
+                Credito Emiliano spa filiale di Roverbella<br/>
+                C.C.: 010/0000716-09<br/>
+                SWIFT CODE: BACRIT22MAN<br/>
             </td>
         </tr>
     </table>
-
-    <div style="width: 100%; height: 0.5em;"></div>
-
-    <table class="borderedTable">
-        <tr class="boldGridHeader">
-            <td class="borderedColumn">
-                CONDIZIONI DI PAGAMENTO
-            </td>
-            <td class="borderedColumn">
-                SCONTO IN FATTURA
-            </td>
-            <td colspan="2" class="borderedColumn">
-                PROVVIGIONE ROVERFRUTTA
-            </td>
+    
+    <table class="bankTable borderedTable">
+        <tr>
+            <td colspan="6">COORDINATE BANCARIE EUROPEE (IBAN)</td>
         </tr>
-        <tr class="normalText">
-            <td class="borderedColumn">
-                @Model.TermsOfPayment
-            </td>
-            <td class="borderedColumn">
-                @Model.InvoiceDiscount %
-            </td>
-            <td class="borderedColumn">
-                Cliente: @Model.CustomerCommission %
-            </td>
-            <td>Fornitore: @Model.ProviderCommission %</td>
+        <tr>
+            <td colspan="2" style="border-top: 0"></td>
+            <td colspan="4" class="borderedColumn">COORDINATE BANCARIE NAZIONALI (BBAN)</td>
+        </tr>
+        <tr>
+            <td>PAESE</td>
+            <td>CHECK DIGIT</td>
+            <td>CIN</td>
+            <td>ABI</td>
+            <td>CAB</td>
+            <td>CONTO</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>IT</td>
+            <td>23</td>
+            <td>M</td>
+            <td>03032</td>
+            <td>57900</td>
+            <td>010000000716</td>
         </tr>
     </table>
-
-    <div style="width: 100%; height: 2em;"></div>
-    <table class="borderedTable">
-        <thead class="borderedThickTable">
-            <tr class="boldGridHeader">
-                <td>Prodotto</td>
-                <td>N° Pallets</td>
-                <td>N° Colli</td>
-                <td>Kg Lordo</td>
-                <td>Kg Netto</td>
-                <td>Parametro</td>
-                <td>Valuta</td>
-                <td>Prezzo</td>
-                <td>Importo</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model.ProductDetails)
-            {
-            <tr class="normalText">
-                <td style="width: 30%">
-                    @product.Description
-                </td>
-                <td>
-                    @product.Pallets
-                </td>
-                <td>
-                    @product.Packages
-                </td>
-                <td>
-                    @product.GrossWeight
-                </td>
-                <td>
-                    @product.NetWeight
-                </td>
-                <td>
-                    @product.PriceParameter
-                </td>
-                <td>
-                    @product.Currency
-                </td>
-                <td>
-                    @product.Price
-                </td>
-                <td>
-                    @product.TotalPrice
-                </td>
-            </tr>
-            }
-        </tbody>
-        <tfoot class="normalText removeBorder">
-            <tr>
-                <td>Totali:</td>
-                <td>@Model.ProductDetails.Sum(p => p.Pallets)</td>
-                <td>@Model.ProductDetails.Sum(p => p.Packages)</td>
-                <td>@Model.ProductDetails.Sum(p => p.GrossWeight)</td>
-                <td>@Model.ProductDetails.Sum(p => p.NetWeight)</td>
-                <td></td>
-                <td></td>
-                <td>Totale Euro:</td>
-                <td>@Model.TaxableAmountString</td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <div class="calculationsDiv">
-        <table class="normalText">
-            <tr>
-                <td style="text-align: left">Importo totale Euro</td>
-                <td style="text-align: right">@Model.GrandTotalString</td>
-            </tr>
-            <tr>
-                <td style="text-align: left">Sconto @Model.InvoiceDiscount %</td>
-                <td style="text-align: right">@Model.CalculatedDiscountString</td>
-            </tr>
-            <tr>
-                <td style="text-align: left">Sconto @Model.InvoiceDiscount %</td>
-                <td style="text-align: right">@Model.CalculatedDiscountString</td>
-            </tr>
-            <tr>
-                <td style="text-align: left">Imponibile EURO</td>
-                <td style="text-align: right; text-decoration: underline; font-weight: bold;">@Model.TaxableAmountString</td>
-            </tr>
-            <tr>
-                <td style="text-align: left">Iva @Model.Vat %</td>
-                <td style="text-align: right">@Model.CalculatedVatString</td>
-            </tr>
-            <tr>
-                <td style="text-align: left">Totale fattura EURO</td>
-                <td style="text-align: right; text-decoration: underline; font-weight: bold; border: 3px solid black ;">@Model.FinalTotalString</td>
-            </tr>
-        </table>
-    </div>
-
-    <div style="width: 100%; height: 4em;"></div>
-    <span class="normalText bold">Note:</span>
-    <div class="normalText borderedDiv" style="width: 100%; padding: 1em">
-        @Model.Notes
-    </div>
-
-    <div style="width: 100%; height: 1em;"></div>
-
-    <div class="thickBorderedDiv">
-        <span class="normalText bold">
-            LOTTO N°: @Model.Lot<br />
-            N° ORDINE: @Model.OrderCode
-        </span>
-    </div>
 
 </body>
 </html>

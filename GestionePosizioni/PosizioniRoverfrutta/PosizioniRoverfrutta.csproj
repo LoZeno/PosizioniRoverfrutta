@@ -166,6 +166,7 @@
     </Compile>
     <Compile Include="CustomControls\XamlWatermarkAdorner\TextInputToVisibilityConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Reports\InvoiceReport.cs" />
     <Compile Include="Reports\LoadingDocumentReport.cs" />
     <Compile Include="Reports\PriceConfirmationReport.cs" />
     <Compile Include="Reports\SaleConfirmationReport.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerNamesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\ProductNamesAutoCompleteBoxProvider.cs" />
+    <Compile Include="Services\ResourceHelpers.cs" />
     <Compile Include="Services\TermsOfPaymentAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />

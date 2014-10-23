@@ -36,5 +36,8 @@ namespace Models.DocumentTypes
         public decimal Witholding { get; set; }
         public decimal CalculatedWitholding { get; set; }
         public decimal NetAmount { get; set; }
+
+        public string Base64Logo { get; set; }
+        public int? InvoiceNumber { get; set; }
     }
 }
