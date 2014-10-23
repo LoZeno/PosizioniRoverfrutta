@@ -44,8 +44,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="50px" Name="TitleRow"></RowDefinition>
                         <RowDefinition Height="*" MaxHeight="40px" Name="CompanySearchRow"></RowDefinition>
-                        <RowDefinition Height="*" MaxHeight="40px" Name="DateSearchRow"></RowDefinition>
+                        <RowDefinition Height="*" MaxHeight="30px" Name="DateSearchRow"></RowDefinition>
                         <RowDefinition Height="5*" Name="SummaryGrid"></RowDefinition>
+                        <RowDefinition Height="*" MaxHeight="30px" Name="InvoiceDetailsRow"></RowDefinition>
                         <RowDefinition Name="TotalsRow"></RowDefinition>
                     </Grid.RowDefinitions>
 
@@ -69,7 +70,14 @@
 
                     <DataGrid Name="SummaryDataGrid" Grid.Row="3" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
                     
-                    <DockPanel Grid.Row="4" Margin="5px">
+                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                        <TextBlock Margin="5px">Numero Fattura (solo per stampa fattura)</TextBlock>
+                        <TextBox Margin="5px" Name="InvoiceNumberBox" MinWidth="40px"></TextBox>
+                        <TextBlock Margin="5px">Data Fattura (solo per stampa fattura)</TextBlock>
+                        <DatePicker Margin="5px" Name="InvoiceDatePicker"></DatePicker>
+                    </StackPanel>
+                    
+                    <DockPanel Grid.Row="5" Margin="5px">
                         <Grid HorizontalAlignment="Right">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="7*"></ColumnDefinition>

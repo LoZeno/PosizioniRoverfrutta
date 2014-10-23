@@ -39,5 +39,13 @@ namespace Models.DocumentTypes
 
         public string Base64Logo { get; set; }
         public int? InvoiceNumber { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public string InvoiceDateString
+        {
+            get
+            {
+                return InvoiceDate.HasValue ? InvoiceDate.Value.ToShortDateString() : string.Empty;
+            }
+        }
     }
 }

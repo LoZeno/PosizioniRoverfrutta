@@ -58,6 +58,8 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
             SetBindingsForDecimalTotals("CalculatedWitholding", WitholdingTextBlock);
             SetBindingsForDecimalTotals("NetAmount", NetAmountTextBlock);
+            SetBindingsForNumericTextBox("InvoiceNumber", InvoiceNumberBox);
+            SetBindingsForDatePickers("InvoiceDate", InvoiceDatePicker);
             SetPrintSummaryButtonBinding(viewModel);
             SetPrintInvoicButtonBinding(viewModel);
             SetStatusBinding();

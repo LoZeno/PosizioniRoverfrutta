@@ -145,6 +145,26 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public int? InvoiceNumber
+        {
+            get { return _summaryAndInvoice.InvoiceNumber; }
+            set
+            {
+                _summaryAndInvoice.InvoiceNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime? InvoiceDate
+        {
+            get { return _summaryAndInvoice.InvoiceDate; }
+            set
+            {
+                _summaryAndInvoice.InvoiceDate = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string Status
         {
             get { return _status; }
