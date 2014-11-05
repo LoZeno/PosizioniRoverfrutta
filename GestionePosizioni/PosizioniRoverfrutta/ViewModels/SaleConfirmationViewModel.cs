@@ -34,7 +34,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int Id
         {
-            get { return SaleConfirmation.Id; }
+            get { return SaleConfirmation.ProgressiveNumber; }
             set
             {
                 LoadDocument(value);
@@ -309,7 +309,7 @@ namespace PosizioniRoverfrutta.ViewModels
             SaleConfirmation saleConfirmation = null;
             using (var session = _dataStorage.CreateSession())
             {
-                saleConfirmation = session.Load<SaleConfirmation>(value);
+                saleConfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
             }
             if (saleConfirmation == null)
             {
@@ -325,7 +325,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 ProductDetails.Add(new ProductRowViewModel(productDetail));
             }
             UpdateTotals();
-            Status = "Documento numero " + SaleConfirmation.Id + " caricato correttamente";
+            Status = "Documento numero " + SaleConfirmation.ProgressiveNumber + " caricato correttamente";
         }
 
         private Action SaveDocumentAction()
@@ -362,7 +362,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     session.Store(SaleConfirmation);
                     session.SaveChanges();
                 }
-                Id = SaleConfirmation.Id;
+                Id = SaleConfirmation.ProgressiveNumber;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
             }
             catch (Exception exception)

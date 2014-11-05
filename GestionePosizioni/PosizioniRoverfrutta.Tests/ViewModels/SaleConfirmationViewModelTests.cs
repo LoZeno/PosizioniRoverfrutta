@@ -1,5 +1,4 @@
 ﻿using System;
-using Models;
 using Models.Companies;
 using Models.DocumentTypes;
 using NUnit.Framework;
@@ -27,7 +26,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             using (var session = _dataStorage.CreateSession())
             {
-                session.Delete(session.Load<SaleConfirmation>(_documentId));
+                session.Delete(session.Load<SaleConfirmation>("SaleConfirmations/"+_documentId));
                 session.Delete(session.Load<Customer>(_providerId));
                 session.Delete(session.Load<Customer>(_customerId));
                 session.SaveChanges();
@@ -40,7 +39,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _mainViewModel.Id = _documentId;
 
             Assert.That(_mainViewModel.SaleConfirmation, Is.Not.Null);
-            Assert.That(_mainViewModel.SaleConfirmation.Id, Is.EqualTo(_documentId));
+            Assert.That(_mainViewModel.SaleConfirmation.ProgressiveNumber, Is.EqualTo(_documentId));
             Assert.That(_mainViewModel.SaleConfirmation.TruckLicensePlate, Is.EqualTo("AA000AA"));
             Assert.That(_mainViewModel.SaleConfirmation.TermsOfPayment, Is.EqualTo("bonifico 30 gg"));
         }
@@ -134,11 +133,11 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
                 session.Store(customer);
                 session.Store(provider);
                 session.Store(document);
-                _documentId = document.Id;
-                _customerId = customer.Id;
-                _providerId = provider.Id;
                 session.SaveChanges();
             }
+            _documentId = document.ProgressiveNumber;
+            _customerId = customer.Id;
+            _providerId = provider.Id;
         }
 
         private IDataStorage _dataStorage;

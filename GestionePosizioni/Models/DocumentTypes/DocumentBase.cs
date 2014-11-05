@@ -16,7 +16,23 @@ namespace Models.DocumentTypes
             Notes = "Le coordinate bancarie verranno indicate sulla fattura.";
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
+
+        public int ProgressiveNumber
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(Id))
+                {
+                    var strings = Id.Split('/');
+                    if (strings.Length > 1 && !string.IsNullOrWhiteSpace(strings[1]))
+                        return int.Parse(strings[1]);
+                    return 0;
+                }
+                return 0;
+            }
+        }
+
         public Customer Customer { get; set; }
         public Customer Provider { get; set; }
         public Transporter Transporter { get; set; }

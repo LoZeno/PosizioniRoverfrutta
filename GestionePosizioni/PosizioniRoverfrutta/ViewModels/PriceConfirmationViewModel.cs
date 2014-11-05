@@ -34,7 +34,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int Id
         {
-            get { return PriceConfirmation.Id; }
+            get { return PriceConfirmation.ProgressiveNumber; }
             set
             {
                 LoadDocument(value);
@@ -361,16 +361,16 @@ namespace PosizioniRoverfrutta.ViewModels
             PriceConfirmation priceConfirmation;
             using (var session = _dataStorage.CreateSession())
             {
-                priceConfirmation = session.Load<PriceConfirmation>(value);
+                priceConfirmation = session.Load<PriceConfirmation>("PriceConfirmations/" + value);
             
                 if (priceConfirmation == null)
                 {
-                    var loadingDocument = session.Load<LoadingDocument>(value);
+                    var loadingDocument = session.Load<LoadingDocument>("LoadingDocuments/"+value);
                     if (loadingDocument != null)
                     {
                         priceConfirmation = new PriceConfirmation
                         {
-                            Id = value,
+                            Id = "PriceConfirmations/"+value,
                             Customer = loadingDocument.Customer,
                             Provider = loadingDocument.Provider,
                             Transporter = loadingDocument.Transporter,
@@ -397,7 +397,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     }
                     else
                     {
-                        priceConfirmation = new PriceConfirmation{ Id = -1 };
+                        priceConfirmation = new PriceConfirmation();
                         Status = "Documento numero " + value + "non trovato";
                     }
                 }
@@ -454,7 +454,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     session.Store(PriceConfirmation);
                     session.SaveChanges();
                 }
-                Id = PriceConfirmation.Id;
+                Id = PriceConfirmation.ProgressiveNumber;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
             }
             catch (Exception exception)

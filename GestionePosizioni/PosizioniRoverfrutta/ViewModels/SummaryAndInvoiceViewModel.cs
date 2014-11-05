@@ -274,7 +274,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var summaryRows = tempResults.Select(pc =>
                         new SummaryRowViewModel
                         {
-                            DocumentId = pc.Id,
+                            DocumentId = pc.ProgressiveNumber,
                             DocumentDate = pc.DocumentDate,
                             TransportDocument = pc.TransportDocument,
                             CompanyName = pc.Provider.CompanyName,
@@ -295,7 +295,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var providerSummaryRows = moreTempResults.Select(pc =>
                         new SummaryRowViewModel
                         {
-                            DocumentId = pc.Id,
+                            DocumentId = pc.ProgressiveNumber,
                             DocumentDate = pc.DocumentDate,
                             TransportDocument = pc.TransportDocument,
                             CompanyName = pc.Customer.CompanyName,

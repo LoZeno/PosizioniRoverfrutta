@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using Models.DocumentTypes;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
@@ -21,6 +22,7 @@ namespace QueryManager
         public void Initialize()
         {
             _documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
+            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>((dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
             _documentStore.Initialize();
             CreateIndexes();
 

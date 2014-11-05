@@ -11,16 +11,17 @@ namespace QueryManager.Tests
         {
             var storage = new RavenDataStorage();
             storage.Initialize();
-
+            const string firstId = "LoadingDocuments/10";
+            const string secondId = "LoadingDocuments/21";
             var document = new LoadingDocument
             {
-                Id = 10, 
+                Id = firstId,
                 Notes = "Primo Inserimento"
             };
 
             var secondDocument = new LoadingDocument
             {
-                Id = 5,
+                Id = secondId,
                 Notes = "secondo Inserimento"
             };
 
@@ -33,10 +34,10 @@ namespace QueryManager.Tests
 
             using (var session = storage.CreateSession())
             {
-                var result = session.Load<LoadingDocument>(10);
+                var result = session.Load<LoadingDocument>(firstId);
                 Assert.That(result.Notes, Is.EqualTo("Primo Inserimento"));
 
-                var other = session.Load<LoadingDocument>(5);
+                var other = session.Load<LoadingDocument>(secondId);
                 Assert.That(other.Notes, Is.EqualTo("secondo Inserimento"));
             }
         }

@@ -35,7 +35,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int Id
         {
-            get { return LoadingDocument.Id; }
+            get { return LoadingDocument.ProgressiveNumber; }
             set
             {
                 LoadDocument(value);
@@ -316,16 +316,16 @@ namespace PosizioniRoverfrutta.ViewModels
             LoadingDocument loadingDocument = null;
             using (var session = _dataStorage.CreateSession())
             {
-                loadingDocument = session.Load<LoadingDocument>(value);
+                loadingDocument = session.Load<LoadingDocument>("LoadingDocuments/"+value);
             
                 if (loadingDocument == null)
                 {
-                    var saleconfirmation = session.Load<SaleConfirmation>(value);
+                    var saleconfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
                     if (saleconfirmation != null)
                     {
                         loadingDocument = new LoadingDocument
                         {
-                            Id = value,
+                            Id = "LoadingDocuments/"+value,
                             Customer = saleconfirmation.Customer,
                             Provider = saleconfirmation.Provider,
                             Transporter = saleconfirmation.Transporter,
@@ -350,7 +350,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     }
                     else
                     {
-                        loadingDocument = new LoadingDocument{ Id = -1 };
+                        loadingDocument = new LoadingDocument();
                         Status = "Documento numero " + value + "non trovato";
                     }
                 }
@@ -405,7 +405,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     session.Store(LoadingDocument);
                     session.SaveChanges();
                 }
-                Id = LoadingDocument.Id;
+                Id = LoadingDocument.ProgressiveNumber;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
             }
             catch (Exception exception)
