@@ -276,7 +276,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                //SaveAllData();
+                SaveAllData();
                 _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
             };
         }
