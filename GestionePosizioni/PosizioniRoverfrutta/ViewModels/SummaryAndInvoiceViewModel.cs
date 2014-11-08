@@ -333,7 +333,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private void UpdateTotals()
         {
             CommissionsTotal = Math.Round(SummaryRows.Sum(p => p.PayableAmount), 2);
-            CalculatedInvoiceVat = Math.Round((CommissionsTotal*InvoiceVat/100), 2);
+            CalculatedInvoiceVat = (CommissionsTotal*InvoiceVat/100).RoundUp(2);
             TaxedAmount = CommissionsTotal + CalculatedInvoiceVat;
             CalculatedWitholding = Math.Round(((CommissionsTotal/2)*Witholding)/100, 2);
             NetAmount = TaxedAmount - CalculatedWitholding;

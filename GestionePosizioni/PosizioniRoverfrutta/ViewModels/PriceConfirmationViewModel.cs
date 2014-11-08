@@ -11,6 +11,7 @@ using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
+using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
@@ -562,8 +563,8 @@ namespace PosizioniRoverfrutta.ViewModels
             }
             CalculatedDiscount = Math.Round(((PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value)/100), 2);
             TaxableAmount = PriceConfirmation.TotalAmount - PriceConfirmation.CalculatedDiscount;
-            var calculatedVat = Math.Round(((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100), 2);
-            CalculatedVat = Math.Round(calculatedVat, 2);
+            var calculatedVat = ((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100);
+            CalculatedVat = calculatedVat.RoundUp(2);
             FinalTotal = PriceConfirmation.TaxableAmount + PriceConfirmation.CalculatedVat;
         }
 
