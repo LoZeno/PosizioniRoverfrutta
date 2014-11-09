@@ -67,6 +67,7 @@ namespace PosizioniRoverfrutta.Windows
             BuildDataGridColumns();
 
             SetDataGridBinding(viewModel);
+            SetVatVisibility(viewModel);
         }
 
         private void BuildDataGridColumns()
@@ -220,6 +221,18 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("PrintInvoice")
             });
+        }
+
+        private void SetVatVisibility(SummaryAndInvoiceViewModel viewModel)
+        {
+            var visibilityBinding = new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("ShowVatArea"),
+                Converter = (IValueConverter)FindResource("visibilityConverter"),
+            };
+            VatPanel.SetBinding(VisibilityProperty, visibilityBinding);
+            CalculatedInvoiceVatTextBox.SetBinding(VisibilityProperty, visibilityBinding);
         }
 
         private void SetStatusBinding()

@@ -7,7 +7,9 @@
         Title="SummaryAndInvoicesWindow" Height="800" Width="800" Left="301"
         MinWidth="600" MinHeight="400">
     <Window.Resources>
-        
+
+        <BooleanToVisibilityConverter x:Key="visibilityConverter" />
+
         <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
         <SolidColorBrush x:Key="brushWatermarkForeground" Color="LightSteelBlue" />
         <SolidColorBrush x:Key="brushWatermarkBorder" Color="Indigo" />
@@ -95,7 +97,7 @@
                             
                             <TextBlock Grid.Row="0" Grid.Column="0">Totale Provvigioni EURO:</TextBlock>
                             <TextBlock TextAlignment="Right" Grid.Row="0" Grid.Column="2" Name="CommissionsBlock"></TextBlock>
-                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Name="VatPanel">
                                 <TextBlock>IVA (%) </TextBlock>
                                 <TextBox Name="InvoiceVatTextBox" Width="40px"></TextBox>
                             </StackPanel>

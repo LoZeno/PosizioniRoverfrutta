@@ -175,6 +175,16 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool ShowVatArea
+        {
+            get
+            {
+                if (_summaryAndInvoice.Customer == null)
+                    return true;
+                return !_summaryAndInvoice.Customer.DoNotApplyVat;
+            }
+        }
+
         public ObservableCollection<SummaryRowViewModel> SummaryRows { get; private set; }
 
         public ICommand PrintInvoice
@@ -318,6 +328,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 SummaryRows.Clear();
             }
             UpdateTotals();
+            OnPropertyChanged("ShowVatArea");
         }
 
         private void FindCustomer(string companyName)
@@ -333,7 +344,11 @@ namespace PosizioniRoverfrutta.ViewModels
         private void UpdateTotals()
         {
             CommissionsTotal = Math.Round(SummaryRows.Sum(p => p.PayableAmount), 2);
-            CalculatedInvoiceVat = (CommissionsTotal*InvoiceVat/100).RoundUp(2);
+            CalculatedInvoiceVat = 0;
+            if (!_summaryAndInvoice.Customer.DoNotApplyVat)
+            {
+                CalculatedInvoiceVat = (CommissionsTotal*InvoiceVat/100).RoundUp(2);
+            }
             TaxedAmount = CommissionsTotal + CalculatedInvoiceVat;
             CalculatedWitholding = Math.Round(((CommissionsTotal/2)*Witholding)/100, 2);
             NetAmount = TaxedAmount - CalculatedWitholding;
