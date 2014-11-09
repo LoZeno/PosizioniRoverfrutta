@@ -221,11 +221,14 @@
             <td class="centralColumn">Imponibile</td>
             <td class="numbersColumn">@Model.CommissionsTotal</td>
         </tr>
+        @if(!Model.Customer.DoNotApplyVat)
+        {
         <tr>
             <td class="largeColumn"></td>
             <td class="centralColumn">I.V.A. @Model.InvoiceVat %</td>
             <td class="numbersColumn underlineCell">@Model.CalculatedInvoiceVat</td>
         </tr>
+        }
         <tr>
             <td class="largeColumn"></td>
             <td class="centralColumn">Totale €</td>

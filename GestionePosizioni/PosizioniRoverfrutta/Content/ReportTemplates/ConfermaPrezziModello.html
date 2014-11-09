@@ -346,17 +346,16 @@
                 <td style="text-align: right">@Model.CalculatedDiscountString</td>
             </tr>
             <tr>
-                <td style="text-align: left">Sconto @Model.InvoiceDiscount %</td>
-                <td style="text-align: right">@Model.CalculatedDiscountString</td>
-            </tr>
-            <tr>
                 <td style="text-align: left">Imponibile EURO</td>
                 <td style="text-align: right; text-decoration: underline; font-weight: bold;">@Model.TaxableAmountString</td>
             </tr>
+            @if(!Model.Customer.DoNotApplyVat && !Model.Provider.DoNotApplyVat)
+            {
             <tr>
                 <td style="text-align: left">Iva @Model.Vat %</td>
                 <td style="text-align: right">@Model.CalculatedVatString</td>
-            </tr>            
+            </tr>
+            }
             <tr>
                 <td style="text-align: left">Totale fattura EURO</td>
                 <td style="text-align: right; text-decoration: underline; font-weight: bold; border: 3px solid black ;">@Model.FinalTotalString</td>
