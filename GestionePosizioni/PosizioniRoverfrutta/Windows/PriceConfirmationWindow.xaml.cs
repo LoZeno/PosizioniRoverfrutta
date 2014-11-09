@@ -49,6 +49,8 @@ namespace PosizioniRoverfrutta.Windows
             SetStatusBinding();
 
             SetPrintButtonBinding(viewModel);
+
+            SetVatVisibility(viewModel);
         }
 
         public PriceConfirmationWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
@@ -334,7 +336,7 @@ namespace PosizioniRoverfrutta.Windows
             };
             control.SetBinding(TextBox.TextProperty, binding);
         }
-        
+
         private static void SetBindingsForNumericTextBox(string property, TextBox control)
         {
             var binding = new Binding(property)
@@ -432,6 +434,18 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Path = new PropertyPath("EnableButtons")
             });
+        }
+
+        private void SetVatVisibility(PriceConfirmationViewModel viewModel)
+        {
+            var visibilityBinding = new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("ShowVatArea"),
+                Converter = (IValueConverter)FindResource("visibilityConverter"),
+            };
+            VatPanel.SetBinding(VisibilityProperty, visibilityBinding);
+            CalculatedVatBlock.SetBinding(VisibilityProperty, visibilityBinding);
         }
 
         private void SetReloadButtonBinding(PriceConfirmationViewModel viewModel)

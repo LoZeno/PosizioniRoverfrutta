@@ -31,6 +31,19 @@ namespace PosizioniRoverfrutta.ViewModels
             PriceConfirmation = new PriceConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
+
+            //managing sub-viewmodels property changes
+            CompanyControlViewModel.PropertyChanged += CompanyControlViewModel_PropertyChanged;
+            ProviderControlViewModel.PropertyChanged += CompanyControlViewModel_PropertyChanged;
+        }
+
+        void CompanyControlViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "DoNotApplyVat")
+            {
+                UpdateTotals();
+                OnPropertyChanged("ShowVatArea");
+            }
         }
 
         public int Id
@@ -289,6 +302,11 @@ namespace PosizioniRoverfrutta.ViewModels
         public bool EnableButtons
         {
             get { return Id != -1; }
+        }
+
+        public bool ShowVatArea
+        {
+            get { return (!CompanyControlViewModel.DoNotApplyVat && !ProviderControlViewModel.DoNotApplyVat); }
         }
 
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
@@ -563,8 +581,12 @@ namespace PosizioniRoverfrutta.ViewModels
             }
             CalculatedDiscount = Math.Round(((PriceConfirmation.TotalAmount*PriceConfirmation.InvoiceDiscount.Value)/100), 2);
             TaxableAmount = PriceConfirmation.TotalAmount - PriceConfirmation.CalculatedDiscount;
-            var calculatedVat = ((PriceConfirmation.TaxableAmount*PriceConfirmation.Vat)/100);
-            CalculatedVat = calculatedVat.RoundUp(2);
+            CalculatedVat = 0;
+            if (!CompanyControlViewModel.DoNotApplyVat && !ProviderControlViewModel.DoNotApplyVat)
+            {
+                decimal calculatedVat = ((PriceConfirmation.TaxableAmount * PriceConfirmation.Vat) / 100);
+                CalculatedVat = calculatedVat.RoundUp(2);
+            }
             FinalTotal = PriceConfirmation.TaxableAmount + PriceConfirmation.CalculatedVat;
         }
 

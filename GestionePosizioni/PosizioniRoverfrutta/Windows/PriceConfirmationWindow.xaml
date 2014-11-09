@@ -5,6 +5,10 @@
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
         Title="PriceConfirmationWindow" Height="800" Width="800" Left="301"
         MinWidth="600" MinHeight="400">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="visibilityConverter" />
+    </Window.Resources>
+    
     <Grid>
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" x:Name="DockPanel1" VerticalAlignment="Stretch">
             <Ribbon DockPanel.Dock="Top" x:Name="MainRibbon">
@@ -146,7 +150,7 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition Name="VatRow"></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Margin="2px" TextAlignment="Left">Importo Totale:</TextBlock>
@@ -159,7 +163,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" Margin="2px" TextAlignment="Right" Name="CalculatedDiscountBlock"></TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="0" Margin="2px">Imponibile:</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="1" Margin="2px" Name="TaxableAmountBlock"></TextBlock>
-                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Name="VatPanel">
                             <TextBlock Margin="2px" TextAlignment="Left">IVA:</TextBlock>
                             <TextBox Width="30" Name="VatBox"></TextBox>
                             <TextBlock Margin="2px">%</TextBlock>

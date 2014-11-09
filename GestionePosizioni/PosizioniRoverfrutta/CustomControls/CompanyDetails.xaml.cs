@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using dragonz.actb.control;
 using Models.Companies;
@@ -42,6 +43,17 @@ namespace PosizioniRoverfrutta.CustomControls
             SetTextboxBinding(PostalCode, "PostCode");
             SetTextboxBinding(Country, "Country");
             SetTextboxBinding(VatCode, "VatCode");
+            SetCheckboxBinding(DoNotApplyVatCheckBox, "DoNotApplyVat");
+        }
+
+        private void SetCheckboxBinding(CheckBox checkBoxControl, string propertyName)
+        {
+            var myBinding = new Binding(propertyName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            checkBoxControl.SetBinding(ToggleButton.IsCheckedProperty, myBinding);
         }
 
         private void SetTextboxBinding(TextBox control, string propertyName)

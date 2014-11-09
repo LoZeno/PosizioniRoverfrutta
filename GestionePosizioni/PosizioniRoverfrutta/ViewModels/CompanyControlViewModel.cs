@@ -31,6 +31,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("StateOrProvince");
                 OnPropertyChanged("Country");
                 OnPropertyChanged("VatCode");
+                OnPropertyChanged("DoNotApplyVat");
             }
         }
 
@@ -120,6 +121,16 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 Company.VatCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DoNotApplyVat
+        {
+            get { return Company.DoNotApplyVat; }
+            set
+            {
+                Company.DoNotApplyVat = value;
                 OnPropertyChanged();
             }
         }

@@ -41,6 +41,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Name="TitleBlock" Grid.Row="0" FontSize="14" FontWeight="Bold" TextAlignment="Left">Cliente</TextBlock>
 
@@ -98,6 +99,12 @@
             <AdornerDecorator>
                 <TextBox Name="VatCode" Background="Transparent"/>
             </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="8" Style="{StaticResource EntryFieldStyle}">
+            <CheckBox Name="DoNotApplyVatCheckBox" FlowDirection="LeftToRight" Background="Transparent">
+                <TextBlock Text="Azienda Estera (Non applica IVA)"></TextBlock>
+            </CheckBox>
         </Grid>
     </Grid>
 </UserControl>
