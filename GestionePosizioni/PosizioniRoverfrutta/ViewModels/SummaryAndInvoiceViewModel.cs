@@ -345,12 +345,13 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             CommissionsTotal = Math.Round(SummaryRows.Sum(p => p.PayableAmount), 2);
             CalculatedInvoiceVat = 0;
+            CalculatedWitholding = 0;
             if (!_summaryAndInvoice.Customer.DoNotApplyVat)
             {
                 CalculatedInvoiceVat = (CommissionsTotal*InvoiceVat/100).RoundUp(2);
+                CalculatedWitholding = Math.Round(((CommissionsTotal / 2) * Witholding) / 100, 2);
             }
             TaxedAmount = CommissionsTotal + CalculatedInvoiceVat;
-            CalculatedWitholding = Math.Round(((CommissionsTotal/2)*Witholding)/100, 2);
             NetAmount = TaxedAmount - CalculatedWitholding;
         }
 

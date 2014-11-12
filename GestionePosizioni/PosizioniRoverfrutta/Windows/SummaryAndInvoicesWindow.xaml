@@ -4,7 +4,7 @@
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
-        Title="SummaryAndInvoicesWindow" Height="800" Width="800" Left="301"
+        Title="Riepiloghi e Fatture" Height="800" Width="800" Left="301"
         MinWidth="600" MinHeight="400">
     <Window.Resources>
 
@@ -106,7 +106,7 @@
                             <TextBlock Grid.Row="2" Grid.Column="0">Totale EURO:</TextBlock>
                             <TextBlock TextAlignment="Right" Grid.Row="2" Grid.Column="2" Name="TaxedAmountTextBox"></TextBlock>
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Name="WitholdingPanel">
                                 <TextBlock>Ritenuta di acconto del</TextBlock>
                                 <TextBox Name="WitholdingTextBox" Width="40px"></TextBox>
                                 <TextBlock>% su 50% dell'Imponibile:</TextBlock>

@@ -233,6 +233,8 @@ namespace PosizioniRoverfrutta.Windows
             };
             VatPanel.SetBinding(VisibilityProperty, visibilityBinding);
             CalculatedInvoiceVatTextBox.SetBinding(VisibilityProperty, visibilityBinding);
+            WitholdingPanel.SetBinding(VisibilityProperty, visibilityBinding);
+            WitholdingTextBlock.SetBinding(VisibilityProperty, visibilityBinding);
         }
 
         private void SetStatusBinding()
