@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using MailWrapper;
 using Microsoft.Practices.Prism.Commands;
-using Models;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
@@ -274,8 +275,13 @@ namespace PosizioniRoverfrutta.ViewModels
             return delegate
             {
                 SaveAllData();
-                var path = SavePdf();
-                _windowManager.InstantiateWindow(path, WindowTypes.InviaEmail);
+                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("DistintaDiCarico{0}.pdf", LoadingDocument.ProgressiveNumber));
+                (new FileInfo(path)).Directory.Create();
+                var report = new LoadingDocumentReport(LoadingDocument, path);
+                report.CreatePdf();
+                MAPI email = new MAPI();
+                email.AddAttachment(path);
+                email.SendMailPopup(string.Format("Invio Distinta di Carico n° {0}", LoadingDocument.ProgressiveNumber), string.Format("In allegato la distinta di carico n° {0}", LoadingDocument.ProgressiveNumber));
             };
         }
 
@@ -520,5 +526,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand printDocument;
         private ICommand convertDocument;
         private ICommand emailDocument;
+        private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

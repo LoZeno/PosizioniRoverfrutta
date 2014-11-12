@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using MailWrapper;
 using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
@@ -347,8 +349,13 @@ namespace PosizioniRoverfrutta.ViewModels
             return delegate
             {
                 SaveAllData();
-                var path = SavePdf();
-                _windowManager.InstantiateWindow(path, WindowTypes.InviaEmail);
+                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("ConfermaPrezzi{0}.pdf", PriceConfirmation.ProgressiveNumber));
+                (new FileInfo(path)).Directory.Create();
+                var report = new PriceConfirmationReport(PriceConfirmation, path);
+                report.CreatePdf();
+                MAPI email = new MAPI();
+                email.AddAttachment(path);
+                email.SendMailPopup(string.Format("Invio Conferma Prezzi n° {0}", PriceConfirmation.ProgressiveNumber), string.Format("In allegato la conferma prezzi n° {0}", PriceConfirmation.ProgressiveNumber));
             };
         }
 
@@ -406,7 +413,8 @@ namespace PosizioniRoverfrutta.ViewModels
                             ProviderCommission = loadingDocument.ProviderCommission,
                             Notes = loadingDocument.Notes,
                             Lot = loadingDocument.Lot,
-                            OrderCode = loadingDocument.OrderCode
+                            OrderCode = loadingDocument.OrderCode,
+                            TransportDocument = loadingDocument.TransportDocument
                         };
                         var initialVat = session.Load<DefaultValues>(1).Vat;
                         priceConfirmation.Vat = initialVat;
@@ -607,5 +615,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand reloadCommand;
         private ICommand printDocument;
         private ICommand emailDocument;
+        private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

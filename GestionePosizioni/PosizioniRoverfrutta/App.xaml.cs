@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Models.Entities;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
@@ -11,6 +12,7 @@ namespace PosizioniRoverfrutta
     public partial class App : Application
     {
         private WindowManager _windowManager;
+        private readonly string _tempFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
         public IDataStorage DataStorage { get; private set; }
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -23,6 +25,19 @@ namespace PosizioniRoverfrutta
             InitializeWindowManager();
 
             ShowMainWindow();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            DeleteTemporaryFolder();
+        }
+
+        private void DeleteTemporaryFolder()
+        {
+            if (!Directory.Exists(_tempFolder)) return;
+            Directory.Delete(_tempFolder, true);
         }
 
         private void InitializeWindowManager()

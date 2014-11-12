@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using MailWrapper;
 using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
@@ -267,8 +269,13 @@ namespace PosizioniRoverfrutta.ViewModels
             return delegate
             {
                 SaveAllData();
-                var path = SavePdf();
-                _windowManager.InstantiateWindow(path, WindowTypes.InviaEmail);
+                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("ConfermaVendita{0}.pdf", SaleConfirmation.ProgressiveNumber));
+                (new FileInfo(path)).Directory.Create();
+                var report = new SaleConfirmationReport(SaleConfirmation, path);
+                report.CreatePdf();
+                MAPI email = new MAPI();
+                email.AddAttachment(path);
+                email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber), string.Format("In allegato la conferma di vendita n° {0}", SaleConfirmation.ProgressiveNumber) );
             };
         }
 
@@ -477,5 +484,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand printDocument;
         private ICommand convertDocument;
         private ICommand emailDocument;
+        private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

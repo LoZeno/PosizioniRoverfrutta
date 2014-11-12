@@ -23,7 +23,7 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Stampa e Invio" VerticalAlignment="Top">
                         <RibbonButton x:Name="PdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva formato PDF"></RibbonButton>
-                        <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="False"></RibbonButton>
+                        <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="True"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
             </Ribbon>

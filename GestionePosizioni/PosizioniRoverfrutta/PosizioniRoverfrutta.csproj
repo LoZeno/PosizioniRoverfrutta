@@ -307,6 +307,10 @@
       <Project>{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}</Project>
       <Name>dragonz.actb</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MailWrapper\MailWrapper.csproj">
+      <Project>{F66A19A9-032E-403D-ABB5-3DA27979A8A4}</Project>
+      <Name>MailWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{2EF21D46-0DC4-4AB1-B7F9-0A097A98B8B6}</Project>
       <Name>Models</Name>
