@@ -4,7 +4,22 @@ namespace Models.Entities
 {
     public class PositionsListRow
     {
-        public int DocumentId { get; set; }
+        public string DocumentId { get; set; }
+
+        public int ProgressiveNumber
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(DocumentId))
+                {
+                    var strings = DocumentId.Split('/');
+                    if (strings.Length > 1 && !string.IsNullOrWhiteSpace(strings[1]))
+                        return int.Parse(strings[1]);
+                    return 0;
+                }
+                return 0;
+            }
+        }
         public DateTime? DocumentDate { get; set; }
         public string DocumentDateString
         {
@@ -25,6 +40,6 @@ namespace Models.Entities
         public string ProviderName { get; set; }
         public decimal TaxableAmount { get; set; }
         public bool HasLoadingDocument { get; set; }
-        public bool HasProceConfirmation { get; set; }
+        public bool HasPriceConfirmation { get; set; }
     }
 }
