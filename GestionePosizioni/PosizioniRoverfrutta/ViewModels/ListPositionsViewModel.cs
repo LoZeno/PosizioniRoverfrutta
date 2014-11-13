@@ -12,7 +12,6 @@ using QueryManager;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
 using Raven.Client.Linq;
-using Raven.Database.Linq.PrivateExtensions;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
