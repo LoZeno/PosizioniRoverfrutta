@@ -205,9 +205,6 @@
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\IWindowManager.cs" />
-    <Compile Include="Windows\ListPositions.xaml.cs">
-      <DependentUpon>ListPositions.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\LoadingDocumentWindow.xaml.cs">
       <DependentUpon>LoadingDocumentWindow.xaml</DependentUpon>
     </Compile>
@@ -244,10 +241,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\DocumentWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\ListPositions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

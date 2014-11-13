@@ -37,15 +37,7 @@ namespace PosizioniRoverfrutta.Windows
             {
                 return;
             }
-            string key;
-            if (windowType == WindowTypes.InviaEmail)
-            {
-                key = "email";
-            }
-            else
-            {
-                key = String.Format("{0}_{1}", windowType, documentId);
-            }
+            string key = String.Format("{0}_{1}", windowType, documentId);
             ManageWindows(key, _windowClasses[windowType], documentId);
         }
 
@@ -113,8 +105,6 @@ namespace PosizioniRoverfrutta.Windows
         ConfermaVendita,
         DistintaCarico,
         ConfermaPrezzi,
-        ElencoPosizioni,
-        InviaEmail,
         Riepiloghi
     }
 }

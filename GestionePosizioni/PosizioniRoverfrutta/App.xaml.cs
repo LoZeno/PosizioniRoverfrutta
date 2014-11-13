@@ -32,6 +32,10 @@ namespace PosizioniRoverfrutta
             base.OnExit(e);
 
             DeleteTemporaryFolder();
+
+            if (DataStorage.DocumentStore == null || DataStorage.DocumentStore.WasDisposed)
+                return;
+            DataStorage.DocumentStore.Dispose();
         }
 
         private void DeleteTemporaryFolder()
@@ -44,9 +48,7 @@ namespace PosizioniRoverfrutta
         {
             _windowManager = new WindowManager(DataStorage);
             _windowManager.RegisterWindowClass(WindowTypes.ConfermaVendita, typeof(DocumentWindow));
-            _windowManager.RegisterWindowClass(WindowTypes.ElencoPosizioni, typeof(ListPositions));
             _windowManager.RegisterWindowClass(WindowTypes.DistintaCarico, typeof(LoadingDocumentWindow));
-            _windowManager.RegisterWindowClass(WindowTypes.InviaEmail, typeof(SendGmailAttachment));
             _windowManager.RegisterWindowClass(WindowTypes.ConfermaPrezzi, typeof(PriceConfirmationWindow));
             _windowManager.RegisterWindowClass(WindowTypes.Riepiloghi, typeof(SummaryAndInvoicesWindow));
         }

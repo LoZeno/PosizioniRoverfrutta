@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using Models.DocumentTypes;
+using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using QueryManager;
 
@@ -13,20 +12,47 @@ namespace PosizioniRoverfrutta.ViewModels
         public ListPositionsViewModel(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
+            PositionsList = new ObservableCollection<PositionsListRow>();
         }
 
-        public IEnumerable<int> Positions 
+        public bool HasFocus
         {
-            get 
+            get { return _hasFocus; }
+            set
             {
-                using (var session = _dataStorage.CreateSession())
-                {
-                    return session.Query<SaleConfirmation>().Customize(cr => cr.WaitForNonStaleResults()).ToList().OrderBy(sc => sc.ProgressiveNumber).Select(s => s.ProgressiveNumber);
-                }
+                _hasFocus = value;
+                RefreshData();
+                OnPropertyChanged();
             }
         }
 
-        private readonly IDataStorage _dataStorage;
+        public string CompanyName
+        {
+            get { return _companyName; }
+            set
+            {
+                _companyName = value;
+                LoadCompanyId();
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<PositionsListRow> PositionsList { get; set; }
+
+        private void LoadCompanyId()
+        {
+            //find Company Id
+            if (_companyId.HasValue)
+            {
+                RefreshData();
+            }
+        }
+
+        private void RefreshData()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -35,5 +61,10 @@ namespace PosizioniRoverfrutta.ViewModels
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private bool _hasFocus;
+        private readonly IDataStorage _dataStorage;
+        private string _companyName;
+        private int? _companyId;
     }
 }

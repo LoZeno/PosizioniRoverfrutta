@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{2EF21D46-0DC4-4AB1-B7F9-0A097A98B8B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F203D79B-89BF-4FF0-B224-B50946E11D65}"
@@ -102,9 +100,9 @@ Global
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|x86.Build.0 = Debug|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.Build.0 = Publish|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|x86.ActiveCfg = Publish|Any CPU
+		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|x86.ActiveCfg = Release|Any CPU
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|x86.ActiveCfg = Release|Any CPU

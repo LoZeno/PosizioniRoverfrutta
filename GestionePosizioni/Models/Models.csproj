@@ -61,6 +61,7 @@
     <Compile Include="DocumentTypes\SummaryAndInvoice.cs" />
     <Compile Include="Entities\Currencies.cs" />
     <Compile Include="Entities\DefaultValues.cs" />
+    <Compile Include="Entities\PositionsListRow.cs" />
     <Compile Include="Entities\ProductDescription.cs" />
     <Compile Include="Entities\SummaryRow.cs" />
     <Compile Include="Entities\TermOfPayment.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Data;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
@@ -14,6 +15,7 @@ namespace PosizioniRoverfrutta
         {
             InitializeComponent();
             _windowsManager = windowManager;
+            //this.SetBinding(Window.IsActiveProperty, new Binding());
         }
 
         private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)
