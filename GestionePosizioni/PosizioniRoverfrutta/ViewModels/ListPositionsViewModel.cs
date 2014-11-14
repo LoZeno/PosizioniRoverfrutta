@@ -128,14 +128,14 @@ namespace PosizioniRoverfrutta.ViewModels
                     ShippingDate = sc.ShippingDate,
                 }).OrderByDescending(sc => sc.DocumentDate);
 
-                var results = listOfPositions.Take(100).ToList();
+                var results = listOfPositions.Take(100).ToList().OrderByDescending(lop => lop.ProgressiveNumber);
                 CheckLoadingDocumentsExistence(session, results);
                 CheckPriceConfirmationExistence(session, results);
                 PositionsList.AddRange(results);
             }
         }
 
-        private static void CheckPriceConfirmationExistence(IDocumentSession session, List<PositionsListRow> results)
+        private static void CheckPriceConfirmationExistence(IDocumentSession session, IOrderedEnumerable<PositionsListRow> results)
         {
             var findPriceConfirmations =
                 session.Load<PriceConfirmation>(results.Select(lop => "PriceConfirmations/" + lop.ProgressiveNumber)).ToList();
@@ -149,7 +149,7 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        private static void CheckLoadingDocumentsExistence(IDocumentSession session, List<PositionsListRow> results)
+        private static void CheckLoadingDocumentsExistence(IDocumentSession session, IOrderedEnumerable<PositionsListRow> results)
         {
             var findLoadingDocuments = session.Load<LoadingDocument>(results.Select(lop => "LoadingDocuments/" + lop.ProgressiveNumber)).ToList();
             foreach (var document in findLoadingDocuments)

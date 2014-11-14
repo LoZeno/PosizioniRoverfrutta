@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using PosizioniRoverfrutta.ViewModels;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
@@ -11,10 +13,16 @@ namespace PosizioniRoverfrutta
     public partial class MainWindow : Window
     {
         private readonly WindowManager _windowsManager;
-        public MainWindow(WindowManager windowManager)
+        private readonly IDataStorage _dataStorage;
+
+        public MainWindow(WindowManager windowManager, IDataStorage dataStorage)
         {
             InitializeComponent();
             _windowsManager = windowManager;
+            _dataStorage = dataStorage;
+            var viewModel = new ListPositionsViewModel(_dataStorage);
+            this.DataContext = viewModel;
+            SetDataGridBinding(viewModel);
             //this.SetBinding(Window.IsActiveProperty, new Binding());
         }
 
@@ -44,6 +52,23 @@ namespace PosizioniRoverfrutta
         {
             var documentId = SearchTextBox.Text.Trim();
             _windowsManager.InstantiateWindow(documentId, WindowTypes.ConfermaPrezzi);
+        }
+
+        private void SetDataGridBinding(ListPositionsViewModel viewModel)
+        {
+            ListPositionsGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("PositionsList"),
+            });
+
+            ListPositionsGrid.SetBinding(DataGrid.SelectedItemProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("SelectedPosition"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            });
         }
     }
 }

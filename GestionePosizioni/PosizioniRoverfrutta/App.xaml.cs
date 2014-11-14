@@ -55,7 +55,7 @@ namespace PosizioniRoverfrutta
 
         private void ShowMainWindow()
         {
-            MainWindow = new MainWindow(_windowManager);
+            MainWindow = new MainWindow(_windowManager, DataStorage);
             MainWindow.Show();
         }
 
