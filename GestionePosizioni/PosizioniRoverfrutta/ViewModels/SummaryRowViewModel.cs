@@ -27,7 +27,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 _summaryRow = value;
                 OnPropertyChanged();
                 OnPropertyChanged("DocumentId");
-                OnPropertyChanged("DocumentDate");
+                OnPropertyChanged("ShippingDate");
                 OnPropertyChanged("TransportDocument");
                 OnPropertyChanged("CompanyName");
                 OnPropertyChanged("TaxableAmount");
@@ -46,12 +46,12 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public DateTime? DocumentDate 
+        public DateTime? ShippingDate 
         { 
-            get { return _summaryRow.DocumentDate; }
+            get { return _summaryRow.ShippingDate; }
             set
             {
-                _summaryRow.DocumentDate = value;
+                _summaryRow.ShippingDate = value;
                 OnPropertyChanged();
             }
         }

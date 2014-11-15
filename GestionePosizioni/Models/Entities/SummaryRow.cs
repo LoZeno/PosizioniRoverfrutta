@@ -5,12 +5,12 @@ namespace Models.Entities
     public class SummaryRow
     {
         public int DocumentId { get; set; }
-        public DateTime? DocumentDate { get; set; }
+        public DateTime? ShippingDate { get; set; }
         public string DocumentDateString
         {
             get
             {
-                return DocumentDate.HasValue ? DocumentDate.Value.ToString("m") : string.Empty;
+                return ShippingDate.HasValue ? ShippingDate.Value.ToString("m") : string.Empty;
             }
         }
         public string TransportDocument { get; set; }

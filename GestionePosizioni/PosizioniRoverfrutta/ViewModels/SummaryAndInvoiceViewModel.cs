@@ -277,7 +277,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         .Where(
                             pc =>
                                 pc.Customer.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                                (StartDate <= pc.DocumentDate) && (pc.DocumentDate <= EndDate) &&
+                                (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
                                 pc.CustomerCommission.HasValue)
                         .Select(pc =>pc).ToList();
 
@@ -285,7 +285,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         new SummaryRowViewModel
                         {
                             DocumentId = pc.ProgressiveNumber,
-                            DocumentDate = pc.DocumentDate,
+                            ShippingDate = pc.ShippingDate,
                             TransportDocument = pc.TransportDocument,
                             CompanyName = pc.Provider.CompanyName,
                             TaxableAmount = pc.TaxableAmount,
@@ -298,7 +298,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         .Where(
                             pc =>
                                 pc.Provider.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                                (StartDate <= pc.DocumentDate) && (pc.DocumentDate <= EndDate) &&
+                                (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
                                 pc.ProviderCommission.HasValue)
                         .Select(pc => pc).ToList();
 
@@ -306,7 +306,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         new SummaryRowViewModel
                         {
                             DocumentId = pc.ProgressiveNumber,
-                            DocumentDate = pc.DocumentDate,
+                            ShippingDate = pc.ShippingDate,
                             TransportDocument = pc.TransportDocument,
                             CompanyName = pc.Customer.CompanyName,
                             TaxableAmount = pc.TaxableAmount,

@@ -74,7 +74,7 @@ namespace PosizioniRoverfrutta.Windows
         {
             var idColumn = BuildReadOnlyTextColumn("Posizione", "DocumentId", 1);
             SummaryDataGrid.Columns.Add(idColumn);
-            var dateColumn = BuildReadOnlyDateColumn("Data", "DocumentDate", 2);
+            var dateColumn = BuildReadOnlyDateColumn("Data Spedizione", "ShippingDate", 2);
             SummaryDataGrid.Columns.Add(dateColumn);
             var ddtColumn = BuildReadOnlyTextColumn("D.D.T.", "TransportDocument", 2);
             SummaryDataGrid.Columns.Add(ddtColumn);
