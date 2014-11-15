@@ -2,14 +2,33 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
+        xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
+        xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
         Title="Posizioni Roverfrutta - Menu" Height="600" Width="900" MaxWidth="900"
         Left="0" Top="0"
         Icon="Content/Pictures/Logo/Shield.png"
         Name="MenuWindow">
+
+    <Window.Resources>
+
+        <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
+        <SolidColorBrush x:Key="brushWatermarkForeground" Color="LightSteelBlue" />
+        <SolidColorBrush x:Key="brushWatermarkBorder" Color="Indigo" />
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <xamlWatermarkAdorner:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter" />
+
+        <Style x:Key="EntryFieldStyle" TargetType="Grid" >
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Background" Value="{StaticResource brushWatermarkBackground}"></Setter>
+        </Style>
+
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"></ColumnDefinition>
-            <ColumnDefinition Width="600"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="690"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical" CanHorizontallyScroll="False" CanVerticallyScroll="True">
             <GroupBox Header="Ricerca Posizioni">
@@ -39,7 +58,53 @@
             <Button Name="SummaryButton" Padding="5" Margin="3" Click="SummaryButton_OnClick">Riepiloghi e Fatture</Button>
         </StackPanel>
         <StackPanel Grid.Column="1">
-            <DataGrid Name="ListPositionsGrid" SelectionMode="Single" IsReadOnly="True"></DataGrid>
+            <GroupBox Header="Lista posizioni inserite">
+                <StackPanel Orientation="Vertical">
+                    <GroupBox Header="Filtra posizioni per cliente/fornitore">
+                        <Grid Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <control:AutoCompleteTextBox Name="CompanyNameBox" Background="Transparent" />
+                            </AdornerDecorator>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Filtra posizione per date">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel HorizontalAlignment="Left" Grid.Column="0" Orientation="Horizontal">
+                                <Label>Più recenti di:</Label>
+                                <DatePicker Name="FromDatePicker"></DatePicker>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Orientation="Horizontal">
+                                <Label>Più vecchie di:</Label>
+                                <DatePicker Name="ToDatePicker"></DatePicker>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid Name="ListPositionsGrid" SelectionMode="Single" IsReadOnly="True" Height="200" AutoGenerateColumns="False"></DataGrid>
+                    <GroupBox Header="Apri posizione selezionata">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Name="OpenSaleConfirmationButton" Padding="5" Margin="3" Grid.Column="0" Click="OpenSaleConfirmationButton_OnClick">
+                                <TextBlock>Apri Conferma di Vendita</TextBlock>
+                            </Button>
+                            <Button Name="OpenLoadingDocumentButton" Padding="5" Margin="3" Grid.Column="1" Click="OpenLoadingDocumentButton_OnClick">
+                                <TextBlock>Apri Distinta di Carico</TextBlock>
+                            </Button>
+                            <Button Name="OpenPriceConfirmationButton" Padding="5" Margin="3" Grid.Column="2" Click="OpenPriceConfirmationButton_OnClick">
+                                <TextBlock>Apri Conferma Prezzi</TextBlock>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </Window>

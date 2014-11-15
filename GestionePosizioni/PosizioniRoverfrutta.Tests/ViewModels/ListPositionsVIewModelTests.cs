@@ -79,10 +79,19 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
+            var loadingDocumentId = loadingDocumentViewModel.Id;
+
             _mainViewModel.FromDate = DateTime.Today.AddDays(180);
 
             Assert.That(_mainViewModel.PositionsList.Count(e => e.HasLoadingDocument), Is.EqualTo(1));
             Assert.That(_mainViewModel.PositionsList.Count(e => !e.HasLoadingDocument), Is.EqualTo(19));
+
+            using (var session = _dataStorage.CreateSession())
+            {
+                var entity = session.Load<LoadingDocument>(loadingDocumentId);
+                session.Delete<LoadingDocument>(entity);
+                session.SaveChanges();
+            }
         }
 
         [Test]
@@ -92,15 +101,108 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
+            var loadingDocumentId = loadingDocumentViewModel.Id;
+
             var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, null);
             priceConfirmationViewModel.Id = loadingDocumentViewModel.Id;
             loadingDocumentViewModel.SaveAll.Execute(null);
+
+            var priceConfirmationId = priceConfirmationViewModel.Id;
 
             _mainViewModel.FromDate = DateTime.Today.AddDays(180);
 
             Assert.That(_mainViewModel.PositionsList.Count(e => e.HasLoadingDocument), Is.EqualTo(1));
             Assert.That(_mainViewModel.PositionsList.Count(e => e.HasPriceConfirmation), Is.EqualTo(1));
             Assert.That(_mainViewModel.PositionsList.Count(e => !e.HasLoadingDocument), Is.EqualTo(19));
+
+            using (var session = _dataStorage.CreateSession())
+            {
+                var entity = session.Load<LoadingDocument>(loadingDocumentId);
+                var entity2 = session.Load<PriceConfirmation>(priceConfirmationId);
+                session.Delete<LoadingDocument>(entity);
+                session.Delete<PriceConfirmation>(entity2);
+                session.SaveChanges();
+            }
+        }
+
+        [Test]
+        public void when_no_row_is_selected_all_buttons_are_inactive()
+        {
+            _mainViewModel.HasFocus = true;
+            _mainViewModel.SelectedPosition = null;
+
+            Assert.That(_mainViewModel.OpenSaleConfirmationIsEnabled, Is.False);
+            Assert.That(_mainViewModel.OpenLoadingDocumentIsEnabled, Is.False);
+            Assert.That(_mainViewModel.OpenPriceConfirmationIsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_row_is_selected_the_OpenSaleConfirmation_button_is_active()
+        {
+            _mainViewModel.HasFocus = true;
+            _mainViewModel.SelectedPosition = _mainViewModel.PositionsList[0];
+
+            Assert.That(_mainViewModel.OpenSaleConfirmationIsEnabled, Is.True);
+            Assert.That(_mainViewModel.OpenLoadingDocumentIsEnabled, Is.False);
+            Assert.That(_mainViewModel.OpenPriceConfirmationIsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_row_with_loadingdocument_is_selected_the_OpenSaleConfirmation_and_OpenLoadingDocument_buttons_are_active()
+        {
+            _mainViewModel.HasFocus = true;
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
+            loadingDocumentViewModel.SaveAll.Execute(null);
+
+            var loadingDocumentId = loadingDocumentViewModel.Id;
+
+            _mainViewModel.HasFocus = true;
+            _mainViewModel.SelectedPosition = _mainViewModel.PositionsList[0];
+
+            Assert.That(_mainViewModel.OpenSaleConfirmationIsEnabled, Is.True);
+            Assert.That(_mainViewModel.OpenLoadingDocumentIsEnabled, Is.True);
+            Assert.That(_mainViewModel.OpenPriceConfirmationIsEnabled, Is.False);
+
+            using (var session = _dataStorage.CreateSession())
+            {
+                var entity = session.Load<LoadingDocument>(loadingDocumentId);
+                session.Delete<LoadingDocument>(entity);
+                session.SaveChanges();
+            }
+        }
+
+        [Test]
+        public void when_a_row_with_priceconfirmation_is_selected_the_OpenSaleConfirmation_and_OpenLoadingDocument_and_PriceConfirmation_buttons_are_active()
+        {
+            _mainViewModel.HasFocus = true;
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
+            loadingDocumentViewModel.SaveAll.Execute(null);
+
+            var loadingDocumentId = loadingDocumentViewModel.Id;
+
+            var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, null);
+            priceConfirmationViewModel.Id = loadingDocumentViewModel.Id;
+            loadingDocumentViewModel.SaveAll.Execute(null);
+
+            var priceConfirmationId = priceConfirmationViewModel.Id;
+
+            _mainViewModel.HasFocus = true;
+            _mainViewModel.SelectedPosition = _mainViewModel.PositionsList[0];
+
+            Assert.That(_mainViewModel.OpenSaleConfirmationIsEnabled, Is.True);
+            Assert.That(_mainViewModel.OpenLoadingDocumentIsEnabled, Is.True);
+            Assert.That(_mainViewModel.OpenPriceConfirmationIsEnabled, Is.True);
+
+            using (var session = _dataStorage.CreateSession())
+            {
+                var entity = session.Load<LoadingDocument>(loadingDocumentId);
+                var entity2 = session.Load<PriceConfirmation>(priceConfirmationId);
+                session.Delete<LoadingDocument>(entity);
+                session.Delete<PriceConfirmation>(entity2);
+                session.SaveChanges();
+            }
         }
 
         private void CreateBasicData()

@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
@@ -58,6 +59,9 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 _selectedRow = value;
                 OnPropertyChanged();
+                OnPropertyChanged("OpenSaleConfirmationIsEnabled");
+                OnPropertyChanged("OpenLoadingDocumentIsEnabled");
+                OnPropertyChanged("OpenPriceConfirmationIsEnabled");
             }
         }
 
@@ -87,6 +91,29 @@ namespace PosizioniRoverfrutta.ViewModels
                 RefreshData();
                 OnPropertyChanged();
             }
+        }
+
+        public bool OpenSaleConfirmationIsEnabled
+        {
+            get
+            {
+                return _selectedRow != null;
+            }
+        }
+
+        public bool OpenLoadingDocumentIsEnabled
+        {
+            get { return _selectedRow != null && _selectedRow.HasLoadingDocument; }
+        }
+
+        public bool OpenPriceConfirmationIsEnabled
+        {
+            get { return _selectedRow != null && _selectedRow.HasPriceConfirmation; }
+        }
+
+        public ICommand Refresh
+        {
+            get { return refreshCommand ?? (refreshCommand = new DelegateCommand(RefreshData)); }
         }
 
         private void LoadCompanyId()
@@ -145,6 +172,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasPriceConfirmation = true;
+                    position.DocumentDate = document.DocumentDate;
                 }
             }
         }
@@ -158,6 +186,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasLoadingDocument = true;
+                    position.DocumentDate = document.DocumentDate;
                 }
             }
         }
@@ -205,5 +234,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private DateTime? _fromDate;
         private DateTime? _toDate;
         private PositionsListRow _selectedRow;
+        private ICommand refreshCommand;
     }
 }
