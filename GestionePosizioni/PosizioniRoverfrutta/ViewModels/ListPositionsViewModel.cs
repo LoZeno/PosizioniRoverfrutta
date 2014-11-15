@@ -116,6 +116,38 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return refreshCommand ?? (refreshCommand = new DelegateCommand(RefreshData)); }
         }
 
+        public ICommand NextPage
+        {
+            get { return nextPageCommand ?? (nextPageCommand = new DelegateCommand(IncreaseSkip)); }
+        }
+
+        public ICommand PreviousPage
+        {
+            get { return previousPageCommand ?? (previousPageCommand = new DelegateCommand(DecreaseSkip)); }
+        }
+
+        private void DecreaseSkip()
+        {
+            if (skipPositions != 0)
+            {
+                skipPositions -= 100;
+                if (skipPositions < 0)
+                {
+                    skipPositions = 0;
+                }
+                RefreshData();
+            }
+        }
+
+        private void IncreaseSkip()
+        {
+            if (PositionsList.Count == 100)
+            {
+                skipPositions += 100;
+                RefreshData();
+            }
+        }
+
         private void LoadCompanyId()
         {
             using (var session = _dataStorage.CreateSession())
@@ -130,11 +162,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     _companyId = null;
                 }
             }
-            //find Company Id
-            if (!string.IsNullOrWhiteSpace(_companyId))
-            {
-                RefreshData();
-            }
+            RefreshData();
         }
 
         private void RefreshData()
@@ -155,7 +183,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     ShippingDate = sc.ShippingDate,
                 }).OrderByDescending(sc => sc.DocumentDate);
 
-                var results = listOfPositions.Take(100).ToList().OrderByDescending(lop => lop.ProgressiveNumber);
+                var results = listOfPositions.Skip(skipPositions).Take(100).ToList().OrderByDescending(lop => lop.ProgressiveNumber);
                 CheckLoadingDocumentsExistence(session, results);
                 CheckPriceConfirmationExistence(session, results);
                 PositionsList.AddRange(results);
@@ -173,6 +201,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasPriceConfirmation = true;
                     position.DocumentDate = document.DocumentDate;
+                    position.ShippingDate = document.ShippingDate;
                 }
             }
         }
@@ -187,6 +216,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasLoadingDocument = true;
                     position.DocumentDate = document.DocumentDate;
+                    position.ShippingDate = document.ShippingDate;
                 }
             }
         }
@@ -235,5 +265,8 @@ namespace PosizioniRoverfrutta.ViewModels
         private DateTime? _toDate;
         private PositionsListRow _selectedRow;
         private ICommand refreshCommand;
+        private int skipPositions = 0;
+        private ICommand nextPageCommand;
+        private ICommand previousPageCommand;
     }
 }

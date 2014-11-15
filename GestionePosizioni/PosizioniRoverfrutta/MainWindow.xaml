@@ -4,7 +4,7 @@
         xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
         xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
-        Title="Posizioni Roverfrutta - Menu" Height="600" Width="900" MaxWidth="900"
+        Title="Posizioni Roverfrutta - Menu" MinHeight="450" Height="450" Width="900" MinWidth="450"
         Left="0" Top="0"
         Icon="Content/Pictures/Logo/Shield.png"
         Name="MenuWindow">
@@ -27,8 +27,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="690"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Vertical" CanHorizontallyScroll="False" CanVerticallyScroll="True">
             <GroupBox Header="Ricerca Posizioni">
@@ -57,7 +57,7 @@
             <Button Name="NewDocumentButton" Padding="5" Margin="3" Click="NewDocumentButton_OnClick">Nuova Posizione</Button>
             <Button Name="SummaryButton" Padding="5" Margin="3" Click="SummaryButton_OnClick">Riepiloghi e Fatture</Button>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" Orientation="Vertical" CanVerticallyScroll="False" VerticalAlignment="Stretch">
             <GroupBox Header="Lista posizioni inserite">
                 <StackPanel Orientation="Vertical">
                     <GroupBox Header="Filtra posizioni per cliente/fornitore">
@@ -85,6 +85,14 @@
                         </Grid>
                     </GroupBox>
                     <DataGrid Name="ListPositionsGrid" SelectionMode="Single" IsReadOnly="True" Height="200" AutoGenerateColumns="False"></DataGrid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Name="PreviousPage" Margin="3">
+                            <TextBlock>&lt;&lt;</TextBlock>
+                        </Button>
+                        <Button Name="NextPage" Margin="3">
+                            <TextBlock>>></TextBlock>
+                        </Button>
+                    </StackPanel>
                     <GroupBox Header="Apri posizione selezionata">
                         <Grid>
                             <Grid.ColumnDefinitions>

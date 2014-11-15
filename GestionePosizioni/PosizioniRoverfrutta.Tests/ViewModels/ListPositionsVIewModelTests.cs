@@ -205,6 +205,43 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             }
         }
 
+        [Test]
+        public void should_skip_first_100_positions_if_next_is_clicked()
+        {
+            _mainViewModel.NextPage.Execute(null);
+
+            Assert.That(_mainViewModel.PositionsList.Count, Is.EqualTo(100));
+            Assert.That(_mainViewModel.PositionsList[0].ProgressiveNumber, Is.EqualTo(100));
+        }
+
+        [Test]
+        public void should_return_back_100_positions_if_previous_is_clicked()
+        {
+            _mainViewModel.NextPage.Execute(null);
+            _mainViewModel.PreviousPage.Execute(null);
+
+            Assert.That(_mainViewModel.PositionsList.Count, Is.EqualTo(100));
+            Assert.That(_mainViewModel.PositionsList[0].ProgressiveNumber, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void should_not_return_back_if_we_are_already_at_first_page()
+        {
+            _mainViewModel.PreviousPage.Execute(null);
+
+            Assert.That(_mainViewModel.PositionsList.Count, Is.EqualTo(100));
+            Assert.That(_mainViewModel.PositionsList[0].ProgressiveNumber, Is.EqualTo(200));
+        }
+
+        [Test]
+        public void should_not_go_forward_if_we_are_already_at_last_page()
+        {
+            _mainViewModel.NextPage.Execute(null);
+            _mainViewModel.NextPage.Execute(null);
+
+            Assert.That(_mainViewModel.PositionsList.Count, Is.EqualTo(0));
+        }
+
         private void CreateBasicData()
         {
             var customer1 = new Customer

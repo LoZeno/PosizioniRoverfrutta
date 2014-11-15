@@ -1,8 +1,12 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
+using Models.Companies;
 using PosizioniRoverfrutta.CustomControls.DataGridColumns;
+using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
@@ -29,14 +33,35 @@ namespace PosizioniRoverfrutta
             _dataStorage = dataStorage;
             var viewModel = new ListPositionsViewModel(_dataStorage);
             this.DataContext = viewModel;
+
+            SetAutocompleteBoxBinding(dataStorage, viewModel);
+            
             BuildDataGridColumns();
             SetDataGridBinding(viewModel);
             SetBindingsForDatePickers("FromDate", FromDatePicker);
             SetBindingsForDatePickers("ToDate", ToDatePicker);
-            SetButtonBinding(viewModel, OpenSaleConfirmationButton, "OpenSaleConfirmationIsEnabled");
-            SetButtonBinding(viewModel, OpenLoadingDocumentButton, "OpenLoadingDocumentIsEnabled");
-            SetButtonBinding(viewModel, OpenPriceConfirmationButton, "OpenPriceConfirmationIsEnabled");
+            SetNextPageBinding(viewModel);
+            SetPreviousPageBinding(viewModel);
+            SetEnableButtonBinding(viewModel, OpenSaleConfirmationButton, "OpenSaleConfirmationIsEnabled");
+            SetEnableButtonBinding(viewModel, OpenLoadingDocumentButton, "OpenLoadingDocumentIsEnabled");
+            SetEnableButtonBinding(viewModel, OpenPriceConfirmationButton, "OpenPriceConfirmationIsEnabled");
             this.Activated += MainWindow_Activated;
+        }
+
+        private void SetAutocompleteBoxBinding(IDataStorage dataStorage, ListPositionsViewModel viewModel)
+        {
+            var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
+            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
+            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
+
+            var companyNameBinding = new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("CompanyName"),
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.TwoWay
+            };
+            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
         }
 
         private static DataGridColumn BuildNumericColumn(string header, string propertyName)
@@ -143,7 +168,7 @@ namespace PosizioniRoverfrutta
             });
         }
 
-        private void SetButtonBinding(ListPositionsViewModel viewModel, Button button, string propertyName)
+        private void SetEnableButtonBinding(ListPositionsViewModel viewModel, Button button, string propertyName)
         {
             button.SetBinding(Button.IsEnabledProperty, new Binding
             {
@@ -161,6 +186,36 @@ namespace PosizioniRoverfrutta
                 Mode = BindingMode.TwoWay
             };
             datePicker.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
+        }
+
+        private void SetNextPageBinding(ListPositionsViewModel viewModel)
+        {
+            var nextPageBinding = new CommandBinding
+            {
+                Command = viewModel.NextPage
+            };
+            CommandBindings.Add(nextPageBinding);
+
+            NextPage.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("NextPage")
+            });
+        }
+
+        private void SetPreviousPageBinding(ListPositionsViewModel viewModel)
+        {
+            var previousPageBinding = new CommandBinding
+            {
+                Command = viewModel.NextPage
+            };
+            CommandBindings.Add(previousPageBinding);
+
+            PreviousPage.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("PreviousPage")
+            });
         }
 
         private void MainWindow_Activated(object sender, System.EventArgs e)
