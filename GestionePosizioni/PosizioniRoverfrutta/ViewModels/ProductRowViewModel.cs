@@ -39,7 +39,7 @@ namespace PosizioniRoverfrutta.ViewModels
             } 
         }
 
-        public int Pallets
+        public decimal Pallets
         {
             get { return ProductDetails.Pallets; }
             set

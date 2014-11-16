@@ -98,7 +98,7 @@ namespace PosizioniRoverfrutta.Windows
             };
             ProductsGrid.Columns.Add(hiddenColumn);
 
-            var palletsColumn = BuildNumericColumn("Pallets", "Pallets");
+            var palletsColumn = BuildDecimalColumn("Pallets", "Pallets");
             ProductsGrid.Columns.Add(palletsColumn);
 
             var packagesColumn = BuildNumericColumn("Colli", "Packages");
@@ -113,7 +113,7 @@ namespace PosizioniRoverfrutta.Windows
             var parameterColumn = BuildDecimalColumn("Parametro", "PriceParameter");
             ProductsGrid.Columns.Add(parameterColumn);
 
-            var priceColumn = BuildDecimalColumn("Prezzo", "Price");
+            var priceColumn = BuildPriceColumn("Prezzo", "Price");
             ProductsGrid.Columns.Add(priceColumn);
 
             var currencyColumn = BuildCurrenciesDataGridColumn();
@@ -223,6 +223,24 @@ namespace PosizioniRoverfrutta.Windows
             {
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
+                StringFormat = "{0:0.##}",
+                ConverterCulture = CultureInfo.CurrentCulture
+            };
+            binding.ValidationRules.Add(new ExceptionValidationRule());
+            return new DataGridTextColumn
+            {
+                Header = header,
+                Binding = binding,
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+            };
+        }
+        
+        private static DataGridColumn BuildPriceColumn(string header, string propertyName)
+        {
+            var binding = new Binding(propertyName)
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
                 StringFormat = "F",
                 ConverterCulture = CultureInfo.CurrentCulture
             };
@@ -281,7 +299,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForNumericTextBox("ProviderCommission", ProviderCommission);
 
-            SetBindingsForTotals("TotalPallets", TotalPalletsText);
+            SetBindingsForDecimalTotals("TotalPallets", TotalPalletsText);
 
             SetBindingsForTotals("TotalPackages", TotalPackagesText);
 
@@ -289,7 +307,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForDecimalTotals("TotalNet", TotalNetText);
 
-            SetBindingsForDecimalTotals("TotalAmount", TotalAmountText);
+            SetBindingsForPriceTotals("TotalAmount", TotalAmountText);
 
             SetBindingsForTextBox("Notes", Notes);
 
@@ -297,19 +315,19 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForTextBox("OrderCode", OrderCode);
 
-            SetBindingsForDecimalTotals("TotalAmount", TotalAmountBlock);
+            SetBindingsForPriceTotals("TotalAmount", TotalAmountBlock);
 
             SetBindingsForTotals("InvoiceDiscount", DiscountTextBlock);
 
-            SetBindingsForDecimalTotals("CalculatedDiscount", CalculatedDiscountBlock);
+            SetBindingsForPriceTotals("CalculatedDiscount", CalculatedDiscountBlock);
 
-            SetBindingsForDecimalTotals("TaxableAmount", TaxableAmountBlock);
+            SetBindingsForPriceTotals("TaxableAmount", TaxableAmountBlock);
 
             SetBindingsForTextBox("Vat", VatBox);
 
-            SetBindingsForDecimalTotals("CalculatedVat", CalculatedVatBlock);
+            SetBindingsForPriceTotals("CalculatedVat", CalculatedVatBlock);
 
-            SetBindingsForDecimalTotals("FinalTotal", FinalTotalBlock);
+            SetBindingsForPriceTotals("FinalTotal", FinalTotalBlock);
         }
 
         private void SetBindingForTermsOfPaymentAutocomplete()
@@ -371,6 +389,18 @@ namespace PosizioniRoverfrutta.Windows
         }
 
         private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
+        {
+            var totalsBinding = new Binding(propertyName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.Default,
+                Mode = BindingMode.OneWay,
+                StringFormat = "{0:0.##}",
+                ConverterCulture = CultureInfo.CurrentCulture
+            };
+
+            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
+        }
+        private static void SetBindingsForPriceTotals(string propertyName, TextBlock textBlock)
         {
             var totalsBinding = new Binding(propertyName)
             {

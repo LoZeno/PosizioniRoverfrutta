@@ -191,7 +191,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         }
 
-        public int TotalPallets
+        public decimal TotalPallets
         {
             get { return ProductDetails.Sum(p => p.Pallets); }
         }
