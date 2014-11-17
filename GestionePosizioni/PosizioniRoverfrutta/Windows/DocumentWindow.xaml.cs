@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -241,77 +242,27 @@ namespace PosizioniRoverfrutta.Windows
 
         private void SetSaveButtonBindings(SaleConfirmationViewModel viewModel)
         {
-            var saveBinding = new CommandBinding
-            {
-                Command = viewModel.SaveAll
-            };
-            CommandBindings.Add(saveBinding);
-
-            SaveButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("SaveAll")
-            });
+            SetButtonBinding(viewModel, SaveButton, "SaveAll", viewModel.SaveAll);
         }
 
         private void SetReloadButtonBinding(SaleConfirmationViewModel viewModel)
         {
-            var reloadBinding = new CommandBinding
-            {
-                Command = viewModel.Reload
-            };
-            CommandBindings.Add(reloadBinding);
-
-            UndoButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("Reload")
-            });
+            SetButtonBinding(viewModel, UndoButton, "Reload", viewModel.Reload);
         }
 
         private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
         {
-            var printBinding = new CommandBinding
-            {
-                Command = viewModel.Print
-            };
-            CommandBindings.Add(printBinding);
-
-            PdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("Print")
-            });
+            SetButtonBinding(viewModel, PdfButton, "Print", viewModel.Print);
         }
 
         private void SetConvertButtonBinding(SaleConfirmationViewModel viewModel)
         {
-            var convertBinding = new CommandBinding
-            {
-                Command = viewModel.Convert
-            };
-            CommandBindings.Add(convertBinding);
-
-            ConvertButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("Convert")
-            });
+            SetButtonBinding(viewModel, ConvertButton, "Convert", viewModel.Convert);
         }
 
         private void SetSendtButtonBinding(SaleConfirmationViewModel viewModel)
         {
-            var sendBinding = new CommandBinding
-            {
-                Command = viewModel.Email
-            };
-            CommandBindings.Add(sendBinding);
-
-            EmailButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("Email")
-            });
+            SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
         }
     }
 }
