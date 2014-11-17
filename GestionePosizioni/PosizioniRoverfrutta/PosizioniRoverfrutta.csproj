@@ -173,6 +173,9 @@
     <Compile Include="CustomControls\DataGridColumns\DataGridDecimalColumn.cs" />
     <Compile Include="CustomControls\DataGridColumns\DataGridNumericColumn.cs" />
     <Compile Include="CustomControls\ProductDescriptionAutocompleteBoxWrapper.cs" />
+    <Compile Include="CustomControls\ProductDetailsGrid.xaml.cs">
+      <DependentUpon>ProductDetailsGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\TransporterDetails.xaml.cs">
       <DependentUpon>TransporterDetails.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\ProductDetailsGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

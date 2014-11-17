@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+        xmlns:customControls="clr-namespace:PosizioniRoverfrutta.CustomControls"
         Title="Conferma Prezzi" Height="800" Width="800" Left="301"
         MinWidth="600" MinHeight="400">
     <Window.Resources>
@@ -28,6 +29,12 @@
                 </RibbonTab>
             </Ribbon>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">
+                <StackPanel.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="WhiteSmoke" Offset="0.25"></GradientStop>
+                        <GradientStop Color="LightBlue" Offset="1.0"></GradientStop>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
                 <Label Name="StatusLabel" Content="Status"/>
             </StackPanel>
             <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
@@ -116,13 +123,12 @@
                             <TextBox Grid.Row="1" Grid.Column="3" Name="ProviderCommission"></TextBox>
                         </Grid>
                     </Border>
-
-                    <DataGrid Grid.Row="4" Name="ProductsGrid" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="True" CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False">
-
-                    </DataGrid>
+                    
+                    <customControls:ProductDetailsGrid x:Name="ProductsGrid" Grid.Row="4"></customControls:ProductDetailsGrid>
 
                     <Grid Grid.Row="5" Name="TotalsGrid">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
                             <ColumnDefinition Width="3*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -133,13 +139,14 @@
                             <ColumnDefinition Width="1.5*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" FontWeight="Bold">Totali</Label>
-                        <TextBlock Name="TotalPalletsText" Grid.Column="1"></TextBlock>
-                        <TextBlock Name="TotalPackagesText" Grid.Column="2"></TextBlock>
-                        <TextBlock Name="TotalGrossText" Grid.Column="3"></TextBlock>
-                        <TextBlock Name="TotalNetText" Grid.Column="4"></TextBlock>
-                        <TextBlock Name="TotalAmountText" Grid.Column="8"></TextBlock>
+                        <Label Grid.Column="1" FontWeight="Bold">Totali</Label>
+                        <TextBlock Name="TotalPalletsText" Grid.Column="2"></TextBlock>
+                        <TextBlock Name="TotalPackagesText" Grid.Column="3"></TextBlock>
+                        <TextBlock Name="TotalGrossText" Grid.Column="4"></TextBlock>
+                        <TextBlock Name="TotalNetText" Grid.Column="5"></TextBlock>
+                        <TextBlock Name="TotalAmountText" Grid.Column="9"></TextBlock>
                     </Grid>
+                    
                     <Grid Grid.Row="6" MaxWidth="400" HorizontalAlignment="Right">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
