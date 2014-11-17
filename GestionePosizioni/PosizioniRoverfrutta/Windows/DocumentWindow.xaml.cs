@@ -1,13 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 using PosizioniRoverfrutta.CustomControls;
-using PosizioniRoverfrutta.CustomControls.DataGridColumns;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;
@@ -29,7 +24,7 @@ namespace PosizioniRoverfrutta.Windows
         {
             InitializeComponent();
 
-            var viewModel = new SaleConfirmationViewModel(dataStorage, _windowManager);
+            var viewModel = new SaleConfirmationViewModel(dataStorage, WindowManager);
             
             SetDataGridBinding(viewModel);
             
@@ -70,7 +65,7 @@ namespace PosizioniRoverfrutta.Windows
 
         private void SetDataGridBinding(SaleConfirmationViewModel viewModel)
         {
-            this.ProductsGrid.SetBinding(ProductDetailsGrid.ItemsSourceProperty, new Binding
+            ProductsGrid.SetBinding(ProductDetailsGrid.ItemsSourceProperty, new Binding
             {
                 Source = viewModel,
                 Path = new PropertyPath("ProductDetails"),
@@ -137,74 +132,6 @@ namespace PosizioniRoverfrutta.Windows
                 Mode = BindingMode.TwoWay
             };
             TermsOfPayment.SetBinding(ComboBox.TextProperty, binding);
-        }
-
-        private static void SetBindingsForTextBox(string property, TextBox control)
-        {
-            var binding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.TwoWay
-            };
-            control.SetBinding(TextBox.TextProperty, binding);
-        }
-        
-        private static void SetBindingsForNumericTextBox(string property, TextBox control)
-        {
-            var binding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
-                Mode = BindingMode.TwoWay,
-                ConverterCulture = CultureInfo.CurrentCulture
-            };
-            binding.ValidationRules.Add(new ExceptionValidationRule());
-            control.SetBinding(TextBox.TextProperty, binding);
-        }
-
-        private static void SetBindingsForDatePickers(string property, DatePicker datePicker)
-        {
-            var dateBinding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.TwoWay
-            };
-            datePicker.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
-        }
-
-        private static void SetBindingsForTotals(string propertyName, TextBlock textBlock)
-        {
-            var totalsBinding = new Binding(propertyName)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay
-            };
-
-            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
-        }
-
-        private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
-        {
-            var totalsBinding = new Binding(propertyName)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "{0:0.##}",
-                ConverterCulture = CultureInfo.CurrentCulture
-            };
-
-            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
-        }
-        private static void SetBindingsForPriceTotals(string propertyName, TextBlock textBlock)
-        {
-            var totalsBinding = new Binding(propertyName)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "F2",
-                ConverterCulture = CultureInfo.CurrentCulture
-            };
-
-            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
         }
 
         private void SetStatusBinding()

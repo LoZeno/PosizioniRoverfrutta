@@ -1,9 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -37,7 +35,7 @@ namespace PosizioniRoverfrutta.Windows
             CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
             CompanyNameBox.AutoCompleteManager.Asynchronous = true;
 
-            var viewModel = new SummaryAndInvoiceViewModel(dataStorage, _windowManager);
+            var viewModel = new SummaryAndInvoiceViewModel(dataStorage, WindowManager);
             DataContext = viewModel;
 
             var companyNameBinding = new Binding
@@ -51,13 +49,13 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForDatePickers("StartDate", FromDatePicker);
             SetBindingsForDatePickers("EndDate", ToDatePicker);
-            SetBindingsForDecimalTotals("CommissionsTotal", CommissionsBlock);
+            SetBindingsForPriceTotals("CommissionsTotal", CommissionsBlock);
             SetBindingsForNumericTextBox("InvoiceVat", InvoiceVatTextBox);
-            SetBindingsForDecimalTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
-            SetBindingsForDecimalTotals("TaxedAmount", TaxedAmountTextBox);
+            SetBindingsForPriceTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
+            SetBindingsForPriceTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
-            SetBindingsForDecimalTotals("CalculatedWitholding", WitholdingTextBlock);
-            SetBindingsForDecimalTotals("NetAmount", NetAmountTextBlock);
+            SetBindingsForPriceTotals("CalculatedWitholding", WitholdingTextBlock);
+            SetBindingsForPriceTotals("NetAmount", NetAmountTextBlock);
             SetBindingsForNumericTextBox("InvoiceNumber", InvoiceNumberBox);
             SetBindingsForDatePickers("InvoiceDate", InvoiceDatePicker);
             SetPrintSummaryButtonBinding(viewModel);
@@ -148,79 +146,14 @@ namespace PosizioniRoverfrutta.Windows
             });
         }
 
-        private static void SetBindingsForDatePickers(string property, DatePicker datePicker)
-        {
-            var dateBinding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.TwoWay
-            };
-            datePicker.SetBinding(DatePicker.SelectedDateProperty, dateBinding);
-        }
-
-        private static void SetBindingsForDecimalTotals(string propertyName, TextBlock textBlock)
-        {
-            var totalsBinding = new Binding(propertyName)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.OneWay,
-                StringFormat = "F2",
-                ConverterCulture = CultureInfo.CurrentCulture
-            };
-
-            textBlock.SetBinding(TextBlock.TextProperty, totalsBinding);
-        }
-
-        private static void SetBindingsForTextBox(string property, TextBox control)
-        {
-            var binding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                Mode = BindingMode.TwoWay
-            };
-            control.SetBinding(TextBox.TextProperty, binding);
-        }
-
-        private static void SetBindingsForNumericTextBox(string property, TextBox control)
-        {
-            var binding = new Binding(property)
-            {
-                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
-                Mode = BindingMode.TwoWay,
-                ConverterCulture = CultureInfo.CurrentCulture
-            };
-            binding.ValidationRules.Add(new ExceptionValidationRule());
-            control.SetBinding(TextBox.TextProperty, binding);
-        }
-
         private void SetPrintSummaryButtonBinding(SummaryAndInvoiceViewModel viewModel)
         {
-            var printBinding = new CommandBinding
-            {
-                Command = viewModel.PrintSummary
-            };
-            CommandBindings.Add(printBinding);
-
-            SummaryPdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("PrintSummary")
-            });
+            SetButtonBinding(viewModel, SummaryPdfButton, "PrintSummary", viewModel.PrintSummary);
         }
 
         private void SetPrintInvoicButtonBinding(SummaryAndInvoiceViewModel viewModel)
         {
-            var printBinding = new CommandBinding
-            {
-                Command = viewModel.PrintInvoice
-            };
-            CommandBindings.Add(printBinding);
-
-            InvoicePdfButton.SetBinding(ButtonBase.CommandProperty, new Binding
-            {
-                Source = viewModel,
-                Path = new PropertyPath("PrintInvoice")
-            });
+            SetButtonBinding(viewModel, InvoicePdfButton, "PrintInvoice", viewModel.PrintInvoice);
         }
 
         private void SetVatVisibility(SummaryAndInvoiceViewModel viewModel)

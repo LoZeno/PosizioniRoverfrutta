@@ -229,7 +229,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool EnableButtons
         {
-            get { return Id != -1; }
+            get { return Id != 0; }
         }
 
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }

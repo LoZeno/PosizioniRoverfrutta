@@ -299,10 +299,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WpfControls\WpfControls\WpfControls.vbproj">
-      <Project>{d010f52c-140c-410d-b897-c1091b81aa13}</Project>
-      <Name>WpfControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\dragonz.actb\dragonz.actb.csproj">
       <Project>{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}</Project>
       <Name>dragonz.actb</Name>
