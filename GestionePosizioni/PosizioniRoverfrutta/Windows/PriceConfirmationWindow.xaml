@@ -4,10 +4,28 @@
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
         xmlns:customControls="clr-namespace:PosizioniRoverfrutta.CustomControls"
-        Title="Conferma Prezzi" Height="800" Width="800" Left="301"
+        Title="Conferma Prezzi" Height="800" Width="820" Left="281"
         MinWidth="600" MinHeight="400">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="visibilityConverter" />
+        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="blockStyle">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource blockStyle}"></Style>
+        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type control:AutoCompleteTextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type control:AutoCompleteComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <!-- ComboBox, RadioButton, etc... -->
     </Window.Resources>
     
     <Grid>
@@ -119,7 +137,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="2" FontWeight="Bold" FontStyle="Italic">Provvigione Cliente (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="2" Name="CustomerCommission"></TextBox>
 
-                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Provvigione Fornitore (%)</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="3" FontWeight="Bold" FontStyle="Italic">Provvig. Fornitore (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="3" Name="ProviderCommission"></TextBox>
                         </Grid>
                     </Border>

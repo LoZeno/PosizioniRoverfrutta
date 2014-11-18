@@ -4,7 +4,7 @@
         xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
         xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
         xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
-        Title="Posizioni Roverfrutta - Menu" MinHeight="450" Height="450" Width="900" MinWidth="450"
+        Title="Posizioni Roverfrutta - Menu" MinHeight="450" Height="460" Width="900" MinWidth="450"
         Left="0" Top="0"
         Icon="Content/Pictures/Logo/Shield.png"
         Name="MenuWindow">
@@ -22,6 +22,25 @@
             <Setter Property="Margin" Value="0,5" />
             <Setter Property="Background" Value="{StaticResource brushWatermarkBackground}"></Setter>
         </Style>
+
+        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="blockStyle">
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource blockStyle}"></Style>
+        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type control:AutoCompleteTextBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <Style TargetType="{x:Type control:AutoCompleteComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
+        <!-- ComboBox, RadioButton, etc... -->
 
     </Window.Resources>
 
