@@ -8,24 +8,12 @@
         MinWidth="600" MinHeight="400"
         >
     <Window.Resources>
-        <Style TargetType="{x:Type Control}" x:Key="baseStyle">
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style TargetType="{x:Type TextBlock}" x:Key="blockStyle">
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource blockStyle}"></Style>
-        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type control:AutoCompleteTextBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <Style TargetType="{x:Type control:AutoCompleteComboBox}" BasedOn="{StaticResource baseStyle}"></Style>
-        <!-- ComboBox, RadioButton, etc... -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/SharedResources.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Window.Resources>
     <Grid>
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" x:Name="DockPanel1" VerticalAlignment="Stretch">
