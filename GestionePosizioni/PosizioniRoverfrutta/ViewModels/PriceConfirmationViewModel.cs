@@ -400,7 +400,7 @@ namespace PosizioniRoverfrutta.ViewModels
                             Customer = loadingDocument.Customer,
                             Provider = loadingDocument.Provider,
                             Transporter = loadingDocument.Transporter,
-                            DocumentDate = loadingDocument.DocumentDate,
+                            DocumentDate = DateTime.Today,
                             ProductDetails = loadingDocument.ProductDetails,
                             ShippingDate = loadingDocument.ShippingDate,
                             DeliveryDate = loadingDocument.DeliveryDate,

@@ -335,7 +335,7 @@ namespace PosizioniRoverfrutta.ViewModels
                             Customer = saleconfirmation.Customer,
                             Provider = saleconfirmation.Provider,
                             Transporter = saleconfirmation.Transporter,
-                            DocumentDate = saleconfirmation.DocumentDate,
+                            DocumentDate = DateTime.Today,
                             ProductDetails = saleconfirmation.ProductDetails,
                             ShippingDate = saleconfirmation.ShippingDate,
                             DeliveryDate = saleconfirmation.DeliveryDate,
