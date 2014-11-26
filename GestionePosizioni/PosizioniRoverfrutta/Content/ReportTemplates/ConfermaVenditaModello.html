@@ -17,20 +17,20 @@
         }
 
         .companyDesc {
-            font-size: 13pt;
+            font-size: 12pt;
             font-weight: bold;
             font-family: sans-serif;
         }
 
         .headerSmallText {
-            font-size: 13pt;
+            font-size: 12pt;
             font-weight: bold;
             font-family: sans-serif;
             width: 60%;
         }
 
         .cursiveHeader {
-            font-size: 13pt;
+            font-size: 12pt;
             font-weight: bold;
             font-family: sans-serif;
             font-style: italic;
@@ -47,7 +47,7 @@
         }
 
         .cursiveDescription {
-            font-size: 13pt;
+            font-size: 14pt;
             font-family: sans-serif;
             font-style: italic;
             width: 100%;
@@ -55,13 +55,13 @@
         }
 
         .boldGridHeader {
-            font-size: 13pt;
+            font-size: 14pt;
             font-family: sans-serif;
             font-weight: bold;
         }
 
         .normalText {
-            font-size: 13pt;
+            font-size: 14pt;
             font-family: sans-serif;
         }
 
@@ -282,7 +282,7 @@
                 @foreach (var product in Model.ProductDetails)
                 {
                 <tr class="normalText">
-                    <td style="width: 30%">
+                    <td>
                         @product.Description
                     </td>
                     <td>
@@ -323,9 +323,9 @@
             </tfoot>
         </table>
     
-        <div style="width: 100%; height: 4em;"></div>
+        <div style="width: 100%; height: 2em;"></div>
         <span class="normalText bold">Note:</span>
-        <div class="normalText borderedDiv" style="width: 100%; padding: 1em">
+        <div class="normalText borderedDiv" style="width: 100%; padding: 0.5em">
             <b>@Model.Notes</b>
         </div>
     
