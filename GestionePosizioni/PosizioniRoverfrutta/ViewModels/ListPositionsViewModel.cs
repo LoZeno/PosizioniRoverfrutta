@@ -200,7 +200,6 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasPriceConfirmation = true;
-                    position.DocumentDate = document.DocumentDate;
                     position.ShippingDate = document.ShippingDate;
                 }
             }
@@ -215,7 +214,6 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
                     position.HasLoadingDocument = true;
-                    position.DocumentDate = document.DocumentDate;
                     position.ShippingDate = document.ShippingDate;
                 }
             }
