@@ -132,8 +132,8 @@ namespace PosizioniRoverfrutta
             var positionNumber = BuildNumericColumn("N° Posizione", "ProgressiveNumber");
             ListPositionsGrid.Columns.Add(positionNumber);
 
-            var documentDate = BuildDateColumn("Data Documento", "DocumentDate");
-            ListPositionsGrid.Columns.Add(documentDate);
+            var shippingDate = BuildDateColumn("Data Spedizione", "ShippingDate");
+            ListPositionsGrid.Columns.Add(shippingDate);
 
             var customerName = BuildTextColumn("Cliente", "CustomerName");
             ListPositionsGrid.Columns.Add(customerName);
@@ -141,8 +141,8 @@ namespace PosizioniRoverfrutta
             var providerName = BuildTextColumn("Fornitore", "ProviderName");
             ListPositionsGrid.Columns.Add(providerName);
 
-            var shippingDate = BuildDateColumn("Data Spedizione", "ShippingDate");
-            ListPositionsGrid.Columns.Add(shippingDate);
+            var documentDate = BuildDateColumn("Data Documento", "DocumentDate");
+            ListPositionsGrid.Columns.Add(documentDate);
 
             var hasLoadingDocument = BuildCheckBoxColumn("Dist. Carico", "HasLoadingDocument");
             ListPositionsGrid.Columns.Add(hasLoadingDocument);

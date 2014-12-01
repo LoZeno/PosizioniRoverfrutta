@@ -223,7 +223,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             if (_toDate.HasValue)
             {
-                baseQuery = baseQuery.Where(sc => sc.DocumentDate <= _toDate);
+                baseQuery = baseQuery.Where(sc => sc.ShippingDate <= _toDate);
             }
             return baseQuery;
         }
@@ -232,7 +232,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             if (_fromDate.HasValue)
             {
-                baseQuery = baseQuery.Where(sc => sc.DocumentDate >= _fromDate);
+                baseQuery = baseQuery.Where(sc => sc.ShippingDate >= _fromDate);
             }
             return baseQuery;
         }
