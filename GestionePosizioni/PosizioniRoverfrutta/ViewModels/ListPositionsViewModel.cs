@@ -10,6 +10,7 @@ using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using QueryManager;
+using QueryManager.Indexes;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -170,80 +171,25 @@ namespace PosizioniRoverfrutta.ViewModels
             PositionsList.Clear();
             using (var session = _dataStorage.CreateSession())
             {
-                var baseQuery = session.Query<SaleConfirmation>();
-                baseQuery = FilterByCustomerOrProvider(baseQuery);
-                baseQuery = FilterMoreRecentThanFromDate(baseQuery);
-                baseQuery = FIlterOlderThanToDate(baseQuery);
-                var listOfPositions = baseQuery.Select(sc => new PositionsListRow
+                var baseQuery =
+                    session.Query<PositionsListRow, AllPositions>();
+                
+                if (_toDate.HasValue)
                 {
-                    CustomerName = sc.Customer.CompanyName,
-                    DocumentDate = sc.DocumentDate,
-                    DocumentId = sc.Id,
-                    ProviderName = sc.Provider.CompanyName,
-                    ShippingDate = sc.ShippingDate,
-                }).OrderByDescending(sc => sc.DocumentDate);
-
-                var results = listOfPositions.Skip(skipPositions).Take(100).ToList().OrderByDescending(lop => lop.ProgressiveNumber);
-                CheckLoadingDocumentsExistence(session, results);
-                CheckPriceConfirmationExistence(session, results);
+                    baseQuery = baseQuery.Where(sc => sc.ShippingDate <= _toDate);
+                }
+                
+                if (_fromDate.HasValue)
+                {
+                    baseQuery = baseQuery.Where(sc => sc.ShippingDate >= _fromDate);
+                }
+                if (!string.IsNullOrWhiteSpace(_companyName))
+                {
+                    baseQuery = baseQuery.Where(sc => sc.CustomerName == _companyName || sc.ProviderName == _companyName);
+                }
+                var results = baseQuery.OrderByDescending(lop => lop.ProgressiveNumber).Skip(skipPositions).Take(100).ToList();
                 PositionsList.AddRange(results);
             }
-        }
-
-        private static void CheckPriceConfirmationExistence(IDocumentSession session, IOrderedEnumerable<PositionsListRow> results)
-        {
-            var findPriceConfirmations =
-                session.Load<PriceConfirmation>(results.Select(lop => "PriceConfirmations/" + lop.ProgressiveNumber)).ToList();
-            foreach (var document in findPriceConfirmations)
-            {
-                if (document != null)
-                {
-                    var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
-                    position.HasPriceConfirmation = true;
-                    position.ShippingDate = document.ShippingDate;
-                }
-            }
-        }
-
-        private static void CheckLoadingDocumentsExistence(IDocumentSession session, IOrderedEnumerable<PositionsListRow> results)
-        {
-            var findLoadingDocuments = session.Load<LoadingDocument>(results.Select(lop => "LoadingDocuments/" + lop.ProgressiveNumber)).ToList();
-            foreach (var document in findLoadingDocuments)
-            {
-                if (document != null)
-                {
-                    var position = results.First(lop => lop.ProgressiveNumber == document.ProgressiveNumber);
-                    position.HasLoadingDocument = true;
-                    position.ShippingDate = document.ShippingDate;
-                }
-            }
-        }
-
-        private IRavenQueryable<SaleConfirmation> FIlterOlderThanToDate(IRavenQueryable<SaleConfirmation> baseQuery)
-        {
-            if (_toDate.HasValue)
-            {
-                baseQuery = baseQuery.Where(sc => sc.ShippingDate <= _toDate);
-            }
-            return baseQuery;
-        }
-
-        private IRavenQueryable<SaleConfirmation> FilterMoreRecentThanFromDate(IRavenQueryable<SaleConfirmation> baseQuery)
-        {
-            if (_fromDate.HasValue)
-            {
-                baseQuery = baseQuery.Where(sc => sc.ShippingDate >= _fromDate);
-            }
-            return baseQuery;
-        }
-
-        private IRavenQueryable<SaleConfirmation> FilterByCustomerOrProvider(IRavenQueryable<SaleConfirmation> baseQuery)
-        {
-            if (!string.IsNullOrWhiteSpace(_companyId))
-            {
-                baseQuery = baseQuery.Where(sc => sc.Customer.Id == _companyId || sc.Provider.Id == _companyId);
-            }
-            return baseQuery;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

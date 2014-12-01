@@ -60,7 +60,7 @@
                             </AdornerDecorator>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Header="Filtra posizione per date">
+                    <GroupBox Header="Filtra posizione per data di spedizione">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
