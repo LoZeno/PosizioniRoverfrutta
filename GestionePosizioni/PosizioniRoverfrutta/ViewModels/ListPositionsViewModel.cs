@@ -5,14 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
-using Models.Companies;
-using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using QueryManager;
 using QueryManager.Indexes;
 using Raven.Abstractions.Extensions;
-using Raven.Client;
 using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
@@ -206,7 +203,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private bool _hasFocus;
         private readonly IDataStorage _dataStorage;
         private string _companyName;
-        private string _companyId;
         private DateTime? _fromDate;
         private DateTime? _toDate;
         private PositionsListRow _selectedRow;
