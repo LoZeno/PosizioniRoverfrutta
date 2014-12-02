@@ -40,6 +40,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _companyName = value;
+                skipPositions = 0;
                 RefreshData();
                 OnPropertyChanged();
             }
@@ -72,6 +73,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _fromDate = value;
+                skipPositions = 0;
                 RefreshData();
                 OnPropertyChanged();
             }
@@ -86,6 +88,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _toDate = value;
+                skipPositions = 0;
                 RefreshData();
                 OnPropertyChanged();
             }

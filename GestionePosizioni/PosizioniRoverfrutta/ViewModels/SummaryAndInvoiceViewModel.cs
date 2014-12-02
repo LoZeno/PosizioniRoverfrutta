@@ -15,6 +15,7 @@ using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
+using Raven.Client;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -269,56 +270,14 @@ namespace PosizioniRoverfrutta.ViewModels
             if (_summaryAndInvoice.Customer != null && _summaryAndInvoice.StartDate != null &&
                 _summaryAndInvoice.EndDate != null)
             {
-                List<SummaryRowViewModel> customerDataRows;
-                List<SummaryRowViewModel> providerDataRows;
-                using (var session = _dataStorage.CreateSession())
-                {
-                    var tempResults = session.Query<PriceConfirmation>()
-                        .Where(
-                            pc =>
-                                pc.Customer.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                                (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
-                                pc.CustomerCommission.HasValue)
-                        .Select(pc =>pc).ToList();
-
-                    var summaryRows = tempResults.Select(pc =>
-                        new SummaryRowViewModel
-                        {
-                            DocumentId = pc.ProgressiveNumber,
-                            ShippingDate = pc.ShippingDate,
-                            TransportDocument = pc.TransportDocument,
-                            CompanyName = pc.Provider.CompanyName,
-                            TaxableAmount = pc.TaxableAmount,
-                            Commission = pc.CustomerCommission.Value
-                        });
-
-                    customerDataRows = summaryRows.ToList();
-
-                    var moreTempResults = session.Query<PriceConfirmation>()
-                        .Where(
-                            pc =>
-                                pc.Provider.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                                (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
-                                pc.ProviderCommission.HasValue)
-                        .Select(pc => pc).ToList();
-
-                    var providerSummaryRows = moreTempResults.Select(pc =>
-                        new SummaryRowViewModel
-                        {
-                            DocumentId = pc.ProgressiveNumber,
-                            ShippingDate = pc.ShippingDate,
-                            TransportDocument = pc.TransportDocument,
-                            CompanyName = pc.Customer.CompanyName,
-                            TaxableAmount = pc.TaxableAmount,
-                            Commission = pc.ProviderCommission.Value
-                        });
-
-                    providerDataRows = providerSummaryRows.ToList(); 
-                }
 
                 var orderedList = new List<SummaryRowViewModel>();
-                orderedList.AddRange(customerDataRows);
-                orderedList.AddRange(providerDataRows);
+                using (var session = _dataStorage.CreateSession())
+                {
+                    orderedList.AddRange(CustomerDataRows(session).ToList());
+
+                    orderedList.AddRange(ProviderDataRows(session).ToList());
+                }
 
                 SummaryRows.Clear();
                 SummaryRows.AddRange(orderedList.OrderBy(r => r.DocumentId));
@@ -329,6 +288,52 @@ namespace PosizioniRoverfrutta.ViewModels
             }
             UpdateTotals();
             OnPropertyChanged("ShowVatArea");
+        }
+
+        private IEnumerable<SummaryRowViewModel> ProviderDataRows(IDocumentSession session)
+        {
+            var moreTempResults = session.Query<PriceConfirmation>()
+                .Where(
+                    pc =>
+                        pc.Provider.Id.Equals(_summaryAndInvoice.Customer.Id) &&
+                        (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
+                        pc.ProviderCommission.HasValue)
+                .Select(pc => pc);
+
+            var providerSummaryRows = moreTempResults.Select(pc =>
+                new SummaryRowViewModel
+                {
+                    DocumentId = pc.ProgressiveNumber,
+                    ShippingDate = pc.ShippingDate,
+                    TransportDocument = pc.TransportDocument,
+                    CompanyName = pc.Customer.CompanyName,
+                    TaxableAmount = pc.TaxableAmount,
+                    Commission = pc.ProviderCommission.Value
+                });
+            return providerSummaryRows;
+        }
+
+        private IEnumerable<SummaryRowViewModel> CustomerDataRows(IDocumentSession session)
+        {
+            var tempResults = session.Query<PriceConfirmation>()
+                .Where(
+                    pc =>
+                        pc.Customer.Id.Equals(_summaryAndInvoice.Customer.Id) &&
+                        (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
+                        pc.CustomerCommission.HasValue)
+                .Select(pc => pc);
+
+            var summaryRows = tempResults.Select(pc =>
+                new SummaryRowViewModel
+                {
+                    DocumentId = pc.ProgressiveNumber,
+                    ShippingDate = pc.ShippingDate,
+                    TransportDocument = pc.TransportDocument,
+                    CompanyName = pc.Provider.CompanyName,
+                    TaxableAmount = pc.TaxableAmount,
+                    Commission = pc.CustomerCommission.Value
+                });
+            return summaryRows;
         }
 
         private void FindCustomer(string companyName)
