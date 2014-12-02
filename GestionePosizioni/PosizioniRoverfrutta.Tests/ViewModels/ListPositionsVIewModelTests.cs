@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
@@ -19,6 +20,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _dataStorage.Initialize();
 
             CreateBasicData();
+            Thread.Sleep(10000);
         }
 
         [SetUp]

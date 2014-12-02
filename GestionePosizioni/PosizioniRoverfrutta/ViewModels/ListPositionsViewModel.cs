@@ -43,7 +43,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _companyName = value;
-                LoadCompanyId();
+                RefreshData();
                 OnPropertyChanged();
             }
         }
@@ -149,47 +149,49 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        private void LoadCompanyId()
-        {
-            using (var session = _dataStorage.CreateSession())
-            {
-                var company = session.Query<Customer>().FirstOrDefault(c => c.CompanyName == CompanyName);
-                if (company != null)
-                {
-                    _companyId = company.Id;
-                }
-                else
-                {
-                    _companyId = null;
-                }
-            }
-            RefreshData();
-        }
-
         private void RefreshData()
         {
             PositionsList.Clear();
             using (var session = _dataStorage.CreateSession())
             {
-                var baseQuery =
-                    session.Query<PositionsListRow, AllPositions>();
+                var baseQuery = session.Query<PositionsListRow, AllPositions>();
                 
-                if (_toDate.HasValue)
-                {
-                    baseQuery = baseQuery.Where(sc => sc.ShippingDate <= _toDate);
-                }
+                baseQuery = ApplyBeforeDateFilter(baseQuery);
                 
-                if (_fromDate.HasValue)
-                {
-                    baseQuery = baseQuery.Where(sc => sc.ShippingDate >= _fromDate);
-                }
-                if (!string.IsNullOrWhiteSpace(_companyName))
-                {
-                    baseQuery = baseQuery.Where(sc => sc.CustomerName == _companyName || sc.ProviderName == _companyName);
-                }
+                baseQuery = ApplyAfterDateFilter(baseQuery);
+
+                baseQuery = ApplyCustomerNameFilter(baseQuery);
+
                 var results = baseQuery.OrderByDescending(lop => lop.ProgressiveNumber).Skip(skipPositions).Take(100).ToList();
                 PositionsList.AddRange(results);
             }
+        }
+
+        private IRavenQueryable<PositionsListRow> ApplyCustomerNameFilter(IRavenQueryable<PositionsListRow> baseQuery)
+        {
+            if (!string.IsNullOrWhiteSpace(_companyName))
+            {
+                baseQuery = baseQuery.Where(sc => sc.CustomerName == _companyName || sc.ProviderName == _companyName);
+            }
+            return baseQuery;
+        }
+
+        private IRavenQueryable<PositionsListRow> ApplyAfterDateFilter(IRavenQueryable<PositionsListRow> baseQuery)
+        {
+            if (_fromDate.HasValue)
+            {
+                baseQuery = baseQuery.Where(sc => sc.ShippingDate >= _fromDate);
+            }
+            return baseQuery;
+        }
+
+        private IRavenQueryable<PositionsListRow> ApplyBeforeDateFilter(IRavenQueryable<PositionsListRow> baseQuery)
+        {
+            if (_toDate.HasValue)
+            {
+                baseQuery = baseQuery.Where(sc => sc.ShippingDate <= _toDate);
+            }
+            return baseQuery;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
