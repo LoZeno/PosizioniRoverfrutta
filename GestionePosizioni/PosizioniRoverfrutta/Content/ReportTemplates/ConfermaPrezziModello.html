@@ -253,9 +253,18 @@
             <td class="borderedColumn">
                 SCONTO IN FATTURA
             </td>
+            @if(ViewBag.PrintForCustomer && ViewBag.PrintForProvider)
+            {
             <td colspan="2" class="borderedColumn">
                 PROVVIGIONE ROVERFRUTTA
             </td>
+            }
+            else
+            {
+            <td class="borderedColumn">
+                PROVVIGIONE ROVERFRUTTA
+            </td>
+            }
         </tr>
         <tr class="normalText">
             <td class="borderedColumn">
@@ -264,10 +273,16 @@
             <td class="borderedColumn">
                 @Model.InvoiceDiscount %
             </td>
+            @if(ViewBag.PrintForCustomer)
+            {
             <td class="borderedColumn">
                 Cliente: @Model.CustomerCommission %
             </td>
+            }
+            @if(ViewBag.PrintForProvider)
+            {
             <td>Fornitore: @Model.ProviderCommission %</td>
+            }
         </tr>
     </table>
 

@@ -180,6 +180,8 @@ namespace PosizioniRoverfrutta.Windows
         private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, PdfButton, "Print", viewModel.Print);
+            SetButtonBinding(viewModel, ProviderPdfButton, "PrintForProvider", viewModel.PrintForProvider);
+            SetButtonBinding(viewModel, CustomerPdfButton, "PrintForCustomer", viewModel.PrintForCustomer);
         }
 
         private void SetConvertButtonBinding(SaleConfirmationViewModel viewModel)
@@ -190,6 +192,8 @@ namespace PosizioniRoverfrutta.Windows
         private void SetSendtButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
+            SetButtonBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
+            SetButtonBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
         }
     }
 }

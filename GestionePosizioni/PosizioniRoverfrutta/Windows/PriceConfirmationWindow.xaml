@@ -27,9 +27,15 @@
                         <RibbonButton x:Name="SaveButton" LargeImageSource="../Content/Pictures/Save/floppy-mount-icon-128.png" SmallImageSource="../Content/Pictures/Save/floppy-mount-icon-16.png" Label="Salva" />
                         <RibbonButton x:Name="UndoButton" LargeImageSource="../Content/Pictures/Undo/edit_undo.png" Label="Ricarica Ultimo Salvataggio"></RibbonButton>
                     </RibbonGroup>
-                    <RibbonGroup Header="Stampa e Invio" VerticalAlignment="Top">
+                    <RibbonGroup Header="Esporta PDF" VerticalAlignment="Top">
                         <RibbonButton x:Name="PdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva formato PDF"></RibbonButton>
+                        <RibbonButton x:Name="CustomerPdfButton" SmallImageSource="../Content/Pictures/Pdf/pdf_small.png" Label="PDF per Cliente"></RibbonButton>
+                        <RibbonButton x:Name="ProviderPdfButton" SmallImageSource="../Content/Pictures/Pdf/pdf_small.png" Label="PDF per Fornitore"></RibbonButton>
+                    </RibbonGroup>
+                    <RibbonGroup Header="Invio via Email" VerticalAlignment="Top">
                         <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="True"></RibbonButton>
+                        <RibbonButton x:Name="CustomerEmailButton" SmallImageSource="../Content/Pictures/Email/email-small.png" Label="Email a Cliente"></RibbonButton>
+                        <RibbonButton x:Name="ProviderEmailButton" SmallImageSource="../Content/Pictures/Email/email-small.png" Label="Email a Fornitore"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
             </Ribbon>

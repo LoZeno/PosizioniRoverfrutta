@@ -257,7 +257,17 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public ICommand Print
         {
-            get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument())); }
+            get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument(true, true))); }
+        }
+
+        public ICommand PrintForProvider
+        {
+            get { return printDocumentForProvider ?? (printDocumentForProvider = new DelegateCommand(PrintDocument(true, false))); }
+        }
+
+        public ICommand PrintForCustomer
+        {
+            get { return printDocumentForCustomer ?? (printDocumentForCustomer = new DelegateCommand(PrintDocument(false, true))); }
         }
 
         public ICommand Convert
@@ -267,17 +277,33 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public ICommand Email
         {
-            get { return emailDocument ?? (emailDocument = new DelegateCommand(SendEmail())); }
+            get { return emailDocument ?? (emailDocument = new DelegateCommand(SendEmail(true, true))); }
         }
 
-        private Action SendEmail()
+        public ICommand EmailToProvider
+        {
+            get
+            {
+                return emailDocumentToProvider ?? (emailDocumentToProvider = new DelegateCommand(SendEmail(true, false)));
+            }
+        }
+
+        public ICommand EmailToCustomer
+        {
+            get
+            {
+                return emailDocumentToCustomer ?? (emailDocumentToCustomer = new DelegateCommand(SendEmail(false, true)));
+            }
+        }
+
+        private Action SendEmail(bool printForProvider, bool printForCustomer)
         {
             return delegate
             {
                 SaveAllData();
-                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("DistintaDiCarico{0}.pdf", LoadingDocument.ProgressiveNumber));
+                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf", FormatFileName(printForProvider, printForCustomer), LoadingDocument.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
-                var report = new LoadingDocumentReport(LoadingDocument, path);
+                var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
                 report.CreatePdf();
                 MAPI email = new MAPI();
                 email.AddAttachment(path);
@@ -294,27 +320,48 @@ namespace PosizioniRoverfrutta.ViewModels
             };
         }
 
-        private Action PrintDocument()
+        private Action PrintDocument(bool printForProvider, bool printForCustomer)
         {
             return delegate
             {
                 SaveAllData();
-                SavePdf();
+                SavePdf(printForProvider, printForCustomer);
             };
         }
 
-        private string SavePdf()
+        private void SavePdf(bool printForProvider, bool printForCustomer)
         {
-            var path = _windowManager.OpenSaveToPdfDialog(string.Format("DistintaCarico-{0}", Id));
-            if (string.IsNullOrWhiteSpace(path))
+            try
             {
-                Status = "Creazione del PDF annullata";
-                return string.Empty;
+                var documentName = FormatFileName(printForProvider, printForCustomer);
+                var path = _windowManager.OpenSaveToPdfDialog(string.Format("{0}-{1}", documentName, Id));
+                if (string.IsNullOrWhiteSpace(path))
+                {
+                    Status = "Creazione del PDF annullata";
+                    return;
+                }
+                var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
+                report.CreatePdf();
+                Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
             }
-            var report = new LoadingDocumentReport(LoadingDocument, path);
-            report.CreatePdf();
-            Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
-            return path;
+            catch (Exception ex)
+            {
+                Status = string.Format("Errore durante la creazione del PDF: {0}", ex.Message);
+            }
+        }
+
+        private static string FormatFileName(bool printForProvider, bool printForCustomer)
+        {
+            string documentName = "DistintaCarico";
+            if (printForProvider)
+            {
+                documentName = documentName + "-fornitore";
+            }
+            if (printForCustomer)
+            {
+                documentName = documentName + "-cliente";
+            }
+            return documentName;
         }
 
         private void LoadDocument(int value)
@@ -524,8 +571,12 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
         private ICommand reloadCommand;
         private ICommand printDocument;
+        private ICommand printDocumentForCustomer;
+        private ICommand printDocumentForProvider;
         private ICommand convertDocument;
         private ICommand emailDocument;
+        private ICommand emailDocumentToCustomer;
+        private ICommand emailDocumentToProvider;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }
