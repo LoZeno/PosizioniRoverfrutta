@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{2EF21D46-0DC4-4AB1-B7F9-0A097A98B8B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{F203D79B-89BF-4FF0-B224-B50946E11D65}"
@@ -21,8 +23,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragonz.actb", "dragonz.actb\dragonz.actb.csproj", "{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosizioniRoverfrutta", "PosizioniRoverfrutta\PosizioniRoverfrutta.csproj", "{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfControls", "..\..\WpfControls\WpfControls\WpfControls.vbproj", "{D010F52C-140C-410D-B897-C1091B81AA13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosizioniRoverfrutta.Tests", "PosizioniRoverfrutta.Tests\PosizioniRoverfrutta.Tests.csproj", "{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42}"
 EndProject
@@ -96,16 +96,6 @@ Global
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Release|x86.ActiveCfg = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Debug|x86.Build.0 = Debug|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.ActiveCfg = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|Any CPU.Build.0 = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Publish|x86.ActiveCfg = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D010F52C-140C-410D-B897-C1091B81AA13}.Release|x86.ActiveCfg = Release|Any CPU
 		{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42}.Debug|x86.ActiveCfg = Debug|Any CPU
