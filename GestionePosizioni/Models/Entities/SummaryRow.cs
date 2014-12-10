@@ -5,6 +5,7 @@ namespace Models.Entities
     public class SummaryRow
     {
         public int DocumentId { get; set; }
+        public string InvoiceCustomerId { get; set; }
         public DateTime? ShippingDate { get; set; }
         public string DocumentDateString
         {

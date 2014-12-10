@@ -17,6 +17,7 @@ namespace PosizioniRoverfrutta.ViewModels
         public SummaryRowViewModel(SummaryRow summaryRow)
         {
             _summaryRow = summaryRow;
+            UpdateTotal();
         }
 
         public SummaryRow SummaryRow

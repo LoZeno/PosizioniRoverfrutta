@@ -86,6 +86,7 @@
     <Compile Include="Indexes\AllPositions.cs" />
     <Compile Include="Indexes\Customer_ByCompanyName.cs" />
     <Compile Include="Indexes\SaleConfirmation_ByCustomerId.cs" />
+    <Compile Include="Indexes\SummaryOfPositions.cs" />
     <Compile Include="Indexes\Transporter_ByCompanyName.cs" />
     <Compile Include="QueryHelpers\CompanyQueryHelper.cs" />
     <Compile Include="RavenDataStorage.cs" />

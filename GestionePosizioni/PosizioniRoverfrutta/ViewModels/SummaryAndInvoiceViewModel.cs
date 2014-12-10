@@ -15,6 +15,7 @@ using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
+using QueryManager.Indexes;
 using Raven.Client;
 
 namespace PosizioniRoverfrutta.ViewModels
@@ -274,9 +275,15 @@ namespace PosizioniRoverfrutta.ViewModels
                 var orderedList = new List<SummaryRowViewModel>();
                 using (var session = _dataStorage.CreateSession())
                 {
-                    orderedList.AddRange(CustomerDataRows(session).ToList());
+                    //orderedList.AddRange(CustomerDataRows(session).ToList());
 
-                    orderedList.AddRange(ProviderDataRows(session).ToList());
+                    //orderedList.AddRange(ProviderDataRows(session).ToList());
+
+                    var elements = session.Query<SummaryRow, SummaryOfPositions>()
+                        .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
+                                     && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
+
+                    orderedList.AddRange(elements.Select(summaryRow => new SummaryRowViewModel(summaryRow)));
                 }
 
                 SummaryRows.Clear();
