@@ -19,5 +19,6 @@ namespace Models.Entities
         public decimal TaxableAmount { get; set; }
         public decimal Commission { get; set; }
         public decimal PayableAmount { get; set; }
+        public bool CanMakeInvoice { get; set; }
     }
 }

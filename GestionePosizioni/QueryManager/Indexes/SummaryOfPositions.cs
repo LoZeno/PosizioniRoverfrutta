@@ -22,6 +22,7 @@ namespace QueryManager.Indexes
                                          ShippingDate = pc.ShippingDate,
                                          TaxableAmount = pc.TaxableAmount,
                                          TransportDocument = pc.TransportDocument,
+                                         CanMakeInvoice = true
                                      });
             AddMap<PriceConfirmation>(
                 saleConfirmations => from pc in saleConfirmations
@@ -36,6 +37,7 @@ namespace QueryManager.Indexes
                                          ShippingDate = pc.ShippingDate,
                                          TaxableAmount = pc.TaxableAmount,
                                          TransportDocument = pc.TransportDocument,
+                                         CanMakeInvoice = true
                                      });
 
             Reduce = positions => from position in positions
@@ -49,7 +51,8 @@ namespace QueryManager.Indexes
                                          DocumentId = summaryRow.Key.DocumentId,
                                          ShippingDate = summaryRow.ElementAt(0).ShippingDate,
                                          TaxableAmount = summaryRow.ElementAt(0).TaxableAmount,
-                                         TransportDocument = summaryRow.ElementAt(0).TransportDocument
+                                         TransportDocument = summaryRow.ElementAt(0).TransportDocument,
+                                         CanMakeInvoice = true
                                      };
         }
     }

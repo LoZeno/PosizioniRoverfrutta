@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
@@ -49,6 +50,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForDatePickers("StartDate", FromDatePicker);
             SetBindingsForDatePickers("EndDate", ToDatePicker);
+            SetCheckboxBinding(ShowOpenPositionsCheckBox, "IncludeOpenPositions");
             SetBindingsForPriceTotals("CommissionsTotal", CommissionsBlock);
             SetBindingsForNumericTextBox("InvoiceVat", InvoiceVatTextBox);
             SetBindingsForPriceTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
@@ -154,6 +156,16 @@ namespace PosizioniRoverfrutta.Windows
         private void SetPrintInvoicButtonBinding(SummaryAndInvoiceViewModel viewModel)
         {
             SetButtonBinding(viewModel, InvoicePdfButton, "PrintInvoice", viewModel.PrintInvoice);
+        }
+
+        private void SetCheckboxBinding(CheckBox checkBoxControl, string propertyName)
+        {
+            var myBinding = new Binding(propertyName)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            checkBoxControl.SetBinding(ToggleButton.IsCheckedProperty, myBinding);
         }
 
         private void SetVatVisibility(SummaryAndInvoiceViewModel viewModel)

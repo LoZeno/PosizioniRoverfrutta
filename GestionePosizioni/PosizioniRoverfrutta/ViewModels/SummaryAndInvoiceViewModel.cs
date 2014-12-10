@@ -73,6 +73,17 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool IncludeOpenPositions
+        {
+            get { return _summaryAndInvoice.IncludeOpenPositions; }
+            set
+            {
+                _summaryAndInvoice.IncludeOpenPositions = value;
+                OnPropertyChanged();
+                UpdateRows();
+            }
+        }
+
         public decimal CommissionsTotal
         {
             get { return _summaryAndInvoice.CommissionsTotal; }
@@ -275,15 +286,14 @@ namespace PosizioniRoverfrutta.ViewModels
                 var orderedList = new List<SummaryRowViewModel>();
                 using (var session = _dataStorage.CreateSession())
                 {
-                    //orderedList.AddRange(CustomerDataRows(session).ToList());
+                    LoadPriceConfirmations(orderedList, session);
 
-                    //orderedList.AddRange(ProviderDataRows(session).ToList());
+                    if (_summaryAndInvoice.IncludeOpenPositions)
+                    {
+                        LoadLoadingDocuments(orderedList, session);
 
-                    var elements = session.Query<SummaryRow, SummaryOfPositions>()
-                        .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
-                                     && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
-
-                    orderedList.AddRange(elements.Select(summaryRow => new SummaryRowViewModel(summaryRow)));
+                        LoadSalesConfirmations(orderedList, session);
+                    }
                 }
 
                 SummaryRows.Clear();
@@ -297,50 +307,35 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("ShowVatArea");
         }
 
-        private IEnumerable<SummaryRowViewModel> ProviderDataRows(IDocumentSession session)
+        private void LoadSalesConfirmations(List<SummaryRowViewModel> orderedList, IDocumentSession session)
         {
-            var moreTempResults = session.Query<PriceConfirmation>()
-                .Where(
-                    pc =>
-                        pc.Provider.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                        (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
-                        pc.ProviderCommission.HasValue)
-                .Select(pc => pc);
-
-            var providerSummaryRows = moreTempResults.Select(pc =>
-                new SummaryRowViewModel
-                {
-                    DocumentId = pc.ProgressiveNumber,
-                    ShippingDate = pc.ShippingDate,
-                    TransportDocument = pc.TransportDocument,
-                    CompanyName = pc.Customer.CompanyName,
-                    TaxableAmount = pc.TaxableAmount,
-                    Commission = pc.ProviderCommission.Value
-                });
-            return providerSummaryRows;
+            var currentIds = orderedList.Select(el => el.DocumentId).ToArray();
+            var openRows = session.Query<SummaryRow, SummaryOfOpenPosition>()
+                .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
+                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate)).ToList();
+            orderedList.AddRange(from summaryRow in openRows
+                where !currentIds.Contains(summaryRow.DocumentId)
+                select new SummaryRowViewModel(summaryRow));
         }
 
-        private IEnumerable<SummaryRowViewModel> CustomerDataRows(IDocumentSession session)
+        private void LoadLoadingDocuments(List<SummaryRowViewModel> orderedList, IDocumentSession session)
         {
-            var tempResults = session.Query<PriceConfirmation>()
-                .Where(
-                    pc =>
-                        pc.Customer.Id.Equals(_summaryAndInvoice.Customer.Id) &&
-                        (StartDate <= pc.ShippingDate) && (pc.ShippingDate <= EndDate) &&
-                        pc.CustomerCommission.HasValue)
-                .Select(pc => pc);
+            var currentIds = orderedList.Select(el => el.DocumentId).ToArray();
+            var newRows = session.Query<SummaryRow, SummaryOfPartialPositions>()
+                .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
+                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate)).ToList();
+            orderedList.AddRange(from summaryRow in newRows
+                where !currentIds.Contains(summaryRow.DocumentId)
+                select new SummaryRowViewModel(summaryRow));
+        }
 
-            var summaryRows = tempResults.Select(pc =>
-                new SummaryRowViewModel
-                {
-                    DocumentId = pc.ProgressiveNumber,
-                    ShippingDate = pc.ShippingDate,
-                    TransportDocument = pc.TransportDocument,
-                    CompanyName = pc.Provider.CompanyName,
-                    TaxableAmount = pc.TaxableAmount,
-                    Commission = pc.CustomerCommission.Value
-                });
-            return summaryRows;
+        private void LoadPriceConfirmations(List<SummaryRowViewModel> orderedList, IDocumentSession session)
+        {
+            var elements = session.Query<SummaryRow, SummaryOfPositions>()
+                .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
+                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
+
+            orderedList.AddRange(elements.Select(summaryRow => new SummaryRowViewModel(summaryRow)));
         }
 
         private void FindCustomer(string companyName)

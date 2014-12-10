@@ -28,6 +28,7 @@ namespace Models.DocumentTypes
                 return EndDate.HasValue ? EndDate.Value.ToLongDateString() : string.Empty;
             }
         }
+        public bool IncludeOpenPositions { get; set; }
         public List<SummaryRow> SummaryRows { get; set; }
         public decimal CommissionsTotal { get; set; }
         public decimal InvoiceVat { get; set; }

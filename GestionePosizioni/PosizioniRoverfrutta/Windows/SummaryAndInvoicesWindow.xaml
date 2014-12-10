@@ -56,9 +56,13 @@
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <TextBlock>Data Inizio: </TextBlock> 
                         <DatePicker Name="FromDatePicker"></DatePicker>
-                        <Separator Width="10px"></Separator>
+                        <Separator Width="5px"></Separator>
                         <TextBlock>Data Fine: </TextBlock>
                         <DatePicker Name="ToDatePicker"></DatePicker>
+                        <Separator Width="5px"></Separator>
+                        <CheckBox Name="ShowOpenPositionsCheckBox" FlowDirection="RightToLeft">
+                            <TextBlock>Includi posizioni aperte</TextBlock>
+                        </CheckBox>
                     </StackPanel>
 
                     <DataGrid Name="SummaryDataGrid" Grid.Row="3" AutoGenerateColumns="False" SelectionMode="Single" CanUserDeleteRows="False" CanUserAddRows="False" CanUserReorderColumns="True" CanUserResizeColumns="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
