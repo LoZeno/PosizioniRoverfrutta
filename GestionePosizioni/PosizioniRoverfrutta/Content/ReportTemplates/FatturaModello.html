@@ -200,9 +200,8 @@
        <span class="cursiveDescription">Spett.le</span><br/>
         @Model.Customer.CompanyName<br />
         @Model.Customer.Address<br />
-        @Model.Customer.City<br />
+        @Model.Customer.PostCode @Model.Customer.City<br />
         @Model.Customer.StateOrProvince<br />
-        @Model.Customer.PostCode<br />
         @Model.Customer.Country<br />
         P. IVA: @Model.Customer.VatCode
     </div>
@@ -221,7 +220,17 @@
             <td class="centralColumn">Imponibile</td>
             <td class="numbersColumn">@Model.CommissionsTotal</td>
         </tr>
-        @if(!Model.Customer.DoNotApplyVat)
+        @if(Model.Customer.DoNotApplyVat)
+	{
+	<tr>
+	    <td colspan="3" style="height: 1em;"></td>
+	</tr>
+	<tr>
+	    <td class="largeColumn">'Operazione non soggetta' ai sensi dell'art. 7-ter, DPR 633/72 e soggetta ad 'inversione contabile'</td>
+	    <td colspan="2"></td>
+        </tr>	
+	}
+	else
         {
         <tr>
             <td class="largeColumn"></td>
@@ -246,7 +255,7 @@
         </tr>
     </table>
     
-    <div style="width: 100%; height: 6em;"></div>
+    <div style="width: 100%; height: 40em;"></div>
     
     <div class="mainContent" style="height: 2em;">
         Pagamento: vista fattura
