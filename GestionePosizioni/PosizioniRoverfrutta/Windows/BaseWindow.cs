@@ -33,6 +33,17 @@ namespace PosizioniRoverfrutta.Windows
             control.SetBinding(TextBox.TextProperty, binding);
         }
 
+
+        protected static void SetBindingsForComboBox(string property, ComboBox control)
+        {
+            var binding = new Binding(property)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.TwoWay
+            };
+            control.SetBinding(ComboBox.TextProperty, binding);
+        }
+
         protected static void SetBindingsForNumericTextBox(string property, TextBox control)
         {
             var binding = new Binding(property)
@@ -101,6 +112,21 @@ namespace PosizioniRoverfrutta.Windows
             CommandBindings.Add(binding);
 
             buttonToBind.SetBinding(ButtonBase.CommandProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath(propertyName)
+            });
+        }
+        
+        protected void SetMenuItemBinding(INotifyPropertyChanged viewModel, RibbonMenuItem buttonToBind, string propertyName, ICommand command)
+        {
+            var binding = new CommandBinding
+            {
+                Command = command
+            };
+            CommandBindings.Add(binding);
+
+            buttonToBind.SetBinding(MenuItem.CommandProperty, new Binding
             {
                 Source = viewModel,
                 Path = new PropertyPath(propertyName)

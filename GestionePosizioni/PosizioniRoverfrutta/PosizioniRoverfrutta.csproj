@@ -415,6 +415,9 @@
     <Resource Include="Content\Pictures\Pdf\PDF.png" />
     <Resource Include="Content\Pictures\Pdf\pdf_small.png" />
     <Resource Include="Content\Pictures\Email\email-small.png" />
+    <Content Include="Content\EmailTemplates\ConfermaDatiTrasportatore.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\ReportTemplates\FatturaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

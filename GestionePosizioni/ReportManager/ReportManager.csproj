@@ -92,9 +92,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateEmail.cs" />
     <Compile Include="PechkinPdfCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportGeneratorBase.cs" />
+    <Compile Include="SaleConfirmationEmail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="libeay32.dll">

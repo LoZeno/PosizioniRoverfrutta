@@ -16,6 +16,7 @@ using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
+using ReportManager;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -290,6 +291,29 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public ICommand EmailToTransporter
+        {
+            get
+            {
+                return emailDocumentToTransporter ?? (emailDocumentToTransporter = new DelegateCommand(SendEmailNoAttachment()));
+            }
+        }
+
+        private Action SendEmailNoAttachment()
+        {
+            return delegate
+            {
+                SaveAllData();
+                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("EmailTrasportatore.{0}.html", SaleConfirmation.ProgressiveNumber));
+                (new FileInfo(path)).Directory.Create();
+                var emailText = new SaleConfirmationEmail(SaleConfirmation, path);
+                emailText.GenerateEmail();
+                MAPI email = new MAPI();
+                email.AddAttachment(path);
+                email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber),null);
+            };
+        }
+
         private Action SendEmail(bool printForProvider, bool printForCustomer)
         {
             return delegate
@@ -535,6 +559,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocument;
         private ICommand emailDocumentToCustomer;
         private ICommand emailDocumentToProvider;
+        private ICommand emailDocumentToTransporter;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

@@ -92,7 +92,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForNumericTextBox("Rental", Rental);
 
-            SetBindingsForTextBox("DeliveryEx", DeliveryEx);
+            SetBindingsForComboBox("DeliveryEx", DeliveryEx);
 
             SetBindingForTermsOfPaymentAutocomplete();
 
@@ -191,9 +191,10 @@ namespace PosizioniRoverfrutta.Windows
 
         private void SetSendtButtonBinding(SaleConfirmationViewModel viewModel)
         {
-            SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
-            SetButtonBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
-            SetButtonBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
+            //SetMenuItemBinding(viewModel, EmailButton, "Email", viewModel.Email);
+            SetMenuItemBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
+            SetMenuItemBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
+            SetMenuItemBinding(viewModel, TransportEmailButton, "EmailToTransporter", viewModel.EmailToTransporter);
         }
     }
 }

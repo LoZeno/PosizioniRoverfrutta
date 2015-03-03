@@ -151,30 +151,27 @@
         <div style="width: 100%; margin-top: 0.5em;" class="normalText">
             Roverbella, @Model.DocumentDateString
         </div>
-    
-        <div class="title">
-            CONFERMA DI VENDITA N° @Model.ProgressiveNumber
+        
+        <div class="normalText" style="width: 45%; float: right; display: inline-block; height: 12em">
+            Spett.le<br />
+            @Model.Transporter.CompanyName<br />
+            @Model.Transporter.Address<br />
+            @Model.Transporter.PostCode @Model.Customer.City<br />
+            @Model.Transporter.StateOrProvince<br />
+            @Model.Transporter.Country<br />
+            P. IVA: @Model.Transporter.VatCode
         </div>
-
+        <br/>
         <div class="cursiveDescription">
-            Facciamo seguito agli accordi intercorsi per confermare il seguente ordine:
+            Facciamo seguito agli accordi intercorsi per confermare il seguente ordine di trasporto:
         </div>
-    
+        <br/>
         <table width="100%" style="margin-top: 1em;">
             <tr class="boldGridHeader">
-                <td class="onethird">Cliente</td>
                 <td class="onethird">Fornitore</td>
-                <td class="onethird">Trasportatore</td>
+                <td class="onethird">Cliente</td>
             </tr>
             <tr>
-                <td class="normalText">
-                    @Model.Customer.CompanyName<br />
-                    @Model.Customer.Address<br />
-                    @Model.Customer.PostCode @Model.Customer.City<br />
-                    @Model.Customer.StateOrProvince<br />
-                    @Model.Customer.Country<br />
-                    P. IVA: @Model.Customer.VatCode
-                </td>
                 <td class="normalText">
                     @Model.Provider.CompanyName<br />
                     @Model.Provider.Address<br />
@@ -184,17 +181,18 @@
                     P. IVA: @Model.Provider.VatCode
                 </td>
                 <td class="normalText">
-                    @Model.Transporter.CompanyName<br />
-                    @Model.Transporter.Address<br />
-                    @Model.Transporter.PostCode @Model.Transporter.City<br />
-                    @Model.Transporter.StateOrProvince<br />
-                    @Model.Transporter.Country<br />
-                    P. IVA: @Model.Transporter.VatCode
+                    @Model.Customer.CompanyName<br />
+                    @Model.Customer.Address<br />
+                    @Model.Customer.PostCode @Model.Customer.City<br />
+                    @Model.Customer.StateOrProvince<br />
+                    @Model.Customer.Country<br />
+                    P. IVA: @Model.Customer.VatCode
                 </td>
             </tr>
         </table>
     
-        <div style="width: 100%; height: 4em;"></div>
+        <br/>
+        <br/>
     
         <table class="borderedTable">
             <tr class="boldGridHeader">
@@ -233,61 +231,16 @@
             </tr>
         </table>
     
-        <div style="width: 100%; height: 0.5em;"></div>
-    
-        <table class="borderedTable">
-            <tr class="boldGridHeader">
-                <td class="borderedColumn">
-                    CONDIZIONI DI PAGAMENTO
-                </td>
-                <td class="borderedColumn">
-                    SCONTO IN FATTURA
-                </td>
-                @if(ViewBag.PrintForCustomer && ViewBag.PrintForProvider)
-                {
-                <td colspan="2" class="borderedColumn">
-                    PROVVIGIONE ROVERFRUTTA
-                </td>
-                }
-                else
-                {
-                <td class="borderedColumn">
-                    PROVVIGIONE ROVERFRUTTA
-                </td>
-                }
-            </tr>
-            <tr class="normalText">
-                <td class="borderedColumn">
-                    @Model.TermsOfPayment
-                </td>
-                <td class="borderedColumn">
-                    @Model.InvoiceDiscount %
-                </td>
-                @if(ViewBag.PrintForCustomer)
-                {
-                <td class="borderedColumn">
-                    Cliente: @Model.CustomerCommission %
-                </td>
-                }
-                @if(ViewBag.PrintForProvider)
-                {
-                <td>Fornitore: @Model.ProviderCommission %</td>
-                }
-            </tr>
-        </table>
-
-        <div style="width: 100%; height: 2em;"></div>
+        <br/>
+        <br/>
         <table class="borderedTable">
             <thead class="borderedThickTable">
                 <tr class="boldGridHeader">
                     <td>Prodotto</td>
-                    <td>N° Pallets</td>
-                    <td>N° Colli</td>
+                    <td>N. Pallets</td>
+                    <td>N. Colli</td>
                     <td>Kg Lordo</td>
                     <td>Kg Netto</td>
-                    <td>Prezzo</td>
-                    <td>Valuta</td>
-                    <td>Parametro</td>
                 </tr>
             </thead>
             <tbody>
@@ -309,15 +262,6 @@
                     <td>
                         @product.NetWeight
                     </td>
-                    <td>
-                        @product.Price
-                    </td>
-                    <td>
-                        @product.Currency
-                    </td>
-                    <td class="bold">
-                        @product.PriceParameter
-                    </td>
                 </tr>
                 }
             </tbody>
@@ -328,27 +272,17 @@
                     <td>@Model.ProductDetails.Sum(p => p.Packages)</td>
                     <td>@Model.ProductDetails.Sum(p => p.GrossWeight)</td>
                     <td>@Model.ProductDetails.Sum(p => p.NetWeight)</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                 </tr>
             </tfoot>
         </table>
     
-        <div style="width: 100%; height: 2em;"></div>
+        <br/>
+        <br/>
         <span class="normalText bold">Note:</span>
         <div class="normalText borderedDiv" style="width: 100%; padding: 0.5em">
+            <b>ATTENZIONE: PER LE DITTE TRASPORTATRICI SOGGETTE ALLA LEGISLAZIONE FISCALE ITALIANA</b><br/>
+            Il camionista che si presenta alla consegna deve presentare il DURC regolare e l'iscrizione all'albo trasportatori sia del vettore che di eventuale subvettore<br/>
             <b>@Model.Notes</b>
         </div>
-    
-        <div style="width: 100%; height: 1em;"></div>
-
-        <div class="thickBorderedDiv">
-            <span class="normalText bold">
-                LOTTO N°: @Model.Lot<br />
-                N° ORDINE: @Model.OrderCode
-            </span>
-        </div>
-
     </body>
 </html>

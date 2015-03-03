@@ -92,7 +92,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SetBindingsForNumericTextBox("Rental", Rental);
 
-            SetBindingsForTextBox("DeliveryEx", DeliveryEx);
+            SetBindingsForComboBox("DeliveryEx", DeliveryEx);
 
             SetBindingForTermsOfPaymentAutocomplete();
 
