@@ -110,7 +110,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="4" FontWeight="Bold" FontStyle="Italic">Resa:</TextBlock>
                             <ComboBox Grid.Row="1" Grid.Column="4" Name="DeliveryEx" IsEditable="True">
                                 <ComboBoxItem>PORTO FRANCO (franco destino)</ComboBoxItem>
-                                <ComboBoxItem>PORTO ASSEGNATO(franco partenza)</ComboBoxItem>
+                                <ComboBoxItem>PORTO ASSEGNATO (franco partenza)</ComboBoxItem>
                             </ComboBox>
                         </Grid>
                     </Border>
