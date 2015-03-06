@@ -12,9 +12,21 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Windows/Resources/SharedResources.xaml"></ResourceDictionary>
+                <ResourceDictionary>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="IndianRed"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasLoadingDocument}" Value="True">
+                                <Setter Property="Background" Value="Yellow" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding HasPriceConfirmation}" Value="True">
+                                <Setter Property="Background" Value="LightGreen" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
     </Window.Resources>
 
     <Grid>
