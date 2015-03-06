@@ -26,7 +26,7 @@ namespace PosizioniRoverfrutta.Services
                     results = session.Query<ProductDescription>()
                         .Where(p => p.Description.StartsWith(textPattern, StringComparison.CurrentCultureIgnoreCase))
                         .OrderBy(p => p.Description)
-                        .Take(10)
+                        .Take(30)
                         .Select(p => p.Description);
                 }
             }
