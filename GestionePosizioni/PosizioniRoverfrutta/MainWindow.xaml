@@ -61,18 +61,38 @@
             <Button Name="NewDocumentButton" Padding="5" Margin="3" Click="NewDocumentButton_OnClick">Nuova Posizione</Button>
             <Button Name="SummaryButton" Padding="5" Margin="3" Click="SummaryButton_OnClick">Riepiloghi e Fatture</Button>
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Vertical" CanVerticallyScroll="False" VerticalAlignment="Stretch">
-            <GroupBox Header="Lista posizioni inserite">
-                <StackPanel Orientation="Vertical">
-                    <GroupBox Header="Filtra posizioni per cliente/fornitore">
-                        <Grid Style="{StaticResource EntryFieldStyle}">
-                            <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <AdornerDecorator>
-                                <control:AutoCompleteTextBox Name="CompanyNameBox" Background="Transparent" />
-                            </AdornerDecorator>
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Header="Filtra posizione per data di spedizione">
+        <GroupBox Grid.Column="1" Header="Lista posizioni inserite">
+            <DockPanel LastChildFill="True">
+                <GroupBox DockPanel.Dock="Top" Header="Filtra posizioni per cliente/fornitore">
+                    <Grid Style="{StaticResource EntryFieldStyle}">
+                        <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <AdornerDecorator>
+                            <control:AutoCompleteTextBox Name="CompanyNameBox" Background="Transparent" />
+                        </AdornerDecorator>
+                    </Grid>
+                </GroupBox>
+                
+                <GroupBox DockPanel.Dock="Bottom" Header="Apri posizione selezionata">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Name="OpenSaleConfirmationButton" Padding="5" Margin="3" Grid.Column="0" Click="OpenSaleConfirmationButton_OnClick">
+                            <TextBlock>Apri Conferma di Vendita</TextBlock>
+                        </Button>
+                        <Button Name="OpenLoadingDocumentButton" Padding="5" Margin="3" Grid.Column="1" Click="OpenLoadingDocumentButton_OnClick">
+                            <TextBlock>Apri Distinta di Carico</TextBlock>
+                        </Button>
+                        <Button Name="OpenPriceConfirmationButton" Padding="5" Margin="3" Grid.Column="2" Click="OpenPriceConfirmationButton_OnClick">
+                            <TextBlock>Apri Conferma Prezzi</TextBlock>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+
+                <DockPanel LastChildFill="True">
+                    <GroupBox DockPanel.Dock="Top" Header="Filtra posizione per data di spedizione">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -88,8 +108,8 @@
                             </StackPanel>
                         </Grid>
                     </GroupBox>
-                    <DataGrid Name="ListPositionsGrid" SelectionMode="Single" IsReadOnly="True" Height="200" AutoGenerateColumns="False"></DataGrid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Button Name="PreviousPage" Margin="3">
                             <TextBlock>&lt;&lt;</TextBlock>
                         </Button>
@@ -97,26 +117,10 @@
                             <TextBlock>>></TextBlock>
                         </Button>
                     </StackPanel>
-                    <GroupBox Header="Apri posizione selezionata">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Button Name="OpenSaleConfirmationButton" Padding="5" Margin="3" Grid.Column="0" Click="OpenSaleConfirmationButton_OnClick">
-                                <TextBlock>Apri Conferma di Vendita</TextBlock>
-                            </Button>
-                            <Button Name="OpenLoadingDocumentButton" Padding="5" Margin="3" Grid.Column="1" Click="OpenLoadingDocumentButton_OnClick">
-                                <TextBlock>Apri Distinta di Carico</TextBlock>
-                            </Button>
-                            <Button Name="OpenPriceConfirmationButton" Padding="5" Margin="3" Grid.Column="2" Click="OpenPriceConfirmationButton_OnClick">
-                                <TextBlock>Apri Conferma Prezzi</TextBlock>
-                            </Button>
-                        </Grid>
-                    </GroupBox>
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
+
+                    <DataGrid VerticalAlignment="Stretch" Name="ListPositionsGrid" SelectionMode="Single" IsReadOnly="True" MinHeight="200" AutoGenerateColumns="False"></DataGrid>
+                </DockPanel>
+            </DockPanel>
+        </GroupBox>
     </Grid>
 </Window>
