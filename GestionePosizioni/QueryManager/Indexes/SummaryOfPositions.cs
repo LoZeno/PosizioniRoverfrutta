@@ -11,7 +11,7 @@ namespace QueryManager.Indexes
         {
             AddMap<PriceConfirmation>(
                 saleConfirmations => from pc in saleConfirmations
-                                     where pc.CustomerCommission.HasValue
+                                     where pc.CustomerCommission.HasValue && pc.CustomerCommission.Value > 0
                                      select 
                                      new SummaryRow
                                      {
@@ -26,7 +26,7 @@ namespace QueryManager.Indexes
                                      });
             AddMap<PriceConfirmation>(
                 saleConfirmations => from pc in saleConfirmations
-                                     where pc.ProviderCommission.HasValue
+                                     where pc.ProviderCommission.HasValue && pc.ProviderCommission.Value > 0
                                      select
                                      new SummaryRow
                                      {

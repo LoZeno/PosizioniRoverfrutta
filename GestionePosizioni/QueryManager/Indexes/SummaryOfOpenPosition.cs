@@ -10,31 +10,31 @@ namespace QueryManager.Indexes
         public SummaryOfOpenPosition()
         {
             AddMap<SaleConfirmation>(
-                saleConfirmations => from ld in saleConfirmations
-                    where ld.CustomerCommission.HasValue
+                saleConfirmations => from sc in saleConfirmations
+                    where sc.CustomerCommission.HasValue && sc.CustomerCommission.Value > 0
                     select
                         new SummaryRow
                         {
-                            Commission = ld.CustomerCommission.Value,
-                            InvoiceCustomerId = ld.Customer.Id,
-                            CompanyName = ld.Provider.CompanyName,
-                            DocumentId = int.Parse(ld.Id.Split('/')[1]),
-                            ShippingDate = ld.ShippingDate,
+                            Commission = sc.CustomerCommission.Value,
+                            InvoiceCustomerId = sc.Customer.Id,
+                            CompanyName = sc.Provider.CompanyName,
+                            DocumentId = int.Parse(sc.Id.Split('/')[1]),
+                            ShippingDate = sc.ShippingDate,
                             TaxableAmount = 0,
                             TransportDocument = string.Empty,
                             CanMakeInvoice = false
                         });
             AddMap<SaleConfirmation>(
-                saleConfirmations => from pc in saleConfirmations
-                    where pc.ProviderCommission.HasValue
+                saleConfirmations => from sc in saleConfirmations
+                    where sc.ProviderCommission.HasValue && sc.ProviderCommission.Value > 0
                     select
                         new SummaryRow
                         {
-                            Commission = pc.ProviderCommission.Value,
-                            InvoiceCustomerId = pc.Provider.Id,
-                            CompanyName = pc.Customer.CompanyName,
-                            DocumentId = int.Parse(pc.Id.Split('/')[1]),
-                            ShippingDate = pc.ShippingDate,
+                            Commission = sc.ProviderCommission.Value,
+                            InvoiceCustomerId = sc.Provider.Id,
+                            CompanyName = sc.Customer.CompanyName,
+                            DocumentId = int.Parse(sc.Id.Split('/')[1]),
+                            ShippingDate = sc.ShippingDate,
                             TaxableAmount = 0,
                             TransportDocument = string.Empty,
                             CanMakeInvoice = false

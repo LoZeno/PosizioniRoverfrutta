@@ -11,7 +11,7 @@ namespace QueryManager.Indexes
         {
             AddMap<LoadingDocument>(
                 saleConfirmations => from ld in saleConfirmations
-                    where ld.CustomerCommission.HasValue
+                    where ld.CustomerCommission.HasValue && ld.CustomerCommission.Value > 0
                     select
                         new SummaryRow
                         {
@@ -25,18 +25,18 @@ namespace QueryManager.Indexes
                             CanMakeInvoice = false
                         });
             AddMap<LoadingDocument>(
-                saleConfirmations => from pc in saleConfirmations
-                    where pc.ProviderCommission.HasValue
+                saleConfirmations => from ld in saleConfirmations
+                    where ld.ProviderCommission.HasValue && ld.ProviderCommission.Value > 0
                     select
                         new SummaryRow
                         {
-                            Commission = pc.ProviderCommission.Value,
-                            InvoiceCustomerId = pc.Provider.Id,
-                            CompanyName = pc.Customer.CompanyName,
-                            DocumentId = int.Parse(pc.Id.Split('/')[1]),
-                            ShippingDate = pc.ShippingDate,
+                            Commission = ld.ProviderCommission.Value,
+                            InvoiceCustomerId = ld.Provider.Id,
+                            CompanyName = ld.Customer.CompanyName,
+                            DocumentId = int.Parse(ld.Id.Split('/')[1]),
+                            ShippingDate = ld.ShippingDate,
                             TaxableAmount = 0,
-                            TransportDocument = pc.TransportDocument,
+                            TransportDocument = ld.TransportDocument,
                             CanMakeInvoice = false
                         });
 
