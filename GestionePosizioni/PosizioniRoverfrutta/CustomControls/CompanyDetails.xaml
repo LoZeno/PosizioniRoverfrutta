@@ -104,7 +104,7 @@
 
         <Grid Grid.Row="8" Style="{StaticResource EntryFieldStyle}">
             <TextBlock Text="Email" Foreground="{StaticResource brushWatermarkForeground}"
-                       Visibility="{Binding ElementName=VatCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                       Visibility="{Binding ElementName=EmailAddress, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <AdornerDecorator>
                 <TextBox Name="EmailAddress" Background="Transparent"/>
             </AdornerDecorator>
