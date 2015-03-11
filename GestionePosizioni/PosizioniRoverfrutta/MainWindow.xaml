@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="Windows/Resources/SharedResources.xaml"></ResourceDictionary>
                 <ResourceDictionary>
                     <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="IndianRed"></Setter>
+                        <Setter Property="Background" Value="DarkOrange"></Setter>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding HasLoadingDocument}" Value="True">
                                 <Setter Property="Background" Value="Yellow" />

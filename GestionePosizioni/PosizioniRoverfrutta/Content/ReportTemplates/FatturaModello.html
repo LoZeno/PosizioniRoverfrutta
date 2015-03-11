@@ -192,10 +192,6 @@
         </tr>
     </table>
 
-    <div class="title documentHeader">
-        FATTURA N. @Model.InvoiceNumber
-    </div>
-
    <div class="normalText" style="margin-right: 0; width: 33%; margin-left: auto; display: block;">
        <span class="cursiveDescription">Spett.le</span><br/>
         @Model.Customer.CompanyName<br />
@@ -210,7 +206,9 @@
         Roverbella, lì @Model.InvoiceDateString
     </div>
 
-
+    <div class="title documentHeader">
+        FATTURA N. @Model.InvoiceNumber
+    </div>
 
     <div style="width: 100%; height: 6em;"></div>
 

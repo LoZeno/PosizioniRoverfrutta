@@ -34,7 +34,7 @@ namespace ReportManager
 
         public abstract string TemplatePath();
 
-        private T _model;
+        private readonly T _model;
         private readonly string _destinationPath;
         private DynamicViewBag _viewBag;
     }

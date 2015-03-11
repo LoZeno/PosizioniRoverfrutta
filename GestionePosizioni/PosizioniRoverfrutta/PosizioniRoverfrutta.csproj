@@ -184,6 +184,7 @@
     <Compile Include="Reports\InvoiceReport.cs" />
     <Compile Include="Reports\LoadingDocumentReport.cs" />
     <Compile Include="Reports\PriceConfirmationReport.cs" />
+    <Compile Include="Reports\SaleConfirmationEmail.cs" />
     <Compile Include="Reports\SaleConfirmationReport.cs" />
     <Compile Include="Reports\SummaryReport.cs" />
     <Compile Include="Services\CurrenciesAutoCompleteBoxProvider.cs" />

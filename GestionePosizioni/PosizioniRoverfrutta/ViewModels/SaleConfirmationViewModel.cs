@@ -13,6 +13,7 @@ using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
+using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
@@ -306,7 +307,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 SaveAllData();
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("EmailTrasportatore.{0}.html", SaleConfirmation.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
-                var emailText = new SaleConfirmationEmail(SaleConfirmation, path);
+                var emailText = new SaleConfirmationEmail(SaleConfirmation, path, ResourceHelpers.LoadBase64Logo());
                 emailText.GenerateEmail();
                 MAPI email = new MAPI();
                 if (!string.IsNullOrWhiteSpace(SaleConfirmation.Transporter.EmailAddress))
