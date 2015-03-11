@@ -40,6 +40,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Name="TitleBlock" Grid.Row="0" FontSize="14" FontWeight="Bold" TextAlignment="Left">Trasportatore</TextBlock>
 
@@ -96,6 +97,14 @@
                        Visibility="{Binding ElementName=VatCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <AdornerDecorator>
                 <TextBox Name="VatCode" Background="Transparent"/>
+            </AdornerDecorator>
+        </Grid>
+
+        <Grid Grid.Row="8" Style="{StaticResource EntryFieldStyle}">
+            <TextBlock Text="Email" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=VatCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <AdornerDecorator>
+                <TextBox Name="EmailAddress" Background="Transparent"/>
             </AdornerDecorator>
         </Grid>
     </Grid>

@@ -306,6 +306,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
                 report.CreatePdf();
                 MAPI email = new MAPI();
+                if (printForProvider && !string.IsNullOrWhiteSpace(LoadingDocument.Provider.EmailAddress))
+                    email.AddRecipientTo(LoadingDocument.Provider.EmailAddress);
+                if (printForCustomer && !string.IsNullOrWhiteSpace(LoadingDocument.Customer.EmailAddress))
+                    email.AddRecipientTo(LoadingDocument.Customer.EmailAddress);
                 email.AddAttachment(path);
                 email.SendMailPopup(string.Format("Invio Distinta di Carico n° {0}", LoadingDocument.ProgressiveNumber), string.Format("In allegato la distinta di carico n° {0}", LoadingDocument.ProgressiveNumber));
             };

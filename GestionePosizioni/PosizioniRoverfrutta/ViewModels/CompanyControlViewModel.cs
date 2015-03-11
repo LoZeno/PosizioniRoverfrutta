@@ -31,6 +31,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("StateOrProvince");
                 OnPropertyChanged("Country");
                 OnPropertyChanged("VatCode");
+                OnPropertyChanged("EmailAddress");
                 OnPropertyChanged("DoNotApplyVat");
             }
         }
@@ -121,6 +122,16 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 Company.VatCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EmailAddress
+        {
+            get { return Company.EmailAddress; }
+            set
+            {
+                Company.EmailAddress = value;
                 OnPropertyChanged();
             }
         }

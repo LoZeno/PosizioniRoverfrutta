@@ -43,6 +43,7 @@ namespace PosizioniRoverfrutta.CustomControls
             SetTextboxBinding(PostalCode, "PostCode");
             SetTextboxBinding(Country, "Country");
             SetTextboxBinding(VatCode, "VatCode");
+            SetTextboxBinding(EmailAddress, "EmailAddress");
         }
 
         private void SetTextboxBinding(TextBox control, string propertyName)

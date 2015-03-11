@@ -380,6 +380,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 var report = new PriceConfirmationReport(PriceConfirmation, path, printForProvider, printForCustomer);
                 report.CreatePdf();
                 MAPI email = new MAPI();
+                if (printForProvider && !string.IsNullOrWhiteSpace(PriceConfirmation.Provider.EmailAddress))
+                    email.AddRecipientTo(PriceConfirmation.Provider.EmailAddress);
+                if (printForCustomer && !string.IsNullOrWhiteSpace(PriceConfirmation.Customer.EmailAddress))
+                    email.AddRecipientTo(PriceConfirmation.Customer.EmailAddress);
                 email.AddAttachment(path);
                 email.SendMailPopup(string.Format("Invio Conferma Prezzi n° {0}", PriceConfirmation.ProgressiveNumber), string.Format("In allegato la conferma prezzi n° {0}", PriceConfirmation.ProgressiveNumber));
             };

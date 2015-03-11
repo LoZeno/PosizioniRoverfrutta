@@ -21,6 +21,7 @@
         public string PostCode { get; set; }
         public string Country { get; set; }
         public string VatCode { get; set; }
+        public string EmailAddress { get; set; }
         public bool DoNotApplyVat { get; set; }
     }
 }

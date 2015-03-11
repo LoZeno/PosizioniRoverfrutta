@@ -309,6 +309,8 @@ namespace PosizioniRoverfrutta.ViewModels
                 var emailText = new SaleConfirmationEmail(SaleConfirmation, path);
                 emailText.GenerateEmail();
                 MAPI email = new MAPI();
+                if (!string.IsNullOrWhiteSpace(SaleConfirmation.Transporter.EmailAddress))
+                    email.AddRecipientTo(SaleConfirmation.Transporter.EmailAddress);
                 email.AddAttachment(path);
                 email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber),null);
             };
@@ -324,6 +326,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 var report = new SaleConfirmationReport(SaleConfirmation, path, printForProvider, printForCustomer);
                 report.CreatePdf();
                 MAPI email = new MAPI();
+                if (printForProvider && !string.IsNullOrWhiteSpace(SaleConfirmation.Provider.EmailAddress))
+                    email.AddRecipientTo(SaleConfirmation.Provider.EmailAddress);
+                if (printForCustomer && !string.IsNullOrWhiteSpace(SaleConfirmation.Customer.EmailAddress))
+                    email.AddRecipientTo(SaleConfirmation.Customer.EmailAddress);
                 email.AddAttachment(path);
                 email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber), string.Format("In allegato la conferma di vendita n° {0}", SaleConfirmation.ProgressiveNumber) );
             };
