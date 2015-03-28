@@ -89,6 +89,9 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PosizioniRoverfrutta.EntryPoint</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -161,10 +164,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="App.xaml">
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </ApplicationDefinition>
     <Compile Include="CustomControls\AssociatedDataGrid\AssociatedDataGrid.cs" />
     <Compile Include="CustomControls\CompanyDetails.xaml.cs">
       <DependentUpon>CompanyDetails.xaml</DependentUpon>
@@ -180,6 +183,7 @@
       <DependentUpon>TransporterDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\XamlWatermarkAdorner\TextInputToVisibilityConverter.cs" />
+    <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Reports\InvoiceReport.cs" />
     <Compile Include="Reports\LoadingDocumentReport.cs" />

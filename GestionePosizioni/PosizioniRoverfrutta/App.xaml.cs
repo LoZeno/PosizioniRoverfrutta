@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading;
+﻿using System.IO;
 using System.Windows;
 using Models.Entities;
 using PosizioniRoverfrutta.Windows;
@@ -13,28 +11,10 @@ namespace PosizioniRoverfrutta
     /// </summary>
     public partial class App : Application
     {
-        private static Mutex mutex = new Mutex(true, "Roverfrutta_ArchiveManager");
+        
         private WindowManager _windowManager;
         private readonly string _tempFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
         public IDataStorage DataStorage { get; private set; }
-
-        App()
-        {
-            InitializeComponent();
-        }
-
-        [STAThread]
-        static void Main()
-        {
-            if (mutex.WaitOne(TimeSpan.Zero, true))
-            {
-                var splash = new SplashScreen("content/Pictures/archivio.png");
-                splash.Show(true);
-                var app = new App();
-                app.Run();
-                mutex.ReleaseMutex();
-            }
-        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
