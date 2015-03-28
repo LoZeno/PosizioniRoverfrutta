@@ -153,10 +153,6 @@
             </tr>
         </table>
 
-        <div class="cursiveDescription" style="width:100%">
-            Facciamo seguito agli accordi intercorsi per confermare il seguente ordine di trasporto:
-        </div>
-
         <div class="normalText" style="width: 45%; float: right; display: inline-block; height: 12em">
             Spett.le<br />
             @Model.Transporter.CompanyName<br />
@@ -167,6 +163,10 @@
             P. IVA: @Model.Transporter.VatCode
         </div>
         <br/>
+        
+        <div class="cursiveDescription" style="width:100%">
+            Facciamo seguito agli accordi intercorsi per confermare il seguente ordine di trasporto:
+        </div>
 
         <br/>
         <table width="100%" style="margin-top: 1em;">
@@ -281,15 +281,17 @@
     
         <br/>
         <br/>
+        
+        <span class="normalText bold">Note:</span>
+        <div class="normalText borderedDiv" style="width: 100%; padding: 0.5em">
+            <b>@Model.Notes</b>
+        </div>
+        <br />
         <span class="normalText bold">Istruzioni per il trasportatore:</span>
         <div class="normalText borderedDiv" style="width: 100%; padding: 0.5em">
             <b>ATTENZIONE: PER LE DITTE TRASPORTATRICI SOGGETTE ALLA LEGISLAZIONE FISCALE ITALIANA</b><br/>
             Il camionista che si presenta alla consegna deve presentare il DURC regolare e l'iscrizione all'albo trasportatori sia del vettore che di eventuale subvettore<br/>
         </div>
-        <br/>
-        <span class="normalText bold">Note:</span>
-        <div class="normalText borderedDiv" style="width: 100%; padding: 0.5em">
-            <b>@Model.Notes</b>
-        </div>
+
     </body>
 </html>

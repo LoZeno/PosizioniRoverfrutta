@@ -33,7 +33,7 @@
                         <RibbonButton x:Name="ProviderPdfButton" SmallImageSource="../Content/Pictures/Pdf/pdf_small.png" Label="PDF per Fornitore"></RibbonButton>
                     </RibbonGroup>
                     <RibbonGroup Header="Invio via Email" VerticalAlignment="Top">
-                        <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="True"></RibbonButton>
+                        <RibbonButton x:Name="EmailButton" LargeImageSource="../Content/Pictures/Email/email-001.png" Label="Salva e invia per Email" IsEnabled="True" Visibility="Collapsed"></RibbonButton>
                         <RibbonButton x:Name="CustomerEmailButton" SmallImageSource="../Content/Pictures/Email/email-small.png" Label="Email a Cliente"></RibbonButton>
                         <RibbonButton x:Name="ProviderEmailButton" SmallImageSource="../Content/Pictures/Email/email-small.png" Label="Email a Fornitore"></RibbonButton>
                     </RibbonGroup>
