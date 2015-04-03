@@ -241,7 +241,8 @@ namespace PosizioniRoverfrutta.ViewModels
                 _summaryAndInvoice.SummaryRows.Clear();
                 foreach (var summaryRowViewModel in SummaryRows)
                 {
-                    _summaryAndInvoice.SummaryRows.Add(summaryRowViewModel.SummaryRow);
+                    if (summaryRowViewModel.CanMakeInvoice)
+                        _summaryAndInvoice.SummaryRows.Add(summaryRowViewModel.SummaryRow);
                 }
 
                 var report = new SummaryReport(_summaryAndInvoice, path);
@@ -350,7 +351,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void UpdateTotals()
         {
-            CommissionsTotal = Math.Round(SummaryRows.Sum(p => p.PayableAmount), 2);
+            CommissionsTotal = Math.Round(SummaryRows.Where(r => r.CanMakeInvoice).Sum(p => p.PayableAmount), 2);
             CalculatedInvoiceVat = 0;
             CalculatedWitholding = 0;
             if (!_summaryAndInvoice.Customer.DoNotApplyVat)

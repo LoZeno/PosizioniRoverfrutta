@@ -34,6 +34,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("TaxableAmount");
                 OnPropertyChanged("Commission");
                 OnPropertyChanged("PayableAmount");
+                OnPropertyChanged("CanMakeInvoice");
             }
         }
 
@@ -103,6 +104,16 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _summaryRow.PayableAmount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CanMakeInvoice
+        {
+            get { return _summaryRow.CanMakeInvoice; }
+            set
+            {
+                _summaryRow.CanMakeInvoice = value;
                 OnPropertyChanged();
             }
         }

@@ -86,6 +86,8 @@ namespace PosizioniRoverfrutta.Windows
             SummaryDataGrid.Columns.Add(commissionColumn);
             var payableColumn = BuildReadOnlyDecimalColumn("Provvigione", "PayableAmount", 1.5);
             SummaryDataGrid.Columns.Add(payableColumn);
+            var includeInInvoiceColumn = BuildCheckBoxColumn("Incl. in Fattura", "CanMakeInvoice", 1);
+            SummaryDataGrid.Columns.Add(includeInInvoiceColumn);
         }
 
         private static DataGridTextColumn BuildReadOnlyTextColumn(string header, string propertyName, double size)
@@ -133,6 +135,21 @@ namespace PosizioniRoverfrutta.Windows
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                     StringFormat = "F2",
                     ConverterCulture = CultureInfo.CurrentCulture
+                },
+                Width = new DataGridLength(size, DataGridLengthUnitType.Star),
+            };
+        }
+
+        private static DataGridCheckBoxColumn BuildCheckBoxColumn(string header, string propertyName, double size)
+        {
+            return new DataGridCheckBoxColumn
+            {
+                Header = header,
+                IsReadOnly = false,
+                Binding = new Binding(propertyName)
+                {
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                 },
                 Width = new DataGridLength(size, DataGridLengthUnitType.Star),
             };
