@@ -45,6 +45,8 @@ namespace PosizioniRoverfrutta.Windows
             SetStatusBinding();
 
             SetPrintButtonBinding(viewModel);
+
+            SetCloneButtonBinding(viewModel);
         }
 
         public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
@@ -195,6 +197,11 @@ namespace PosizioniRoverfrutta.Windows
             SetMenuItemBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
             SetMenuItemBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
             SetMenuItemBinding(viewModel, TransportEmailButton, "EmailToTransporter", viewModel.EmailToTransporter);
+        }
+
+        private void SetCloneButtonBinding(SaleConfirmationViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, CloneButton, "Clone", viewModel.Clone);
         }
     }
 }

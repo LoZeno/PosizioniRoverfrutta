@@ -241,7 +241,30 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return reloadCommand ?? (reloadCommand = new DelegateCommand(ReloadAction())); }
         }
 
-        public SaleConfirmation SaleConfirmation { get; set; }
+        private SaleConfirmation saleConfirmation;
+
+        public SaleConfirmation SaleConfirmation {
+            get { return saleConfirmation; }
+            set
+            {
+                saleConfirmation = value;
+                OnPropertyChanged();
+                OnPropertyChanged("Id");
+                OnPropertyChanged("DocumentDate");
+                OnPropertyChanged("ShippingDate");
+                OnPropertyChanged("DeliveryDate");
+                OnPropertyChanged("TruckLicensePlate");
+                OnPropertyChanged("Rental");
+                OnPropertyChanged("DeliveryEx");
+                OnPropertyChanged("TermsOfPayment");
+                OnPropertyChanged("InvoiceDiscount");
+                OnPropertyChanged("CustomerCommission");
+                OnPropertyChanged("ProviderCommission");
+                OnPropertyChanged("Notes");
+                OnPropertyChanged("Lot");
+                OnPropertyChanged("OrderCode");
+            } 
+        }
 
         public ICommand SaveAll
         {
@@ -298,6 +321,41 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 return emailDocumentToTransporter ?? (emailDocumentToTransporter = new DelegateCommand(SendEmailNoAttachment()));
             }
+        }
+
+        public ICommand Clone
+        {
+            get { return cloneDocument ?? (cloneDocument = new DelegateCommand(CloneCurrentDocument())); }
+        }
+
+        private Action CloneCurrentDocument()
+        {
+            return delegate
+            {
+                var newModel = new SaleConfirmation();
+                newModel.Customer = SaleConfirmation.Customer;
+                newModel.CustomerCommission = SaleConfirmation.CustomerCommission;
+                newModel.DeliveryDate = SaleConfirmation.DeliveryDate;
+                newModel.DeliveryEx = SaleConfirmation.DeliveryEx;
+                newModel.DocumentDate = SaleConfirmation.DocumentDate;
+                newModel.InvoiceDiscount = SaleConfirmation.InvoiceDiscount;
+                newModel.Lot = SaleConfirmation.Lot;
+                newModel.Notes = SaleConfirmation.Notes;
+                newModel.OrderCode = SaleConfirmation.OrderCode;
+                newModel.ProductDetails = SaleConfirmation.ProductDetails;
+                newModel.Provider = SaleConfirmation.Provider;
+                newModel.ProviderCommission = SaleConfirmation.ProviderCommission;
+                newModel.Rental = SaleConfirmation.Rental;
+                newModel.ShippingDate = SaleConfirmation.ShippingDate;
+                newModel.TermsOfPayment = SaleConfirmation.TermsOfPayment;
+                newModel.Transporter = SaleConfirmation.Transporter;
+                newModel.TruckLicensePlate = SaleConfirmation.TruckLicensePlate;
+
+                SaleConfirmation = newModel;
+
+                Status = "Nuova conferma di vendita creata correttamente";
+                _windowManager.PopupMessage("Nuova conferma di vendita creata correttamente (premere Salva per salvare)", "Nuovo documento creato");
+            };
         }
 
         private Action SendEmailNoAttachment()
@@ -567,6 +625,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocumentToCustomer;
         private ICommand emailDocumentToProvider;
         private ICommand emailDocumentToTransporter;
+        private ICommand cloneDocument;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

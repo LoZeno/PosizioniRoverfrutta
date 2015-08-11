@@ -41,6 +41,7 @@
                     </RibbonGroup>
                     <RibbonGroup Header="Altro documento">
                         <RibbonButton x:Name="ConvertButton" LargeImageSource="../Content/Pictures/Document/Oxygen-Icons.org-Oxygen-Actions-bookmark-new.ico" Label="Vai a Distinta di Carico"></RibbonButton>
+                        <RibbonButton x:Name="CloneButton" LargeImageSource="../Content/Pictures/Document/Document-icon-128.png" SmallImageSource="../Content/Pictures/Document/Document-icon-32.png" Label="Copia questa conferma di vendita"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
             </Ribbon>

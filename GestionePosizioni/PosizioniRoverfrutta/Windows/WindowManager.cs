@@ -41,6 +41,11 @@ namespace PosizioniRoverfrutta.Windows
             ManageWindows(key, _windowClasses[windowType], documentId);
         }
 
+        public void PopupMessage(string message, string caption)
+        {
+            MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         public string OpenSaveToPdfDialog(string filename)
         {
             return OpenSaveFileDialog(filename, ".pdf", "Documenti PDF (.pdf)|*.pdf");
