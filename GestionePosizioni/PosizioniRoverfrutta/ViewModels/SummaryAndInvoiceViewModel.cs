@@ -280,6 +280,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void UpdateRows()
         {
+            SummaryRows.Clear();
             if (_summaryAndInvoice.Customer != null && _summaryAndInvoice.StartDate != null &&
                 _summaryAndInvoice.EndDate != null)
             {
@@ -296,13 +297,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         LoadSalesConfirmations(orderedList, session);
                     }
                 }
-
-                SummaryRows.Clear();
                 SummaryRows.AddRange(orderedList.OrderBy(r => r.DocumentId));
-            }
-            else
-            {
-                SummaryRows.Clear();
             }
             UpdateTotals();
             OnPropertyChanged("ShowVatArea");
@@ -313,10 +308,17 @@ namespace PosizioniRoverfrutta.ViewModels
             var currentIds = orderedList.Select(el => el.DocumentId).ToArray();
             var openRows = session.Query<SummaryRow, SummaryOfOpenPosition>()
                 .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
-                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate)).ToList();
-            orderedList.AddRange(from summaryRow in openRows
-                where !currentIds.Contains(summaryRow.DocumentId)
-                select new SummaryRowViewModel(summaryRow));
+                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
+
+            var enumerator = session.Advanced.Stream(openRows);
+            while (enumerator.MoveNext())
+            {
+                var row = enumerator.Current.Document;
+                if(!currentIds.Contains(row.DocumentId))
+                {
+                    orderedList.Add(new SummaryRowViewModel(row));
+                }
+            }
         }
 
         private void LoadLoadingDocuments(List<SummaryRowViewModel> orderedList, IDocumentSession session)
@@ -324,10 +326,17 @@ namespace PosizioniRoverfrutta.ViewModels
             var currentIds = orderedList.Select(el => el.DocumentId).ToArray();
             var newRows = session.Query<SummaryRow, SummaryOfPartialPositions>()
                 .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
-                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate)).ToList();
-            orderedList.AddRange(from summaryRow in newRows
-                where !currentIds.Contains(summaryRow.DocumentId)
-                select new SummaryRowViewModel(summaryRow));
+                             && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
+
+            var enumerator = session.Advanced.Stream(newRows);
+            while(enumerator.MoveNext())
+            {
+                var row = enumerator.Current.Document;
+                if (!currentIds.Contains(row.DocumentId))
+                {
+                    orderedList.Add(new SummaryRowViewModel(row));
+                }
+            }
         }
 
         private void LoadPriceConfirmations(List<SummaryRowViewModel> orderedList, IDocumentSession session)
@@ -336,7 +345,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 .Where(sr => sr.InvoiceCustomerId.Equals(_summaryAndInvoice.Customer.Id)
                              && (StartDate <= sr.ShippingDate) && (sr.ShippingDate <= EndDate));
 
-            orderedList.AddRange(elements.Select(summaryRow => new SummaryRowViewModel(summaryRow)));
+            var enumerator = session.Advanced.Stream(elements);
+            while (enumerator.MoveNext())
+            {
+                orderedList.Add(new SummaryRowViewModel(enumerator.Current.Document));
+            }
         }
 
         private void FindCustomer(string companyName)
@@ -354,7 +367,7 @@ namespace PosizioniRoverfrutta.ViewModels
             CommissionsTotal = Math.Round(SummaryRows.Where(r => r.CanMakeInvoice).Sum(p => p.PayableAmount), 2);
             CalculatedInvoiceVat = 0;
             CalculatedWitholding = 0;
-            if (!_summaryAndInvoice.Customer.DoNotApplyVat)
+            if (_summaryAndInvoice.Customer != null && !_summaryAndInvoice.Customer.DoNotApplyVat)
             {
                 CalculatedInvoiceVat = (CommissionsTotal*InvoiceVat/100).RoundUp(2);
                 CalculatedWitholding = Math.Round(((CommissionsTotal / 2) * Witholding) / 100, 2);
