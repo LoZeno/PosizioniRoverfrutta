@@ -402,6 +402,7 @@ namespace PosizioniRoverfrutta.ViewModels
                             OrderCode = saleconfirmation.OrderCode
                         };
                         Status = "Documento numero " + value + " caricato correttamente";
+                        _windowManager.PopupMessage(string.Format("Distinta di carico numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Distinta di Carico creata");
                     }
                     else
                     {

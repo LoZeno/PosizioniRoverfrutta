@@ -470,6 +470,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         var initialVat = session.Load<DefaultValues>(1).Vat;
                         priceConfirmation.Vat = initialVat;
                         Status = "Documento numero " + value + " caricato correttamente";
+                        _windowManager.PopupMessage(string.Format("Conferma di vendita numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Conferma Prezzi creata");
                     }
                     else
                     {

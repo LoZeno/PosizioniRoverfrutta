@@ -354,7 +354,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 SaleConfirmation = newModel;
 
                 Status = "Nuova conferma di vendita creata correttamente";
-                _windowManager.PopupMessage("Nuova conferma di vendita creata correttamente (premere Salva per salvare)", "Nuovo documento creato");
+                _windowManager.PopupMessage("Nuova Conferma di Vendita creata correttamente, premere 'Salva' dopo aver apportato le modifiche necessarie", "Nuova Conferma di Vendita creata");
             };
         }
 
