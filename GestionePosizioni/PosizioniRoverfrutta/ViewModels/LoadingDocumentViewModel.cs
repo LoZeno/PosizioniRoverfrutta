@@ -402,8 +402,6 @@ namespace PosizioniRoverfrutta.ViewModels
                             OrderCode = saleconfirmation.OrderCode
                         };
                         Status = "Documento numero " + value + " caricato correttamente";
-                        session.Store(loadingDocument);
-                        session.SaveChanges();
                     }
                     else
                     {

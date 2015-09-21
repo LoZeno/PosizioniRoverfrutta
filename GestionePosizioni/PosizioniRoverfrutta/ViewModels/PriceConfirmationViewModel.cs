@@ -470,8 +470,6 @@ namespace PosizioniRoverfrutta.ViewModels
                         var initialVat = session.Load<DefaultValues>(1).Vat;
                         priceConfirmation.Vat = initialVat;
                         Status = "Documento numero " + value + " caricato correttamente";
-                        session.Store(priceConfirmation);
-                        session.SaveChanges();
                     }
                     else
                     {
