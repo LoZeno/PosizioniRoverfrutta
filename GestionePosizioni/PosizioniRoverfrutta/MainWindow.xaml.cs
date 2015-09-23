@@ -268,5 +268,20 @@ namespace PosizioniRoverfrutta
             var documentId = _viewModel.SelectedPosition.ProgressiveNumber.ToString();
             _windowsManager.InstantiateWindow(documentId, WindowTypes.ConfermaPrezzi);
         }
+
+        private void CustomersButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _windowsManager.InstantiateWindow("new", WindowTypes.AnagraficaClienti);
+        }
+
+        private void TransportersButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void ProductsButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

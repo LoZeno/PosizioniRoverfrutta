@@ -209,6 +209,9 @@
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
+    <Compile Include="Windows\CustomersWindow.xaml.cs">
+      <DependentUpon>CustomersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
@@ -255,6 +258,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\CustomersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\DocumentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

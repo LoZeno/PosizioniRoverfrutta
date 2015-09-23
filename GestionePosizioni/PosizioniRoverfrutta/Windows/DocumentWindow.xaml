@@ -18,6 +18,10 @@
     <Grid>
         <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" x:Name="DockPanel1" VerticalAlignment="Stretch">
             <Ribbon DockPanel.Dock="Top" x:Name="MainRibbon">
+                <Ribbon.ApplicationMenu>
+                    <RibbonApplicationMenu Visibility="Collapsed">
+                    </RibbonApplicationMenu>
+                </Ribbon.ApplicationMenu>
                 <Ribbon.HelpPaneContent>
                     <RibbonButton SmallImageSource="../Content/Pictures/Help/question-faq-icon.png" />
                 </Ribbon.HelpPaneContent>

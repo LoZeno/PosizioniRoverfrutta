@@ -60,7 +60,6 @@ namespace PosizioniRoverfrutta.Windows
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Filter = filter
             };
-
             var result = savefileDialog.ShowDialog();
 
             return result == true ? savefileDialog.FileName : null;
@@ -110,6 +109,7 @@ namespace PosizioniRoverfrutta.Windows
         ConfermaVendita,
         DistintaCarico,
         ConfermaPrezzi,
-        Riepiloghi
+        Riepiloghi,
+        AnagraficaClienti
     }
 }
