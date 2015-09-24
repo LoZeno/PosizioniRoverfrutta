@@ -64,6 +64,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("OrderCode");
                 SaveButtonEnabled = false;
                 ActionButtonsEnabled = true;
+                ReloadButtonEnabled = false;
             }
         }
 
@@ -256,6 +257,15 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool ReloadButtonEnabled
+        {
+            get { return _reloadButtonEnabled; }
+            private set
+            {
+                _reloadButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -293,6 +303,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("OrderCode");
                 SaveButtonEnabled = false;
                 ActionButtonsEnabled = false;
+                ReloadButtonEnabled = false;
             } 
         }
 
@@ -478,13 +489,16 @@ namespace PosizioniRoverfrutta.ViewModels
         private void LoadDocument(int value)
         {
             SaleConfirmation saleConfirmation = null;
+            bool canUseActions = false;
             using (var session = _dataStorage.CreateSession())
             {
                 saleConfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
+                canUseActions = true;
             }
             if (saleConfirmation == null)
             {
                 saleConfirmation = new SaleConfirmation();
+                canUseActions = false;
             }
             SaleConfirmation = saleConfirmation;
             CompanyControlViewModel.Company = SaleConfirmation.Customer;
@@ -496,6 +510,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 ProductDetails.Add(new ProductRowViewModel(productDetail));
             }
             UpdateTotals();
+
+            SaveButtonEnabled = false;
+            ReloadButtonEnabled = false;
+            ActionButtonsEnabled = canUseActions;
+
             Status = "Documento numero " + SaleConfirmation.ProgressiveNumber + " caricato correttamente";
         }
 
@@ -537,6 +556,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
                 SaveButtonEnabled = false;
                 ActionButtonsEnabled = true;
+                ReloadButtonEnabled = false;
             }
             catch (Exception exception)
             {
@@ -546,11 +566,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private Action ReloadAction()
         {
-            return () => { 
-                LoadDocument(Id);
-                SaveButtonEnabled = false;
-                ActionButtonsEnabled = true;
-            };
+            return () => LoadDocument(Id);
         }
 
         private static void UpdateTermsOfPayment(string termsOfPayment, IDocumentSession session)
@@ -631,6 +647,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     item.PropertyChanged -= observableCollectionItem_PropertyChanged;
             SaveButtonEnabled = true;
             ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
         }
 
         void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -638,12 +655,14 @@ namespace PosizioniRoverfrutta.ViewModels
             UpdateTotals();
             SaveButtonEnabled = true;
             ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
         }
 
         void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveButtonEnabled = true;
             ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -653,7 +672,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled"))
+            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
             {
                 if (!SaveButtonEnabled)
                 {
@@ -662,6 +681,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 if (ActionButtonsEnabled)
                 {
                     ActionButtonsEnabled = false;
+                }
+                if (!ReloadButtonEnabled)
+                {
+                    ReloadButtonEnabled = true;
                 }
             }
         }
@@ -676,6 +699,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private bool _saveButtonEnabled = false;
         private bool _actionButtonsEnabled = false;
+        private bool _reloadButtonEnabled = false;
 
         private ICommand reloadCommand;
 

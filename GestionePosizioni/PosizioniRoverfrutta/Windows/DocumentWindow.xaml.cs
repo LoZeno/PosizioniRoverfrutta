@@ -178,6 +178,7 @@ namespace PosizioniRoverfrutta.Windows
         private void SetReloadButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, UndoButton, "Reload", viewModel.Reload);
+            UndoButton.SetBinding(IsEnabledProperty, new Binding("ReloadButtonEnabled"));
         }
 
         private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
