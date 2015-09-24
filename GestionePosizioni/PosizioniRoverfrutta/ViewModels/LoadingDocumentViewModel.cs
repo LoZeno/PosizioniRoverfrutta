@@ -16,6 +16,7 @@ using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -29,6 +30,10 @@ namespace PosizioniRoverfrutta.ViewModels
             ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
 
+            CompanyControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            ProviderControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            TransporterControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+
             LoadingDocument = new LoadingDocument();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
@@ -39,7 +44,8 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return LoadingDocument.ProgressiveNumber; }
             set
             {
-                LoadDocument(value);
+                bool canSave, canUseActions;
+                LoadDocument(value, out canSave, out canUseActions);
 
                 OnPropertyChanged();
                 OnPropertyChanged("LoadingDocument");
@@ -57,6 +63,10 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
                 OnPropertyChanged("EnableButtons");
+
+                SaveButtonEnabled = canSave;
+                ActionButtonsEnabled = canUseActions;
+                ReloadButtonEnabled = false;
             }
         }
 
@@ -232,6 +242,36 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return Id != 0; }
         }
 
+        public bool SaveButtonEnabled
+        {
+            get { return _saveButtonEnabled; }
+            private set
+            {
+                _saveButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ActionButtonsEnabled
+        {
+            get { return _actionButtonsEnabled; }
+            private set
+            {
+                _actionButtonsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ReloadButtonEnabled
+        {
+            get { return _reloadButtonEnabled; }
+            private set
+            {
+                _reloadButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -300,7 +340,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf", FormatFileName(printForProvider, printForCustomer), LoadingDocument.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
                 var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
@@ -319,7 +358,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.ConfermaPrezzi);
             };
         }
@@ -328,7 +366,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 SavePdf(printForProvider, printForCustomer);
             };
         }
@@ -368,7 +405,7 @@ namespace PosizioniRoverfrutta.ViewModels
             return documentName;
         }
 
-        private void LoadDocument(int value)
+        private void LoadDocument(int value, out bool canSave, out bool canUseActions)
         {
             LoadingDocument loadingDocument = null;
             using (var session = _dataStorage.CreateSession())
@@ -402,16 +439,22 @@ namespace PosizioniRoverfrutta.ViewModels
                             OrderCode = saleconfirmation.OrderCode
                         };
                         Status = "Documento numero " + value + " caricato correttamente";
+                        canSave = true;
+                        canUseActions = false;
                         _windowManager.PopupMessage(string.Format("Distinta di carico numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Distinta di Carico creata");
                     }
                     else
                     {
                         loadingDocument = new LoadingDocument();
+                        canSave = false;
+                        canUseActions = false;
                         Status = "Documento numero " + value + "non trovato";
                     }
                 }
                 else
                 {
+                    canSave = false;
+                    canUseActions = true;
                     Status = "Documento numero " + value + " caricato correttamente";
                 }
             }
@@ -463,6 +506,9 @@ namespace PosizioniRoverfrutta.ViewModels
                 }
                 Id = LoadingDocument.ProgressiveNumber;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
+                SaveButtonEnabled = false;
+                ActionButtonsEnabled = true;
+                ReloadButtonEnabled = false;
             }
             catch (Exception exception)
             {
@@ -472,7 +518,14 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private Action ReloadAction()
         {
-            return () => LoadDocument(Id);
+            return () =>
+            {
+                bool canSave, canUseActions;
+                LoadDocument(Id, out canSave, out canUseActions);
+                SaveButtonEnabled = canSave;
+                ActionButtonsEnabled = canUseActions;
+                ReloadButtonEnabled = false;
+            };
         }
 
         private static void UpdateTermsOfPayment(string termsOfPayment, IDocumentSession session)
@@ -537,16 +590,26 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             if (e.NewItems != null)
                 foreach (ProductRowViewModel item in e.NewItems)
-                    item.PropertyChanged += item_PropertyChanged;
+                    item.PropertyChanged += observableCollectionItem_PropertyChanged;
 
             if (e.OldItems != null)
                 foreach (ProductRowViewModel item in e.OldItems)
-                    item.PropertyChanged -= item_PropertyChanged;
+                    item.PropertyChanged -= observableCollectionItem_PropertyChanged;
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
         }
 
-        void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateTotals();
+        }
+
+        void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
         }
 
         private void UpdateTotals()
@@ -565,6 +628,21 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
+            {
+                if (!SaveButtonEnabled)
+                {
+                    SaveButtonEnabled = true;
+                }
+                if (ActionButtonsEnabled)
+                {
+                    ActionButtonsEnabled = false;
+                }
+                if (!ReloadButtonEnabled)
+                {
+                    ReloadButtonEnabled = true;
+                }
+            }
         }
 
         private ICommand saveAllCommand;
@@ -572,6 +650,11 @@ namespace PosizioniRoverfrutta.ViewModels
         private readonly IDataStorage _dataStorage;
         private readonly IWindowManager _windowManager;
         private string _status;
+
+        private bool _saveButtonEnabled = false;
+        private bool _actionButtonsEnabled = false;
+        private bool _reloadButtonEnabled = false;
+
         private ICommand reloadCommand;
         private ICommand printDocument;
         private ICommand printDocumentForCustomer;

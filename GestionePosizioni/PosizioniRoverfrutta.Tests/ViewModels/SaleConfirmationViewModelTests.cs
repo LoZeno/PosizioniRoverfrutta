@@ -2,9 +2,12 @@
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
+using Moq;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
+using PosizioniRoverfrutta.Windows;
 using QueryManager;
+using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels
 {
@@ -16,12 +19,13 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+            _mockWindowManager = new Mock<IWindowManager>();
         }
 
         [SetUp]
         public void Setup()
         {
-            _mainViewModel = new SaleConfirmationViewModel(_dataStorage, null);
+            _mainViewModel = new SaleConfirmationViewModel(_dataStorage, _mockWindowManager.Object);
         }
 
         [TearDown]
@@ -29,9 +33,23 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             using (var session = _dataStorage.CreateSession())
             {
-                session.Delete(session.Load<SaleConfirmation>("SaleConfirmations/"+_documentId));
-                session.Delete(session.Load<Customer>(_providerId));
-                session.Delete(session.Load<Customer>(_customerId));
+                var documents = session.Query<SaleConfirmation>().Select(x => x);
+                foreach (var document in documents)
+                {
+                    session.Delete(document);
+                }
+
+                var customers = session.Query<Customer>().Select(x => x);
+                foreach (var customer in customers)
+                {
+                    session.Delete(customer);
+                }
+
+                var products = session.Query<ProductDescription>().Select(x => x);
+                foreach (var product in products)
+                {
+                    session.Delete(product);
+                }
                 session.SaveChanges();
             }
         }
@@ -209,6 +227,17 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);
         }
 
+        [Test]
+        public void when_a_document_is_cloned_then_the_save_button_is_enabled_and_action_buttons_and_reload_buttons_are_disabled()
+        {
+            CreateBasicData(false);
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.Clone.Execute(null);
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+            Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);
+        }
+
 
         private void CreateBasicData(bool AddProduct)
         {
@@ -276,5 +305,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         private int _documentId;
         private string _customerId;
         private string _providerId;
+        private Mock<IWindowManager> _mockWindowManager;
     }
 }

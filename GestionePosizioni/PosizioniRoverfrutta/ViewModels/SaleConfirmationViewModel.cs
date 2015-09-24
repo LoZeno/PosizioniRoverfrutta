@@ -266,6 +266,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -373,28 +374,33 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                var newModel = new SaleConfirmation();
-                newModel.Customer = SaleConfirmation.Customer;
-                newModel.CustomerCommission = SaleConfirmation.CustomerCommission;
-                newModel.DeliveryDate = SaleConfirmation.DeliveryDate;
-                newModel.DeliveryEx = SaleConfirmation.DeliveryEx;
-                newModel.DocumentDate = SaleConfirmation.DocumentDate;
-                newModel.InvoiceDiscount = SaleConfirmation.InvoiceDiscount;
-                newModel.Lot = SaleConfirmation.Lot;
-                newModel.Notes = SaleConfirmation.Notes;
-                newModel.OrderCode = SaleConfirmation.OrderCode;
-                newModel.ProductDetails = SaleConfirmation.ProductDetails;
-                newModel.Provider = SaleConfirmation.Provider;
-                newModel.ProviderCommission = SaleConfirmation.ProviderCommission;
-                newModel.Rental = SaleConfirmation.Rental;
-                newModel.ShippingDate = SaleConfirmation.ShippingDate;
-                newModel.TermsOfPayment = SaleConfirmation.TermsOfPayment;
-                newModel.Transporter = SaleConfirmation.Transporter;
-                newModel.TruckLicensePlate = SaleConfirmation.TruckLicensePlate;
+                var newModel = new SaleConfirmation
+                {
+                    Customer = SaleConfirmation.Customer,
+                    CustomerCommission = SaleConfirmation.CustomerCommission,
+                    DeliveryDate = SaleConfirmation.DeliveryDate,
+                    DeliveryEx = SaleConfirmation.DeliveryEx,
+                    DocumentDate = SaleConfirmation.DocumentDate,
+                    InvoiceDiscount = SaleConfirmation.InvoiceDiscount,
+                    Lot = SaleConfirmation.Lot,
+                    Notes = SaleConfirmation.Notes,
+                    OrderCode = SaleConfirmation.OrderCode,
+                    ProductDetails = SaleConfirmation.ProductDetails,
+                    Provider = SaleConfirmation.Provider,
+                    ProviderCommission = SaleConfirmation.ProviderCommission,
+                    Rental = SaleConfirmation.Rental,
+                    ShippingDate = SaleConfirmation.ShippingDate,
+                    TermsOfPayment = SaleConfirmation.TermsOfPayment,
+                    Transporter = SaleConfirmation.Transporter,
+                    TruckLicensePlate = SaleConfirmation.TruckLicensePlate
+                };
 
                 SaleConfirmation = newModel;
 
                 Status = "Nuova conferma di vendita creata correttamente";
+                SaveButtonEnabled = true;
+                ActionButtonsEnabled = false;
+                ReloadButtonEnabled = false;
                 _windowManager.PopupMessage("Nuova Conferma di Vendita creata correttamente, premere 'Salva' dopo aver apportato le modifiche necessarie", "Nuova Conferma di Vendita creata");
             };
         }
@@ -437,7 +443,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
             };
         }
@@ -446,7 +451,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 SavePdf(printForProvider, printForCustomer);
             };
         }
