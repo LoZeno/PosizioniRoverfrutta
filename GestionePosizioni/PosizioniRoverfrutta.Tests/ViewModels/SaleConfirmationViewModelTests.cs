@@ -12,17 +12,19 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
     public class SaleConfirmationViewModelTests
     {
         [TestFixtureSetUp]
-        public void Setup()
+        public void MainSetup()
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+        }
 
-            CreateBasicData(false);
-
+        [SetUp]
+        public void Setup()
+        {
             _mainViewModel = new SaleConfirmationViewModel(_dataStorage, null);
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void CleanUpData()
         {
             using (var session = _dataStorage.CreateSession())
@@ -37,6 +39,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_passing_a_document_id_it_retrieves_the_document()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
 
             Assert.That(_mainViewModel.SaleConfirmation, Is.Not.Null);
@@ -48,6 +51,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_passing_a_document_id_it_retrieves_the_customer_and_provider()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
 
             Assert.That(_mainViewModel.SaleConfirmation.Customer.Id, Is.EqualTo(_customerId));
@@ -60,6 +64,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_passing_an_id_for_a_document_that_does_not_exist_the_document_is_blank()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = 100;
 
             Assert.That(_mainViewModel.SaleConfirmation, Is.Not.Null);
@@ -69,6 +74,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_adding_products_to_the_viewmodel_it_saves_the_list_of_products_sold()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.ProductDetails.Add(new ProductRowViewModel
             {
@@ -97,6 +103,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_creating_a_new_position_the_save_button_and_action_buttons_and_reload_button_are_initially_disabled()
         {
+            CreateBasicData(false);
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
             Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
             Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);
@@ -105,6 +112,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_loading_a_document_the_save_button_is_disabled_and_action_buttons_are_enabled_and_reload_button_is_disabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
             Assert.That(_mainViewModel.ActionButtonsEnabled, Is.True);
@@ -114,6 +122,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_property_is_edited_the_save_button_is_enabled_and_action_buttons_disabled_and_reload_button_is_enabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.Notes = "something";
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
@@ -124,6 +133,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_is_added_the_save_button_is_enabled_and_action_buttons_are_disabled_and_reload_button_enabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.ProductDetails.Add(new ProductRowViewModel(new ProductDetails{Description = "Nuovo prodotto"}));
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
@@ -145,6 +155,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_customer_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled_and_reload_button_is_enabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.CompanyControlViewModel.City = "Parma";
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
@@ -155,6 +166,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_provider_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled_and_reload_button_is_enabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.ProviderControlViewModel.City = "Parma";
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
@@ -165,6 +177,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_transporter_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled_and_reload_button_is_enabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.TransporterControlViewModel.City = "Parma";
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
@@ -175,6 +188,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_data_is_saved_then_save_button_is_disabled_and_action_buttons_are_enabled_and_reload_button_is_disabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.Notes = "qualche nota da aggiungere";
             _mainViewModel.SaveAll.Execute(null);
@@ -186,6 +200,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_document_is_reloaded_then_save_button_is_disabled_and_action_buttons_are_enabled_and_reload_button_is_disabled()
         {
+            CreateBasicData(false);
             _mainViewModel.Id = _documentId;
             _mainViewModel.Notes = "qualche nota da aggiungere";
             _mainViewModel.Reload.Execute(null);
