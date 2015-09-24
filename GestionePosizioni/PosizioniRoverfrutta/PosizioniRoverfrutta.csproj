@@ -200,6 +200,7 @@
     <Compile Include="Services\TermsOfPaymentAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />
+    <Compile Include="ViewModels\CustomersWindowViewModel.cs" />
     <Compile Include="ViewModels\ListPositionsViewModel.cs" />
     <Compile Include="ViewModels\LoadingDocumentViewModel.cs" />
     <Compile Include="ViewModels\PriceConfirmationViewModel.cs" />

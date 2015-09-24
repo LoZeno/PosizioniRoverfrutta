@@ -1,6 +1,7 @@
 ﻿using System;
 using Models.Companies;
 using Models.DocumentTypes;
+using Models.Entities;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
 using QueryManager;
@@ -16,7 +17,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
 
-            CreateBasicData();
+            CreateBasicData(false);
 
             _mainViewModel = new SaleConfirmationViewModel(_dataStorage, null);
         }
@@ -93,8 +94,98 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(document.ProductDetails.Count, Is.EqualTo(2));
         }
 
+        [Test]
+        public void when_creating_a_new_position_the_save_button_and_action_buttons_are_initially_disabled()
+        {
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
 
-        private void CreateBasicData()
+        [Test]
+        public void when_loading_a_document_the_save_button_is_disabled_and_action_buttons_are_enabled()
+        {
+            _mainViewModel.Id = _documentId;
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_a_property_is_edited_the_save_button_is_enabled_and_action_buttons_disabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.Notes = "something";
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_product_is_added_the_save_button_is_enabled_and_action_buttons_are_disabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.ProductDetails.Add(new ProductRowViewModel(new ProductDetails{Description = "Nuovo prodotto"}));
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_product_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled()
+        {
+            CreateBasicData(true);
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.ProductDetails[0].GrossWeight = 100;
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_customer_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.CompanyControlViewModel.City = "Parma";
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_provider_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.ProviderControlViewModel.City = "Parma";
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_transporter_is_edited_the_save_button_is_enabled_and_action_buttons_are_disabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.TransporterControlViewModel.City = "Parma";
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.True);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_data_is_saved_then_save_button_is_disabled_and_action_buttons_are_enabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.Notes = "qualche nota da aggiungere";
+            _mainViewModel.SaveAll.Execute(null);
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_document_is_reloaded_then_save_button_is_disabled_and_action_buttons_are_enabled()
+        {
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.Notes = "qualche nota da aggiungere";
+            _mainViewModel.Reload.Execute(null);
+            Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
+            Assert.That(_mainViewModel.ActionButtonsEnabled, Is.True);
+        }
+
+
+        private void CreateBasicData(bool AddProduct)
         {
             var document = new SaleConfirmation
             {
@@ -127,12 +218,27 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             };
             document.Customer = customer;
             document.Provider = provider;
+            if (AddProduct)
+            {
+                document.ProductDetails.Add(new ProductDetails
+                {
+                    Currency = "EUR",
+                    Description = "Un prodotto",
+                });
+            }
 
             using (var session = _dataStorage.CreateSession())
             {
                 session.Store(customer);
                 session.Store(provider);
                 session.Store(document);
+                if (AddProduct)
+                {
+                    session.Store(new ProductDescription
+                    {
+                        Description = document.ProductDetails[0].Description
+                    });
+                }
                 session.SaveChanges();
             }
             _documentId = document.ProgressiveNumber;
