@@ -98,6 +98,7 @@
     <Compile Include="ViewModels\CustomersWindowViewModelTests.cs" />
     <Compile Include="ViewModels\ListPositionsVIewModelTests.cs" />
     <Compile Include="ViewModels\LoadingDocumentViewModelTests.cs" />
+    <Compile Include="ViewModels\PriceConfirmationViewModelTests.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>

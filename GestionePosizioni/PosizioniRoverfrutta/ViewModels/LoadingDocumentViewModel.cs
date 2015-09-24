@@ -62,7 +62,6 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
-                OnPropertyChanged("EnableButtons");
 
                 SaveButtonEnabled = canSave;
                 ActionButtonsEnabled = canUseActions;
@@ -235,11 +234,6 @@ namespace PosizioniRoverfrutta.ViewModels
                 _status = value;
                 OnPropertyChanged();
             }
-        }
-
-        public bool EnableButtons
-        {
-            get { return Id != 0; }
         }
 
         public bool SaveButtonEnabled
