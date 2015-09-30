@@ -184,11 +184,8 @@ namespace PosizioniRoverfrutta.Windows
         private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, PdfButton, "Print", viewModel.Print);
-            PdfButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
             SetButtonBinding(viewModel, ProviderPdfButton, "PrintForProvider", viewModel.PrintForProvider);
-            ProviderPdfButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
             SetButtonBinding(viewModel, CustomerPdfButton, "PrintForCustomer", viewModel.PrintForCustomer);
-            CustomerPdfButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
         }
 
         private void SetConvertButtonBinding(SaleConfirmationViewModel viewModel)
@@ -203,7 +200,6 @@ namespace PosizioniRoverfrutta.Windows
             SetMenuItemBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
             SetMenuItemBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
             SetMenuItemBinding(viewModel, TransportEmailButton, "EmailToTransporter", viewModel.EmailToTransporter);
-            EmailMenuButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
         }
 
         private void SetCloneButtonBinding(SaleConfirmationViewModel viewModel)

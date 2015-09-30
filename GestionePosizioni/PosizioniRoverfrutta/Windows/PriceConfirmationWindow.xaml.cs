@@ -218,18 +218,6 @@ namespace PosizioniRoverfrutta.Windows
             SetButtonBinding(viewModel, PdfButton, "Print", viewModel.Print);
             SetButtonBinding(viewModel, ProviderPdfButton, "PrintForProvider", viewModel.PrintForProvider);
             SetButtonBinding(viewModel, CustomerPdfButton, "PrintForCustomer", viewModel.PrintForCustomer);
-            PdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
-            ProviderPdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
-            CustomerPdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
         }
 
         private void SetSendToButtonBinding(PriceConfirmationViewModel viewModel)
@@ -237,18 +225,6 @@ namespace PosizioniRoverfrutta.Windows
             SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
             SetButtonBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
             SetButtonBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
-            EmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
-            ProviderEmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
-            CustomerEmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("ActionButtonsEnabled")
-            });
         }
     }
 }
