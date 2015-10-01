@@ -10,7 +10,7 @@ using Raven.Client.Linq;
 namespace PosizioniRoverfrutta.Tests.ViewModels
 {
     [TestFixture]
-    public class CustomersWindowViewModelTests
+    public class CustomersWindowGridViewModelTests
     {
         [TestFixtureSetUp]
         public void InitializeDataStorage()
@@ -24,7 +24,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         public void SetUp()
         {
             InsertInitialData();
-            _viewModel = new CustomersWindowViewModel(_dataStorage, _mockWindowManager.Object);
+            _viewModel = new CustomersWindowGridViewModel(_dataStorage, _mockWindowManager.Object);
         }
 
         [TearDown]
@@ -42,9 +42,11 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         }
 
         [Test]
-        public void When_initialized_it_should_loads_up_to_100_customers()
+        public void When_initialized_it_should_loads_up_to_100_customers_in_alphabetical_order()
         {
             Assert.That(_viewModel.CustomersList.Count(), Is.EqualTo(100));
+            Assert.That(_viewModel.CustomersList[0].CompanyName, Is.EqualTo("Customer Number 0"));
+            Assert.That(_viewModel.CustomersList[99].CompanyName, Is.EqualTo("Provider Position 4"));
         }
 
         [TestCase("Customer", 10)]
@@ -56,6 +58,42 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _viewModel.SearchBox = filter;
             Assert.That(_viewModel.CustomersList.Count(), Is.EqualTo(expectedTotal));
+        }
+
+        [Test]
+        public void when_clicking_next_page_it_should_load_the_next_100_customers()
+        {
+            _viewModel.NextPage.Execute(null);
+            Assert.That(_viewModel.CustomersList.Count, Is.EqualTo(5));
+            Assert.That(_viewModel.CustomersList[0].CompanyName, Is.EqualTo("Provider Position 5"));
+        }
+
+        [Test]
+        public void when_clicking_next_page_if_there_is_no_excess_data_it_will_not_change_page()
+        {
+            _viewModel.NextPage.Execute(null);
+            _viewModel.NextPage.Execute(null);
+            Assert.That(_viewModel.CustomersList.Count, Is.EqualTo(5));
+            Assert.That(_viewModel.CustomersList[0].CompanyName, Is.EqualTo("Provider Position 5"));
+        }
+
+        [Test]
+        public void when_clicking_previous_page_if_there_is_not_a_previous_page_of_data_it_will_not_change_page()
+        {
+            _viewModel.PreviousPage.Execute(null);
+            Assert.That(_viewModel.CustomersList.Count, Is.EqualTo(100));
+            Assert.That(_viewModel.CustomersList[0].CompanyName, Is.EqualTo("Customer Number 0"));
+            Assert.That(_viewModel.CustomersList[99].CompanyName, Is.EqualTo("Provider Position 4"));
+        }
+
+        [Test]
+        public void when_clicking_previous_page_after_next_page_it_returns_to_the_actual_previous_page_of_data()
+        {
+            _viewModel.NextPage.Execute(null);
+            _viewModel.PreviousPage.Execute(null);
+            Assert.That(_viewModel.CustomersList.Count, Is.EqualTo(100));
+            Assert.That(_viewModel.CustomersList[0].CompanyName, Is.EqualTo("Customer Number 0"));
+            Assert.That(_viewModel.CustomersList[99].CompanyName, Is.EqualTo("Provider Position 4"));
         }
 
         private void InsertInitialData()
@@ -93,6 +131,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
         private IDataStorage _dataStorage;
         private Mock<IWindowManager> _mockWindowManager;
-        private CustomersWindowViewModel _viewModel;
+        private CustomersWindowGridViewModel _viewModel;
     }
 }

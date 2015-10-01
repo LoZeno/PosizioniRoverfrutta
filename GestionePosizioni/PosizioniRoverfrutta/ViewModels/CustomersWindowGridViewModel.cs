@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Microsoft.Practices.Prism;
+using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Windows;
@@ -12,9 +14,9 @@ using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
-    public class CustomersWindowViewModel : INotifyPropertyChanged
+    public class CustomersWindowGridViewModel : INotifyPropertyChanged
     {
-        public CustomersWindowViewModel(IDataStorage dataStorage, IWindowManager windowManager)
+        public CustomersWindowGridViewModel(IDataStorage dataStorage, IWindowManager windowManager)
         {
             _dataStorage = dataStorage;
             _windowManager = windowManager;
@@ -38,6 +40,16 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public ICommand NextPage
+        {
+            get { return nextPageCommand ?? (nextPageCommand = new DelegateCommand(IncreaseSkip)); } 
+        }
+
+        public ICommand PreviousPage 
+        { 
+            get { return previousPageCommand ?? (previousPageCommand = new DelegateCommand(DecreaseSkip)); }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -52,7 +64,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    CustomersList.AddRange(session.Query<Customer>().OrderBy(c => c.CompanyName).Take(100));
+                    CustomersList.AddRange(session.Query<Customer>().OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100));
                 }
                 else
                 {
@@ -62,8 +74,33 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        private void IncreaseSkip()
+        {
+            if (CustomersList.Count == 100)
+            {
+                skipPositions += 100;
+                LoadCustomersList();
+            }
+        }
+
+        private void DecreaseSkip()
+        {
+            if (skipPositions != 0)
+            {
+                skipPositions -= 100;
+                if (skipPositions < 0)
+                {
+                    skipPositions = 0;
+                }
+                LoadCustomersList();
+            }
+        }
+
         private readonly IDataStorage _dataStorage;
         private readonly IWindowManager _windowManager;
         private string _searchBox;
+        private ICommand nextPageCommand;
+        private int skipPositions = 0;
+        private ICommand previousPageCommand;
     }
 }
