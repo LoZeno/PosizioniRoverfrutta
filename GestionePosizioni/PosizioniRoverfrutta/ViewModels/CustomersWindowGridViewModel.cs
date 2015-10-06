@@ -150,15 +150,9 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public bool DeleteButtonEnabled
-        {
-            get { return _deleteButtonEnabled; }
-            set
-            {
-                _deleteButtonEnabled = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool DeleteButtonEnabled { get; private set; }
+
+        public bool SaveButtonEnabled { get; private set; }
 
         public ICommand NextPage
         {
@@ -185,6 +179,13 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedCustomer"))
+            {
+                if (!SaveButtonEnabled)
+                {
+                    SaveButtonEnabled = true;
+                }
+            }
         }
 
         private void LoadAllData()
@@ -218,7 +219,10 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void SetActionButtonsState()
         {
-            _deleteButtonEnabled = _selectedCustomer != null;
+            DeleteButtonEnabled = _selectedCustomer != null;
+            SaveButtonEnabled = false;
+            OnPropertyChanged("DeleteButtonEnabled");
+            OnPropertyChanged("SaveButtonEnabled");
         }
 
         private void SaveSelectedCustomer()
@@ -261,6 +265,5 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand previousPageCommand;
         private ICommand refreshCommand;
         private ICommand saveCommand;
-        private bool _deleteButtonEnabled;
     }
 }
