@@ -22,7 +22,7 @@ namespace PosizioniRoverfrutta.ViewModels
             _windowManager = windowManager;
             CustomersList = new ObservableCollection<Customer>();
 
-            LoadCustomersList();
+            LoadAllData();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,7 +35,127 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _searchBox = value;
-                LoadCustomersList();
+                LoadAllData();
+                OnPropertyChanged();
+            }
+        }
+
+        public Customer SelectedCustomer
+        {
+            get { return _selectedCustomer; }
+            set
+            {
+                _selectedCustomer = value;
+                OnPropertyChanged();
+                OnPropertyChanged("CompanyName");
+                OnPropertyChanged("Address");
+                OnPropertyChanged("City");
+                OnPropertyChanged("StateOrProvince");
+                OnPropertyChanged("PostCode");
+                OnPropertyChanged("Country");
+                OnPropertyChanged("VatCode");
+                OnPropertyChanged("EmailAddress");
+                OnPropertyChanged("DoNotApplyVat");
+                SetActionButtonsState();
+            }
+        }
+
+        public string CompanyName
+        {
+            get { return _selectedCustomer.CompanyName; }
+            set
+            {
+                _selectedCustomer.CompanyName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Address
+        {
+            get { return _selectedCustomer.Address; }
+            set
+            {
+                _selectedCustomer.Address = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string City
+        {
+            get { return _selectedCustomer.City; }
+            set
+            {
+                _selectedCustomer.City = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StateOrProvince
+        {
+            get { return _selectedCustomer.StateOrProvince; }
+            set
+            {
+                _selectedCustomer.StateOrProvince = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string PostCode
+        {
+            get { return _selectedCustomer.PostCode; }
+            set
+            {
+                _selectedCustomer.PostCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Country
+        {
+            get { return _selectedCustomer.Country; }
+            set
+            {
+                _selectedCustomer.Country = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string VatCode
+        {
+            get { return _selectedCustomer.VatCode; }
+            set
+            {
+                _selectedCustomer.VatCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EmailAddress
+        {
+            get { return _selectedCustomer.EmailAddress; }
+            set
+            {
+                _selectedCustomer.EmailAddress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DoNotApplyVat
+        {
+            get { return _selectedCustomer.DoNotApplyVat; }
+            set
+            {
+                _selectedCustomer.DoNotApplyVat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool DeleteButtonEnabled
+        {
+            get { return _deleteButtonEnabled; }
+            set
+            {
+                _deleteButtonEnabled = value;
                 OnPropertyChanged();
             }
         }
@@ -50,6 +170,16 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return previousPageCommand ?? (previousPageCommand = new DelegateCommand(DecreaseSkip)); }
         }
 
+        public ICommand Refresh
+        {
+            get { return refreshCommand ?? (refreshCommand = new DelegateCommand(LoadAllData)); }
+        }
+
+        public ICommand Save
+        {
+            get { return saveCommand ?? (saveCommand = new DelegateCommand(SaveAndRefresh)); }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -57,9 +187,10 @@ namespace PosizioniRoverfrutta.ViewModels
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void LoadCustomersList()
+        private void LoadAllData()
         {
             CustomersList.Clear();
+            string selectedCustomerId = _selectedCustomer != null ? _selectedCustomer.Id: string.Empty;
             using (var session = _dataStorage.CreateSession())
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
@@ -71,6 +202,31 @@ namespace PosizioniRoverfrutta.ViewModels
                     var customersQuery = session.FindByPartialName<Customer>(SearchBox);
                     CustomersList.AddRange(customersQuery.OrderBy(c => c.CompanyName).Take(100));
                 }
+                if (!string.IsNullOrWhiteSpace(selectedCustomerId))
+                {
+                    SelectedCustomer = session.Load<Customer>(selectedCustomerId);
+                }
+            }
+        }
+
+        private void SaveAndRefresh()
+        {
+            SaveSelectedCustomer();
+            LoadAllData();
+            SetActionButtonsState();
+        }
+
+        private void SetActionButtonsState()
+        {
+            _deleteButtonEnabled = _selectedCustomer != null;
+        }
+
+        private void SaveSelectedCustomer()
+        {
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Store(_selectedCustomer);
+                session.SaveChanges();
             }
         }
 
@@ -79,7 +235,7 @@ namespace PosizioniRoverfrutta.ViewModels
             if (CustomersList.Count == 100)
             {
                 skipPositions += 100;
-                LoadCustomersList();
+                LoadAllData();
             }
         }
 
@@ -92,15 +248,19 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     skipPositions = 0;
                 }
-                LoadCustomersList();
+                LoadAllData();
             }
         }
 
         private readonly IDataStorage _dataStorage;
         private readonly IWindowManager _windowManager;
         private string _searchBox;
-        private ICommand nextPageCommand;
         private int skipPositions = 0;
+        private Customer _selectedCustomer;
+        private ICommand nextPageCommand;
         private ICommand previousPageCommand;
+        private ICommand refreshCommand;
+        private ICommand saveCommand;
+        private bool _deleteButtonEnabled;
     }
 }

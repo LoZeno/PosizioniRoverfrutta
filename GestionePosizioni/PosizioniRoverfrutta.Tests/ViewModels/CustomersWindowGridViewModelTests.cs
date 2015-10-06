@@ -96,6 +96,75 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_viewModel.CustomersList[99].CompanyName, Is.EqualTo("Provider Position 4"));
         }
 
+        [Test]
+        public void when_window_is_active_then_it_refreshes_the_data()
+        {
+            string newCustomerPositionedAsFirst = "AAA New Customer";
+            var newCustomer = new Customer
+            {
+                CompanyName = newCustomerPositionedAsFirst
+            };
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Store(newCustomer);
+                session.SaveChanges();
+            }
+            _viewModel.Refresh.Execute(null);
+            Assert.That(_viewModel.CustomersList.Any(c => c.CompanyName.Equals(newCustomerPositionedAsFirst)), Is.True);
+        }
+
+        [Test]
+        public void when_refreshing_data_if_the_selected_customer_is_deleted_elsewhere_then_the_selected_customer_field_is_emptied()
+        {
+            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            using (var session = _dataStorage.CreateSession())
+            {
+                var itemToDelete = session.Load<Customer>(_viewModel.SelectedCustomer.Id);
+                session.Delete(itemToDelete);
+                session.SaveChanges();
+            }
+            _viewModel.Refresh.Execute(null);
+            Assert.That(_viewModel.SelectedCustomer, Is.Null);
+        }
+
+        [Test]
+        public void when_refreshing_data_if_the_selected_customer_has_changed_then_the_field_is_updated()
+        {
+            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            using (var session = _dataStorage.CreateSession())
+            {
+                var itemToEdit = session.Load<Customer>(_viewModel.SelectedCustomer.Id);
+                itemToEdit.Address = "A New Address";
+                session.SaveChanges();
+            }
+            _viewModel.Refresh.Execute(null);
+            Assert.That(_viewModel.SelectedCustomer.Address, Is.EqualTo("A New Address"));
+        }
+
+        [Test]
+        public void when_editing_a_company_and_clicking_save_it_refreshes_the_data_in_the_grid()
+        {
+            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            _viewModel.CompanyName = "AAA New Company Name";
+
+            _viewModel.Save.Execute(null);
+            Assert.That(_viewModel.CustomersList.Any(c => c.CompanyName.Equals("AAA New Company Name")), Is.True);
+        }
+
+        [Test]
+        public void when_the_customer_is_not_selected_the_delete_button_is_disabled()
+        {
+            _viewModel.SelectedCustomer = null;
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_is_selected_the_delete_button_is_enabled()
+        {
+            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.True);
+        }
+
         private void InsertInitialData()
         {
             using (var session = _dataStorage.CreateSession())
