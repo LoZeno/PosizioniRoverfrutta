@@ -187,6 +187,30 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_viewModel.SaveButtonEnabled, Is.True);
         }
 
+        [Test]
+        public void when_a_new_customer_is_created_the_save_button_and_delete_button_are_disabled()
+        {
+            _viewModel.CreateNew.Execute(null);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+            Assert.That(_viewModel.SaveButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_does_not_have_a_CompanyName_then_the_save_button_is_disabled()
+        {
+            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            _viewModel.CompanyName = string.Empty;
+            Assert.That(_viewModel.SaveButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_the_selected_customer_is_new_the_delete_button_is_disabled_even_when_it_has_a_company_name()
+        {
+            _viewModel.CreateNew.Execute(null);
+            _viewModel.CompanyName = "Somethingsomething";
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
         private void InsertInitialData()
         {
             using (var session = _dataStorage.CreateSession())

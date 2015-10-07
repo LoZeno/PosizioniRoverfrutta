@@ -18,8 +18,47 @@
                     <RibbonApplicationMenu Visibility="Collapsed">
                     </RibbonApplicationMenu>
                 </Ribbon.ApplicationMenu>
-                
+                <RibbonTab Header="Clienti">
+                    <RibbonGroup>
+                        <RibbonButton x:Name="AddButton" LargeImageSource="../Content/Pictures/Customer/add-symbol.png" Label="Crea nuovo cliente"/>
+                        <RibbonButton x:Name="SaveButton" LargeImageSource="../Content/Pictures/Save/floppy-mount-icon-128.png" SmallImageSource="../Content/Pictures/Save/floppy-mount-icon-16.png" Label="Salva"/>
+                        <RibbonButton x:Name="DeleteButton" LargeImageSource="../Content/Pictures/Eraser/eraser_48x48.png" Label="Elimina cliente"/>
+                    </RibbonGroup>
+                </RibbonTab>
             </Ribbon>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">
+                <StackPanel.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="WhiteSmoke" Offset="0.25"></GradientStop>
+                        <GradientStop Color="LightBlue" Offset="1.0"></GradientStop>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <Label Name="StatusLabel" Content="Status"/>
+            </StackPanel>
+            <Grid VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Name="SearchRow" Height="35"></RowDefinition>
+                    <RowDefinition Name="MainRow"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="0" Margin="5">
+                    <TextBlock Text="Cerca cliente" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=SearchBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <AdornerDecorator>
+                        <TextBox Name="SearchBox" Background="Transparent"/>
+                    </AdornerDecorator>
+                </Grid>
+                
+                <Grid Grid.Row="1" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Name="DatagridColumn" Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Name="DetailsColumn" Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Name="CustomersGrid" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True" MinHeight="100" AutoGenerateColumns="False"></DataGrid>
+                </Grid>
+                
+            </Grid>
+            
         </DockPanel>
     </Grid>
 </windows:BaseWindow>

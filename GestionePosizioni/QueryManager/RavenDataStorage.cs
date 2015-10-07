@@ -22,11 +22,14 @@ namespace QueryManager
         public void Initialize()
         {
             _documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
-#if DEBUG
-            _documentStore.UseEmbeddedHttpServer = true;
-            _documentStore.Configuration.ServerName = "localhost";
-            _documentStore.Configuration.Port = 9999;
-#endif
+
+            var turnOnManagementStudio = ConfigurationManager.AppSettings["ActivateManagementStudio"];
+            if ("True" == turnOnManagementStudio)
+            {
+                _documentStore.UseEmbeddedHttpServer = true;
+                _documentStore.Configuration.ServerName = "localhost";
+                _documentStore.Configuration.Port = 6666;
+            }
 
             var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
             if ("True" == alwaysWaitForLastWrite)

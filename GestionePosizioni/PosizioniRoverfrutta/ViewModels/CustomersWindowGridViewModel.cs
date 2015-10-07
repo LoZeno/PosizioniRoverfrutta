@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -174,6 +175,11 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return saveCommand ?? (saveCommand = new DelegateCommand(SaveAndRefresh)); }
         }
 
+        public ICommand CreateNew
+        {
+            get { return createCommand ?? (createCommand = new DelegateCommand(CreateNewCustomer)); }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -181,7 +187,7 @@ namespace PosizioniRoverfrutta.ViewModels
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
             if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedCustomer"))
             {
-                if (!SaveButtonEnabled)
+                if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedCustomer?.CompanyName)))
                 {
                     SaveButtonEnabled = true;
                 }
@@ -234,6 +240,13 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        private void CreateNewCustomer()
+        {
+            SelectedCustomer = new Customer();
+            DeleteButtonEnabled = false;
+            OnPropertyChanged("DeleteButtonEnabled");
+        }
+
         private void IncreaseSkip()
         {
             if (CustomersList.Count == 100)
@@ -265,5 +278,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand previousPageCommand;
         private ICommand refreshCommand;
         private ICommand saveCommand;
+        private ICommand createCommand;
     }
 }

@@ -446,6 +446,7 @@
     <Content Include="Content\EmailTemplates\ConfermaDatiTrasportatore.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Content\Pictures\Customer\add-symbol.png" />
     <Content Include="Content\ReportTemplates\FatturaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
