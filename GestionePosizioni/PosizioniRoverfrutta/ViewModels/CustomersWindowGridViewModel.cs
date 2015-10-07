@@ -7,10 +7,13 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism;
 using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
+using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
+using QueryManager.Indexes;
 using QueryManager.QueryHelpers;
+using Raven.Client;
 using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
@@ -21,14 +24,14 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             _dataStorage = dataStorage;
             _windowManager = windowManager;
-            CustomersList = new ObservableCollection<Customer>();
+            CustomersList = new ObservableCollection<CustomerRow>();
 
             LoadAllData();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Customer> CustomersList { get; private set; }
+        public ObservableCollection<CustomerRow> CustomersList { get; private set; }
 
         public string SearchBox
         {
@@ -41,31 +44,13 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public Customer SelectedCustomer
-        {
-            get { return _selectedCustomer; }
-            set
-            {
-                _selectedCustomer = value;
-                OnPropertyChanged();
-                OnPropertyChanged("CompanyName");
-                OnPropertyChanged("Address");
-                OnPropertyChanged("City");
-                OnPropertyChanged("StateOrProvince");
-                OnPropertyChanged("PostCode");
-                OnPropertyChanged("Country");
-                OnPropertyChanged("VatCode");
-                OnPropertyChanged("EmailAddress");
-                OnPropertyChanged("DoNotApplyVat");
-                SetActionButtonsState();
-            }
-        }
-
         public string CompanyName
         {
-            get { return _selectedCustomer.CompanyName; }
+            get { return _selectedCustomer?.CompanyName; }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                    SaveButtonEnabled = false;
                 _selectedCustomer.CompanyName = value;
                 OnPropertyChanged();
             }
@@ -73,7 +58,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Address
         {
-            get { return _selectedCustomer.Address; }
+            get { return _selectedCustomer?.Address; }
             set
             {
                 _selectedCustomer.Address = value;
@@ -83,7 +68,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string City
         {
-            get { return _selectedCustomer.City; }
+            get { return _selectedCustomer?.City; }
             set
             {
                 _selectedCustomer.City = value;
@@ -93,7 +78,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string StateOrProvince
         {
-            get { return _selectedCustomer.StateOrProvince; }
+            get { return _selectedCustomer?.StateOrProvince; }
             set
             {
                 _selectedCustomer.StateOrProvince = value;
@@ -103,7 +88,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string PostCode
         {
-            get { return _selectedCustomer.PostCode; }
+            get { return _selectedCustomer?.PostCode; }
             set
             {
                 _selectedCustomer.PostCode = value;
@@ -113,7 +98,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Country
         {
-            get { return _selectedCustomer.Country; }
+            get { return _selectedCustomer?.Country; }
             set
             {
                 _selectedCustomer.Country = value;
@@ -123,7 +108,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string VatCode
         {
-            get { return _selectedCustomer.VatCode; }
+            get { return _selectedCustomer?.VatCode; }
             set
             {
                 _selectedCustomer.VatCode = value;
@@ -133,7 +118,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string EmailAddress
         {
-            get { return _selectedCustomer.EmailAddress; }
+            get { return _selectedCustomer?.EmailAddress; }
             set
             {
                 _selectedCustomer.EmailAddress = value;
@@ -143,7 +128,10 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool DoNotApplyVat
         {
-            get { return _selectedCustomer.DoNotApplyVat; }
+            get
+            {
+                return _selectedCustomer != null && _selectedCustomer.DoNotApplyVat;
+            }
             set
             {
                 _selectedCustomer.DoNotApplyVat = value;
@@ -197,23 +185,47 @@ namespace PosizioniRoverfrutta.ViewModels
         private void LoadAllData()
         {
             CustomersList.Clear();
-            string selectedCustomerId = _selectedCustomer != null ? _selectedCustomer.Id: string.Empty;
             using (var session = _dataStorage.CreateSession())
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    CustomersList.AddRange(session.Query<Customer>().OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100));
+                    CustomersList.AddRange(session.Query<CustomerRow, CustomersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100));
                 }
                 else
                 {
-                    var customersQuery = session.FindByPartialName<Customer>(SearchBox);
-                    CustomersList.AddRange(customersQuery.OrderBy(c => c.CompanyName).Take(100));
-                }
-                if (!string.IsNullOrWhiteSpace(selectedCustomerId))
-                {
-                    SelectedCustomer = session.Load<Customer>(selectedCustomerId);
+                    var customersQuery = session.Query<CustomerRow, CustomersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow());
+                    var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
+                    CustomersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100));
                 }
             }
+            var selectedCustomerId = _selectedCustomer?.Id;
+            LoadSelectedCustomer(selectedCustomerId);
+        }
+
+        public void LoadSelectedCustomer(string selectedCustomerId)
+        {
+            if (!string.IsNullOrWhiteSpace(selectedCustomerId))
+            {
+                using (var session = _dataStorage.CreateSession())
+                {
+                    _selectedCustomer = session.Load<Customer>(selectedCustomerId);
+                }
+            }
+            else
+            {
+                _selectedCustomer = null;
+            }
+
+            OnPropertyChanged("CompanyName");
+            OnPropertyChanged("Address");
+            OnPropertyChanged("City");
+            OnPropertyChanged("StateOrProvince");
+            OnPropertyChanged("PostCode");
+            OnPropertyChanged("Country");
+            OnPropertyChanged("VatCode");
+            OnPropertyChanged("EmailAddress");
+            OnPropertyChanged("DoNotApplyVat");
+            SetActionButtonsState();
         }
 
         private void SaveAndRefresh()
@@ -242,7 +254,16 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void CreateNewCustomer()
         {
-            SelectedCustomer = new Customer();
+            _selectedCustomer = new Customer();
+            OnPropertyChanged("CompanyName");
+            OnPropertyChanged("Address");
+            OnPropertyChanged("City");
+            OnPropertyChanged("StateOrProvince");
+            OnPropertyChanged("PostCode");
+            OnPropertyChanged("Country");
+            OnPropertyChanged("VatCode");
+            OnPropertyChanged("EmailAddress");
+            OnPropertyChanged("DoNotApplyVat");
             DeleteButtonEnabled = false;
             OnPropertyChanged("DeleteButtonEnabled");
         }

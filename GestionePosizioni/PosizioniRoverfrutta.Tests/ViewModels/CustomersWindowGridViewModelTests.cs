@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Models.Companies;
 using Moq;
 using NUnit.Framework;
@@ -17,6 +18,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+            _dataStorage.DocumentStore.Conventions.ShouldSaveChangesForceAggressiveCacheCheck = true;
             _mockWindowManager = new Mock<IWindowManager>();
         }
 
@@ -114,37 +116,40 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         }
 
         [Test]
-        public void when_refreshing_data_if_the_selected_customer_is_deleted_elsewhere_then_the_selected_customer_field_is_emptied()
+        public void when_refreshing_data_if_the_selected_customer_is_deleted_elsewhere_then_the_selected_customer_fields_are_emptied()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             using (var session = _dataStorage.CreateSession())
             {
-                var itemToDelete = session.Load<Customer>(_viewModel.SelectedCustomer.Id);
+                var itemToDelete = session.Load<Customer>(selectedCustomerId);
                 session.Delete(itemToDelete);
                 session.SaveChanges();
             }
             _viewModel.Refresh.Execute(null);
-            Assert.That(_viewModel.SelectedCustomer, Is.Null);
+            Assert.That(_viewModel.CompanyName, Is.Null);
         }
 
         [Test]
         public void when_refreshing_data_if_the_selected_customer_has_changed_then_the_field_is_updated()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             using (var session = _dataStorage.CreateSession())
             {
-                var itemToEdit = session.Load<Customer>(_viewModel.SelectedCustomer.Id);
+                var itemToEdit = session.Load<Customer>(selectedCustomerId);
                 itemToEdit.Address = "A New Address";
                 session.SaveChanges();
             }
             _viewModel.Refresh.Execute(null);
-            Assert.That(_viewModel.SelectedCustomer.Address, Is.EqualTo("A New Address"));
+            Assert.That(_viewModel.Address, Is.EqualTo("A New Address"));
         }
 
         [Test]
         public void when_editing_a_company_and_clicking_save_it_refreshes_the_data_in_the_grid()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             _viewModel.CompanyName = "AAA New Company Name";
 
             _viewModel.Save.Execute(null);
@@ -154,35 +159,38 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_the_customer_is_not_selected_the_delete_button_is_disabled()
         {
-            _viewModel.SelectedCustomer = null;
+            _viewModel.LoadSelectedCustomer(null);
             Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
         }
 
         [Test]
         public void when_a_customer_is_selected_the_delete_button_is_enabled()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             Assert.That(_viewModel.DeleteButtonEnabled, Is.True);
         }
 
         [Test]
         public void when_no_customer_is_selected_the_save_button_is_disabled()
         {
-            _viewModel.SelectedCustomer = null;
+            _viewModel.LoadSelectedCustomer(null);
             Assert.That(_viewModel.SaveButtonEnabled, Is.False);
         }
 
         [Test]
         public void when_a_customer_is_selected_but_not_edited_the_save_button_is_disabled()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             Assert.That(_viewModel.SaveButtonEnabled, Is.False);
         }
 
         [Test]
         public void when_the_selected_customer_is_edited_the_save_button_is_enabled()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
             _viewModel.Address = "Some New Address";
             Assert.That(_viewModel.SaveButtonEnabled, Is.True);
         }
@@ -198,7 +206,9 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_customer_does_not_have_a_CompanyName_then_the_save_button_is_disabled()
         {
-            _viewModel.SelectedCustomer = _viewModel.CustomersList[0];
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            _viewModel.Address = "something";
             _viewModel.CompanyName = string.Empty;
             Assert.That(_viewModel.SaveButtonEnabled, Is.False);
         }
