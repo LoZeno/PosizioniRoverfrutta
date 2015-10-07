@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using Models.Companies;
+using Models.DocumentTypes;
 using Moq;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
@@ -34,10 +35,25 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             using (var session = _dataStorage.CreateSession())
             {
-                var customers = session.Query<Customer>().Select(x => x).ToList();
+                var customers = session.Query<Customer>().ToList();
                 foreach (var customer in customers)
                 {
                     session.Delete(customer);
+                }
+                var salesCon = session.Query<SaleConfirmation>().ToList();
+                foreach (var saleConfirmation in salesCon)
+                {
+                    session.Delete(saleConfirmation);
+                }
+                var loadDoc = session.Query<LoadingDocument>().ToList();
+                foreach (var saleConfirmation in loadDoc)
+                {
+                    session.Delete(saleConfirmation);
+                }
+                var priceConf = session.Query<PriceConfirmation>().ToList();
+                foreach (var saleConfirmation in priceConf)
+                {
+                    session.Delete(saleConfirmation);
                 }
                 session.SaveChanges();
             }
@@ -164,11 +180,119 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         }
 
         [Test]
-        public void when_a_customer_is_selected_the_delete_button_is_enabled()
+        public void when_a_customer_with_no_associated_positions_is_selected_the_delete_button_is_enabled()
         {
             var selectedCustomerId = _viewModel.CustomersList[0].Id;
             _viewModel.LoadSelectedCustomer(selectedCustomerId);
             Assert.That(_viewModel.DeleteButtonEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_saleconfirmation_as_customer_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var sc = new SaleConfirmation
+                {
+                    Customer = customer
+                };
+                session.Store(sc);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_saleconfirmation_as_provider_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var sc = new SaleConfirmation
+                {
+                    Provider = customer
+                };
+                session.Store(sc);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_loadingDocument_as_customer_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var ld = new LoadingDocument
+                {
+                    Customer = customer
+                };
+                session.Store(ld);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_loadingDocument_as_provider_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var ld = new LoadingDocument
+                {
+                    Provider = customer
+                };
+                session.Store(ld);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_priceconfirmation_as_customer_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var pc = new PriceConfirmation
+                {
+                    Customer = customer
+                };
+                session.Store(pc);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_a_customer_with_at_least_one_associated_priceconfirmation_as_provider_is_selected_the_delete_button_is_disabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var customer = session.Load<Customer>(selectedCustomerId);
+                var pc = new PriceConfirmation
+                {
+                    Provider = customer
+                };
+                session.Store(pc);
+                session.SaveChanges();
+            }
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
         }
 
         [Test]

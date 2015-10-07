@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Microsoft.Practices.Prism;
 using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
+using Models.DocumentTypes;
 using Models.Entities;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Windows;
@@ -225,22 +226,28 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("VatCode");
             OnPropertyChanged("EmailAddress");
             OnPropertyChanged("DoNotApplyVat");
-            SetActionButtonsState();
+            SetActionButtonsState(selectedCustomerId);
+        }
+
+        private void SetActionButtonsState(string selectedCustomerId)
+        {
+            DeleteButtonEnabled = _selectedCustomer != null;
+            using (var session = _dataStorage.CreateSession())
+            {
+                if (session.Query<PriceConfirmation>().Count(pc => pc.Customer.Id.Equals(selectedCustomerId) || pc.Provider.Id.Equals(selectedCustomerId)) > 0
+                    || session.Query<LoadingDocument>().Count(ld => ld.Customer.Id.Equals(selectedCustomerId) || ld.Provider.Id.Equals(selectedCustomerId)) > 0
+                    || session.Query<SaleConfirmation>().Count(sc => sc.Customer.Id.Equals(selectedCustomerId) || sc.Provider.Id.Equals(selectedCustomerId)) > 0)
+                    DeleteButtonEnabled = false;
+            }
+            SaveButtonEnabled = false;
+            OnPropertyChanged("DeleteButtonEnabled");
+            OnPropertyChanged("SaveButtonEnabled");
         }
 
         private void SaveAndRefresh()
         {
             SaveSelectedCustomer();
             LoadAllData();
-            SetActionButtonsState();
-        }
-
-        private void SetActionButtonsState()
-        {
-            DeleteButtonEnabled = _selectedCustomer != null;
-            SaveButtonEnabled = false;
-            OnPropertyChanged("DeleteButtonEnabled");
-            OnPropertyChanged("SaveButtonEnabled");
         }
 
         private void SaveSelectedCustomer()
