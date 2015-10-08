@@ -110,6 +110,8 @@ namespace PosizioniRoverfrutta.Windows
         DistintaCarico,
         ConfermaPrezzi,
         Riepiloghi,
-        AnagraficaClienti
+        AnagraficaClienti,
+        AnagraficaTrasportatori,
+        AnagraficaProdotti
     }
 }

@@ -1,36 +1,35 @@
-﻿using System;
+﻿using Models.Entities;
+using PosizioniRoverfrutta.ViewModels;
+using QueryManager;
+using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using QueryManager;
-using PosizioniRoverfrutta.ViewModels;
 using System.Windows.Controls.Primitives;
-using System.Globalization;
-using Models.Entities;
+using System.Windows.Data;
 
 namespace PosizioniRoverfrutta.Windows
 {
     /// <summary>
-    /// Interaction logic for CustomersWindow.xaml
+    /// Interaction logic for TransportersWindow.xaml
     /// </summary>
-    public partial class CustomersWindow : BaseWindow
+    public partial class TransportersWindow : BaseWindow
     {
-        public CustomersWindow()
-            : this(null, null)
+        public TransportersWindow()
+            :this(null, null)
         {
-            
-        }
 
-        public CustomersWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
+        }
+        public TransportersWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
             : this(windowManager, dataStorage)
         {
-            
+
         }
 
-        public CustomersWindow(IWindowManager windowManager, IDataStorage dataStorage) : base(windowManager, dataStorage)
+        public TransportersWindow(IWindowManager windowManager, IDataStorage dataStorage) : base(windowManager, dataStorage)
         {
             InitializeComponent();
-            var viewModel = new CustomersWindowGridViewModel(dataStorage, windowManager);
+            var viewModel = new TransporterWindowGridViewModel(dataStorage, windowManager);
             this.DataContext = viewModel;
 
             SetBindingsForTextBox("SearchBox", SearchBox);
@@ -56,18 +55,18 @@ namespace PosizioniRoverfrutta.Windows
             SetDataGridBinding(viewModel);
 
             this.Activated += CustomersWindow_Activated;
-            CustomersGrid.SelectionChanged += CustomersGrid_SelectionChanged;
+            TransportersGrid.SelectionChanged += CustomersGrid_SelectionChanged;
         }
 
         private void CustomersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string selectedId = null;
-            if (CustomersGrid.SelectedItem != null)
+            if (TransportersGrid.SelectedItem != null)
             {
-                var customerRow = (CustomerRow)CustomersGrid.SelectedItem;
+                var customerRow = (CustomerRow)TransportersGrid.SelectedItem;
                 selectedId = customerRow.Id;
             }
-            ((CustomersWindowGridViewModel)DataContext).LoadSelectedCustomer(selectedId);
+            ((TransporterWindowGridViewModel)DataContext).LoadSelectedTransporter(selectedId);
         }
 
         private void SetBindingsAndStatusForTextBox(string property, TextBox control)
@@ -79,30 +78,30 @@ namespace PosizioniRoverfrutta.Windows
         private void BuildDataGridColumns()
         {
             var idColumn = BuildReadOnlyTextColumn("Id", "Id", 20, true);
-            CustomersGrid.Columns.Add(idColumn);
+            TransportersGrid.Columns.Add(idColumn);
             var nameColumn = BuildReadOnlyTextColumn("Nome", "CompanyName", 40);
-            CustomersGrid.Columns.Add(nameColumn);
+            TransportersGrid.Columns.Add(nameColumn);
             var salesConfirmationsColumn = BuildReadOnlyTextColumn("Conf.Vendita", "NumberOfSalesConfirmations", 20);
-            CustomersGrid.Columns.Add(salesConfirmationsColumn);
+            TransportersGrid.Columns.Add(salesConfirmationsColumn);
             var loadingDocumentsColumn = BuildReadOnlyTextColumn("Dist.Carico", "NumberOfLoadingDocuments", 20);
-            CustomersGrid.Columns.Add(loadingDocumentsColumn);
+            TransportersGrid.Columns.Add(loadingDocumentsColumn);
             var priceConfirmationsColumn = BuildReadOnlyTextColumn("Conf.Prezzi", "NumberOfPriceConfirmations", 20);
-            CustomersGrid.Columns.Add(priceConfirmationsColumn);
+            TransportersGrid.Columns.Add(priceConfirmationsColumn);
         }
 
-        private void SetDeleteButtonBindings(CustomersWindowGridViewModel viewModel)
+        private void SetDeleteButtonBindings(TransporterWindowGridViewModel viewModel)
         {
-            SetButtonBinding(viewModel, DeleteButton, "DeleteCustomer", viewModel.DeleteCustomer);
+            SetButtonBinding(viewModel, DeleteButton, "DeleteTransporter", viewModel.DeleteTransporter);
             DeleteButton.SetBinding(IsEnabledProperty, new Binding("DeleteButtonEnabled"));
         }
 
-        private void SetSaveButtonBindings(CustomersWindowGridViewModel viewModel)
+        private void SetSaveButtonBindings(TransporterWindowGridViewModel viewModel)
         {
             SetButtonBinding(viewModel, SaveButton, "Save", viewModel.Save);
             SaveButton.SetBinding(IsEnabledProperty, new Binding("SaveButtonEnabled"));
         }
 
-        private void SetAddCustomerButtonBinding(CustomersWindowGridViewModel viewModel)
+        private void SetAddCustomerButtonBinding(TransporterWindowGridViewModel viewModel)
         {
             SetButtonBinding(viewModel, AddButton, "CreateNew", viewModel.CreateNew);
             AddButton.Click += AddButton_Click;
@@ -110,15 +109,15 @@ namespace PosizioniRoverfrutta.Windows
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            CustomersGrid.UnselectAll();
+            TransportersGrid.UnselectAll();
         }
 
-        private void SetPreviousPageButtonBindings(CustomersWindowGridViewModel viewModel)
+        private void SetPreviousPageButtonBindings(TransporterWindowGridViewModel viewModel)
         {
             SetButtonBinding(viewModel, PreviousPageButton, "PreviousPage", viewModel.PreviousPage);
         }
 
-        private void SetNextPageButtonBindings(CustomersWindowGridViewModel viewModel)
+        private void SetNextPageButtonBindings(TransporterWindowGridViewModel viewModel)
         {
             SetButtonBinding(viewModel, NextPageButton, "NextPage", viewModel.NextPage);
         }
@@ -133,12 +132,12 @@ namespace PosizioniRoverfrutta.Windows
             checkBoxControl.SetBinding(ToggleButton.IsCheckedProperty, myBinding);
         }
 
-        private void SetDataGridBinding(CustomersWindowGridViewModel viewModel)
+        private void SetDataGridBinding(TransporterWindowGridViewModel viewModel)
         {
-            CustomersGrid.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            TransportersGrid.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
             {
                 Source = viewModel,
-                Path = new PropertyPath("CustomersList"),
+                Path = new PropertyPath("TransportersList"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
             });
         }
@@ -166,7 +165,7 @@ namespace PosizioniRoverfrutta.Windows
 
         private void CustomersWindow_Activated(object sender, EventArgs e)
         {
-            ((CustomersWindowGridViewModel)DataContext).Refresh.Execute(null);
+            ((TransporterWindowGridViewModel)DataContext).Refresh.Execute(null);
         }
     }
 }

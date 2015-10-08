@@ -233,6 +233,9 @@
     <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
       <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TransportersWindow.xaml.cs">
+      <DependentUpon>TransportersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>
@@ -297,6 +300,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SummaryAndInvoicesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TransportersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
