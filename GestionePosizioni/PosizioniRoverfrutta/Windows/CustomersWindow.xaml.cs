@@ -43,15 +43,17 @@ namespace PosizioniRoverfrutta.Windows
             var viewModel = new CustomersWindowGridViewModel(dataStorage, windowManager);
             this.DataContext = viewModel;
 
-            SetBindingsForTextBox("CompanyName", CompanyNameBox);
-            SetBindingsForTextBox("Address", Address);
-            SetBindingsForTextBox("City", City);
-            SetBindingsForTextBox("StateOrProvince", County);
-            SetBindingsForTextBox("PostCode", PostalCode);
-            SetBindingsForTextBox("Country", Country);
-            SetBindingsForTextBox("VatCode", VatCode);
-            SetBindingsForTextBox("EmailAddress", EmailAddress);
+            SetBindingsForTextBox("SearchBox", SearchBox);
+            SetBindingsAndStatusForTextBox("CompanyName", CompanyNameBox);
+            SetBindingsAndStatusForTextBox("Address", Address);
+            SetBindingsAndStatusForTextBox("City", City);
+            SetBindingsAndStatusForTextBox("StateOrProvince", County);
+            SetBindingsAndStatusForTextBox("PostCode", PostalCode);
+            SetBindingsAndStatusForTextBox("Country", Country);
+            SetBindingsAndStatusForTextBox("VatCode", VatCode);
+            SetBindingsAndStatusForTextBox("EmailAddress", EmailAddress);
             SetBindingsForCheckBox("DoNotApplyVat", DoNotApplyVatCheckBox);
+            DoNotApplyVatCheckBox.SetBinding(IsEnabledProperty, new Binding("EditControlsEnabled"));
 
             SetAddCustomerButtonBinding(viewModel);
             SetSaveButtonBindings(viewModel);
@@ -76,6 +78,12 @@ namespace PosizioniRoverfrutta.Windows
                 selectedId = customerRow.Id;
             }
             ((CustomersWindowGridViewModel)DataContext).LoadSelectedCustomer(selectedId);
+        }
+
+        private void SetBindingsAndStatusForTextBox(string property, TextBox control)
+        {
+            SetBindingsForTextBox(property, control);
+            control.SetBinding(IsEnabledProperty, new Binding("EditControlsEnabled"));
         }
 
         private void BuildDataGridColumns()

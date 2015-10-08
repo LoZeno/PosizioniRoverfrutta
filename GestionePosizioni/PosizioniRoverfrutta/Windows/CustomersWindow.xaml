@@ -33,7 +33,7 @@
                         <GradientStop Color="LightBlue" Offset="1.0"></GradientStop>
                     </LinearGradientBrush>
                 </StackPanel.Background>
-                <Label Name="StatusLabel" Content="Status"/>
+                <Label Name="StatusLabel" Content="E` possibile eliminare soltanto clienti non utilizzati in nessun documento"/>
             </StackPanel>
             <Grid VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>

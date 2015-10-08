@@ -144,6 +144,8 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool SaveButtonEnabled { get; private set; }
 
+        public bool EditControlsEnabled { get { return _selectedCustomer != null; } }
+
         public ICommand NextPage
         {
             get { return nextPageCommand ?? (nextPageCommand = new DelegateCommand(IncreaseSkip)); } 
@@ -216,11 +218,13 @@ namespace PosizioniRoverfrutta.ViewModels
                 using (var session = _dataStorage.CreateSession())
                 {
                     _selectedCustomer = session.Load<Customer>(selectedCustomerId);
+                    OnPropertyChanged("EditControlsEnabled");
                 }
             }
             else
             {
                 _selectedCustomer = null;
+                OnPropertyChanged("EditControlsEnabled");
             }
 
             OnPropertyChanged("CompanyName");
@@ -252,9 +256,11 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void SaveAndRefresh()
         {
+            string name = CompanyName;
             SaveSelectedCustomer();
             LoadSelectedCustomer(null);
             LoadAllData();
+            _windowManager.PopupMessage(string.Format("Cliente {0} salvato correttamente", name), "Cliente salvato");
         }
 
         private void SaveSelectedCustomer()
@@ -269,6 +275,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private void CreateNewCustomer()
         {
             _selectedCustomer = new Customer();
+            OnPropertyChanged("EditControlsEnabled");
             OnPropertyChanged("CompanyName");
             OnPropertyChanged("Address");
             OnPropertyChanged("City");
@@ -284,6 +291,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void DeleteSelectedCustomer()
         {
+            string name = _selectedCustomer.CompanyName;
             using (var session = _dataStorage.CreateSession())
             {
                 var itemToDelete = session.Load<Customer>(_selectedCustomer.Id);
@@ -291,6 +299,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 session.SaveChanges();
             }
             LoadAllData();
+            _windowManager.PopupMessage(string.Format("Cliente {0} cancellato dal database", name), "Cliente eliminato");
         }
 
         private void IncreaseSkip()

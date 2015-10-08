@@ -355,6 +355,28 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_viewModel.CustomersList.Any(x => x.Id.Equals(selectedCustomerId)), Is.False);
         }
 
+        [Test]
+        public void when_selected_customer_is_null_edit_controls_are_disabled()
+        {
+            _viewModel.LoadSelectedCustomer(null);
+            Assert.That(_viewModel.EditControlsEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_selected_customer_is_new_customer_edit_controls_are_enabled()
+        {
+            _viewModel.CreateNew.Execute(null);
+            Assert.That(_viewModel.EditControlsEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_selected_customer_is_existing_customer_edit_controls_are_enabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.EditControlsEnabled, Is.True);
+        }
+
         private void InsertInitialData()
         {
             using (var session = _dataStorage.CreateSession())
