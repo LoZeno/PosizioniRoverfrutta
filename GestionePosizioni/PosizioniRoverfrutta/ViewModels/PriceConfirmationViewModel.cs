@@ -493,7 +493,7 @@ namespace PosizioniRoverfrutta.ViewModels
                         Status = "Documento numero " + value + " caricato correttamente";
                         canSave = true;
                         canUseActions = false;
-                        _windowManager.PopupMessage(string.Format("Conferma di vendita numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Conferma Prezzi creata");
+                        _windowManager.PopupMessage(string.Format("Conferma prezzi numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Conferma Prezzi creata");
                     }
                     else
                     {
