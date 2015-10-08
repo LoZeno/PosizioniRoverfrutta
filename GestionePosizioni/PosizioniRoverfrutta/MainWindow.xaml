@@ -52,7 +52,7 @@
                 <StackPanel Orientation="Vertical">
                     <Button Name="CustomersButton" Padding="5" Margin="3" Click="CustomersButton_OnClick">Elenco Clienti</Button>
                     <Button Name="TransportersButton" Padding="5" Margin="3" Click="TransportersButton_OnClick">Elenco Trasportatori</Button>
-                    <Button Name="ProductsButton" Padding="5" Margin="3" Click="ProductsButton_OnClick">Elenco Prodotti</Button>
+                    <!--<Button Name="ProductsButton" Padding="5" Margin="3" Click="ProductsButton_OnClick">Elenco Prodotti</Button>-->
                 </StackPanel>
             </GroupBox>
         </StackPanel>

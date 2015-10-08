@@ -70,7 +70,7 @@
                         </DataGrid>
                     </DockPanel>
 
-                    <Grid Margin="5,0,5,0" MaxWidth="300" MaxHeight="500" MinHeight="300" Grid.Column="1">
+                    <Grid Margin="5,0,5,0" MaxWidth="300" Height="350" Grid.Column="1">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
