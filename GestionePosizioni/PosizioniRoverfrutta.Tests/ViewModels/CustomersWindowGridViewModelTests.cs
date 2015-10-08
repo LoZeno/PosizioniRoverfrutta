@@ -162,7 +162,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         }
 
         [Test]
-        public void when_editing_a_company_and_clicking_save_it_refreshes_the_data_in_the_grid()
+        public void when_editing_a_company_and_clicking_save_it_refreshes_the_data_in_the_grid_and_empties_the_editing_controls()
         {
             var selectedCustomerId = _viewModel.CustomersList[0].Id;
             _viewModel.LoadSelectedCustomer(selectedCustomerId);
@@ -170,6 +170,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
             _viewModel.Save.Execute(null);
             Assert.That(_viewModel.CustomersList.Any(c => c.CompanyName.Equals("AAA New Company Name")), Is.True);
+            Assert.That(string.IsNullOrWhiteSpace(_viewModel.CompanyName), Is.True);
         }
 
         [Test]
@@ -343,6 +344,15 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _viewModel.CreateNew.Execute(null);
             _viewModel.CompanyName = "Somethingsomething";
             Assert.That(_viewModel.DeleteButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_the_delete_button_is_pressed_it_deletes_the_customer_and_refresh_the_grid()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            _viewModel.DeleteCustomer.Execute(null);
+            Assert.That(_viewModel.CustomersList.Any(x => x.Id.Equals(selectedCustomerId)), Is.False);
         }
 
         private void InsertInitialData()

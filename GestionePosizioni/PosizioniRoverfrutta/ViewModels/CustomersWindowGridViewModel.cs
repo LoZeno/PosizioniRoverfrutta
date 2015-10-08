@@ -169,6 +169,11 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return createCommand ?? (createCommand = new DelegateCommand(CreateNewCustomer)); }
         }
 
+        public ICommand DeleteCustomer
+        {
+            get { return deleteCommand ?? (deleteCommand = new DelegateCommand(DeleteSelectedCustomer)); }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -179,6 +184,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedCustomer?.CompanyName)))
                 {
                     SaveButtonEnabled = true;
+                    OnPropertyChanged("SaveButtonEnabled");
                 }
             }
         }
@@ -247,6 +253,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private void SaveAndRefresh()
         {
             SaveSelectedCustomer();
+            LoadSelectedCustomer(null);
             LoadAllData();
         }
 
@@ -273,6 +280,17 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("DoNotApplyVat");
             DeleteButtonEnabled = false;
             OnPropertyChanged("DeleteButtonEnabled");
+        }
+
+        private void DeleteSelectedCustomer()
+        {
+            using (var session = _dataStorage.CreateSession())
+            {
+                var itemToDelete = session.Load<Customer>(_selectedCustomer.Id);
+                session.Delete<Customer>(itemToDelete);
+                session.SaveChanges();
+            }
+            LoadAllData();
         }
 
         private void IncreaseSkip()
@@ -307,5 +325,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand refreshCommand;
         private ICommand saveCommand;
         private ICommand createCommand;
+        private ICommand deleteCommand;
     }
 }

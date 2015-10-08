@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         Title="Anagrafica Clienti e Fornitori" MinHeight="300" MinWidth="300"
-                    Height="460" Width="900">
+                    Height="600" Width="900">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -40,7 +40,7 @@
                     <RowDefinition Name="SearchRow" Height="35"></RowDefinition>
                     <RowDefinition Name="MainRow"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Row="0" Margin="5">
                     <TextBlock Text="Cerca cliente" Foreground="{StaticResource brushWatermarkForeground}"
                        Visibility="{Binding ElementName=SearchBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -48,17 +48,111 @@
                         <TextBox Name="SearchBox" Background="Transparent"/>
                     </AdornerDecorator>
                 </Grid>
-                
+
                 <Grid Grid.Row="1" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Name="DatagridColumn" Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Name="DatagridColumn" Width="1.5*"></ColumnDefinition>
                         <ColumnDefinition Name="DetailsColumn" Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <DataGrid Name="CustomersGrid" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True" MinHeight="100" AutoGenerateColumns="False"></DataGrid>
+                    <DockPanel LastChildFill="True" Grid.Column="0">
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Button Margin="3" Name="PreviousPageButton">
+                                <TextBlock>&lt;&lt;</TextBlock>
+                            </Button>
+                            <Button Margin="3" Name="NextPageButton">
+                                <TextBlock>>></TextBlock>
+                            </Button>
+                        </StackPanel>
+                        <DataGrid Name="CustomersGrid" Grid.Row="0" VerticalAlignment="Stretch" SelectionMode="Single" IsReadOnly="True" MinHeight="100" AutoGenerateColumns="False">
+                        </DataGrid>
+                    </DockPanel>
+
+                    <Grid Margin="5,0,5,0" MaxWidth="300" MaxHeight="500" MinHeight="300" Grid.Column="1">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Nome/Ragione Sociale" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Via/Piazza/Città" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=Address, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="Address" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="CAP" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=PostalCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="PostalCode" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="3" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Località" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=City, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="City" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="4" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Provincia" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=County, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="County" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="5" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Nazione" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=Country, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="Country" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="6" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Partita IVA/C. Fiscale" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=VatCode, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="VatCode" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="7" Style="{StaticResource EntryFieldStyle}">
+                            <TextBlock Text="Email" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=EmailAddress, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <AdornerDecorator>
+                                <TextBox Name="EmailAddress" Background="Transparent"/>
+                            </AdornerDecorator>
+                        </Grid>
+
+                        <Grid Grid.Row="8" Style="{StaticResource EntryFieldStyle}">
+                            <CheckBox Name="DoNotApplyVatCheckBox" FlowDirection="LeftToRight" Background="Transparent">
+                                <TextBlock Text="Azienda Estera (Non applica IVA)"></TextBlock>
+                            </CheckBox>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                
             </Grid>
-            
         </DockPanel>
     </Grid>
 </windows:BaseWindow>
