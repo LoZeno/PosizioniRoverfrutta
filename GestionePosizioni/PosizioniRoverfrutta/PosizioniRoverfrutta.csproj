@@ -209,6 +209,7 @@
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
+    <Compile Include="ViewModels\TransporterWindowGridViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
     <Compile Include="Windows\CustomersWindow.xaml.cs">
       <DependentUpon>CustomersWindow.xaml</DependentUpon>

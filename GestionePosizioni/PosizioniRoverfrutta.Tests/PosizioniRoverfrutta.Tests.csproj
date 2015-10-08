@@ -100,6 +100,7 @@
     <Compile Include="ViewModels\LoadingDocumentViewModelTests.cs" />
     <Compile Include="ViewModels\PriceConfirmationViewModelTests.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModelTests.cs" />
+    <Compile Include="ViewModels\TransporterWindowGridViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
