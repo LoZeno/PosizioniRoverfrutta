@@ -82,11 +82,11 @@ namespace PosizioniRoverfrutta.Windows
             CustomersGrid.Columns.Add(idColumn);
             var nameColumn = BuildReadOnlyTextColumn("Nome", "CompanyName", 40);
             CustomersGrid.Columns.Add(nameColumn);
-            var salesConfirmationsColumn = BuildReadOnlyTextColumn("Conf.Vendita", "NumberOfSalesConfirmations", 20);
+            var salesConfirmationsColumn = BuildReadOnlyTextColumn("N° Conf.Vendita", "NumberOfSalesConfirmations", 20);
             CustomersGrid.Columns.Add(salesConfirmationsColumn);
-            var loadingDocumentsColumn = BuildReadOnlyTextColumn("Dist.Carico", "NumberOfLoadingDocuments", 20);
+            var loadingDocumentsColumn = BuildReadOnlyTextColumn("N° Dist.Carico", "NumberOfLoadingDocuments", 20);
             CustomersGrid.Columns.Add(loadingDocumentsColumn);
-            var priceConfirmationsColumn = BuildReadOnlyTextColumn("Conf.Prezzi", "NumberOfPriceConfirmations", 20);
+            var priceConfirmationsColumn = BuildReadOnlyTextColumn("N° Conf.Prezzi", "NumberOfPriceConfirmations", 20);
             CustomersGrid.Columns.Add(priceConfirmationsColumn);
         }
 

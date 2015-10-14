@@ -179,8 +179,8 @@ namespace PosizioniRoverfrutta.ViewModels
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedCustomer"))
             {
                 if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedCustomer?.CompanyName)))

@@ -49,20 +49,20 @@ namespace QueryManager.Indexes
                  );
 
             AddMap<LoadingDocument>(
-                saleConfirmations => from sc in saleConfirmations
+                loadingDocuments => from ld in loadingDocuments
                                      select new CustomerRow
                                      {
-                                         Id = sc.Customer.Id,
+                                         Id = ld.Customer.Id,
                                          CompanyName = string.Empty,
                                          NumberOfSalesConfirmations = 0,
                                          NumberOfLoadingDocuments = 1,
                                          NumberOfPriceConfirmations = 0
                                      });
             AddMap<LoadingDocument>(
-                saleConfirmations => from sc in saleConfirmations
+                loadingDocuments => from ld in loadingDocuments
                                      select new CustomerRow
                                      {
-                                         Id = sc.Provider.Id,
+                                         Id = ld.Provider.Id,
                                          CompanyName = string.Empty,
                                          NumberOfSalesConfirmations = 0,
                                          NumberOfLoadingDocuments = 1,
@@ -71,20 +71,20 @@ namespace QueryManager.Indexes
                  );
 
             AddMap<PriceConfirmation>(
-                saleConfirmations => from sc in saleConfirmations
+                priceConfirmations => from pc in priceConfirmations
                                      select new CustomerRow
                                      {
-                                         Id = sc.Customer.Id,
+                                         Id = pc.Customer.Id,
                                          CompanyName = string.Empty,
                                          NumberOfSalesConfirmations = 0,
                                          NumberOfLoadingDocuments = 0,
                                          NumberOfPriceConfirmations = 1
                                      });
             AddMap<PriceConfirmation>(
-                saleConfirmations => from sc in saleConfirmations
+                priceConfirmations => from pc in priceConfirmations
                                      select new CustomerRow
                                      {
-                                         Id = sc.Provider.Id,
+                                         Id = pc.Provider.Id,
                                          CompanyName = string.Empty,
                                          NumberOfSalesConfirmations = 0,
                                          NumberOfLoadingDocuments = 0,
