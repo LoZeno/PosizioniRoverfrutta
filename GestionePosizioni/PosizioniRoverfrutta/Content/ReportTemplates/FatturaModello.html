@@ -220,9 +220,10 @@
         </tr>
         @if(Model.Customer.DoNotApplyVat)
 	{
-	<tr>
-	    <td colspan="3" style="height: 1em;"></td>
-	</tr>
+    <tr>
+        <td class="largeColumn">da @Model.StartDateString a @Model.EndDateString</td>
+        <td colspan="2"></td>
+    </tr>
 	<tr>
 	    <td class="largeColumn">'Operazione non soggetta' ai sensi dell'art. 7-ter, DPR 633/72 e soggetta ad 'inversione contabile'</td>
 	    <td colspan="2"></td>
@@ -231,7 +232,7 @@
 	else
         {
         <tr>
-            <td class="largeColumn"></td>
+            <td class="largeColumn">per il periodo da @Model.StartDateString a @Model.EndDateString</td>
             <td class="centralColumn">I.V.A. @Model.InvoiceVat %</td>
             <td class="numbersColumn underlineCell">@Model.CalculatedInvoiceVat</td>
         </tr>
