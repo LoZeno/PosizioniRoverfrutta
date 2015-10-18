@@ -43,7 +43,7 @@ namespace PosizioniRoverfrutta.Windows
                 Source = viewModel,
                 Path = new PropertyPath("CustomerName"),
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.TwoWay
+                Mode = BindingMode.OneWayToSource
             };
             CompanyNameBox.SetBinding(AutoCompleteBox.TextProperty, companyNameBinding);
 
@@ -53,8 +53,8 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForPriceTotals("CommissionsTotal", CommissionsBlock);
             SetBindingsForNumericTextBox("InvoiceVat", InvoiceVatTextBox);
             SetBindingsForPriceTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
-            SetBindingsForPriceTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
+            SetBindingsForPriceTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForPriceTotals("CalculatedWitholding", WitholdingTextBlock);
             SetBindingsForPriceTotals("NetAmount", NetAmountTextBlock);
             SetBindingsForNumericTextBox("InvoiceNumber", InvoiceNumberBox);
