@@ -17,6 +17,11 @@
         <Setter Property="Background" Value="{StaticResource brushWatermarkBackground}"></Setter>
     </Style>
 
+    <Style TargetType="ListBoxItem">
+        <Setter Property="Background" Value="AliceBlue"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
 
     <Style TargetType="{x:Type Control}" x:Key="baseStyle">
         <Setter Property="FontSize" Value="14" />
@@ -34,6 +39,6 @@
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}"></Style>
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource baseStyle}"></Style>
     <Style TargetType="{x:Type controls:AutoCompleteBox}" BasedOn="{StaticResource baseStyle}"></Style>
-    <Style TargetType="{x:Type toolkit:AutoCompleteBoxAsync}" BasedOn="{StaticResource baseStyle}"></Style>
+    <Style TargetType="{x:Type toolkit:AutoCompleteBoxAsync}"  BasedOn="{StaticResource baseStyle}"></Style>
 
 </ResourceDictionary>

@@ -9,6 +9,7 @@ namespace PosizioniRoverfrutta.CustomControls
         public ProductDescriptionAutocompleteBoxWrapper()
             :base()
         {
+            this.IsTextCompletionEnabled = true;
             DataProvider = new ProductNamesAutoCompleteBoxProvider(((App)Application.Current).DataStorage);
         }
     }

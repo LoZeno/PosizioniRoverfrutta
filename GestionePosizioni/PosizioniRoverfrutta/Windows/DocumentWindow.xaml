@@ -134,7 +134,7 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" FontStyle="Italic">Condizioni di pagamento</TextBlock>
-                            <toolkit:AutoCompleteBoxAsync Grid.Row="1" Grid.Column="0" Name="TermsOfPayment"></toolkit:AutoCompleteBoxAsync>
+                            <toolkit:AutoCompleteBoxAsync Grid.Row="1" Grid.Column="0" Name="TermsOfPayment" IsTextCompletionEnabled="True"></toolkit:AutoCompleteBoxAsync>
 
                             <TextBlock Grid.Row="0" Grid.Column="1" FontWeight="Bold" FontStyle="Italic">Sconto in Fattura (%)</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="1" Name="Discount"></TextBox>
