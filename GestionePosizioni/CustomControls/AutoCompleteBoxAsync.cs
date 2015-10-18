@@ -8,6 +8,7 @@ namespace CustomWPFControls
     {
         public AutoCompleteBoxAsync()
         {
+            this.FilterMode = AutoCompleteFilterMode.None;
             this.Populating += AutoCompleteBoxAsync_Populating;
         }
 
