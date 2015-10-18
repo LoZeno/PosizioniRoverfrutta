@@ -26,7 +26,7 @@ namespace QueryManager.Indexes
                     select new ProductRow
                     {
                         Id = singleProduct.ProductId.ToString(),
-                        Description = string.Empty,
+                        Description = singleProduct.Description,
                         NumberOfSalesConfirmations = 1,
                         NumberOfLoadingDocuments = 0,
                         NumberOfPriceConfirmations = 0
@@ -38,7 +38,7 @@ namespace QueryManager.Indexes
                     select new ProductRow
                     {
                         Id = singleProduct.ProductId.ToString(),
-                        Description = string.Empty,
+                        Description = singleProduct.Description,
                         NumberOfSalesConfirmations = 0,
                         NumberOfLoadingDocuments = 1,
                         NumberOfPriceConfirmations = 0
@@ -50,7 +50,7 @@ namespace QueryManager.Indexes
                     select new ProductRow
                     {
                         Id = singleProduct.ProductId.ToString(),
-                        Description = string.Empty,
+                        Description = singleProduct.Description,
                         NumberOfSalesConfirmations = 0,
                         NumberOfLoadingDocuments = 0,
                         NumberOfPriceConfirmations = 1

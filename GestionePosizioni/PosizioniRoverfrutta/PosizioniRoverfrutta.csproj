@@ -228,6 +228,9 @@
     <Compile Include="Windows\PriceConfirmationWindow.xaml.cs">
       <DependentUpon>PriceConfirmationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ProductsWindow.xaml.cs">
+      <DependentUpon>ProductsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SendGmailAttachment.xaml.cs">
       <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PriceConfirmationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProductsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

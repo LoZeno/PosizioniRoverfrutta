@@ -281,7 +281,7 @@ namespace PosizioniRoverfrutta
 
         private void ProductsButton_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            _windowsManager.InstantiateWindow("new", WindowTypes.AnagraficaProdotti);
         }
     }
 }
