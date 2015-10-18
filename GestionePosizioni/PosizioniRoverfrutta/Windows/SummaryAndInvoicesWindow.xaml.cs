@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using CustomWPFControls;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -31,12 +32,11 @@ namespace PosizioniRoverfrutta.Windows
             :base(windowManager, dataStorage)
         {
             InitializeComponent();
+            var viewModel = new SummaryAndInvoiceViewModel(dataStorage, WindowManager);
+            DataContext = viewModel;
 
             var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
             CompanyNameBox.DataProvider = companyDataProvider;
-
-            var viewModel = new SummaryAndInvoiceViewModel(dataStorage, WindowManager);
-            DataContext = viewModel;
 
             var companyNameBinding = new Binding
             {

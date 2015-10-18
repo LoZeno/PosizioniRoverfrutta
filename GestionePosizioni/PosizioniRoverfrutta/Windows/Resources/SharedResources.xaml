@@ -33,7 +33,7 @@
     <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource baseStyle}"></Style>
     <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource baseStyle}"></Style>
     <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource baseStyle}"></Style>
-    <Style TargetType="{x:Type toolkit:AutoCompleteBoxAsync}" BasedOn="{StaticResource baseStyle}"></Style>
     <Style TargetType="{x:Type controls:AutoCompleteBox}" BasedOn="{StaticResource baseStyle}"></Style>
+    <Style TargetType="{x:Type toolkit:AutoCompleteBoxAsync}" BasedOn="{StaticResource baseStyle}"></Style>
 
 </ResourceDictionary>
