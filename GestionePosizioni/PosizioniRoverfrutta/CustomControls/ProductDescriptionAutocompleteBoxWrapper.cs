@@ -1,17 +1,15 @@
 ﻿using System.Windows;
-using dragonz.actb.control;
+using CustomWPFControls;
 using PosizioniRoverfrutta.Services;
 
 namespace PosizioniRoverfrutta.CustomControls
 {
-    public class ProductDescriptionAutocompleteBoxWrapper : AutoCompleteComboBox
+    public class ProductDescriptionAutocompleteBoxWrapper : AutoCompleteBoxAsync
     {
         public ProductDescriptionAutocompleteBoxWrapper()
             :base()
         {
-            AutoCompleteManager.DataProvider = new ProductNamesAutoCompleteBoxProvider(((App)Application.Current).DataStorage);
-            AutoCompleteManager.Asynchronous = true;
-            AutoCompleteManager.AutoAppend = true;
+            DataProvider = new ProductNamesAutoCompleteBoxProvider(((App)Application.Current).DataStorage);
         }
     }
 }

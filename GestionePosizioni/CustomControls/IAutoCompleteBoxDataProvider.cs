@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace dragonz.actb.provider
+namespace CustomWPFControls
 {
-    public interface IAutoCompleteDataProvider
+    public interface IAutoCompleteBoxDataProvider
     {
         IEnumerable<string> GetItems(string textPattern);
     }

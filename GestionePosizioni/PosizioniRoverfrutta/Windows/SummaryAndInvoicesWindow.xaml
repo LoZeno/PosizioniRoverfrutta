@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
-        xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+        xmlns:toolkit="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
         Title="Riepiloghi e Fatture" Height="800" Width="800" Left="301"
         MinWidth="600" MinHeight="400">
     <Window.Resources>
@@ -54,7 +54,7 @@
                         <TextBlock Text="Digita il nome del cliente per cercare" Foreground="{StaticResource brushWatermarkForeground}"
                        Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <AdornerDecorator>
-                            <control:AutoCompleteTextBox Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
+                            <toolkit:AutoCompleteBoxAsync Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
                         </AdornerDecorator>
                     </Grid>
                     

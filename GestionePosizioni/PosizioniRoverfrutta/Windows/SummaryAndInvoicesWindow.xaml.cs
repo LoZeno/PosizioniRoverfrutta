@@ -33,8 +33,7 @@ namespace PosizioniRoverfrutta.Windows
             InitializeComponent();
 
             var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
-            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
-            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
+            CompanyNameBox.DataProvider = companyDataProvider;
 
             var viewModel = new SummaryAndInvoiceViewModel(dataStorage, WindowManager);
             DataContext = viewModel;
@@ -46,7 +45,7 @@ namespace PosizioniRoverfrutta.Windows
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.TwoWay
             };
-            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
+            CompanyNameBox.SetBinding(AutoCompleteBox.TextProperty, companyNameBinding);
 
             SetBindingsForDatePickers("StartDate", FromDatePicker);
             SetBindingsForDatePickers("EndDate", ToDatePicker);

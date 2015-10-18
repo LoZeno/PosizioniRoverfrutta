@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:watermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.WatermarkAdorner"
-        xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+        xmlns:customControls="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
         Title="Posizioni Roverfrutta - Menu" MinHeight="450" Height="460" Width="900" MinWidth="450"
         Left="0" Top="0"
         Icon="Content/Pictures/Logo/Shield.png"
@@ -62,7 +62,7 @@
                     <Grid Style="{StaticResource EntryFieldStyle}">
                         <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <AdornerDecorator>
-                            <control:AutoCompleteTextBox Name="CompanyNameBox" Background="Transparent" />
+                            <customControls:AutoCompleteBoxAsync Name="CompanyNameBox" Background="Transparent"></customControls:AutoCompleteBoxAsync>
                         </AdornerDecorator>
                     </Grid>
                 </GroupBox>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{2EF21D46-0DC4-4AB1-B7F9-0A097A98B8B6}"
 EndProject
@@ -20,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9E3C4E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B7BFD0CB-8EB5-4F7E-B73D-A3E4CE5B952C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragonz.actb", "dragonz.actb\dragonz.actb.csproj", "{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosizioniRoverfrutta", "PosizioniRoverfrutta\PosizioniRoverfrutta.csproj", "{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosizioniRoverfrutta.Tests", "PosizioniRoverfrutta.Tests\PosizioniRoverfrutta.Tests.csproj", "{1F4B38A4-970E-4C07-8FCA-2633EA5FFC42}"
@@ -33,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailWrapper", "MailWrapper\MailWrapper.csproj", "{F66A19A9-032E-403D-ABB5-3DA27979A8A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mapi.Integration.Test", "Mapi.Integration.Test\Mapi.Integration.Test.csproj", "{105C73CB-2A77-421F-AD8B-26B00A1F42C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWPFControls", "CustomControls\CustomWPFControls.csproj", "{805924BD-9107-4951-A262-E18D85D6F145}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,16 +76,6 @@ Global
 		{7E0509B2-AD1C-4299-9964-F5408ADF85DB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E0509B2-AD1C-4299-9964-F5408ADF85DB}.Release|x86.ActiveCfg = Release|x86
 		{7E0509B2-AD1C-4299-9964-F5408ADF85DB}.Release|x86.Build.0 = Release|x86
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Debug|x86.Build.0 = Debug|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Publish|Any CPU.Build.0 = Publish|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Publish|x86.ActiveCfg = Publish|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89BC47C7-F14D-46C5-8B9B-0DB90CE2AC42}.Release|x86.ActiveCfg = Release|Any CPU
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26685DAD-B4A7-4D9A-A35A-CA4A8DF87DE5}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -143,6 +133,18 @@ Global
 		{105C73CB-2A77-421F-AD8B-26B00A1F42C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{105C73CB-2A77-421F-AD8B-26B00A1F42C5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{105C73CB-2A77-421F-AD8B-26B00A1F42C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Debug|x86.Build.0 = Debug|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Publish|x86.ActiveCfg = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Publish|x86.Build.0 = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Release|x86.ActiveCfg = Release|Any CPU
+		{805924BD-9107-4951-A262-E18D85D6F145}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

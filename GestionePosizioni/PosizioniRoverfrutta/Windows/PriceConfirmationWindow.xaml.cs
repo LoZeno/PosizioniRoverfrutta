@@ -136,16 +136,14 @@ namespace PosizioniRoverfrutta.Windows
         private void SetBindingForTermsOfPaymentAutocomplete()
         {
             var provider = new TermsOfPaymentAutoCompleteBoxProvider(DataStorage);
-            TermsOfPayment.AutoCompleteManager.DataProvider = provider;
-            TermsOfPayment.AutoCompleteManager.Asynchronous = true;
-            TermsOfPayment.AutoCompleteManager.AutoAppend = true;
+            TermsOfPayment.DataProvider = provider;
 
             var binding = new Binding("TermsOfPayment")
             {
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.TwoWay
             };
-            TermsOfPayment.SetBinding(ComboBox.TextProperty, binding);
+            TermsOfPayment.SetBinding(AutoCompleteBox.TextProperty, binding);
         }
 
         private void SetStatusBinding()

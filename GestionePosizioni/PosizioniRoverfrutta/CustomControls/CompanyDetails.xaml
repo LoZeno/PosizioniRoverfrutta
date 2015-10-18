@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+             xmlns:toolkit="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
              xmlns:xamlWatermarkAdorner="clr-namespace:PosizioniRoverfrutta.CustomControls.XamlWatermarkAdorner"
              mc:Ignorable="d" 
              MinHeight="150"
@@ -50,7 +50,7 @@
             <TextBlock Text="Digita il nome per cercare" Foreground="{StaticResource brushWatermarkForeground}"
                        Visibility="{Binding ElementName=CompanyNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <AdornerDecorator>
-                <control:AutoCompleteTextBox Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
+                <toolkit:AutoCompleteBoxAsync Name="CompanyNameBox" MinWidth="80" Background="Transparent" />
             </AdornerDecorator>
         </Grid>
 
