@@ -59,12 +59,12 @@ namespace QueryManager.Indexes
 
 
             Reduce = rows => from row in rows
-                group row by new { Id = row.Id }
+                group row by new { Description = row.Description }
                 into summaryRow
                 select new ProductRow
                 {
-                    Id = summaryRow.Key.Id,
-                    Description = summaryRow.Max(sr => sr.Description),
+                    Id = summaryRow.Min(sr => sr.Id),
+                    Description = summaryRow.Key.Description,
                     NumberOfSalesConfirmations = summaryRow.Sum(sr => sr.NumberOfSalesConfirmations),
                     NumberOfLoadingDocuments = summaryRow.Sum(sr => sr.NumberOfLoadingDocuments),
                     NumberOfPriceConfirmations = summaryRow.Sum(sr => sr.NumberOfPriceConfirmations),
