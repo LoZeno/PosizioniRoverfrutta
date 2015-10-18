@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WindowsAzure.Storage.2.0.6.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -92,8 +95,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CustomerControlViewModelTests.cs" />
+    <Compile Include="ViewModels\CustomersWindowGridViewModelTests.cs" />
     <Compile Include="ViewModels\ListPositionsVIewModelTests.cs" />
+    <Compile Include="ViewModels\LoadingDocumentViewModelTests.cs" />
+    <Compile Include="ViewModels\PriceConfirmationViewModelTests.cs" />
+    <Compile Include="ViewModels\ProductsWindowGridViewModelTests.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModelTests.cs" />
+    <Compile Include="ViewModels\TransporterWindowGridViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

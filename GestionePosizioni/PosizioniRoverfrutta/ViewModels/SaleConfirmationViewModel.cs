@@ -17,7 +17,7 @@ using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
-using ReportManager;
+using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -30,6 +30,10 @@ namespace PosizioniRoverfrutta.ViewModels
             CompanyControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
+
+            CompanyControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            ProviderControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            TransporterControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
 
             SaleConfirmation = new SaleConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
@@ -58,6 +62,9 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
+                SaveButtonEnabled = false;
+                ActionButtonsEnabled = true;
+                ReloadButtonEnabled = false;
             }
         }
 
@@ -172,6 +179,7 @@ namespace PosizioniRoverfrutta.ViewModels
             }
 
         }
+
         public string Lot
         {
             get { return SaleConfirmation.Lot; }
@@ -182,6 +190,7 @@ namespace PosizioniRoverfrutta.ViewModels
             }
 
         }
+
         public string OrderCode
         {
             get { return SaleConfirmation.OrderCode; }
@@ -228,6 +237,36 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool SaveButtonEnabled 
+        { 
+            get { return _saveButtonEnabled; }
+            private set
+            {
+                _saveButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ActionButtonsEnabled
+        {
+            get { return _actionButtonsEnabled; }
+            private set
+            {
+                _actionButtonsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ReloadButtonEnabled
+        {
+            get { return _reloadButtonEnabled; }
+            private set
+            {
+                _reloadButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -263,6 +302,9 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
+                SaveButtonEnabled = false;
+                ActionButtonsEnabled = false;
+                ReloadButtonEnabled = false;
             } 
         }
 
@@ -332,28 +374,33 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                var newModel = new SaleConfirmation();
-                newModel.Customer = SaleConfirmation.Customer;
-                newModel.CustomerCommission = SaleConfirmation.CustomerCommission;
-                newModel.DeliveryDate = SaleConfirmation.DeliveryDate;
-                newModel.DeliveryEx = SaleConfirmation.DeliveryEx;
-                newModel.DocumentDate = SaleConfirmation.DocumentDate;
-                newModel.InvoiceDiscount = SaleConfirmation.InvoiceDiscount;
-                newModel.Lot = SaleConfirmation.Lot;
-                newModel.Notes = SaleConfirmation.Notes;
-                newModel.OrderCode = SaleConfirmation.OrderCode;
-                newModel.ProductDetails = SaleConfirmation.ProductDetails;
-                newModel.Provider = SaleConfirmation.Provider;
-                newModel.ProviderCommission = SaleConfirmation.ProviderCommission;
-                newModel.Rental = SaleConfirmation.Rental;
-                newModel.ShippingDate = SaleConfirmation.ShippingDate;
-                newModel.TermsOfPayment = SaleConfirmation.TermsOfPayment;
-                newModel.Transporter = SaleConfirmation.Transporter;
-                newModel.TruckLicensePlate = SaleConfirmation.TruckLicensePlate;
+                var newModel = new SaleConfirmation
+                {
+                    Customer = SaleConfirmation.Customer,
+                    CustomerCommission = SaleConfirmation.CustomerCommission,
+                    DeliveryDate = SaleConfirmation.DeliveryDate,
+                    DeliveryEx = SaleConfirmation.DeliveryEx,
+                    DocumentDate = SaleConfirmation.DocumentDate,
+                    InvoiceDiscount = SaleConfirmation.InvoiceDiscount,
+                    Lot = SaleConfirmation.Lot,
+                    Notes = SaleConfirmation.Notes,
+                    OrderCode = SaleConfirmation.OrderCode,
+                    ProductDetails = SaleConfirmation.ProductDetails,
+                    Provider = SaleConfirmation.Provider,
+                    ProviderCommission = SaleConfirmation.ProviderCommission,
+                    Rental = SaleConfirmation.Rental,
+                    ShippingDate = SaleConfirmation.ShippingDate,
+                    TermsOfPayment = SaleConfirmation.TermsOfPayment,
+                    Transporter = SaleConfirmation.Transporter,
+                    TruckLicensePlate = SaleConfirmation.TruckLicensePlate
+                };
 
                 SaleConfirmation = newModel;
 
                 Status = "Nuova conferma di vendita creata correttamente";
+                SaveButtonEnabled = true;
+                ActionButtonsEnabled = false;
+                ReloadButtonEnabled = false;
                 _windowManager.PopupMessage("Nuova Conferma di Vendita creata correttamente, premere 'Salva' dopo aver apportato le modifiche necessarie", "Nuova Conferma di Vendita creata");
             };
         }
@@ -362,7 +409,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("EmailTrasportatore.{0}.html", SaleConfirmation.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
                 var emailText = new SaleConfirmationEmail(SaleConfirmation, path, ResourceHelpers.LoadBase64Logo());
@@ -379,7 +425,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf",FormatFileName(printForProvider, printForCustomer), SaleConfirmation.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
                 var report = new SaleConfirmationReport(SaleConfirmation, path, printForProvider, printForCustomer);
@@ -398,7 +443,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 _windowManager.InstantiateWindow(Id.ToString(), WindowTypes.DistintaCarico);
             };
         }
@@ -407,7 +451,6 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                SaveAllData();
                 SavePdf(printForProvider, printForCustomer);
             };
         }
@@ -450,13 +493,16 @@ namespace PosizioniRoverfrutta.ViewModels
         private void LoadDocument(int value)
         {
             SaleConfirmation saleConfirmation = null;
+            bool canUseActions = false;
             using (var session = _dataStorage.CreateSession())
             {
                 saleConfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
+                canUseActions = true;
             }
             if (saleConfirmation == null)
             {
                 saleConfirmation = new SaleConfirmation();
+                canUseActions = false;
             }
             SaleConfirmation = saleConfirmation;
             CompanyControlViewModel.Company = SaleConfirmation.Customer;
@@ -468,6 +514,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 ProductDetails.Add(new ProductRowViewModel(productDetail));
             }
             UpdateTotals();
+
+            SaveButtonEnabled = false;
+            ReloadButtonEnabled = false;
+            ActionButtonsEnabled = canUseActions;
+
             Status = "Documento numero " + SaleConfirmation.ProgressiveNumber + " caricato correttamente";
         }
 
@@ -507,6 +558,9 @@ namespace PosizioniRoverfrutta.ViewModels
                 }
                 Id = SaleConfirmation.ProgressiveNumber;
                 Status = "Salvato correttamente alle ore: " + DateTime.Now.ToShortTimeString();
+                SaveButtonEnabled = false;
+                ActionButtonsEnabled = true;
+                ReloadButtonEnabled = false;
             }
             catch (Exception exception)
             {
@@ -577,22 +631,6 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (ProductRowViewModel item in e.NewItems)
-                    item.PropertyChanged += item_PropertyChanged;
-
-            if (e.OldItems != null)
-                foreach (ProductRowViewModel item in e.OldItems)
-                    item.PropertyChanged -= item_PropertyChanged;
-        }
-
-        void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateTotals();
-        }
-
         private void UpdateTotals()
         {
             OnPropertyChanged("TotalPallets");
@@ -602,6 +640,35 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalAmount");
         }
 
+        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (ProductRowViewModel item in e.NewItems)
+                    item.PropertyChanged += observableCollectionItem_PropertyChanged;
+
+            if (e.OldItems != null)
+                foreach (ProductRowViewModel item in e.OldItems)
+                    item.PropertyChanged -= observableCollectionItem_PropertyChanged;
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
+        }
+
+        void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateTotals();
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
+        }
+
+        void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -609,17 +676,43 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
+            {
+                if (!SaveButtonEnabled)
+                {
+                    SaveButtonEnabled = true;
+                }
+                if (ActionButtonsEnabled)
+                {
+                    ActionButtonsEnabled = false;
+                }
+                if (!ReloadButtonEnabled)
+                {
+                    ReloadButtonEnabled = true;
+                }
+            }
         }
 
         private ICommand saveAllCommand;
 
         private readonly IDataStorage _dataStorage;
+
         private readonly IWindowManager _windowManager;
+
         private string _status;
+
+        private bool _saveButtonEnabled = false;
+        private bool _actionButtonsEnabled = false;
+        private bool _reloadButtonEnabled = false;
+
         private ICommand reloadCommand;
+
         private ICommand printDocument;
+
         private ICommand printDocumentForCustomer;
+
         private ICommand printDocumentForProvider;
+
         private ICommand convertDocument;
         private ICommand emailDocument;
         private ICommand emailDocumentToCustomer;

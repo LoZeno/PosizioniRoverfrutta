@@ -17,6 +17,7 @@ using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -30,22 +31,13 @@ namespace PosizioniRoverfrutta.ViewModels
             ProviderControlViewModel = new CompanyControlViewModel<Customer>(_dataStorage);
             TransporterControlViewModel = new CompanyControlViewModel<Transporter>(_dataStorage);
 
+            CompanyControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            ProviderControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+            TransporterControlViewModel.PropertyChanged += SubViewModel_PropertyChanged;
+
             PriceConfirmation = new PriceConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
-
-            //managing sub-viewmodels property changes
-            CompanyControlViewModel.PropertyChanged += CompanyControlViewModel_PropertyChanged;
-            ProviderControlViewModel.PropertyChanged += CompanyControlViewModel_PropertyChanged;
-        }
-
-        void CompanyControlViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "DoNotApplyVat")
-            {
-                UpdateTotals();
-                OnPropertyChanged("ShowVatArea");
-            }
         }
 
         public int Id
@@ -53,7 +45,8 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return PriceConfirmation.ProgressiveNumber; }
             set
             {
-                LoadDocument(value);
+                bool canSave, canUseActions;
+                LoadDocument(value, out canSave, out canUseActions);
 
                 OnPropertyChanged();
                 OnPropertyChanged("PriceConfirmation");
@@ -70,8 +63,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 OnPropertyChanged("Notes");
                 OnPropertyChanged("Lot");
                 OnPropertyChanged("OrderCode");
-                OnPropertyChanged("EnableButtons");
                 OnPropertyChanged("Vat");
+
+                SaveButtonEnabled = canSave;
+                ActionButtonsEnabled = canUseActions;
+                ReloadButtonEnabled = false;
             }
         }
 
@@ -301,9 +297,34 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public bool EnableButtons
+        public bool SaveButtonEnabled
         {
-            get { return Id != 0; }
+            get { return _saveButtonEnabled; }
+            private set
+            {
+                _saveButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ActionButtonsEnabled
+        {
+            get { return _actionButtonsEnabled; }
+            private set
+            {
+                _actionButtonsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ReloadButtonEnabled
+        {
+            get { return _reloadButtonEnabled; }
+            private set
+            {
+                _reloadButtonEnabled = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool ShowVatArea
@@ -433,7 +454,7 @@ namespace PosizioniRoverfrutta.ViewModels
             return documentName;
         }
 
-        private void LoadDocument(int value)
+        private void LoadDocument(int value, out bool canSave, out bool canUseActions)
         {
             PriceConfirmation priceConfirmation;
             using (var session = _dataStorage.CreateSession())
@@ -470,16 +491,22 @@ namespace PosizioniRoverfrutta.ViewModels
                         var initialVat = session.Load<DefaultValues>(1).Vat;
                         priceConfirmation.Vat = initialVat;
                         Status = "Documento numero " + value + " caricato correttamente";
-                        _windowManager.PopupMessage(string.Format("Conferma di vendita numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Conferma Prezzi creata");
+                        canSave = true;
+                        canUseActions = false;
+                        _windowManager.PopupMessage(string.Format("Conferma prezzi numero {0} creata, premere 'Salva' dopo aver apportato le modifiche necessarie", value), "Nuova Conferma Prezzi creata");
                     }
                     else
                     {
                         priceConfirmation = new PriceConfirmation();
+                        canSave = false;
+                        canUseActions = false;
                         Status = "Documento numero " + value + "non trovato";
                     }
                 }
                 else
                 {
+                    canSave = false;
+                    canUseActions = true;
                     Status = "Documento numero " + value + " caricato correttamente";
                 }
             }
@@ -542,7 +569,14 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private Action ReloadAction()
         {
-            return () => LoadDocument(Id);
+            return () =>
+            {
+                bool canSave, canUseActions;
+                LoadDocument(Id, out canSave, out canUseActions);
+                SaveButtonEnabled = canSave;
+                ActionButtonsEnabled = canUseActions;
+                ReloadButtonEnabled = false;
+            };
         }
 
         private void UpdateDefaultVat(decimal vat, IDocumentSession session)
@@ -610,22 +644,6 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (ProductRowViewModel item in e.NewItems)
-                    item.PropertyChanged += item_PropertyChanged;
-
-            if (e.OldItems != null)
-                foreach (ProductRowViewModel item in e.OldItems)
-                    item.PropertyChanged -= item_PropertyChanged;
-        }
-
-        void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateTotals();
-        }
-
         private void UpdateTotals()
         {
             OnPropertyChanged("TotalPallets");
@@ -648,6 +666,37 @@ namespace PosizioniRoverfrutta.ViewModels
             FinalTotal = PriceConfirmation.TaxableAmount + PriceConfirmation.CalculatedVat;
         }
 
+        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+                foreach (ProductRowViewModel item in e.NewItems)
+                    item.PropertyChanged += observableCollectionItem_PropertyChanged;
+
+            if (e.OldItems != null)
+                foreach (ProductRowViewModel item in e.OldItems)
+                    item.PropertyChanged -= observableCollectionItem_PropertyChanged;
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
+        }
+
+        void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateTotals();
+        }
+
+        void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "DoNotApplyVat")
+            {
+                UpdateTotals();
+                OnPropertyChanged("ShowVatArea");
+            }
+            SaveButtonEnabled = true;
+            ActionButtonsEnabled = false;
+            ReloadButtonEnabled = true;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -655,6 +704,21 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
+            {
+                if (!SaveButtonEnabled)
+                {
+                    SaveButtonEnabled = true;
+                }
+                if (ActionButtonsEnabled)
+                {
+                    ActionButtonsEnabled = false;
+                }
+                if (!ReloadButtonEnabled)
+                {
+                    ReloadButtonEnabled = true;
+                }
+            }
         }
 
         private ICommand saveAllCommand;
@@ -662,6 +726,11 @@ namespace PosizioniRoverfrutta.ViewModels
         private readonly IDataStorage _dataStorage;
         private readonly IWindowManager _windowManager;
         private string _status;
+
+        private bool _saveButtonEnabled = false;
+        private bool _actionButtonsEnabled = false;
+        private bool _reloadButtonEnabled = false;
+
         private ICommand reloadCommand;
         private ICommand printDocument;
         private ICommand printDocumentForCustomer;

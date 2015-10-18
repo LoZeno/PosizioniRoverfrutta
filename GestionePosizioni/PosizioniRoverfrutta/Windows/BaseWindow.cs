@@ -16,6 +16,13 @@ namespace PosizioniRoverfrutta.Windows
     {
         protected readonly IWindowManager WindowManager;
 
+#if DEBUG
+        protected BaseWindow() :this (null, null)
+        {
+            
+        }
+#endif
+
         protected BaseWindow(IWindowManager windowManager, IDataStorage dataStorage)
         {
             WindowManager = windowManager;

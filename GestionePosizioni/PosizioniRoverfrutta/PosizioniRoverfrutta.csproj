@@ -200,15 +200,21 @@
     <Compile Include="Services\TermsOfPaymentAutoCompleteBoxProvider.cs" />
     <Compile Include="ViewModels\BaseClasses\EditableViewModelBase.cs" />
     <Compile Include="ViewModels\CompanyControlViewModel.cs" />
+    <Compile Include="ViewModels\CustomersWindowGridViewModel.cs" />
     <Compile Include="ViewModels\ListPositionsViewModel.cs" />
     <Compile Include="ViewModels\LoadingDocumentViewModel.cs" />
     <Compile Include="ViewModels\PriceConfirmationViewModel.cs" />
     <Compile Include="ViewModels\ProductRowViewModel.cs" />
+    <Compile Include="ViewModels\ProductsWindowGridViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
+    <Compile Include="ViewModels\TransporterWindowGridViewModel.cs" />
     <Compile Include="Windows\BaseWindow.cs" />
+    <Compile Include="Windows\CustomersWindow.xaml.cs">
+      <DependentUpon>CustomersWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
@@ -222,11 +228,17 @@
     <Compile Include="Windows\PriceConfirmationWindow.xaml.cs">
       <DependentUpon>PriceConfirmationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ProductsWindow.xaml.cs">
+      <DependentUpon>ProductsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SendGmailAttachment.xaml.cs">
       <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
       <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TransportersWindow.xaml.cs">
+      <DependentUpon>TransportersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
@@ -255,6 +267,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\CustomersWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\DocumentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -268,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\PriceConfirmationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProductsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,6 +308,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SummaryAndInvoicesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TransportersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -438,6 +462,7 @@
     <Content Include="Content\EmailTemplates\ConfermaDatiTrasportatore.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Content\Pictures\Customer\add-symbol.png" />
     <Content Include="Content\ReportTemplates\FatturaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

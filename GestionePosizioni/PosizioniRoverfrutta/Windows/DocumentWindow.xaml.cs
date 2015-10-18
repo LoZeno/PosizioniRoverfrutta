@@ -172,11 +172,13 @@ namespace PosizioniRoverfrutta.Windows
         private void SetSaveButtonBindings(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, SaveButton, "SaveAll", viewModel.SaveAll);
+            SaveButton.SetBinding(IsEnabledProperty, new Binding("SaveButtonEnabled"));
         }
 
         private void SetReloadButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, UndoButton, "Reload", viewModel.Reload);
+            UndoButton.SetBinding(IsEnabledProperty, new Binding("ReloadButtonEnabled"));
         }
 
         private void SetPrintButtonBinding(SaleConfirmationViewModel viewModel)
@@ -189,6 +191,7 @@ namespace PosizioniRoverfrutta.Windows
         private void SetConvertButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, ConvertButton, "Convert", viewModel.Convert);
+            ConvertButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
         }
 
         private void SetSendtButtonBinding(SaleConfirmationViewModel viewModel)
@@ -202,6 +205,7 @@ namespace PosizioniRoverfrutta.Windows
         private void SetCloneButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, CloneButton, "Clone", viewModel.Clone);
+            CloneButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
         }
     }
 }

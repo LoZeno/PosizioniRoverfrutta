@@ -187,7 +187,7 @@ namespace PosizioniRoverfrutta.Windows
 
             SaveButton.SetBinding(IsEnabledProperty, new Binding
             {
-                Path = new PropertyPath("EnableButtons")
+                Path = new PropertyPath("SaveButtonEnabled")
             });
         }
 
@@ -209,7 +209,7 @@ namespace PosizioniRoverfrutta.Windows
 
             UndoButton.SetBinding(IsEnabledProperty, new Binding
             {
-                Path = new PropertyPath("EnableButtons")
+                Path = new PropertyPath("ReloadButtonEnabled")
             });
         }
 
@@ -218,18 +218,6 @@ namespace PosizioniRoverfrutta.Windows
             SetButtonBinding(viewModel, PdfButton, "Print", viewModel.Print);
             SetButtonBinding(viewModel, ProviderPdfButton, "PrintForProvider", viewModel.PrintForProvider);
             SetButtonBinding(viewModel, CustomerPdfButton, "PrintForCustomer", viewModel.PrintForCustomer);
-            PdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
-            ProviderPdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
-            CustomerPdfButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
         }
 
         private void SetSendToButtonBinding(PriceConfirmationViewModel viewModel)
@@ -237,18 +225,6 @@ namespace PosizioniRoverfrutta.Windows
             SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
             SetButtonBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
             SetButtonBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
-            EmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
-            ProviderEmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
-            CustomerEmailButton.SetBinding(IsEnabledProperty, new Binding
-            {
-                Path = new PropertyPath("EnableButtons")
-            });
         }
     }
 }

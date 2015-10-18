@@ -22,9 +22,14 @@ namespace QueryManager
         public void Initialize()
         {
             _documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
-            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>((dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
-            _documentStore.Initialize();
-            CreateIndexes();
+
+            var turnOnManagementStudio = ConfigurationManager.AppSettings["ActivateManagementStudio"];
+            if ("True" == turnOnManagementStudio)
+            {
+                _documentStore.UseEmbeddedHttpServer = true;
+                _documentStore.Configuration.ServerName = "localhost";
+                _documentStore.Configuration.Port = 6666;
+            }
 
             var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
             if ("True" == alwaysWaitForLastWrite)
@@ -32,6 +37,10 @@ namespace QueryManager
                 _documentStore.Conventions.DefaultQueryingConsistency =
                     ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             }
+
+            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>((dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
+            _documentStore.Initialize();
+            CreateIndexes();
         }
 
         private void CreateIndexes()
