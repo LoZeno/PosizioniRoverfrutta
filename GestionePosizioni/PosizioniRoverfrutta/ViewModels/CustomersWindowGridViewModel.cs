@@ -176,12 +176,40 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return deleteCommand ?? (deleteCommand = new DelegateCommand(DeleteSelectedCustomer)); }
         }
 
+        public void LoadSelectedCustomer(string selectedCustomerId)
+        {
+            if (!string.IsNullOrWhiteSpace(selectedCustomerId))
+            {
+                using (var session = _dataStorage.CreateSession())
+                {
+                    _selectedCustomer = session.Load<Customer>(selectedCustomerId);
+                    OnPropertyChanged("EditControlsEnabled");
+                }
+            }
+            else
+            {
+                _selectedCustomer = null;
+                OnPropertyChanged("EditControlsEnabled");
+            }
+
+            OnPropertyChanged("CompanyName");
+            OnPropertyChanged("Address");
+            OnPropertyChanged("City");
+            OnPropertyChanged("StateOrProvince");
+            OnPropertyChanged("PostCode");
+            OnPropertyChanged("Country");
+            OnPropertyChanged("VatCode");
+            OnPropertyChanged("EmailAddress");
+            OnPropertyChanged("DoNotApplyVat");
+            SetActionButtonsState(selectedCustomerId);
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedCustomer"))
+            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedCustomer", "SearchBox"))
             {
                 if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedCustomer?.CompanyName)))
                 {
@@ -209,34 +237,6 @@ namespace PosizioniRoverfrutta.ViewModels
             }
             var selectedCustomerId = _selectedCustomer?.Id;
             LoadSelectedCustomer(selectedCustomerId);
-        }
-
-        public void LoadSelectedCustomer(string selectedCustomerId)
-        {
-            if (!string.IsNullOrWhiteSpace(selectedCustomerId))
-            {
-                using (var session = _dataStorage.CreateSession())
-                {
-                    _selectedCustomer = session.Load<Customer>(selectedCustomerId);
-                    OnPropertyChanged("EditControlsEnabled");
-                }
-            }
-            else
-            {
-                _selectedCustomer = null;
-                OnPropertyChanged("EditControlsEnabled");
-            }
-
-            OnPropertyChanged("CompanyName");
-            OnPropertyChanged("Address");
-            OnPropertyChanged("City");
-            OnPropertyChanged("StateOrProvince");
-            OnPropertyChanged("PostCode");
-            OnPropertyChanged("Country");
-            OnPropertyChanged("VatCode");
-            OnPropertyChanged("EmailAddress");
-            OnPropertyChanged("DoNotApplyVat");
-            SetActionButtonsState(selectedCustomerId);
         }
 
         private void SetActionButtonsState(string selectedCustomerId)

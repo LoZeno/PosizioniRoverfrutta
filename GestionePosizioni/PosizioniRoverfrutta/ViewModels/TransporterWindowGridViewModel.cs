@@ -179,7 +179,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedTransporter"))
+            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedTransporter", "SearchBox"))
             {
                 if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedTransporter?.CompanyName)))
                 {

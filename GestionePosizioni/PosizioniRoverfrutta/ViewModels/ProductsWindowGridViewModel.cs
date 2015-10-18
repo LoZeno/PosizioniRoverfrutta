@@ -16,6 +16,7 @@ using QueryManager;
 using QueryManager.Indexes;
 using Raven.Abstractions.Extensions;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.ViewModels
 {
@@ -43,7 +44,25 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public string Description
+        {
+            get { return _selectedProduct?.Description; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    SaveButtonEnabled = false;
+                _selectedProduct.Description = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<ProductRow> ProductsList { get; set; }
+
+        public bool SaveButtonEnabled { get; private set; }
+
+        public bool DeleteButtonEnabled { get; private set; }
+
+        public bool EditControlsEnabled { get { return _selectedProduct != null; } }
 
         public ICommand NextPage
         {
@@ -55,10 +74,58 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return previousPageCommand ?? (previousPageCommand = new DelegateCommand(DecreaseSkip)); }
         }
 
+        public ICommand Refresh
+        {
+            get { return refreshCommand ?? (refreshCommand = new DelegateCommand(LoadAllData)); }
+        }
+
+        public ICommand Save
+        {
+            get { return saveCommand ?? (saveCommand = new DelegateCommand(SaveAndRefresh)); }
+        }
+
+        public ICommand CreateNew
+        {
+            get { return createCommand ?? (createCommand = new DelegateCommand(CreateNewProduct)); }
+        }
+
+        public ICommand DeleteProduct
+        {
+            get { return deleteCommand ?? (deleteCommand = new DelegateCommand(DeleteSelectedProduct)); }
+        }
+
+        public void LoadSelectedProduct(int? selectedProductId)
+        {
+            if (selectedProductId.HasValue)
+            {
+                using (var session = _dataStorage.CreateSession())
+                {
+                    _selectedProduct = session.Load<ProductDescription>(selectedProductId);
+                    OnPropertyChanged("EditControlsEnabled");
+                }
+            }
+            else
+            {
+                _selectedProduct = null;
+                OnPropertyChanged("EditControlsEnabled");
+            }
+
+            OnPropertyChanged("Description");
+            SetActionButtonsState(selectedProductId);
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (!propertyName.In("SaveButtonEnabled", "DeleteButtonEnabled", "SelectedProduct", "SearchBox"))
+            {
+                if (!SaveButtonEnabled && (!string.IsNullOrWhiteSpace(_selectedProduct?.Description)))
+                {
+                    SaveButtonEnabled = true;
+                    OnPropertyChanged("SaveButtonEnabled");
+                }
+            }
         }
 
         private void LoadAllData()
@@ -81,6 +148,63 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 DecreaseSkip();
             }
+            var selectedProductId = _selectedProduct?.Id;
+            LoadSelectedProduct(selectedProductId);
+        }
+
+        private void SetActionButtonsState(int? selectedProductId)
+        {
+            DeleteButtonEnabled = _selectedProduct != null;
+            using (var session = _dataStorage.CreateSession())
+            {
+                if (session.Query<PriceConfirmation>().Count(pc => pc.ProductDetails.Any(pd => pd.ProductId == selectedProductId)) > 0
+                    || session.Query<LoadingDocument>().Count(ld => ld.ProductDetails.Any(pd => pd.ProductId == selectedProductId)) > 0
+                    || session.Query<SaleConfirmation>().Count(sc => sc.ProductDetails.Any(pd => pd.ProductId == selectedProductId)) > 0)
+                    DeleteButtonEnabled = false;
+            }
+            SaveButtonEnabled = false;
+            OnPropertyChanged("DeleteButtonEnabled");
+            OnPropertyChanged("SaveButtonEnabled");
+        }
+
+        private void SaveAndRefresh()
+        {
+            string description = Description;
+            SaveSelectedProduct();
+            LoadSelectedProduct(null);
+            LoadAllData();
+            _windowManager.PopupMessage(string.Format("Prodotto {0} salvato correttamente", description), "Prodotto salvato");
+        }
+
+        private void SaveSelectedProduct()
+        {
+            using (var session = _dataStorage.CreateSession())
+            {
+                session.Store(_selectedProduct);
+                session.SaveChanges();
+            }
+        }
+
+        private void CreateNewProduct()
+        {
+            _selectedProduct = new ProductDescription();
+            OnPropertyChanged("EditControlsEnabled");
+            OnPropertyChanged("Description");
+            DeleteButtonEnabled = false;
+            OnPropertyChanged("DeleteButtonEnabled");
+        }
+
+        private void DeleteSelectedProduct()
+        {
+            string description = _selectedProduct.Description;
+            using (var session = _dataStorage.CreateSession())
+            {
+                var itemToDelete = session.Load<ProductDescription>(_selectedProduct.Id);
+                session.Delete<ProductDescription>(itemToDelete);
+                session.SaveChanges();
+            }
+            LoadAllData();
+            _windowManager.PopupMessage(string.Format("Prodotto {0} cancellato dal database", description), "Prodotto eliminato");
         }
 
         private void IncreaseSkip()
@@ -109,7 +233,12 @@ namespace PosizioniRoverfrutta.ViewModels
         private readonly IWindowManager _windowManager;
         private string _searchBox;
         private int skipPositions = 0;
+        private ProductDescription _selectedProduct;
         private ICommand nextPageCommand;
         private ICommand previousPageCommand;
+        private ICommand refreshCommand;
+        private ICommand saveCommand;
+        private ICommand createCommand;
+        private ICommand deleteCommand;
     }
 }
