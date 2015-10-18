@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using dragonz.actb.control;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -24,8 +23,7 @@ namespace PosizioniRoverfrutta.CustomControls
             : this()
         {
             var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
-            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
-            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
+            CompanyNameBox.DataProvider = companyDataProvider;
             DataContext = viewModel;
 
             var companyNameBinding = new Binding
@@ -35,7 +33,7 @@ namespace PosizioniRoverfrutta.CustomControls
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.TwoWay
             };
-            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
+            CompanyNameBox.SetBinding(AutoCompleteBox.TextProperty, companyNameBinding);
 
             SetTextboxBinding(Address, "Address");
             SetTextboxBinding(City, "City");
@@ -74,7 +72,7 @@ namespace PosizioniRoverfrutta.CustomControls
         }
 
         public static readonly DependencyProperty SelectedCompanyProperty =
-            AutoCompleteTextBox.SelectedItemProperty.AddOwner(typeof(CompanyDetails),
+            AutoCompleteBox.SelectedItemProperty.AddOwner(typeof(CompanyDetails),
                 new FrameworkPropertyMetadata(SelectedCompanyPropertyChanged));
 
         private static void SelectedCompanyPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)

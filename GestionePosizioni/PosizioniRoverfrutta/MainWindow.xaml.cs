@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using CustomWPFControls;
 using Models.Companies;
 using PosizioniRoverfrutta.CustomControls.DataGridColumns;
 using PosizioniRoverfrutta.Services;
@@ -51,8 +52,7 @@ namespace PosizioniRoverfrutta
         private void SetAutocompleteBoxBinding(IDataStorage dataStorage, ListPositionsViewModel viewModel)
         {
             var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
-            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
-            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
+            CompanyNameBox.DataProvider = companyDataProvider;
 
             var companyNameBinding = new Binding
             {
@@ -61,7 +61,7 @@ namespace PosizioniRoverfrutta
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
                 Mode = BindingMode.TwoWay
             };
-            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
+            CompanyNameBox.SetBinding(AutoCompleteBox.TextProperty, companyNameBinding);
         }
 
         private static DataGridColumn BuildNumericColumn(string header, string propertyName)

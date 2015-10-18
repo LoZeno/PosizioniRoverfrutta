@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using dragonz.actb.provider;
+using CustomWPFControls;
 using Models.Companies;
 using QueryManager;
 using QueryManager.QueryHelpers;
 
 namespace PosizioniRoverfrutta.Services
 {
-    class CustomerNamesAutoCompleteBoxProvider<T> : IAutoCompleteDataProvider where T : CompanyBase
+    class CustomerNamesAutoCompleteBoxProvider<T> : IAutoCompleteBoxDataProvider where T : CompanyBase
     {
         public CustomerNamesAutoCompleteBoxProvider(IDataStorage dataStorage)
         {

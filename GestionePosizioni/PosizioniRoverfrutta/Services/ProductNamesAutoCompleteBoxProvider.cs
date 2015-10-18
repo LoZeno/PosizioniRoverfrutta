@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using dragonz.actb.provider;
+using CustomWPFControls;
 using Models.Entities;
 using QueryManager;
 using Raven.Client.Linq;
 
 namespace PosizioniRoverfrutta.Services
 {
-    internal class ProductNamesAutoCompleteBoxProvider : IAutoCompleteDataProvider
+    internal class ProductNamesAutoCompleteBoxProvider : IAutoCompleteBoxDataProvider
     {
         public ProductNamesAutoCompleteBoxProvider(IDataStorage dataStorage)
         {

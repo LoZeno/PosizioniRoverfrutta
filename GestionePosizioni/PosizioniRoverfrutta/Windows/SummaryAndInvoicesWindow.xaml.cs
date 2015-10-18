@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using CustomWPFControls;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -31,22 +32,20 @@ namespace PosizioniRoverfrutta.Windows
             :base(windowManager, dataStorage)
         {
             InitializeComponent();
-
-            var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
-            CompanyNameBox.AutoCompleteManager.DataProvider = companyDataProvider;
-            CompanyNameBox.AutoCompleteManager.Asynchronous = true;
-
             var viewModel = new SummaryAndInvoiceViewModel(dataStorage, WindowManager);
             DataContext = viewModel;
+
+            var companyDataProvider = new CustomerNamesAutoCompleteBoxProvider<Customer>(dataStorage);
+            CompanyNameBox.DataProvider = companyDataProvider;
 
             var companyNameBinding = new Binding
             {
                 Source = viewModel,
                 Path = new PropertyPath("CustomerName"),
                 UpdateSourceTrigger = UpdateSourceTrigger.Default,
-                Mode = BindingMode.TwoWay
+                Mode = BindingMode.OneWayToSource
             };
-            CompanyNameBox.SetBinding(TextBox.TextProperty, companyNameBinding);
+            CompanyNameBox.SetBinding(AutoCompleteBox.TextProperty, companyNameBinding);
 
             SetBindingsForDatePickers("StartDate", FromDatePicker);
             SetBindingsForDatePickers("EndDate", ToDatePicker);
@@ -54,8 +53,8 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForPriceTotals("CommissionsTotal", CommissionsBlock);
             SetBindingsForNumericTextBox("InvoiceVat", InvoiceVatTextBox);
             SetBindingsForPriceTotals("CalculatedInvoiceVat", CalculatedInvoiceVatTextBox);
-            SetBindingsForPriceTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForNumericTextBox("Witholding", WitholdingTextBox);
+            SetBindingsForPriceTotals("TaxedAmount", TaxedAmountTextBox);
             SetBindingsForPriceTotals("CalculatedWitholding", WitholdingTextBlock);
             SetBindingsForPriceTotals("NetAmount", NetAmountTextBlock);
             SetBindingsForNumericTextBox("InvoiceNumber", InvoiceNumberBox);

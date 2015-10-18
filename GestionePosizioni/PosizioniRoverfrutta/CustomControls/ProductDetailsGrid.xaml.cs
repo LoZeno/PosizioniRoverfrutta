@@ -100,7 +100,7 @@ namespace PosizioniRoverfrutta.CustomControls
             };
 
             var autocompleteBoxFactory = new FrameworkElementFactory(typeof(ProductDescriptionAutocompleteBoxWrapper));
-            autocompleteBoxFactory.SetBinding(ProductDescriptionAutocompleteBoxWrapper.TextProperty, autocompleteBinding);
+            autocompleteBoxFactory.SetBinding(AutoCompleteBox.TextProperty, autocompleteBinding);
 
             var autocompleteTemplate = new DataTemplate();
             autocompleteTemplate.VisualTree = autocompleteBoxFactory;
@@ -140,7 +140,7 @@ namespace PosizioniRoverfrutta.CustomControls
             };
 
             var autocompleteBoxFactory = new FrameworkElementFactory(typeof(CurrenciesAutocompleteBoxWrapper));
-            autocompleteBoxFactory.SetBinding(CurrenciesAutocompleteBoxWrapper.TextProperty, autocompleteBinding);
+            autocompleteBoxFactory.SetBinding(AutoCompleteBox.TextProperty, autocompleteBinding);
 
             var autocompleteTemplate = new DataTemplate();
             autocompleteTemplate.VisualTree = autocompleteBoxFactory;
