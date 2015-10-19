@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using QueryManager;
@@ -49,6 +50,18 @@ namespace PosizioniRoverfrutta.Windows
         public string OpenSaveToPdfDialog(string filename)
         {
             return OpenSaveFileDialog(filename, ".pdf", "Documenti PDF (.pdf)|*.pdf");
+        }
+
+        public string OpenSelectFolderDialog()
+        {
+            var savefileDialog = new SaveFileDialog
+            {
+                FileName = "Seleziona la cartella",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+            };
+            var result = savefileDialog.ShowDialog();
+
+            return result == true ? Path.GetDirectoryName(savefileDialog.FileName) : null;
         }
 
         private string OpenSaveFileDialog(string filename, string extension, string filter)

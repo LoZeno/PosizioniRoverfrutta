@@ -9,5 +9,6 @@ namespace QueryManager
         string ConnectionString { get; set; }
         EmbeddableDocumentStore DocumentStore { get; }
         IDocumentSession CreateSession();
+        void StartBackup(string path, bool incremental);
     }
 }

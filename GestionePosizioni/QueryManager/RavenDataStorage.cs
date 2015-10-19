@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using Models.DocumentTypes;
+using Raven.Abstractions.Data;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
@@ -41,6 +42,11 @@ namespace QueryManager
             _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>((dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
             _documentStore.Initialize();
             CreateIndexes();
+        }
+
+        public void StartBackup(string path, bool incremental)
+        {
+            _documentStore.DocumentDatabase.StartBackup(path, incremental, new DatabaseDocument());
         }
 
         private void CreateIndexes()

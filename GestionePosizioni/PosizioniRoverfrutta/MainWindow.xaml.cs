@@ -1,4 +1,8 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Security.AccessControl;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -282,6 +286,16 @@ namespace PosizioniRoverfrutta
         private void ProductsButton_OnClick(object sender, RoutedEventArgs e)
         {
             _windowsManager.InstantiateWindow("new", WindowTypes.AnagraficaProdotti);
+        }
+
+        private void BackupButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var path = _windowsManager.OpenSelectFolderDialog();
+            var backupPath = Path.Combine(path, DateTime.Now.ToFileTime().ToString());
+            Directory.CreateDirectory(backupPath);
+            _dataStorage.StartBackup(backupPath, false);
+            Process.Start(backupPath);
+            _windowsManager.PopupMessage("Backup avviato", "Backup");
         }
     }
 }

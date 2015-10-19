@@ -55,6 +55,11 @@
                     <Button Name="ProductsButton" Padding="5" Margin="3" Click="ProductsButton_OnClick">Elenco Prodotti</Button>
                 </StackPanel>
             </GroupBox>
+            <GroupBox Header="Utilità">
+                <StackPanel Orientation="Vertical">
+                    <Button Name="BackupButton" Padding="5" Margin="3" Click="BackupButton_OnClick">Esegui Backup</Button>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
         <GroupBox Grid.Column="1" Header="Lista posizioni inserite">
             <DockPanel LastChildFill="True">
