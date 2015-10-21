@@ -1,11 +1,13 @@
 ﻿using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -30,7 +32,7 @@ namespace RestoreDataUtility
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void StartRestoreCommand()
+        private async void StartRestoreCommand()
         {
             var selectedPath = OpenSelectFolderDialog();
             if (!string.IsNullOrWhiteSpace(selectedPath) && Directory.Exists(selectedPath))
@@ -46,7 +48,7 @@ namespace RestoreDataUtility
                             Directory.Delete(_dataDirectory, true);
                         }
 
-                        Raven.Database.DocumentDatabase.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory }, selectedPath, _dataDirectory, WriteOutput, true);
+                        await Task.Run(() => Raven.Database.DocumentDatabase.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory }, selectedPath, _dataDirectory, WriteOutput, true));
                         MessageBox.Show("Ripristino dei dati completato", "Ripristino completato", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception error)
@@ -63,7 +65,7 @@ namespace RestoreDataUtility
 
         private void WriteOutput(string outputLine)
         {
-            Output.Add(outputLine);
+            Output.AsyncAdd(outputLine);
         }
 
         private string OpenSelectFolderDialog()
@@ -124,5 +126,14 @@ namespace RestoreDataUtility
 
         private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
         private ICommand _startRestoreCommand;
+    }
+
+    public static class ObservableCollectionExtensions
+    {
+        public static void AsyncAdd<T>(this ICollection<T> collection, T item)
+        {
+            Action<T> addMethod = collection.Add;
+            Application.Current.Dispatcher.BeginInvoke(addMethod, item);
+        }
     }
 }
