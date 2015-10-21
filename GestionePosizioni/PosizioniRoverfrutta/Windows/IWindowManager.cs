@@ -7,5 +7,6 @@ namespace PosizioniRoverfrutta.Windows
         void InstantiateWindow(string documentId, WindowTypes windowType);
         void PopupMessage(string message, string caption);
         string OpenSaveToPdfDialog(string filename);
+        string OpenSelectFolderDialog();
     }
 }

@@ -1,0 +1,18 @@
+﻿<Window x:Class="RestoreDataUtility.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RestoreDataUtility"
+        mc:Ignorable="d"
+        Title="Restore Data" Height="308.475" Width="525">
+    <Window.DataContext>
+        <local:RestoreViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+            <Button DockPanel.Dock="Top" Name="StartButton" Padding="5" Margin="3" Command="{Binding StartRestore}">Seleziona cartella contenente il backup e avvia il ripristino</Button>
+            <TextBox Name="textBox" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Output}" VerticalScrollBarVisibility="Auto"></TextBox>
+        </DockPanel>
+    </Grid>
+</Window>
