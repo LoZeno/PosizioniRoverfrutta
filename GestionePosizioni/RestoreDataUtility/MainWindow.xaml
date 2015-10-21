@@ -10,9 +10,9 @@
         <local:RestoreViewModel/>
     </Window.DataContext>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <Button Name="StartButton" Padding="5" Margin="3" Command="{Binding StartRestore}">Seleziona cartella contenente il backup e avvia il ripristino</Button>
-            <ListBox Height="200" ItemsSource="{Binding Output}"></ListBox>
-        </StackPanel>
+        <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+            <Button DockPanel.Dock="Top" Name="StartButton" Padding="5" Margin="3" Command="{Binding StartRestore}">Seleziona cartella contenente il backup e avvia il ripristino</Button>
+            <TextBox Name="textBox" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Output}" VerticalScrollBarVisibility="Auto"></TextBox>
+        </DockPanel>
     </Grid>
 </Window>

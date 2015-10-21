@@ -2,7 +2,6 @@
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -17,13 +16,23 @@ namespace RestoreDataUtility
     {
         public RestoreViewModel()
         {
-            Output = new ObservableCollection<string>();
+            //Output = new ObservableCollection<string>();
         }
 
         public ICommand StartRestore
         { get { return _startRestoreCommand ?? (_startRestoreCommand = new DelegateCommand(StartRestoreCommand)); } }
 
-        public ObservableCollection<string> Output { get; set; }
+        //public ObservableCollection<string> Output { get; set; }
+
+        public string Output
+        {
+            get { return _outPut; }
+            set
+            {
+                _outPut = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,7 +74,8 @@ namespace RestoreDataUtility
 
         private void WriteOutput(string outputLine)
         {
-            Output.AsyncAdd(outputLine);
+            //Output.AsyncAdd(outputLine);
+            Output += string.Format("{0}\r\n", outputLine);
         }
 
         private string OpenSelectFolderDialog()
@@ -126,6 +136,7 @@ namespace RestoreDataUtility
 
         private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
         private ICommand _startRestoreCommand;
+        private string _outPut = string.Empty;
     }
 
     public static class ObservableCollectionExtensions
