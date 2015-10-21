@@ -1,7 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Commands;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -16,13 +15,11 @@ namespace RestoreDataUtility
     {
         public RestoreViewModel()
         {
-            //Output = new ObservableCollection<string>();
         }
 
         public ICommand StartRestore
         { get { return _startRestoreCommand ?? (_startRestoreCommand = new DelegateCommand(StartRestoreCommand)); } }
 
-        //public ObservableCollection<string> Output { get; set; }
 
         public string Output
         {
@@ -74,7 +71,6 @@ namespace RestoreDataUtility
 
         private void WriteOutput(string outputLine)
         {
-            //Output.AsyncAdd(outputLine);
             Output += string.Format("{0}\r\n", outputLine);
         }
 
@@ -137,14 +133,5 @@ namespace RestoreDataUtility
         private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
         private ICommand _startRestoreCommand;
         private string _outPut = string.Empty;
-    }
-
-    public static class ObservableCollectionExtensions
-    {
-        public static void AsyncAdd<T>(this ICollection<T> collection, T item)
-        {
-            Action<T> addMethod = collection.Add;
-            Application.Current.Dispatcher.BeginInvoke(addMethod, item);
-        }
     }
 }
