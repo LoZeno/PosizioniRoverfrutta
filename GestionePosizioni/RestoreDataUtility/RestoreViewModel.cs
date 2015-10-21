@@ -13,12 +13,10 @@ namespace RestoreDataUtility
 {
     public class RestoreViewModel : INotifyPropertyChanged
     {
-        public RestoreViewModel()
-        {
-        }
-
         public ICommand StartRestore
-        { get { return _startRestoreCommand ?? (_startRestoreCommand = new DelegateCommand(StartRestoreCommand)); } }
+        {
+            get { return _startRestoreCommand ?? (_startRestoreCommand = new DelegateCommand(StartRestoreCommand)); }
+        }
 
 
         public string Output
@@ -50,7 +48,7 @@ namespace RestoreDataUtility
                         if (Directory.Exists(_dataDirectory))
                         {
                             File.SetAttributes(_dataDirectory, FileAttributes.Normal);
-                            setAttributesNormal(_dataDirectory);
+                            SetAttributesNormal(_dataDirectory);
                             Directory.Delete(_dataDirectory, true);
                         }
 
@@ -100,7 +98,6 @@ namespace RestoreDataUtility
                 return false;
             }
             var indexDefinitionFolder = Path.Combine(selectedPath, "IndexDefinitions");
-            var indexDefinitionFiles = Directory.GetFiles(indexDefinitionFolder);
             if (indexDefinitionFolder.Length == 0)
             {
                 return false;
@@ -120,17 +117,17 @@ namespace RestoreDataUtility
             return true;
         }
 
-        private void setAttributesNormal(string dir)
+        private static void SetAttributesNormal(string dir)
         {
             foreach (string subDirPath in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-                setAttributesNormal(subDirPath);
+                SetAttributesNormal(subDirPath);
             foreach (string filePath in Directory.GetFiles(dir, "*", SearchOption.AllDirectories))
             {
                 File.SetAttributes(filePath, FileAttributes.Normal);
             }
         }
 
-        private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
+        private readonly string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), @"Posizioni\Archive");
         private ICommand _startRestoreCommand;
         private string _outPut = string.Empty;
     }

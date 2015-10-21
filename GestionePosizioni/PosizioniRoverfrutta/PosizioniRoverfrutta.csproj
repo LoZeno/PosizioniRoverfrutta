@@ -17,7 +17,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\LoZeno\Google Drive\GestorePosizioniRoverfrutta\</PublishUrl>
+    <PublishUrl>publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -30,7 +30,7 @@
     <ProductName>Archivio Posizioni Roverfrutta</ProductName>
     <PublisherName>LoZeno</PublisherName>
     <SuiteName>Roverfrutta</SuiteName>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -378,6 +378,10 @@
     <ProjectReference Include="..\ReportManager\ReportManager.csproj">
       <Project>{7E0509B2-AD1C-4299-9964-F5408ADF85DB}</Project>
       <Name>ReportManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RestoreDataUtility\RestoreDataUtility.csproj">
+      <Project>{38abeb75-927e-46f3-81f6-c7cf22a1a79a}</Project>
+      <Name>RestoreDataUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
