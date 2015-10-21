@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:RestoreDataUtility"
         mc:Ignorable="d"
         Title="Restore Data" Height="308.475" Width="525">
+    <Window.DataContext>
+        <local:RestoreViewModel/>
+    </Window.DataContext>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button Name="StartButton" Padding="5" Margin="3">Seleziona cartella contenente il backup e avvia il ripristino</Button>
-            <TextBox IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" MinLines="15"></TextBox>
+            <Button Name="StartButton" Padding="5" Margin="3" Command="{Binding StartRestore}">Seleziona cartella contenente il backup e avvia il ripristino</Button>
+            <ListBox Height="200" ItemsSource="{Binding Output}"></ListBox>
         </StackPanel>
     </Grid>
 </Window>
