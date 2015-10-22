@@ -46,7 +46,7 @@ namespace QueryManager
 
         public void StartBackup(string path, bool incremental)
         {
-            _documentStore.DocumentDatabase.StartBackup(path, incremental, new DatabaseDocument());
+            _documentStore.DocumentDatabase.Maintenance.StartBackup(path, incremental, new DatabaseDocument());
         }
 
         private void CreateIndexes()

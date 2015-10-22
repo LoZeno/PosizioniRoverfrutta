@@ -27,7 +27,8 @@ namespace PosizioniRoverfrutta.Services
                         .OrderBy(p => p.Name)
                         .Take(10)
                         .Select(p => p.Name)
-                        .Distinct();
+                        .Distinct()
+                        .ToList();
                 }
             }
             return results ?? new List<string>();

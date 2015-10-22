@@ -21,7 +21,7 @@ namespace PosizioniRoverfrutta.Services
             {
                 using (var session = _dataStorage.CreateSession())
                 {
-                    results = session.FindByPartialName<T>(textPattern).Take(30).Select(c => c.CompanyName).OrderBy(x => x);
+                    results = session.FindByPartialName<T>(textPattern).Take(30).Select(c => c.CompanyName).OrderBy(x => x).ToList();
                 }
             }
             return results ?? new List<string>();

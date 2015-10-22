@@ -26,7 +26,8 @@ namespace PosizioniRoverfrutta.Services
                         .Where(tp => tp.Description.StartsWith(textPattern, StringComparison.CurrentCultureIgnoreCase))
                         .OrderBy(p => p.Description)
                         .Take(10)
-                        .Select(p => p.Description);
+                        .Select(p => p.Description)
+                        .ToList();
                 }
             }
             return results ?? new List<string>();
