@@ -11,7 +11,7 @@ namespace QueryManager.QueryHelpers
         {
             var objectName = typeof(T).Name;
             var query = session.Query<T>(objectName + "/ByCompanyName");
-            return partialName.Split(' ').Aggregate(query, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards)).ToList();
+            return partialName.Split(' ').Aggregate(query, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
         }
     }
 }
