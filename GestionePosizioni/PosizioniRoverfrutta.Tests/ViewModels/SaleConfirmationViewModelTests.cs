@@ -8,6 +8,7 @@ using PosizioniRoverfrutta.ViewModels;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using Raven.Client.Linq;
+using System.Linq;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels
 {
@@ -33,19 +34,19 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             using (var session = _dataStorage.CreateSession())
             {
-                var documents = session.Query<SaleConfirmation>().Select(x => x);
+                var documents = session.Query<SaleConfirmation>().Select(x => x).ToList();
                 foreach (var document in documents)
                 {
                     session.Delete(document);
                 }
 
-                var customers = session.Query<Customer>().Select(x => x);
+                var customers = session.Query<Customer>().Select(x => x).ToList();
                 foreach (var customer in customers)
                 {
                     session.Delete(customer);
                 }
 
-                var products = session.Query<ProductDescription>().Select(x => x);
+                var products = session.Query<ProductDescription>().Select(x => x).ToList();
                 foreach (var product in products)
                 {
                     session.Delete(product);

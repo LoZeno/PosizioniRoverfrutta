@@ -226,13 +226,13 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    CustomersList.AddRange(session.Query<CustomerRow, CustomersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100));
+                    CustomersList.AddRange(session.Query<CustomerRow, CustomersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100).ToList());
                 }
                 else
                 {
                     var customersQuery = session.Query<CustomerRow, CustomersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow());
                     var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
-                    CustomersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100));
+                    CustomersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100).ToList());
                 }
             }
             var selectedCustomerId = _selectedCustomer?.Id;

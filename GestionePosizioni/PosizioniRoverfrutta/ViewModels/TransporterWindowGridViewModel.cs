@@ -196,7 +196,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    TransportersList.AddRange(session.Query<CustomerRow, TransportersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100));
+                    TransportersList.AddRange(session.Query<CustomerRow, TransportersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100).ToList());
                 }
                 else
                 {
