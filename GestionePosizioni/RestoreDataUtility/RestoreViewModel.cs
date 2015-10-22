@@ -52,7 +52,13 @@ namespace RestoreDataUtility
                             Directory.Delete(_dataDirectory, true);
                         }
 
-                        await Task.Run(() => Raven.Database.DocumentDatabase.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory }, selectedPath, _dataDirectory, WriteOutput, true));
+                        var databaseRestoreRequest = new Raven.Abstractions.Data.DatabaseRestoreRequest
+                        {
+                            DatabaseLocation = _dataDirectory,
+                            BackupLocation = selectedPath,
+                            Defrag = true,
+                        };
+                        await Task.Run(() => Raven.Database.Actions.MaintenanceActions.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory }, databaseRestoreRequest, WriteOutput));
                         MessageBox.Show("Ripristino dei dati completato", "Ripristino completato", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception error)
