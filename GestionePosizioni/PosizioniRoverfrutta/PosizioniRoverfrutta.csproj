@@ -164,6 +164,7 @@
     <Compile Include="CustomControls\CurrenciesAutocompleteBoxWrapper.cs" />
     <Compile Include="CustomControls\DataGridColumns\DataGridDecimalColumn.cs" />
     <Compile Include="CustomControls\DataGridColumns\DataGridNumericColumn.cs" />
+    <Compile Include="CustomControls\PalletTypesAutocompleteBoxWrapper.cs" />
     <Compile Include="CustomControls\ProductDescriptionAutocompleteBoxWrapper.cs" />
     <Compile Include="CustomControls\ProductDetailsGrid.xaml.cs">
       <DependentUpon>ProductDetailsGrid.xaml</DependentUpon>
@@ -184,6 +185,7 @@
     <Compile Include="Services\CustomerAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\CustomerNamesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\DecimalExtension.cs" />
+    <Compile Include="Services\PalletTypeComboBoxProvider.cs" />
     <Compile Include="Services\ProductNamesAutoCompleteBoxProvider.cs" />
     <Compile Include="Services\ResourceHelpers.cs" />
     <Compile Include="Services\TermsOfPaymentAutoCompleteBoxProvider.cs" />
