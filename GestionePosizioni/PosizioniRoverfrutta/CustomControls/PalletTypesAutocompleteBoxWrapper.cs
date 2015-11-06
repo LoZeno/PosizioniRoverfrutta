@@ -1,23 +1,23 @@
 ﻿using CustomWPFControls;
 using PosizioniRoverfrutta.Services;
+using System.Windows.Controls;
 
 namespace PosizioniRoverfrutta.CustomControls
 {
-    public class PalletTypesAutocompleteBoxWrapper : AutoCompleteBoxAsync
-    {
-        public PalletTypesAutocompleteBoxWrapper()
+    public class PalletTypesComboBoxWrapper : ComboBox
+    {        
+        public PalletTypesComboBoxWrapper()
         {
-            this.DataProvider = new PalletTypesComboBoxProvider();
-            this.GotFocus += PalletTypesAutocompleteBoxWrapper_GotFocus;
+            this.IsEditable = true;
+            _ItemsSourceProvider = new PalletTypesComboBoxProvider();
+            this.GotFocus += PalletTypesComboBoxWrapper_GotFocus;
         }
 
-        private void PalletTypesAutocompleteBoxWrapper_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void PalletTypesComboBoxWrapper_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
-            {
-                Text = " ";
-            }
-            this.PopulateComplete();
+            this.ItemsSource = _ItemsSourceProvider.GetItems();
         }
+
+        private readonly PalletTypesComboBoxProvider _ItemsSourceProvider;
     }
 }

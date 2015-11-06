@@ -52,7 +52,7 @@ namespace PosizioniRoverfrutta.CustomControls
             ProductsGrid.Columns.Add(palletsColumn);
 
             var palletTypeColumn = BuildPalletTypesDataGridColumn();
-                //BuildComboBoxColumn("Tipo Pal", "PalletType");
+            BuildComboBoxColumn("Tipo Pal", "PalletType");
             ProductsGrid.Columns.Add(palletTypeColumn);
 
             var packagesColumn = BuildNumericColumn("Colli", "Packages");
@@ -184,8 +184,8 @@ namespace PosizioniRoverfrutta.CustomControls
                 UpdateSourceTrigger = UpdateSourceTrigger.Default
             };
 
-            var autocompleteBoxFactory = new FrameworkElementFactory(typeof(PalletTypesAutocompleteBoxWrapper));
-            autocompleteBoxFactory.SetBinding(AutoCompleteBox.TextProperty, autocompleteBinding);
+            var autocompleteBoxFactory = new FrameworkElementFactory(typeof(PalletTypesComboBoxWrapper));
+            autocompleteBoxFactory.SetBinding(ComboBox.TextProperty, autocompleteBinding);
 
             var autocompleteTemplate = new DataTemplate();
             autocompleteTemplate.VisualTree = autocompleteBoxFactory;

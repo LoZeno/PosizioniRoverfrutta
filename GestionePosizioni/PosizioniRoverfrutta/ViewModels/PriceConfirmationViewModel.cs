@@ -539,10 +539,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     var savedProductIds = new List<int?>();
                     var savedCurrencies = new List<string>();
+                    var savedPalletTypesIds = new List<string>();
                     foreach (var productRowViewModel in ProductDetails)
                     {
-                        UpdateProductDescriptionsAndCurrencies(productRowViewModel.ProductDetails, session, savedProductIds,
-                            savedCurrencies);
+                        UpdateProductDescriptionsCurrenciesAndPalletTypes(productRowViewModel.ProductDetails, session, savedProductIds,
+                            savedCurrencies, savedPalletTypesIds);
                     }
 
                     UpdateTermsOfPayment(PriceConfirmation.TermsOfPayment, session);
@@ -595,11 +596,12 @@ namespace PosizioniRoverfrutta.ViewModels
             session.Store(top);
         }
 
-        private void UpdateProductDescriptionsAndCurrencies(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds, List<string> savedCurrencies)
+        private void UpdateProductDescriptionsCurrenciesAndPalletTypes(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds, List<string> savedCurrencies, List<string> savedPalletTypesIds)
         {
             PriceConfirmation.ProductDetails.Add(productDetails);
             CheckIfProductDescriptionIsNew(productDetails, session, savedProductIds);
             CheckIfCurrencyIsNew(productDetails.Currency, session, savedCurrencies);
+            CheckIfPalletTypeIsNew(productDetails.PalletType, session, savedPalletTypesIds);
         }
 
         private static void CheckIfProductDescriptionIsNew(ProductDetails productDetails, IDocumentSession session,
@@ -641,6 +643,26 @@ namespace PosizioniRoverfrutta.ViewModels
                     session.Store(currency);
                 }
                 savedCurrencies.Add(currency.Name.ToLowerInvariant());
+            }
+        }
+
+        private static void CheckIfPalletTypeIsNew(string palletTypeUsed, IDocumentSession session, List<string> savedPalletTypesIds)
+        {
+            if (!string.IsNullOrWhiteSpace(palletTypeUsed) &&
+                !savedPalletTypesIds.Contains(palletTypeUsed.ToLowerInvariant()))
+            {
+                var palletType =
+                    session.Query<PalletType>()
+                    .FirstOrDefault(p => p.Name.Equals(palletTypeUsed, StringComparison.CurrentCultureIgnoreCase));
+                if (palletType == null)
+                {
+                    palletType = new PalletType
+                    {
+                        Name = palletTypeUsed.Trim()
+                    };
+                    session.Store(palletType);
+                }
+                savedPalletTypesIds.Add(palletType.Name.ToLowerInvariant());
             }
         }
 
