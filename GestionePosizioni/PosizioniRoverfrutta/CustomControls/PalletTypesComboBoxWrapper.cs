@@ -1,5 +1,4 @@
-﻿using CustomWPFControls;
-using PosizioniRoverfrutta.Services;
+﻿using PosizioniRoverfrutta.Services;
 using System.Windows.Controls;
 
 namespace PosizioniRoverfrutta.CustomControls

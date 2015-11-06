@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using PosizioniRoverfrutta.CustomControls.DataGridColumns;
 using PosizioniRoverfrutta.Services;
+using System.Data;
 
 namespace PosizioniRoverfrutta.CustomControls
 {
@@ -18,6 +19,23 @@ namespace PosizioniRoverfrutta.CustomControls
             InitializeComponent();
 
             BuildDataGridColumns();
+
+            ProductsGrid.CellEditEnding += ProductsGrid_CellEditEnding;
+            ProductsGrid.CurrentCellChanged += ProductsGrid_CurrentCellChanged;
+        }
+
+        private void ProductsGrid_CurrentCellChanged(object sender, System.EventArgs e)
+        {
+            if (rowBeingEdited != null)
+            {
+                rowBeingEdited.EndEdit();
+            }
+        }
+
+        private void ProductsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            DataRowView rowView = e.Row.Item as DataRowView;
+            rowBeingEdited = rowView;
         }
 
         public IEnumerable ItemsSource
@@ -283,5 +301,7 @@ namespace PosizioniRoverfrutta.CustomControls
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
             };
         }
+
+        private DataRowView rowBeingEdited = null;
     }
 }
