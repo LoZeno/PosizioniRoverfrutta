@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using PosizioniRoverfrutta.CustomControls.DataGridColumns;
+using PosizioniRoverfrutta.Services;
+using System.Data;
 
 namespace PosizioniRoverfrutta.CustomControls
 {
@@ -17,6 +19,23 @@ namespace PosizioniRoverfrutta.CustomControls
             InitializeComponent();
 
             BuildDataGridColumns();
+
+            ProductsGrid.CellEditEnding += ProductsGrid_CellEditEnding;
+            ProductsGrid.CurrentCellChanged += ProductsGrid_CurrentCellChanged;
+        }
+
+        private void ProductsGrid_CurrentCellChanged(object sender, System.EventArgs e)
+        {
+            if (rowBeingEdited != null)
+            {
+                rowBeingEdited.EndEdit();
+            }
+        }
+
+        private void ProductsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            DataRowView rowView = e.Row.Item as DataRowView;
+            rowBeingEdited = rowView;
         }
 
         public IEnumerable ItemsSource
@@ -49,6 +68,10 @@ namespace PosizioniRoverfrutta.CustomControls
 
             var palletsColumn = BuildDecimalColumn("Pallets", "Pallets");
             ProductsGrid.Columns.Add(palletsColumn);
+
+            var palletTypeColumn = BuildPalletTypesDataGridColumn();
+            BuildComboBoxColumn("Tipo Pal", "PalletType");
+            ProductsGrid.Columns.Add(palletTypeColumn);
 
             var packagesColumn = BuildNumericColumn("Colli", "Packages");
             ProductsGrid.Columns.Add(packagesColumn);
@@ -83,7 +106,7 @@ namespace PosizioniRoverfrutta.CustomControls
 
             var binding = new Binding("Description")
             {
-                Mode = BindingMode.OneWay
+                Mode = BindingMode.OneWay,
             };
 
             // Create the TextBlock
@@ -96,7 +119,7 @@ namespace PosizioniRoverfrutta.CustomControls
             var autocompleteBinding = new Binding("Description")
             {
                 Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.Default
+                UpdateSourceTrigger = UpdateSourceTrigger.LostFocus
             };
 
             var autocompleteBoxFactory = new FrameworkElementFactory(typeof(ProductDescriptionAutocompleteBoxWrapper));
@@ -118,7 +141,7 @@ namespace PosizioniRoverfrutta.CustomControls
             var templateColumn = new DataGridTemplateColumn
             {
                 Header = "Valuta",
-                Width = new DataGridLength(1.5, DataGridLengthUnitType.Star)
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
             };
 
             var binding = new Binding("Currency")
@@ -141,6 +164,46 @@ namespace PosizioniRoverfrutta.CustomControls
 
             var autocompleteBoxFactory = new FrameworkElementFactory(typeof(CurrenciesAutocompleteBoxWrapper));
             autocompleteBoxFactory.SetBinding(AutoCompleteBox.TextProperty, autocompleteBinding);
+
+            var autocompleteTemplate = new DataTemplate();
+            autocompleteTemplate.VisualTree = autocompleteBoxFactory;
+
+            // Set the Templates to the Column
+            templateColumn.CellTemplate = textTemplate;
+            templateColumn.CellEditingTemplate = autocompleteTemplate;
+
+            return templateColumn;
+        }
+
+        private DataGridTemplateColumn BuildPalletTypesDataGridColumn()
+        {
+            // Create The Column
+            var templateColumn = new DataGridTemplateColumn
+            {
+                Header = "Tipo Pal",
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star)
+            };
+
+            var binding = new Binding("PalletType")
+            {
+                Mode = BindingMode.OneWay
+            };
+
+            // Create the TextBlock
+            var textFactory = new FrameworkElementFactory(typeof(TextBlock));
+            textFactory.SetBinding(TextBlock.TextProperty, binding);
+            var textTemplate = new DataTemplate();
+            textTemplate.VisualTree = textFactory;
+
+            // Create the ComboBox
+            var autocompleteBinding = new Binding("PalletType")
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.Default
+            };
+
+            var autocompleteBoxFactory = new FrameworkElementFactory(typeof(PalletTypesComboBoxWrapper));
+            autocompleteBoxFactory.SetBinding(ComboBox.TextProperty, autocompleteBinding);
 
             var autocompleteTemplate = new DataTemplate();
             autocompleteTemplate.VisualTree = autocompleteBoxFactory;
@@ -184,6 +247,26 @@ namespace PosizioniRoverfrutta.CustomControls
             };
         }
 
+        private static DataGridColumn BuildComboBoxColumn(string header, string propertyName)
+        {
+            var binding = new Binding(propertyName)
+            {
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            };
+
+            var comboBoxStyle = new Style(typeof(ComboBox));
+            comboBoxStyle.Setters.Add(new Setter(ComboBox.IsEditableProperty, true));
+            return new DataGridComboBoxColumn
+            {
+                ItemsSource = new PalletTypesComboBoxProvider().GetItems(),
+                Header = header,
+                SelectedValueBinding = binding,
+                Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+                EditingElementStyle = comboBoxStyle
+            };
+        }
+
         private static DataGridColumn BuildPriceColumn(string header, string propertyName)
         {
             var binding = new Binding(propertyName)
@@ -218,5 +301,7 @@ namespace PosizioniRoverfrutta.CustomControls
                 Width = new DataGridLength(1, DataGridLengthUnitType.Star),
             };
         }
+
+        private DataRowView rowBeingEdited = null;
     }
 }

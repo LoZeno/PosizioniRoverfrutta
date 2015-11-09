@@ -49,6 +49,16 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public string PalletType
+        {
+            get { return ProductDetails.PalletType; }
+            set
+            {
+                ProductDetails.PalletType = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int Packages 
         { 
             get { return ProductDetails.Packages; }

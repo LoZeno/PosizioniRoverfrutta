@@ -282,6 +282,7 @@
                 <tr class="boldGridHeader">
                     <td>Prodotto</td>
                     <td>N° Pallets</td>
+                    <td>Tipo Pal.</td>
                     <td>N° Colli</td>
                     <td>Kg Lordo</td>
                     <td>Kg Netto</td>
@@ -299,6 +300,9 @@
                     </td>
                     <td>
                         @product.Pallets
+                    </td>
+                    <td>
+                        @product.PalletType
                     </td>
                     <td>
                         @product.Packages
@@ -325,6 +329,7 @@
                 <tr>
                     <td>Totali:</td>
                     <td>@Model.ProductDetails.Sum(p => p.Pallets)</td>
+                    <td></td>
                     <td>@Model.ProductDetails.Sum(p => p.Packages)</td>
                     <td>@Model.ProductDetails.Sum(p => p.GrossWeight)</td>
                     <td>@Model.ProductDetails.Sum(p => p.NetWeight)</td>
