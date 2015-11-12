@@ -166,6 +166,11 @@ namespace PosizioniRoverfrutta.Windows
         private void CustomersWindow_Activated(object sender, EventArgs e)
         {
             ((TransporterWindowGridViewModel)DataContext).Refresh.Execute(null);
+
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
         }
     }
 }

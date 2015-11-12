@@ -72,6 +72,11 @@ namespace PosizioniRoverfrutta.Windows
         private void ProductsWindow_Activated(object sender, EventArgs e)
         {
             ((ProductsWindowGridViewModel)DataContext).Refresh.Execute(null);
+
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
         }
 
         private void SetBindingsAndStatusForTextBox(string property, TextBox control)
