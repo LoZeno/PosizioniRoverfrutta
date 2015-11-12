@@ -223,6 +223,11 @@ namespace PosizioniRoverfrutta
         private void MainWindow_Activated(object sender, System.EventArgs e)
         {
             ((ListPositionsViewModel)DataContext).Refresh.Execute(null);
+
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
         }
 
         private void NewDocumentButton_OnClick(object sender, RoutedEventArgs e)
