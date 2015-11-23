@@ -155,15 +155,16 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="1" FontWeight="Bold">Totali</Label>
-                        <TextBlock Name="TotalPalletsText" Grid.Column="2"></TextBlock>
-                        <TextBlock Name="TotalPackagesText" Grid.Column="3"></TextBlock>
-                        <TextBlock Name="TotalGrossText" Grid.Column="4"></TextBlock>
-                        <TextBlock Name="TotalNetText" Grid.Column="5"></TextBlock>
-                        <TextBlock Name="TotalAmountText" Grid.Column="9"></TextBlock>
+                        <TextBlock Name="TotalPalletsText" Grid.Column="2" Margin="4px"></TextBlock>
+                        <TextBlock Name="TotalPackagesText" Grid.Column="4" Margin="4px"></TextBlock>
+                        <TextBlock Name="TotalGrossText" Grid.Column="5" Margin="4px"></TextBlock>
+                        <TextBlock Name="TotalNetText" Grid.Column="6" Margin="4px"></TextBlock>
+                        <TextBlock Name="TotalAmountText" Grid.Column="10" Margin="4px"></TextBlock>
                     </Grid>
 
                     <StackPanel Grid.Row="6" Orientation="Vertical">
