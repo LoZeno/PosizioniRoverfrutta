@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
 using Models.Companies;
 using Models.DocumentTypes;
 using Moq;
@@ -7,7 +6,7 @@ using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
-using Raven.Client.Linq;
+using Raven.Client.Document;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels
 {
@@ -19,6 +18,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+            _dataStorage.DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             _dataStorage.DocumentStore.Conventions.ShouldSaveChangesForceAggressiveCacheCheck = true;
             _mockWindowManager = new Mock<IWindowManager>();
         }
