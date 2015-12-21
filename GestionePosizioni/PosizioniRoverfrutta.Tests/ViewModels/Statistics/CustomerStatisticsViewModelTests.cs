@@ -52,6 +52,31 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
                             PriceParameter = i + 1,
                             Price = (i + 1) * 100
                         });
+
+                    productsSold.Add(new ProductDetails
+                    {
+                        ProductId = 2,
+                        Description = "Product number 2",
+                        Pallets = i + 2,
+                        Packages = i + 2,
+                        GrossWeight = i + 2,
+                        NetWeight = i + 2,
+                        PriceParameter = i + 2,
+                        Price = (i + 2) * 100
+                    });
+
+                    productsSold.Add(new ProductDetails
+                    {
+                        ProductId = i + 10,
+                        Description = "Product number i",
+                        Pallets = i + 1,
+                        Packages = i + 1,
+                        GrossWeight = i + 1,
+                        NetWeight = i + 1,
+                        PriceParameter = i + 1,
+                        Price = (i + 1) * 100
+                    });
+
                     var shippingDate = DateTime.Today.AddDays(i);
                     var priceConfirmation = new PriceConfirmation
                     {
@@ -109,32 +134,70 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         [TestCase(1,2)]
         [TestCase(2,3)]
         [TestCase(1,3)]
+        [TestCase(1, 10)]
+        [TestCase(3, 10)]
+        [TestCase(0, 29)]
         public void when_all_filters_are_set_the_list_of_products_contains_data_within_the_dates_selected_included(int startDay, int endDay)
         {
             var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
             viewModel.FromDate = DateTime.Today.AddDays(startDay);
             viewModel.ToDate = DateTime.Today.AddDays(endDay);
 
-            var seed = 0;
+            var firstSeed = 0;
+            var secondSeed = 0;
             var numberOfDays = endDay - startDay + 1;
-            var expectedTotalAmount = 0;
+            var firstExpectedTotalAmount = 0;
+            var secondExpectedTotalAmount = 0;
             for (int i = startDay; i < endDay + 1; i++)
             {
-                seed += i + 1;
-                var amount = (i + 1) * (i + 1) * 100;
-                expectedTotalAmount += amount;
+                firstSeed += i + 1;
+                secondSeed += i + 2;
+                var firstAmount = (i + 1) * (i + 1) * 100;
+                firstExpectedTotalAmount += firstAmount;
+                var secondAmount = (i + 2) * (i + 2) * 100;
+                secondExpectedTotalAmount += secondAmount;
             }
-            Assert.That(viewModel.ProductStatisticsRows.Count, Is.EqualTo(1));
+            Assert.That(viewModel.ProductStatisticsRows.Count, Is.EqualTo(2 + numberOfDays));
+            //first product grouped
             Assert.That(viewModel.ProductStatisticsRows[0].ProductId, Is.EqualTo(1));
-            Assert.That(viewModel.ProductStatisticsRows[0].Pallets, Is.EqualTo(seed));
-            Assert.That(viewModel.ProductStatisticsRows[0].Packages, Is.EqualTo(seed));
-            Assert.That(viewModel.ProductStatisticsRows[0].GrossWeight, Is.EqualTo(seed));
-            Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(seed));
-            Assert.That(viewModel.ProductStatisticsRows[0].Instances, Is.EqualTo(numberOfDays));
-            Assert.That(viewModel.ProductStatisticsRows[0].PriceSum, Is.EqualTo(seed * 100));
-            Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(seed * 100 / numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[0].Pallets, Is.EqualTo(firstSeed));
+            Assert.That(viewModel.ProductStatisticsRows[0].Packages, Is.EqualTo(firstSeed));
+            Assert.That(viewModel.ProductStatisticsRows[0].GrossWeight, Is.EqualTo(firstSeed));
+            Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(firstSeed));
+            Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(firstSeed * 100 / numberOfDays));
             Assert.That(viewModel.ProductStatisticsRows[0].Description, Is.EqualTo("Product number 1"));
-            Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(expectedTotalAmount));
+            Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(firstExpectedTotalAmount));
+            //second product grouped
+            Assert.That(viewModel.ProductStatisticsRows[1].ProductId, Is.EqualTo(2));
+            Assert.That(viewModel.ProductStatisticsRows[1].Pallets, Is.EqualTo(secondSeed));
+            Assert.That(viewModel.ProductStatisticsRows[1].Packages, Is.EqualTo(secondSeed));
+            Assert.That(viewModel.ProductStatisticsRows[1].GrossWeight, Is.EqualTo(secondSeed));
+            Assert.That(viewModel.ProductStatisticsRows[1].NetWeight, Is.EqualTo(secondSeed));
+            Assert.That(viewModel.ProductStatisticsRows[1].AveragePrice, Is.EqualTo(secondSeed * 100 / numberOfDays));                     
+            Assert.That(viewModel.ProductStatisticsRows[1].Description, Is.EqualTo("Product number 2"));                                     
+            Assert.That(viewModel.ProductStatisticsRows[1].TotalAmount, Is.EqualTo(secondExpectedTotalAmount));
+        }
+
+        [Test]
+        public void when_fromDate_is_reset_to_null_the_list_of_products_is_emptied()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(2);
+
+            viewModel.FromDate = null;
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_toDate_is_reset_to_null_the_list_of_products_is_emptied()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(2);
+
+            viewModel.ToDate = null;
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
         }
 
         private IDataStorage _dataStorage;
