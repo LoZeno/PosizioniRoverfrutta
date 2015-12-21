@@ -3,7 +3,13 @@ using Models.DocumentTypes;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels.Statistics;
 using QueryManager;
+using QueryManager.Indexes;
 using Raven.Client;
+using Raven.Client.Document;
+using Raven.Client.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
 {
@@ -15,6 +21,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+            _dataStorage.DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
 
             using (var session = _dataStorage.CreateSession())
             {
@@ -31,12 +38,30 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
                 };
                 session.Store(customer);
 
-                var priceConfirmation = new PriceConfirmation
+                for (int i = 0; i < 30; i++)
                 {
+                    var productsSold = new List<ProductDetails>();
+                    productsSold.Add(new ProductDetails
+                        {
+                            ProductId = 1,
+                            Description = "Product number 1",
+                            Pallets = i + 1,
+                            Packages = i + 1,
+                            GrossWeight = i + 1,
+                            NetWeight = i + 1,
+                            PriceParameter = i + 1,
+                            Price = (i + 1) * 100
+                        });
+                    var shippingDate = DateTime.Today.AddDays(i);
+                    var priceConfirmation = new PriceConfirmation
+                    {
+                        Customer = customer,
+                        ShippingDate = shippingDate,
+                        ProductDetails = productsSold
+                    };
 
-                };
-
-                session.Store(priceConfirmation);
+                    session.Store(priceConfirmation);
+                }
                 session.SaveChanges();
 
                 _customerId = customer.Id;
@@ -56,6 +81,60 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.PostCode, Is.EqualTo(customerPostCode));
             Assert.That(viewModel.StateOrProvince, Is.EqualTo(customerState));
             Assert.That(viewModel.VatCode, Is.EqualTo(customerVatCode));
+        }
+
+        [Test]
+        public void when_no_date_filter_is_set_the_list_of_products_is_empty()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_the_from_date_filter_only_is_set_the_list_of_products_is_empty()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.FromDate = DateTime.Today;
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_the_to_date_filter_only_is_set_the_list_of_products_is_empty()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.ToDate = DateTime.Today;
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
+        }
+
+        [TestCase(1,2)]
+        [TestCase(2,3)]
+        [TestCase(1,3)]
+        public void when_all_filters_are_set_the_list_of_products_contains_data_within_the_dates_selected_included(int startDay, int endDay)
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.FromDate = DateTime.Today.AddDays(startDay);
+            viewModel.ToDate = DateTime.Today.AddDays(endDay);
+
+            var seed = 0;
+            var numberOfDays = endDay - startDay + 1;
+            var expectedTotalAmount = 0;
+            for (int i = startDay; i < endDay + 1; i++)
+            {
+                seed += i + 1;
+                var amount = (i + 1) * (i + 1) * 100;
+                expectedTotalAmount += amount;
+            }
+            Assert.That(viewModel.ProductStatisticsRows.Count, Is.EqualTo(1));
+            Assert.That(viewModel.ProductStatisticsRows[0].ProductId, Is.EqualTo(1));
+            Assert.That(viewModel.ProductStatisticsRows[0].Pallets, Is.EqualTo(seed));
+            Assert.That(viewModel.ProductStatisticsRows[0].Packages, Is.EqualTo(seed));
+            Assert.That(viewModel.ProductStatisticsRows[0].GrossWeight, Is.EqualTo(seed));
+            Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(seed));
+            Assert.That(viewModel.ProductStatisticsRows[0].Instances, Is.EqualTo(numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[0].PriceSum, Is.EqualTo(seed * 100));
+            Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(seed * 100 / numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[0].Description, Is.EqualTo("Product number 1"));
+            Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(expectedTotalAmount));
         }
 
         private IDataStorage _dataStorage;

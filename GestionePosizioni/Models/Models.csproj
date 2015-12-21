@@ -66,6 +66,7 @@
     <Compile Include="Entities\PositionsListRow.cs" />
     <Compile Include="Entities\ProductDescription.cs" />
     <Compile Include="Entities\ProductRow.cs" />
+    <Compile Include="Entities\ProductStatistics.cs" />
     <Compile Include="Entities\SummaryRow.cs" />
     <Compile Include="Entities\TermOfPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

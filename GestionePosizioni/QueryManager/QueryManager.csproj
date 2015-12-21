@@ -70,6 +70,7 @@
     <Compile Include="Indexes\Customer_ByCompanyName.cs" />
     <Compile Include="Indexes\ProductsWithNumberOfDocuments.cs" />
     <Compile Include="Indexes\SaleConfirmation_ByCustomerId.cs" />
+    <Compile Include="Indexes\PriceConfirmation_byCustomerId_andProviderId_andShippingDate.cs" />
     <Compile Include="Indexes\SummaryOfOpenPosition.cs" />
     <Compile Include="Indexes\SummaryOfPartialPositions.cs" />
     <Compile Include="Indexes\SummaryOfPositions.cs" />
