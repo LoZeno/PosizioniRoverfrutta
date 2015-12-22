@@ -10,9 +10,6 @@ namespace Models.Entities
     {
         public int? ProductId { get; set; }
         public string Description { get; set; }
-        public decimal Pallets { get; set; }
-        public int Packages { get; set; }
-        public decimal GrossWeight { get; set; }
         public decimal NetWeight { get; set; }
         public decimal PriceSum { get; set; }
         public int Instances { get; set; }

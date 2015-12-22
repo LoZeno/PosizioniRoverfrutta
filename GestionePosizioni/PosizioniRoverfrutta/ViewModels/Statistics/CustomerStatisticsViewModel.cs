@@ -79,6 +79,18 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 UpdateProductRows();
             }
         }
+
+        public StatisticsMode CustomerOrProvider
+        {
+            get { return _customerOrProvider; }
+            set
+            {
+                _customerOrProvider = value;
+                OnPropertyChanged();
+                UpdateProductRows();
+            }
+        }
+
         public ObservableCollection<ProductStatistics> ProductStatisticsRows { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -99,8 +111,9 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             using (var session = _dataStorage.CreateSession())
             {
                 var temporaryData = new List<ProductStatistics>();
-                var elements = session.Query<PriceConfirmation, PriceConfirmation_byCustomerIdAndProviderIdAndShippingDate>()
-                    .Where(x => x.Customer.Id.Equals(_customer.Id) && x.ShippingDate >= _fromDate && x.ShippingDate <= _toDate);
+                var elements = session.Query<PriceConfirmation, PriceConfirmation_byCustomerIdAndProviderIdAndShippingDate>();
+                elements = UpdateQueryBasedOnCustomerOrProviderChoice(elements)
+                    .Where(x => x.ShippingDate >= _fromDate && x.ShippingDate <= _toDate);
                 var enumerator = session.Advanced.Stream(elements);
                 while(enumerator.MoveNext())
                 {
@@ -111,10 +124,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                         {
                             var single = temporaryData.Single(x => x.ProductId.Equals(product.ProductId));
                             single.Instances += 1;
-                            single.GrossWeight += product.GrossWeight;
                             single.NetWeight += product.NetWeight;
-                            single.Packages += product.Packages;
-                            single.Pallets += product.Pallets;
                             single.PriceSum += product.Price;
                             single.TotalAmount += product.TotalPrice;
                         }
@@ -126,23 +136,35 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                                 PriceSum = product.Price,
                                 Instances = 1,
                                 Description = product.Description,
-                                GrossWeight = product.GrossWeight,
                                 NetWeight = product.NetWeight,
-                                Packages = product.Packages,
-                                Pallets = product.Pallets,
                                 TotalAmount = product.TotalPrice
                             });
                         }
                     }
                 }
-
-                ProductStatisticsRows = new ObservableCollection<ProductStatistics>(temporaryData);
+                ProductStatisticsRows = new ObservableCollection<ProductStatistics>(temporaryData.OrderBy(x => x.Description).ToList());
             }
+        }
+
+        private IRavenQueryable<PriceConfirmation> UpdateQueryBasedOnCustomerOrProviderChoice(IRavenQueryable<PriceConfirmation> query)
+        {
+            if (_customerOrProvider == StatisticsMode.Provider)
+            {
+                return query.Where(x => x.Provider.Id.Equals(_customer.Id));
+            }
+            return query.Where(x => x.Customer.Id.Equals(_customer.Id));
         }
 
         private Customer _customer;
         private IDataStorage _dataStorage;
         private DateTime? _fromDate;
         private DateTime? _toDate;
+        private StatisticsMode _customerOrProvider;
+    }
+
+    public enum StatisticsMode
+    {
+        Customer,
+        Provider
     }
 }

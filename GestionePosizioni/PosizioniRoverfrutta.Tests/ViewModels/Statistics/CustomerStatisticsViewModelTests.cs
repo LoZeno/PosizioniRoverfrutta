@@ -37,6 +37,18 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
                     VatCode = customerVatCode
                 };
                 session.Store(customer);
+                var provider = new Customer
+                {
+                    CompanyName = providerName,
+                    Address = providerAddress,
+                    City = providerCity,
+                    Country = providerCountry,
+                    EmailAddress = providerEmailAddress,
+                    PostCode = providerPostCode,
+                    StateOrProvince = providerState,
+                    VatCode = providerVatCode
+                };
+                session.Store(provider);
 
                 for (int i = 0; i < 30; i++)
                 {
@@ -81,6 +93,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
                     var priceConfirmation = new PriceConfirmation
                     {
                         Customer = customer,
+                        Provider = provider,
                         ShippingDate = shippingDate,
                         ProductDetails = productsSold
                     };
@@ -90,6 +103,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
                 session.SaveChanges();
 
                 _customerId = customer.Id;
+                _providerId = provider.Id;
             }
         }
 
@@ -106,6 +120,14 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.PostCode, Is.EqualTo(customerPostCode));
             Assert.That(viewModel.StateOrProvince, Is.EqualTo(customerState));
             Assert.That(viewModel.VatCode, Is.EqualTo(customerVatCode));
+        }
+
+        [Test]
+        public void when_loading_the_viewModel_it_defaults_to_Customer()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+
+            Assert.That(viewModel.CustomerOrProvider, Is.EqualTo(StatisticsMode.Customer));
         }
 
         [Test]
@@ -137,7 +159,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         [TestCase(1, 10)]
         [TestCase(3, 10)]
         [TestCase(0, 29)]
-        public void when_all_filters_are_set_the_list_of_products_contains_data_within_the_dates_selected_included(int startDay, int endDay)
+        public void when_all_filters_are_set_for_customer_the_list_of_products_contains_data_within_the_dates_selected_included(int startDay, int endDay)
         {
             var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
             viewModel.FromDate = DateTime.Today.AddDays(startDay);
@@ -160,18 +182,12 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.ProductStatisticsRows.Count, Is.EqualTo(2 + numberOfDays));
             //first product grouped
             Assert.That(viewModel.ProductStatisticsRows[0].ProductId, Is.EqualTo(1));
-            Assert.That(viewModel.ProductStatisticsRows[0].Pallets, Is.EqualTo(firstSeed));
-            Assert.That(viewModel.ProductStatisticsRows[0].Packages, Is.EqualTo(firstSeed));
-            Assert.That(viewModel.ProductStatisticsRows[0].GrossWeight, Is.EqualTo(firstSeed));
             Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(firstSeed));
             Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(firstSeed * 100 / numberOfDays));
             Assert.That(viewModel.ProductStatisticsRows[0].Description, Is.EqualTo("Product number 1"));
             Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(firstExpectedTotalAmount));
             //second product grouped
             Assert.That(viewModel.ProductStatisticsRows[1].ProductId, Is.EqualTo(2));
-            Assert.That(viewModel.ProductStatisticsRows[1].Pallets, Is.EqualTo(secondSeed));
-            Assert.That(viewModel.ProductStatisticsRows[1].Packages, Is.EqualTo(secondSeed));
-            Assert.That(viewModel.ProductStatisticsRows[1].GrossWeight, Is.EqualTo(secondSeed));
             Assert.That(viewModel.ProductStatisticsRows[1].NetWeight, Is.EqualTo(secondSeed));
             Assert.That(viewModel.ProductStatisticsRows[1].AveragePrice, Is.EqualTo(secondSeed * 100 / numberOfDays));                     
             Assert.That(viewModel.ProductStatisticsRows[1].Description, Is.EqualTo("Product number 2"));                                     
@@ -200,8 +216,62 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
         }
 
+        [Test]
+        public void when_switching_to_provider_mode_and_the_company_has_no_data_as_provider_it_returns_empty_list()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(2);
+
+            viewModel.CustomerOrProvider = StatisticsMode.Provider;
+            Assert.That(viewModel.ProductStatisticsRows.Any(), Is.False);
+        }
+
+        [TestCase(1, 2)]
+        [TestCase(2, 3)]
+        [TestCase(1, 3)]
+        [TestCase(1, 10)]
+        [TestCase(3, 10)]
+        [TestCase(0, 29)]
+        public void when_all_filters_are_set_for_provider_the_list_of_products_contains_data_within_the_dates_selected_included(int startDay, int endDay)
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _providerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Provider;
+            viewModel.FromDate = DateTime.Today.AddDays(startDay);
+            viewModel.ToDate = DateTime.Today.AddDays(endDay);
+
+            var firstSeed = 0;
+            var secondSeed = 0;
+            var numberOfDays = endDay - startDay + 1;
+            var firstExpectedTotalAmount = 0;
+            var secondExpectedTotalAmount = 0;
+            for (int i = startDay; i < endDay + 1; i++)
+            {
+                firstSeed += i + 1;
+                secondSeed += i + 2;
+                var firstAmount = (i + 1) * (i + 1) * 100;
+                firstExpectedTotalAmount += firstAmount;
+                var secondAmount = (i + 2) * (i + 2) * 100;
+                secondExpectedTotalAmount += secondAmount;
+            }
+            Assert.That(viewModel.ProductStatisticsRows.Count, Is.EqualTo(2 + numberOfDays));
+            //first product grouped
+            Assert.That(viewModel.ProductStatisticsRows[0].ProductId, Is.EqualTo(1));
+            Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(firstSeed));
+            Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(firstSeed * 100 / numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[0].Description, Is.EqualTo("Product number 1"));
+            Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(firstExpectedTotalAmount));
+            //second product grouped
+            Assert.That(viewModel.ProductStatisticsRows[1].ProductId, Is.EqualTo(2));
+            Assert.That(viewModel.ProductStatisticsRows[1].NetWeight, Is.EqualTo(secondSeed));
+            Assert.That(viewModel.ProductStatisticsRows[1].AveragePrice, Is.EqualTo(secondSeed * 100 / numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[1].Description, Is.EqualTo("Product number 2"));
+            Assert.That(viewModel.ProductStatisticsRows[1].TotalAmount, Is.EqualTo(secondExpectedTotalAmount));
+        }
+
         private IDataStorage _dataStorage;
         private string _customerId;
+        private string _providerId;
 
         const string customerName = "Customer";
         const string customerAddress = "Address";
@@ -211,5 +281,13 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         const string customerPostCode = "POSTCODE";
         const string customerState = "State";
         const string customerVatCode = "VatCode";
+        private string providerName = "Provider";
+        private string providerAddress = "Other Address";
+        private string providerCity = "Other City";
+        private string providerCountry = "Other Country";
+        private string providerEmailAddress = "another.email@address.com";
+        private string providerPostCode = "P0STC0D3";
+        private string providerState ="another State";
+        private string providerVatCode = "Other VatCode";
     }
 }
