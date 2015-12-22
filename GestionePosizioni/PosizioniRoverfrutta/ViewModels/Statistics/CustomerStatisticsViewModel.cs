@@ -11,6 +11,8 @@ using QueryManager.Indexes;
 using Raven.Client.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Commands;
 
 namespace PosizioniRoverfrutta.ViewModels.Statistics
 {
@@ -19,6 +21,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         public CustomerStatisticsViewModel(IDataStorage dataStorage, string customerId)
         {
             ProductStatisticsRows = new ObservableCollection<ProductStatistics>();
+            CathegoryStatisticsRows = new ObservableCollection<ProductStatistics>();
             _dataStorage = dataStorage;
             using (var session = _dataStorage.CreateSession())
             {
@@ -90,8 +93,33 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 UpdateProductRows();
             }
         }
-
+        public string Cathegory
+        {
+            get { return _cathegory; }
+            set
+            {
+                _cathegory = value;
+                OnPropertyChanged();
+            }
+        }
+        public IList<ProductStatistics> SelectedProductRows
+        {
+            get { return _selectedProductRows; }
+            set
+            {
+                _selectedProductRows = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<ProductStatistics> ProductStatisticsRows { get; private set; }
+        public ObservableCollection<ProductStatistics> CathegoryStatisticsRows { get; private set; }
+
+
+        public ICommand AddToCathegory
+        {
+            get { return addToCathegoryCommand ?? (addToCathegoryCommand = new DelegateCommand(AddSelectedRowsToCathegory)); }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
@@ -155,11 +183,30 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             return query.Where(x => x.Customer.Id.Equals(_customer.Id));
         }
 
+        private void AddSelectedRowsToCathegory()
+        {
+            if (_selectedProductRows == null || string.IsNullOrWhiteSpace(_cathegory))
+            {
+                return;
+            }
+            CathegoryStatisticsRows.Add(new ProductStatistics
+            {
+                Description = _cathegory,
+                Instances = _selectedProductRows.Sum(x => x.Instances),
+                NetWeight = _selectedProductRows.Sum(x => x.NetWeight),
+                PriceSum = _selectedProductRows.Sum(x => x.PriceSum),
+                TotalAmount = _selectedProductRows.Sum(x => x.TotalAmount)
+            });
+        }
+
         private Customer _customer;
         private IDataStorage _dataStorage;
         private DateTime? _fromDate;
         private DateTime? _toDate;
         private StatisticsMode _customerOrProvider;
+        private string _cathegory;
+        private IList<ProductStatistics> _selectedProductRows;
+        private ICommand addToCathegoryCommand;
     }
 
     public enum StatisticsMode

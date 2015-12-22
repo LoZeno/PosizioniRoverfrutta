@@ -79,7 +79,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
 
                     productsSold.Add(new ProductDetails
                     {
-                        ProductId = i + 10,
+                        ProductId = i + 90,
                         Description = "Product number i",
                         Pallets = i + 1,
                         Packages = i + 1,
@@ -267,6 +267,40 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.ProductStatisticsRows[1].AveragePrice, Is.EqualTo(secondSeed * 100 / numberOfDays));
             Assert.That(viewModel.ProductStatisticsRows[1].Description, Is.EqualTo("Product number 2"));
             Assert.That(viewModel.ProductStatisticsRows[1].TotalAmount, Is.EqualTo(secondExpectedTotalAmount));
+        }
+
+        [Test]
+        public void when_defining_a_new_cathegory_if_no_rows_are_selected_it_does_not_create_it()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(29);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.SelectedProductRows = null;
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_defining_a_new_cathegory_if_some_rows_are_selected_it_creates_a_new_cathegory_with_the_sum_of_all_values()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("New cathegory"));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
 
         private IDataStorage _dataStorage;
