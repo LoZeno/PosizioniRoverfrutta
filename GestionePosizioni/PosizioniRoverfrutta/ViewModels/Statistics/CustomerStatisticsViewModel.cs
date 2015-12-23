@@ -189,14 +189,26 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             {
                 return;
             }
-            CathegoryStatisticsRows.Add(new ProductStatistics
+            var existingCathegory = CathegoryStatisticsRows.Where(x => x.Description.Equals(_cathegory));
+            if (existingCathegory.Any())
             {
-                Description = _cathegory,
-                Instances = _selectedProductRows.Sum(x => x.Instances),
-                NetWeight = _selectedProductRows.Sum(x => x.NetWeight),
-                PriceSum = _selectedProductRows.Sum(x => x.PriceSum),
-                TotalAmount = _selectedProductRows.Sum(x => x.TotalAmount)
-            });
+                var cathegory = existingCathegory.Single();
+                cathegory.Instances += _selectedProductRows.Sum(x => x.Instances);
+                cathegory.NetWeight += _selectedProductRows.Sum(x => x.NetWeight);
+                cathegory.PriceSum += _selectedProductRows.Sum(x => x.PriceSum);
+                cathegory.TotalAmount += _selectedProductRows.Sum(x => x.TotalAmount);
+            }
+            else
+            {
+                CathegoryStatisticsRows.Add(new ProductStatistics
+                {
+                    Description = _cathegory,
+                    Instances = _selectedProductRows.Sum(x => x.Instances),
+                    NetWeight = _selectedProductRows.Sum(x => x.NetWeight),
+                    PriceSum = _selectedProductRows.Sum(x => x.PriceSum),
+                    TotalAmount = _selectedProductRows.Sum(x => x.TotalAmount)
+                });
+            }
         }
 
         private Customer _customer;

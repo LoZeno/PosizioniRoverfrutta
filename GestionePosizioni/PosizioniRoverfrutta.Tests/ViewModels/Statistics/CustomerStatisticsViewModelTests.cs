@@ -303,6 +303,33 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
 
+        [Test]
+        public void when_adding_new_products_to_a_cathegory_it_updates_the_totals()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+            viewModel.CathegoryStatisticsRows.Add(new Models.Entities.ProductStatistics
+            {
+                Description = "Cathegory",
+                Instances = 2,
+                NetWeight = 2,
+                PriceSum = 100,
+                TotalAmount = 200
+            });
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(1).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(4));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(100));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("Cathegory"));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(600));
+        }
+
         private IDataStorage _dataStorage;
         private string _customerId;
         private string _providerId;
@@ -315,13 +342,13 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         const string customerPostCode = "POSTCODE";
         const string customerState = "State";
         const string customerVatCode = "VatCode";
-        private string providerName = "Provider";
-        private string providerAddress = "Other Address";
-        private string providerCity = "Other City";
-        private string providerCountry = "Other Country";
-        private string providerEmailAddress = "another.email@address.com";
-        private string providerPostCode = "P0STC0D3";
-        private string providerState ="another State";
-        private string providerVatCode = "Other VatCode";
+        const string providerName = "Provider";
+        const string providerAddress = "Other Address";
+        const string providerCity = "Other City";
+        const string providerCountry = "Other Country";
+        const string providerEmailAddress = "another.email@address.com";
+        const string providerPostCode = "P0STC0D3";
+        const string providerState ="another State";
+        const string providerVatCode = "Other VatCode";
     }
 }
