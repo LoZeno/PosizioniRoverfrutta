@@ -1,0 +1,57 @@
+﻿<windows:BaseWindow x:Class="PosizioniRoverfrutta.Windows.Statistics.CustomerStatistics"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:toolkit="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
+        xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
+        xmlns:local="clr-namespace:PosizioniRoverfrutta.Windows.Statistics"
+        mc:Ignorable="d"
+        Title="CustomerStatistics" MinHeight="400" MinWidth="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/SharedResources.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Column="0" Grid.Row="0">
+            <Label Name="CompanyNameLabel" Margin="10">Company Name</Label>
+            <GroupBox Header="Modalità di raccolta dati">
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton Name="CustomerStats" GroupName="ModeRadioButton" IsChecked="True">
+                        Cliente
+                    </RadioButton>
+                    <RadioButton Name="ProviderStats" GroupName="ModeRadioButton">
+                        Fornitore
+                    </RadioButton>
+                </StackPanel>
+            </GroupBox>
+        </WrapPanel>
+
+        <DataGrid Name="ProductStatisticsGrid" Grid.Column="0" Grid.Row="1" Margin="10px" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
+
+        <WrapPanel Grid.Column="1" Grid.Row="0">
+            <Grid Margin="5">
+                <TextBlock Text="Categoria" Foreground="{StaticResource brushWatermarkForeground}" Margin="2"
+                           Visibility="{Binding ElementName=CathegoryNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <AdornerDecorator>
+                    <toolkit:AutoCompleteBoxAsync Name="CathegoryNameBox" MinWidth="80" Background="Transparent" />
+                </AdornerDecorator>
+            </Grid>
+        </WrapPanel>
+
+        <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
+    </Grid>
+</windows:BaseWindow>

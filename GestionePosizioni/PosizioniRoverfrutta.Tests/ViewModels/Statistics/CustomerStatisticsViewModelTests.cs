@@ -3,8 +3,6 @@ using Models.DocumentTypes;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels.Statistics;
 using QueryManager;
-using QueryManager.Indexes;
-using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Linq;
 using System;
@@ -328,6 +326,31 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(100));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("Cathegory"));
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(600));
+        }
+
+        [Test]
+        public void when_adding_a_product_to_a_cathegory_that_already_contains_it_nothing_changes()
+        {
+
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(1).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("New cathegory"));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
+
         }
 
         private IDataStorage _dataStorage;

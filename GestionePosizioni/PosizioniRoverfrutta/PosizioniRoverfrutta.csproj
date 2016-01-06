@@ -226,6 +226,9 @@
     <Compile Include="Windows\SendGmailAttachment.xaml.cs">
       <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Statistics\CustomerStatistics.xaml.cs">
+      <DependentUpon>CustomerStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
       <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
     </Compile>
@@ -296,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SendGmailAttachment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Statistics\CustomerStatistics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
