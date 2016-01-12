@@ -40,6 +40,15 @@ namespace PosizioniRoverfrutta.Windows
             control.SetBinding(TextBox.TextProperty, binding);
         }
 
+        protected static void SetBindingsForTextBlock(string property, TextBlock control)
+        {
+            var binding = new Binding(property)
+            {
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Mode = BindingMode.Default
+            };
+            control.SetBinding(TextBlock.TextProperty, binding);
+        }
 
         protected static void SetBindingsForComboBox(string property, ComboBox control)
         {

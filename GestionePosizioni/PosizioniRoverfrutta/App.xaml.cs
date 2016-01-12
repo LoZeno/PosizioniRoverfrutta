@@ -2,6 +2,7 @@
 using System.Windows;
 using Models.Entities;
 using PosizioniRoverfrutta.Windows;
+using PosizioniRoverfrutta.Windows.Statistics;
 using QueryManager;
 
 namespace PosizioniRoverfrutta
@@ -56,6 +57,7 @@ namespace PosizioniRoverfrutta
             _windowManager.RegisterWindowClass(WindowTypes.AnagraficaClienti, typeof(CustomersWindow));
             _windowManager.RegisterWindowClass(WindowTypes.AnagraficaTrasportatori, typeof(TransportersWindow));
             _windowManager.RegisterWindowClass(WindowTypes.AnagraficaProdotti, typeof(ProductsWindow));
+            _windowManager.RegisterWindowClass(WindowTypes.StatisticheClienti, typeof(CustomerStatistics));
         }
 
         private void ShowMainWindow()

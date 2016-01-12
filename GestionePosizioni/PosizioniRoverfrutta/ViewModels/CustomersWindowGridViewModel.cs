@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -13,7 +12,6 @@ using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Windows;
 using QueryManager;
 using QueryManager.Indexes;
-using QueryManager.QueryHelpers;
 using Raven.Client;
 using Raven.Client.Linq;
 
@@ -146,6 +144,8 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool EditControlsEnabled { get { return _selectedCustomer != null; } }
 
+        public bool DetailsButtonEnabled { get { return _selectedCustomer?.Id != null; } }
+
         public ICommand NextPage
         {
             get { return nextPageCommand ?? (nextPageCommand = new DelegateCommand(IncreaseSkip)); } 
@@ -176,6 +176,11 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return deleteCommand ?? (deleteCommand = new DelegateCommand(DeleteSelectedCustomer)); }
         }
 
+        public ICommand OpenCustomerStatsWindow
+        {
+            get { return openStatisticsWindow ?? (openStatisticsWindow = new DelegateCommand(OpenCustomerStatisticsWindow));}
+        }
+
         public void LoadSelectedCustomer(string selectedCustomerId)
         {
             if (!string.IsNullOrWhiteSpace(selectedCustomerId))
@@ -184,12 +189,14 @@ namespace PosizioniRoverfrutta.ViewModels
                 {
                     _selectedCustomer = session.Load<Customer>(selectedCustomerId);
                     OnPropertyChanged("EditControlsEnabled");
+                    OnPropertyChanged("DetailsButtonEnabled");
                 }
             }
             else
             {
                 _selectedCustomer = null;
                 OnPropertyChanged("EditControlsEnabled");
+                OnPropertyChanged("DetailsButtonEnabled");
             }
 
             OnPropertyChanged("CompanyName");
@@ -276,6 +283,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             _selectedCustomer = new Customer();
             OnPropertyChanged("EditControlsEnabled");
+            OnPropertyChanged("DetailsButtonEnabled");
             OnPropertyChanged("CompanyName");
             OnPropertyChanged("Address");
             OnPropertyChanged("City");
@@ -324,6 +332,11 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        private void OpenCustomerStatisticsWindow()
+        {
+            _windowManager.InstantiateWindow(_selectedCustomer.Id, WindowTypes.StatisticheClienti);
+        }
+
         private readonly IDataStorage _dataStorage;
         private readonly IWindowManager _windowManager;
         private string _searchBox;
@@ -335,5 +348,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand saveCommand;
         private ICommand createCommand;
         private ICommand deleteCommand;
+        private ICommand openStatisticsWindow;
     }
 }

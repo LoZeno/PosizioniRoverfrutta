@@ -14,6 +14,7 @@ using System.Linq;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using CustomWPFControls;
+using Microsoft.Practices.Prism;
 
 namespace PosizioniRoverfrutta.ViewModels.Statistics
 {
@@ -180,7 +181,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                         }
                     }
                 }
-                ProductStatisticsRows = new ObservableCollection<ProductStatistics>(temporaryData.OrderBy(x => x.Description).ToList());
+                ProductStatisticsRows.AddRange(temporaryData.OrderBy(x => x.Description).ToList());
             }
         }
 
@@ -219,7 +220,8 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 cathegory.TotalAmount += productRow.TotalAmount;
                 existingCathegory.Add(productRow.Description);
             }
-            CathegoryStatisticsRows = new ObservableCollection<ProductStatistics>(statisticsRows);
+            CathegoryStatisticsRows.Clear();
+            CathegoryStatisticsRows.AddRange(statisticsRows.OrderBy(x => x.Description).ToList());
         }
 
         private void RemoveSelectedCathegory()

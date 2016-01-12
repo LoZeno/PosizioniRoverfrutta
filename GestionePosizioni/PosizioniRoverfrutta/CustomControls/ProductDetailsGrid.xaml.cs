@@ -273,7 +273,7 @@ namespace PosizioniRoverfrutta.CustomControls
             {
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.LostFocus,
-                StringFormat = "F",
+                StringFormat = "F3",
                 ConverterCulture = CultureInfo.CurrentCulture
             };
             binding.ValidationRules.Add(new ExceptionValidationRule());

@@ -377,6 +377,38 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_viewModel.EditControlsEnabled, Is.True);
         }
 
+        [Test]
+        public void when_selected_customer_is_null_statistics_button_is_disabled()
+        {
+            _viewModel.LoadSelectedCustomer(null);
+            Assert.That(_viewModel.DetailsButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_selected_customer_is_new_customer_statistics_button_is_disabled()
+        {
+            _viewModel.CreateNew.Execute(null);
+            Assert.That(_viewModel.DetailsButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_selected_customer_is_existing_statistics_button_is_enabled()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            Assert.That(_viewModel.DetailsButtonEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_clicking_statistics_button_it_opens_statistics_window()
+        {
+            var selectedCustomerId = _viewModel.CustomersList[0].Id;
+            _viewModel.LoadSelectedCustomer(selectedCustomerId);
+            _viewModel.OpenCustomerStatsWindow.Execute(null);
+
+            _mockWindowManager.Verify(x => x.InstantiateWindow(selectedCustomerId, WindowTypes.StatisticheClienti));
+        }
+
         private void InsertInitialData()
         {
             using (var session = _dataStorage.CreateSession())

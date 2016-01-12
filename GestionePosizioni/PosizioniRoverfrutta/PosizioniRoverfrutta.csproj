@@ -469,6 +469,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Content\Pictures\Customer\add-symbol.png" />
+    <Resource Include="Content\Pictures\Customer\stats_lines.png" />
     <Content Include="Content\ReportTemplates\FatturaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

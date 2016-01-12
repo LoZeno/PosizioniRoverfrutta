@@ -1,13 +1,12 @@
-﻿using Models.Companies;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Models.Companies;
 using Models.DocumentTypes;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels.Statistics;
 using QueryManager;
 using Raven.Client.Document;
-using Raven.Client.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
 {
