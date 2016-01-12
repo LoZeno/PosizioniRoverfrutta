@@ -345,7 +345,111 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("New cathegory"));
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
+        }
 
+        [Test]
+        public void when_removing_a_cathegory_it_deletes_the_corresponding_row()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.RemoveCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Any(x => x.Description.Equals("New cathegory")), Is.False);
+        }
+
+        [Test]
+        public void when_removing_a_cathegory_that_does_not_exist_nothing_happens()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.Cathegory = "New cathegory";
+            viewModel.RemoveCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void when_cathegory_name_is_empty_and_user_clicks_delete_nothing_happens()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.Cathegory = "";
+            viewModel.RemoveCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void when_changing_todate_filter_the_cathegories_reset_themselves()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.ToDate = DateTime.Today.AddDays(2);
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_changing_fromdate_filter_the_cathegories_reset_themselves()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.FromDate = DateTime.Today;
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Any(), Is.False);
+        }
+
+        [Test]
+        public void when_changing_mode_filter_the_cathegories_reset_themselves()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            viewModel.CustomerOrProvider = StatisticsMode.Provider;
+
+            Assert.That(viewModel.CathegoryStatisticsRows.Any(), Is.False);
         }
 
         private IDataStorage _dataStorage;

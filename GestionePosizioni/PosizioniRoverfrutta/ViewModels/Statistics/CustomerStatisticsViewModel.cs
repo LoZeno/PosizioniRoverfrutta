@@ -70,6 +70,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 _fromDate = value;
                 OnPropertyChanged();
                 UpdateProductRows();
+                ClearCathegories();
             }
         }
         public DateTime? ToDate
@@ -80,6 +81,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 _toDate = value;
                 OnPropertyChanged();
                 UpdateProductRows();
+                ClearCathegories();
             }
         }
 
@@ -91,6 +93,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 _customerOrProvider = value;
                 OnPropertyChanged();
                 UpdateProductRows();
+                ClearCathegories();
             }
         }
         public string Cathegory
@@ -120,6 +123,10 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             get { return addToCathegoryCommand ?? (addToCathegoryCommand = new DelegateCommand(AddSelectedRowsToCathegory)); }
         }
 
+        public ICommand RemoveCathegory
+        {
+            get { return removeFromCathegories ?? (removeFromCathegories = new DelegateCommand(RemoveSelectedCathegory)); }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]
@@ -189,9 +196,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             {
                 return;
             }
-
             var statisticsRows = CathegoryStatisticsRows.ToList();
-
             if (!_productsPerCathegory.ContainsKey(_cathegory))
             {
                 _productsPerCathegory.Add(_cathegory, new List<string>());
@@ -214,6 +219,22 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             CathegoryStatisticsRows = new ObservableCollection<ProductStatistics>(statisticsRows);
         }
 
+        private void RemoveSelectedCathegory()
+        {
+            if (_productsPerCathegory.ContainsKey(_cathegory))
+            {
+                var cathegoryToRemove = CathegoryStatisticsRows.Single(x => x.Description.Equals(_cathegory));
+                CathegoryStatisticsRows.Remove(cathegoryToRemove);
+                _productsPerCathegory.Remove(_cathegory);
+            }
+        }
+
+        private void ClearCathegories()
+        {
+            CathegoryStatisticsRows.Clear();
+            _productsPerCathegory.Clear();
+        }
+
         private Customer _customer;
         private IDataStorage _dataStorage;
         private DateTime? _fromDate;
@@ -222,6 +243,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         private string _cathegory;
         private IList<ProductStatistics> _selectedProductRows;
         private ICommand addToCathegoryCommand;
+        private ICommand removeFromCathegories;
         private Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
     }
 
