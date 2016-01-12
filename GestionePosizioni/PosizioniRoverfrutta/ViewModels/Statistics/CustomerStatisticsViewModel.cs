@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
+using CustomWPFControls;
 
 namespace PosizioniRoverfrutta.ViewModels.Statistics
 {
@@ -22,6 +23,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         {
             ProductStatisticsRows = new ObservableCollection<ProductStatistics>();
             CathegoryStatisticsRows = new ObservableCollection<ProductStatistics>();
+            CathegoryNamesProvider = new AutocompleteCathegoryNamesProvider(_productsPerCathegory);
             _dataStorage = dataStorage;
             using (var session = _dataStorage.CreateSession())
             {
@@ -117,6 +119,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         public ObservableCollection<ProductStatistics> ProductStatisticsRows { get; private set; }
         public ObservableCollection<ProductStatistics> CathegoryStatisticsRows { get; private set; }
 
+        public IAutoCompleteBoxDataProvider CathegoryNamesProvider { get; private set; }
 
         public ICommand AddToCathegory
         {
@@ -245,6 +248,23 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         private ICommand addToCathegoryCommand;
         private ICommand removeFromCathegories;
         private Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
+
+        private class AutocompleteCathegoryNamesProvider : IAutoCompleteBoxDataProvider
+        {
+            public AutocompleteCathegoryNamesProvider(Dictionary<string, List<string>> productsPerCathegory)
+            {
+                _source = productsPerCathegory;
+            }
+            public IEnumerable<string> GetItems(string textPattern)
+            {
+                if (string.IsNullOrWhiteSpace(textPattern))
+                    return _source.Keys;
+
+                return _source.Keys.Where(x => x.ToLowerInvariant().StartsWith(textPattern.ToLowerInvariant()));
+            }
+
+            private Dictionary<string, List<string>> _source;
+        }
     }
 
     public enum StatisticsMode

@@ -452,6 +452,63 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows.Any(), Is.False);
         }
 
+        [Test]
+        public void when_inserting_a_cathegory_it_becomes_available_to_the_autocomplete_dropdown()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryNamesProvider.GetItems(string.Empty).Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void when_filtering_cathegories_it_returns_only_the_ones_starting_with_the_required_letter()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+            viewModel.Cathegory = "Cathegory 2";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+            viewModel.Cathegory = "Another Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryNamesProvider.GetItems("Cat").Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void When_filtering_cathegories_the_autocompletebox_ignores_uppercase_and_lowercase()
+        {
+            var viewModel = new CustomerStatisticsViewModel(_dataStorage, _customerId);
+            viewModel.CustomerOrProvider = StatisticsMode.Customer;
+            viewModel.FromDate = DateTime.Today.AddDays(1);
+            viewModel.ToDate = DateTime.Today.AddDays(1);
+
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+            viewModel.Cathegory = "Cathegory 2";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+            viewModel.Cathegory = "Another Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(2).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
+            Assert.That(viewModel.CathegoryNamesProvider.GetItems("CAT").Count(), Is.EqualTo(2));
+        }
+
         private IDataStorage _dataStorage;
         private string _customerId;
         private string _providerId;
