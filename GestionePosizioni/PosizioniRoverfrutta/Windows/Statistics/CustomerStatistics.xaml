@@ -23,22 +23,41 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <WrapPanel Grid.Row="0">
+                <Label Name="CompanyNameLabel" Margin="10,5">Company Name</Label>
+                <GroupBox Header="Modalità di raccolta dati">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="CustomerStats" GroupName="ModeRadioButton" IsChecked="True">
+                            Cliente
+                        </RadioButton>
+                        <RadioButton Name="ProviderStats" GroupName="ModeRadioButton">
+                            Fornitore
+                        </RadioButton>
+                    </StackPanel>
+                </GroupBox>
+            </WrapPanel>
 
-        <WrapPanel Grid.Column="0" Grid.Row="0">
-            <Label Name="CompanyNameLabel" Margin="10">Company Name</Label>
-            <GroupBox Header="Modalità di raccolta dati">
-                <StackPanel Orientation="Horizontal">
-                    <RadioButton Name="CustomerStats" GroupName="ModeRadioButton" IsChecked="True">
-                        Cliente
-                    </RadioButton>
-                    <RadioButton Name="ProviderStats" GroupName="ModeRadioButton">
-                        Fornitore
-                    </RadioButton>
-                </StackPanel>
-            </GroupBox>
-        </WrapPanel>
+            <DockPanel LastChildFill="False" Grid.Row="1" Margin="10,0,10,0">
+                <GroupBox Header="Periodo DA:" DockPanel.Dock="Left">
+                    <DatePicker ></DatePicker>
+                </GroupBox>
+                <GroupBox Header="Periodo A:" DockPanel.Dock="Right">
+                    <DatePicker ></DatePicker>
+                </GroupBox>
+            </DockPanel>
+
+        </Grid>
+
+
 
         <DataGrid Name="ProductStatisticsGrid" Grid.Column="0" Grid.Row="1" Margin="10px" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"></DataGrid>
 

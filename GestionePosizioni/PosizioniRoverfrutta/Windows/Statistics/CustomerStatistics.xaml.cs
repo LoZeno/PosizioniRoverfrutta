@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PosizioniRoverfrutta.ViewModels.Statistics;
+using QueryManager;
 
 namespace PosizioniRoverfrutta.Windows.Statistics
 {
@@ -20,8 +22,16 @@ namespace PosizioniRoverfrutta.Windows.Statistics
     public partial class CustomerStatistics : BaseWindow
     {
         public CustomerStatistics()
+            : this(null, null, null)
+        {
+            
+        }
+
+        public CustomerStatistics(IWindowManager windowManager, IDataStorage dataStorage, string customerId)
         {
             InitializeComponent();
+            var viewModel = new CustomerStatisticsViewModel(dataStorage, customerId);
+            this.DataContext = viewModel;
         }
     }
 }
