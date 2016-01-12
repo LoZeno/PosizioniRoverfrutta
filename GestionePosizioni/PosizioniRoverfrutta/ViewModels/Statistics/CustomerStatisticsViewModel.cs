@@ -189,26 +189,29 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             {
                 return;
             }
-            var existingCathegory = CathegoryStatisticsRows.Where(x => x.Description.Equals(_cathegory));
-            if (existingCathegory.Any())
+
+            var statisticsRows = CathegoryStatisticsRows.ToList();
+
+            if (!_productsPerCathegory.ContainsKey(_cathegory))
             {
-                var cathegory = existingCathegory.Single();
-                cathegory.Instances += _selectedProductRows.Sum(x => x.Instances);
-                cathegory.NetWeight += _selectedProductRows.Sum(x => x.NetWeight);
-                cathegory.PriceSum += _selectedProductRows.Sum(x => x.PriceSum);
-                cathegory.TotalAmount += _selectedProductRows.Sum(x => x.TotalAmount);
+                _productsPerCathegory.Add(_cathegory, new List<string>());
+                statisticsRows.Add(new ProductStatistics { Description = _cathegory });
             }
-            else
+            var existingCathegory = _productsPerCathegory[_cathegory];
+            var cathegory = statisticsRows.Single(x => x.Description.Equals(_cathegory));
+            foreach (var productRow in _selectedProductRows)
             {
-                CathegoryStatisticsRows.Add(new ProductStatistics
+                if (existingCathegory.Contains(productRow.Description))
                 {
-                    Description = _cathegory,
-                    Instances = _selectedProductRows.Sum(x => x.Instances),
-                    NetWeight = _selectedProductRows.Sum(x => x.NetWeight),
-                    PriceSum = _selectedProductRows.Sum(x => x.PriceSum),
-                    TotalAmount = _selectedProductRows.Sum(x => x.TotalAmount)
-                });
+                    break;
+                }
+                cathegory.Instances += productRow.Instances;
+                cathegory.NetWeight += productRow.NetWeight;
+                cathegory.PriceSum += productRow.PriceSum;
+                cathegory.TotalAmount += productRow.TotalAmount;
+                existingCathegory.Add(productRow.Description);
             }
+            CathegoryStatisticsRows = new ObservableCollection<ProductStatistics>(statisticsRows);
         }
 
         private Customer _customer;
@@ -219,6 +222,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         private string _cathegory;
         private IList<ProductStatistics> _selectedProductRows;
         private ICommand addToCathegoryCommand;
+        private Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
     }
 
     public enum StatisticsMode

@@ -308,24 +308,19 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             viewModel.CustomerOrProvider = StatisticsMode.Customer;
             viewModel.FromDate = DateTime.Today.AddDays(1);
             viewModel.ToDate = DateTime.Today.AddDays(1);
-            viewModel.CathegoryStatisticsRows.Add(new Models.Entities.ProductStatistics
-            {
-                Description = "Cathegory",
-                Instances = 2,
-                NetWeight = 2,
-                PriceSum = 100,
-                TotalAmount = 200
-            });
-
             viewModel.Cathegory = "Cathegory";
             viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Take(1).ToList();
             viewModel.AddToCathegory.Execute(null);
 
+            viewModel.Cathegory = "Cathegory";
+            viewModel.SelectedProductRows = viewModel.ProductStatisticsRows.Skip(1).Take(1).ToList();
+            viewModel.AddToCathegory.Execute(null);
+
             Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
-            Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(4));
-            Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(100));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("Cathegory"));
-            Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(600));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
 
         [Test]
