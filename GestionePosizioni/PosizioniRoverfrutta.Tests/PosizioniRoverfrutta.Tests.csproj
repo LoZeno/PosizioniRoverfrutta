@@ -78,6 +78,7 @@
     <Compile Include="ViewModels\PriceConfirmationViewModelTests.cs" />
     <Compile Include="ViewModels\ProductsWindowGridViewModelTests.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModelTests.cs" />
+    <Compile Include="ViewModels\Statistics\CustomerStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\TransporterWindowGridViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CustomControls\CustomWPFControls.csproj">
+      <Project>{805924BD-9107-4951-A262-E18D85D6F145}</Project>
+      <Name>CustomWPFControls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{2EF21D46-0DC4-4AB1-B7F9-0A097A98B8B6}</Project>
       <Name>Models</Name>

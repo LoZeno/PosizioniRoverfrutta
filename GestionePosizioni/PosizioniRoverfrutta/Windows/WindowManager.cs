@@ -38,7 +38,7 @@ namespace PosizioniRoverfrutta.Windows
             {
                 return;
             }
-            string key = String.Format("{0}_{1}", windowType, documentId);
+            string key = String.Format("{0}_{1}", windowType, documentId.Replace('/', '_'));
             ManageWindows(key, _windowClasses[windowType], documentId);
         }
 
@@ -125,6 +125,7 @@ namespace PosizioniRoverfrutta.Windows
         Riepiloghi,
         AnagraficaClienti,
         AnagraficaTrasportatori,
-        AnagraficaProdotti
+        AnagraficaProdotti,
+        StatisticheClienti
     }
 }

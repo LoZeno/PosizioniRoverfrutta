@@ -135,11 +135,11 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    ProductsList.AddRange(session.Query<ProductRow, ProductsWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.Description).Skip(skipPositions).Take(100).ToList());
+                    ProductsList.AddRange(session.Query<ProductRow, ProductsWithNumberOfDocuments>().OrderBy(c => c.Description).Skip(skipPositions).Take(100).ToList());
                 }
                 else
                 {
-                    var customersQuery = session.Query<ProductRow, ProductsWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow());
+                    var customersQuery = session.Query<ProductRow, ProductsWithNumberOfDocuments>();
                     var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.Description, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
                     ProductsList.AddRange(queryByName.OrderBy(c => c.Description).Take(100).ToList());
                 }

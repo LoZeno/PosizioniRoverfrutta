@@ -48,6 +48,7 @@ namespace PosizioniRoverfrutta.Windows
             SetAddCustomerButtonBinding(viewModel);
             SetSaveButtonBindings(viewModel);
             SetDeleteButtonBindings(viewModel);
+            SetCustomersDetailsButton(viewModel);
             SetPreviousPageButtonBindings(viewModel);
             SetNextPageButtonBindings(viewModel);
 
@@ -88,6 +89,12 @@ namespace PosizioniRoverfrutta.Windows
             CustomersGrid.Columns.Add(loadingDocumentsColumn);
             var priceConfirmationsColumn = BuildReadOnlyTextColumn("N° Conf.Prezzi", "NumberOfPriceConfirmations", 20);
             CustomersGrid.Columns.Add(priceConfirmationsColumn);
+        }
+
+        private void SetCustomersDetailsButton(CustomersWindowGridViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, OpenStatsButton, "OpenCustomerStatsWindow", viewModel.OpenCustomerStatsWindow);
+            OpenStatsButton.SetBinding(IsEnabledProperty, new Binding("DetailsButtonEnabled"));
         }
 
         private void SetDeleteButtonBindings(CustomersWindowGridViewModel viewModel)

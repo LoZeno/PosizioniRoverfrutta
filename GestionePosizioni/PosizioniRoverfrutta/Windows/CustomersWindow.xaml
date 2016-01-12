@@ -24,6 +24,9 @@
                         <RibbonButton x:Name="SaveButton" LargeImageSource="../Content/Pictures/Save/floppy-mount-icon-128.png" SmallImageSource="../Content/Pictures/Save/floppy-mount-icon-16.png" Label="Salva"/>
                         <RibbonButton x:Name="DeleteButton" LargeImageSource="../Content/Pictures/Eraser/eraser_48x48.png" Label="Elimina cliente"/>
                     </RibbonGroup>
+                    <RibbonGroup>
+                        <RibbonButton x:Name="OpenStatsButton" LargeImageSource="../Content/Pictures/Customer/stats_lines.png" Label="Visualizza Statistiche" />
+                    </RibbonGroup>
                 </RibbonTab>
             </Ribbon>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">

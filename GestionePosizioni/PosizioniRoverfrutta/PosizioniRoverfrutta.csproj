@@ -199,6 +199,7 @@
     <Compile Include="ViewModels\ProductsWindowGridViewModel.cs" />
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
+    <Compile Include="ViewModels\Statistics\CustomerStatisticsViewModel.cs" />
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
     <Compile Include="ViewModels\TransporterWindowGridViewModel.cs" />
@@ -224,6 +225,9 @@
     </Compile>
     <Compile Include="Windows\SendGmailAttachment.xaml.cs">
       <DependentUpon>SendGmailAttachment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Statistics\CustomerStatistics.xaml.cs">
+      <DependentUpon>CustomerStatistics.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
       <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
@@ -295,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SendGmailAttachment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Statistics\CustomerStatistics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -461,6 +469,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Content\Pictures\Customer\add-symbol.png" />
+    <Resource Include="Content\Pictures\Customer\stats_lines.png" />
     <Content Include="Content\ReportTemplates\FatturaModello.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

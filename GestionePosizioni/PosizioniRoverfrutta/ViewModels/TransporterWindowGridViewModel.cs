@@ -196,11 +196,11 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(SearchBox))
                 {
-                    TransportersList.AddRange(session.Query<CustomerRow, TransportersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow()).OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100).ToList());
+                    TransportersList.AddRange(session.Query<CustomerRow, TransportersWithNumberOfDocuments>().OrderBy(c => c.CompanyName).Skip(skipPositions).Take(100).ToList());
                 }
                 else
                 {
-                    var transportersQuery = session.Query<CustomerRow, TransportersWithNumberOfDocuments>().Customize(x => x.WaitForNonStaleResultsAsOfNow());
+                    var transportersQuery = session.Query<CustomerRow, TransportersWithNumberOfDocuments>();
                     var queryByName = SearchBox.Split(' ').Aggregate(transportersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
                     TransportersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100).ToList());
                 }
