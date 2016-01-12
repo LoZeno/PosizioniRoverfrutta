@@ -109,6 +109,7 @@ namespace PosizioniRoverfrutta.Windows.Statistics
                 {
                     Mode = BindingMode.Default,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    StringFormat = "F3",
                     ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(size, DataGridLengthUnitType.Star),
