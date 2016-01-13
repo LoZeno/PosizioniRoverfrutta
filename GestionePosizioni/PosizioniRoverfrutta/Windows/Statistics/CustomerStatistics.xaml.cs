@@ -63,19 +63,19 @@ namespace PosizioniRoverfrutta.Windows.Statistics
 
         private void BuildCathegoriesDataGridColumns()
         {
-            var productIdColumn = BuildReadOnlyTextColumn("ID Prodotto", "ProductId", 20, true);
+            var productIdColumn = BuildReadOnlyTextColumn("ID Prodotto", "ProductId", 20, 20, true);
             CathegoriesStatisticsGrid.Columns.Add(productIdColumn);
-            var descriptionColumn = BuildReadOnlyTextColumn("Categoria", "Description", 40);
+            var descriptionColumn = BuildReadOnlyTextColumn("Categoria", "Description", 60, 160);
             CathegoriesStatisticsGrid.Columns.Add(descriptionColumn);
-            var netWeightColumn = BuildReadOnlyTextColumn("Peso Netto", "NetWeight", 20);
+            var netWeightColumn = BuildReadOnlyTextColumn("Peso Netto", "NetWeight", 20, 80);
             CathegoriesStatisticsGrid.Columns.Add(netWeightColumn);
-            var averagePriceColumn = BuildReadOnlyTextColumn("Prezzo Medio", "AveragePrice", 20);
+            var averagePriceColumn = BuildReadOnlyTextColumn("Prezzo Medio", "AveragePrice", 20, 80);
             CathegoriesStatisticsGrid.Columns.Add(averagePriceColumn);
-            var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20);
+            var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20, 80);
             CathegoriesStatisticsGrid.Columns.Add(totalAmountColumn);
-            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20);
+            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20, 80);
             CathegoriesStatisticsGrid.Columns.Add(maximumPriceColumn);
-            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20);
+            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20, 80);
             CathegoriesStatisticsGrid.Columns.Add(minimumPriceColumn);
         }
 
@@ -91,23 +91,23 @@ namespace PosizioniRoverfrutta.Windows.Statistics
 
         private void BuildProductsDataGridColumns()
         {
-            var productIdColumn = BuildReadOnlyTextColumn("ID Prodotto", "ProductId", 20, true);
+            var productIdColumn = BuildReadOnlyTextColumn("ID Prodotto", "ProductId", 20, 20, true);
             ProductStatisticsGrid.Columns.Add(productIdColumn);
-            var descriptionColumn = BuildReadOnlyTextColumn("Prodotto", "Description", 40);
+            var descriptionColumn = BuildReadOnlyTextColumn("Prodotto", "Description", 60, 160);
             ProductStatisticsGrid.Columns.Add(descriptionColumn);
-            var netWeightColumn = BuildReadOnlyTextColumn("Peso Netto", "NetWeight", 20);
+            var netWeightColumn = BuildReadOnlyTextColumn("Peso Netto", "NetWeight", 20, 80);
             ProductStatisticsGrid.Columns.Add(netWeightColumn);
-            var averagePriceColumn = BuildReadOnlyTextColumn("Prezzo Medio", "AveragePrice", 20);
+            var averagePriceColumn = BuildReadOnlyTextColumn("Prezzo Medio", "AveragePrice", 20, 80);
             ProductStatisticsGrid.Columns.Add(averagePriceColumn);
-            var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20);
+            var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20, 80);
             ProductStatisticsGrid.Columns.Add(totalAmountColumn);
-            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20);
+            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20, 80);
             ProductStatisticsGrid.Columns.Add(maximumPriceColumn);
-            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20);
+            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20, 80);
             ProductStatisticsGrid.Columns.Add(minimumPriceColumn);
         }
 
-        private static DataGridTextColumn BuildReadOnlyTextColumn(string header, string propertyName, double size, bool isHidden = false)
+        private static DataGridTextColumn BuildReadOnlyTextColumn(string header, string propertyName, double size, double minimumSize, bool isHidden = false)
         {
             var column = new DataGridTextColumn
             {
@@ -121,6 +121,7 @@ namespace PosizioniRoverfrutta.Windows.Statistics
                     ConverterCulture = CultureInfo.CurrentCulture
                 },
                 Width = new DataGridLength(size, DataGridLengthUnitType.Star),
+                MinWidth = minimumSize,
             };
             if (isHidden)
             {
@@ -155,6 +156,12 @@ namespace PosizioniRoverfrutta.Windows.Statistics
         {
             if (DataContext != null)
                 ((CustomerStatisticsViewModel) DataContext).SelectedProductRows = ProductStatisticsGrid.SelectedItems.OfType<ProductStatistics>().ToList();
+        }
+
+        private void CathegoriesStatisticsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (CathegoriesStatisticsGrid.SelectedItem != null)
+                this.CathegoryNameBox.Text = ((ProductStatistics) CathegoriesStatisticsGrid.SelectedItem).Description;
         }
     }
 }

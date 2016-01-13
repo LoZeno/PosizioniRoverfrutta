@@ -298,6 +298,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Resources\StatisticsGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\SendGmailAttachment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

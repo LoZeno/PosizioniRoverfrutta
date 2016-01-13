@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resources/SharedResources.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="../Resources/StatisticsGrid.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
@@ -52,10 +53,10 @@
 
                 <DockPanel LastChildFill="False" Grid.Row="1" Margin="10,0,10,0">
                     <GroupBox Header="Periodo DA:" DockPanel.Dock="Left">
-                        <DatePicker Name="FromDatePicker" ></DatePicker>
+                        <DatePicker Name="FromDatePicker" Height="30" ></DatePicker>
                     </GroupBox>
                     <GroupBox Header="Periodo A:" DockPanel.Dock="Right">
-                        <DatePicker Name="ToDatePicker" ></DatePicker>
+                        <DatePicker Name="ToDatePicker" Height="30" ></DatePicker>
                     </GroupBox>
                 </DockPanel>
 
@@ -79,7 +80,8 @@
                 <Button Name="DeleteCathegoryButton" Margin="5" ToolTip="Rimuovi categoria"><Image Source="../../Content/Pictures/Eraser/eraser_48x48.png" Height="20" Width="20" Margin="1"></Image></Button>
             </StackPanel>
 
-            <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"></DataGrid>
+            <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
+                      SelectionChanged="CathegoriesStatisticsGrid_OnSelectionChanged"></DataGrid>
         </Grid>
     </DockPanel>
 </windows:BaseWindow>
