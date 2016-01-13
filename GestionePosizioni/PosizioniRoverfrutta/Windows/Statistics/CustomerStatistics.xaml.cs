@@ -73,6 +73,10 @@ namespace PosizioniRoverfrutta.Windows.Statistics
             CathegoriesStatisticsGrid.Columns.Add(averagePriceColumn);
             var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20);
             CathegoriesStatisticsGrid.Columns.Add(totalAmountColumn);
+            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20);
+            CathegoriesStatisticsGrid.Columns.Add(maximumPriceColumn);
+            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20);
+            CathegoriesStatisticsGrid.Columns.Add(minimumPriceColumn);
         }
 
         private void SetProductDataGridBinding(CustomerStatisticsViewModel viewModel)
@@ -97,6 +101,10 @@ namespace PosizioniRoverfrutta.Windows.Statistics
             ProductStatisticsGrid.Columns.Add(averagePriceColumn);
             var totalAmountColumn = BuildReadOnlyTextColumn("Totale Eur", "TotalAmount", 20);
             ProductStatisticsGrid.Columns.Add(totalAmountColumn);
+            var maximumPriceColumn = BuildReadOnlyTextColumn("Prezzo Max", "MaximumPrice", 20);
+            ProductStatisticsGrid.Columns.Add(maximumPriceColumn);
+            var minimumPriceColumn = BuildReadOnlyTextColumn("Prezzo Min", "MinimumPrice", 20);
+            ProductStatisticsGrid.Columns.Add(minimumPriceColumn);
         }
 
         private static DataGridTextColumn BuildReadOnlyTextColumn(string header, string propertyName, double size, bool isHidden = false)

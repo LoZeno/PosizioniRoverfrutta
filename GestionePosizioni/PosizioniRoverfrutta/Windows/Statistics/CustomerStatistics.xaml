@@ -63,7 +63,7 @@
 
 
 
-            <DataGrid Name="ProductStatisticsGrid" Grid.Column="0" Grid.Row="1" Margin="10px" HorizontalScrollBarVisibility="Disabled"
+            <DataGrid Name="ProductStatisticsGrid" Grid.Column="0" Grid.Row="1" Margin="10px" HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
                       SelectionMode="Extended" SelectionChanged="ProductStatisticsGrid_OnSelectionChanged"></DataGrid>
 
@@ -79,7 +79,7 @@
                 <Button Name="DeleteCathegoryButton" Margin="5" ToolTip="Rimuovi categoria"><Image Source="../../Content/Pictures/Eraser/eraser_48x48.png" Height="20" Width="20" Margin="1"></Image></Button>
             </StackPanel>
 
-            <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"></DataGrid>
+            <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"></DataGrid>
         </Grid>
     </DockPanel>
 </windows:BaseWindow>

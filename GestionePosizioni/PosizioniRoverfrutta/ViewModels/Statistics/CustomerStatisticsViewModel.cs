@@ -165,6 +165,8 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                             single.Instances += 1;
                             single.NetWeight += product.NetWeight;
                             single.PriceSum += product.Price;
+                            single.MinimumPrice = Math.Min(single.MinimumPrice, product.Price);
+                            single.MaximumPrice = Math.Max(single.MaximumPrice, product.Price);
                             single.TotalAmount += product.TotalPrice;
                         }
                         else
@@ -172,6 +174,8 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                             temporaryData.Add(new ProductStatistics
                             {
                                 ProductId = product.ProductId,
+                                MinimumPrice = product.Price,
+                                MaximumPrice = product.Price,
                                 PriceSum = product.Price,
                                 Instances = 1,
                                 Description = product.Description,
@@ -217,6 +221,8 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 cathegory.Instances += productRow.Instances;
                 cathegory.NetWeight += productRow.NetWeight;
                 cathegory.PriceSum += productRow.PriceSum;
+                cathegory.MaximumPrice = Math.Max(cathegory.MaximumPrice, productRow.MaximumPrice);
+                cathegory.MinimumPrice = cathegory.MinimumPrice == 0 ? productRow.MinimumPrice : Math.Min(cathegory.MinimumPrice, productRow.MinimumPrice);
                 cathegory.TotalAmount += productRow.TotalAmount;
                 existingCathegory.Add(productRow.Description);
             }

@@ -181,6 +181,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.ProductStatisticsRows[0].ProductId, Is.EqualTo(1));
             Assert.That(viewModel.ProductStatisticsRows[0].NetWeight, Is.EqualTo(firstSeed));
             Assert.That(viewModel.ProductStatisticsRows[0].AveragePrice, Is.EqualTo(firstSeed * 100 / numberOfDays));
+            Assert.That(viewModel.ProductStatisticsRows[0].MinimumPrice, Is.EqualTo((startDay +1)*100));
+            Assert.That(viewModel.ProductStatisticsRows[0].MaximumPrice, Is.EqualTo((endDay +1)*100));
             Assert.That(viewModel.ProductStatisticsRows[0].Description, Is.EqualTo("Product number 1"));
             Assert.That(viewModel.ProductStatisticsRows[0].TotalAmount, Is.EqualTo(firstExpectedTotalAmount));
             //second product grouped
@@ -296,6 +298,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
             Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
             Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MinimumPrice, Is.EqualTo(200));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MaximumPrice, Is.EqualTo(300));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("New cathegory"));
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
@@ -318,6 +322,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
             Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
             Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MinimumPrice, Is.EqualTo(200));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MaximumPrice, Is.EqualTo(300));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("Cathegory"));
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
@@ -342,6 +348,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
             Assert.That(viewModel.CathegoryStatisticsRows.Count(), Is.EqualTo(1));
             Assert.That(viewModel.CathegoryStatisticsRows[0].NetWeight, Is.EqualTo(5));
             Assert.That(viewModel.CathegoryStatisticsRows[0].AveragePrice, Is.EqualTo(250));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MinimumPrice, Is.EqualTo(200));
+            Assert.That(viewModel.CathegoryStatisticsRows[0].MaximumPrice, Is.EqualTo(300));
             Assert.That(viewModel.CathegoryStatisticsRows[0].Description, Is.EqualTo("New cathegory"));
             Assert.That(viewModel.CathegoryStatisticsRows[0].TotalAmount, Is.EqualTo(1300));
         }
