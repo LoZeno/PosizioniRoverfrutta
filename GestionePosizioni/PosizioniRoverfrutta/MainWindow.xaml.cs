@@ -294,11 +294,14 @@ namespace PosizioniRoverfrutta
         private void BackupButton_OnClick(object sender, RoutedEventArgs e)
         {
             var path = _windowsManager.OpenSelectFolderDialog();
-            var backupPath = Path.Combine(path, DateTime.Now.ToFileTime().ToString());
-            Directory.CreateDirectory(backupPath);
-            _dataStorage.StartBackup(backupPath, false);
-            Process.Start(backupPath);
-            _windowsManager.PopupMessage("Backup avviato", "Backup");
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                var backupPath = Path.Combine(path, DateTime.Now.ToFileTime().ToString());
+                Directory.CreateDirectory(backupPath);
+                _dataStorage.StartBackup(backupPath, false);
+                Process.Start(backupPath);
+                _windowsManager.PopupMessage("Backup avviato", "Backup");
+            }
         }
     }
 }
