@@ -200,6 +200,7 @@
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
     <Compile Include="ViewModels\Statistics\CustomerStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\Statistics\ProductsStatisticsViewModel.cs" />
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
     <Compile Include="ViewModels\TransporterWindowGridViewModel.cs" />

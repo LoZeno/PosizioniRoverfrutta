@@ -151,8 +151,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             {
                 var temporaryData = new List<ProductStatistics>();
                 var elements = session.Query<PriceConfirmation, PriceConfirmation_byCustomerIdAndProviderIdAndShippingDate>();
-                elements = UpdateQueryBasedOnCustomerOrProviderChoice(elements)
-                    .Where(x => x.ShippingDate >= _fromDate && x.ShippingDate <= _toDate);
+                elements = UpdateQueryBasedOnCustomerOrProviderChoice(elements).Where(x => x.ShippingDate >= _fromDate && x.ShippingDate <= _toDate);
                 var enumerator = session.Advanced.Stream(elements);
                 while(enumerator.MoveNext())
                 {
@@ -161,32 +160,42 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                     {
                         if (temporaryData.Any(x => x.ProductId.Equals(product.ProductId)))
                         {
-                            var single = temporaryData.Single(x => x.ProductId.Equals(product.ProductId));
-                            single.Instances += 1;
-                            single.NetWeight += product.NetWeight;
-                            single.PriceSum += product.Price;
-                            single.MinimumPrice = Math.Min(single.MinimumPrice, product.Price);
-                            single.MaximumPrice = Math.Max(single.MaximumPrice, product.Price);
-                            single.TotalAmount += product.TotalPrice;
+                            IncrementProductDetailsInTemporaryData(temporaryData, product);
                         }
                         else
                         {
-                            temporaryData.Add(new ProductStatistics
-                            {
-                                ProductId = product.ProductId,
-                                MinimumPrice = product.Price,
-                                MaximumPrice = product.Price,
-                                PriceSum = product.Price,
-                                Instances = 1,
-                                Description = product.Description,
-                                NetWeight = product.NetWeight,
-                                TotalAmount = product.TotalPrice
-                            });
+                            AddProductToTemporaryData(temporaryData, product);
                         }
                     }
                 }
                 ProductStatisticsRows.AddRange(temporaryData.OrderBy(x => x.Description).ToList());
             }
+        }
+
+        private static void AddProductToTemporaryData(List<ProductStatistics> temporaryData, ProductDetails product)
+        {
+            temporaryData.Add(new ProductStatistics
+            {
+                ProductId = product.ProductId,
+                MinimumPrice = product.Price,
+                MaximumPrice = product.Price,
+                PriceSum = product.Price,
+                Instances = 1,
+                Description = product.Description,
+                NetWeight = product.NetWeight,
+                TotalAmount = product.TotalPrice
+            });
+        }
+
+        private static void IncrementProductDetailsInTemporaryData(List<ProductStatistics> temporaryData, ProductDetails product)
+        {
+            var single = temporaryData.Single(x => x.ProductId.Equals(product.ProductId));
+            single.Instances += 1;
+            single.NetWeight += product.NetWeight;
+            single.PriceSum += product.Price;
+            single.MinimumPrice = Math.Min(single.MinimumPrice, product.Price);
+            single.MaximumPrice = Math.Max(single.MaximumPrice, product.Price);
+            single.TotalAmount += product.TotalPrice;
         }
 
         private IRavenQueryable<PriceConfirmation> UpdateQueryBasedOnCustomerOrProviderChoice(IRavenQueryable<PriceConfirmation> query)
@@ -218,16 +227,21 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                 {
                     break;
                 }
-                cathegory.Instances += productRow.Instances;
-                cathegory.NetWeight += productRow.NetWeight;
-                cathegory.PriceSum += productRow.PriceSum;
-                cathegory.MaximumPrice = Math.Max(cathegory.MaximumPrice, productRow.MaximumPrice);
-                cathegory.MinimumPrice = cathegory.MinimumPrice == 0 ? productRow.MinimumPrice : Math.Min(cathegory.MinimumPrice, productRow.MinimumPrice);
-                cathegory.TotalAmount += productRow.TotalAmount;
-                existingCathegory.Add(productRow.Description);
+                AddProductToCathegory(cathegory, productRow, existingCathegory);
             }
             CathegoryStatisticsRows.Clear();
             CathegoryStatisticsRows.AddRange(statisticsRows.OrderBy(x => x.Description).ToList());
+        }
+
+        private static void AddProductToCathegory(ProductStatistics cathegory, ProductStatistics productRow, List<string> existingCathegory)
+        {
+            cathegory.Instances += productRow.Instances;
+            cathegory.NetWeight += productRow.NetWeight;
+            cathegory.PriceSum += productRow.PriceSum;
+            cathegory.MaximumPrice = Math.Max(cathegory.MaximumPrice, productRow.MaximumPrice);
+            cathegory.MinimumPrice = cathegory.MinimumPrice == 0 ? productRow.MinimumPrice : Math.Min(cathegory.MinimumPrice, productRow.MinimumPrice);
+            cathegory.TotalAmount += productRow.TotalAmount;
+            existingCathegory.Add(productRow.Description);
         }
 
         private void RemoveSelectedCathegory()
@@ -246,8 +260,8 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             _productsPerCathegory.Clear();
         }
 
-        private Customer _customer;
-        private IDataStorage _dataStorage;
+        private readonly Customer _customer;
+        private readonly IDataStorage _dataStorage;
         private DateTime? _fromDate;
         private DateTime? _toDate;
         private StatisticsMode _customerOrProvider;
@@ -255,7 +269,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         private IList<ProductStatistics> _selectedProductRows;
         private ICommand addToCathegoryCommand;
         private ICommand removeFromCathegories;
-        private Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
+        private readonly Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
 
         private class AutocompleteCathegoryNamesProvider : IAutoCompleteBoxDataProvider
         {
