@@ -210,8 +210,8 @@
     <Compile Include="Windows\DocumentWindow.xaml.cs">
       <DependentUpon>DocumentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\InvoicesWindow.xaml.cs">
-      <DependentUpon>InvoicesWindow.xaml</DependentUpon>
+    <Compile Include="Windows\InvoicesList.xaml.cs">
+      <DependentUpon>InvoicesList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\IWindowManager.cs" />
     <Compile Include="Windows\LoadingDocumentWindow.xaml.cs">
@@ -228,9 +228,6 @@
     </Compile>
     <Compile Include="Windows\Statistics\CustomerStatistics.xaml.cs">
       <DependentUpon>CustomerStatistics.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\SummaryAndInvoicesWindow.xaml.cs">
-      <DependentUpon>SummaryAndInvoicesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\TransportersWindow.xaml.cs">
       <DependentUpon>TransportersWindow.xaml</DependentUpon>
@@ -270,7 +267,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\InvoicesWindow.xaml">
+    <Page Include="Windows\InvoicesList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -307,10 +304,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Statistics\CustomerStatistics.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\SummaryAndInvoicesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

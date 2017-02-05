@@ -10,6 +10,7 @@ namespace Models.DocumentTypes
         public SummaryAndInvoice()
         {
             SummaryRows = new List<SummaryRow>();
+            PartialsByCompanyName = new List<PartialByCompanyName>();
         }
         public Customer Customer { get; set; }
         public DateTime? StartDate { get; set; }
@@ -48,5 +49,7 @@ namespace Models.DocumentTypes
                 return InvoiceDate.HasValue ? InvoiceDate.Value.ToShortDateString() : string.Empty;
             }
         }
+
+        public List<PartialByCompanyName> PartialsByCompanyName { get; set; }
     }
 }

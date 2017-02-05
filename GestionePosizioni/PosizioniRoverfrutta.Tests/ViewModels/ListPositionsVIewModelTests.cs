@@ -4,8 +4,10 @@ using System.Threading;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
+using Moq;
 using NUnit.Framework;
 using PosizioniRoverfrutta.ViewModels;
+using PosizioniRoverfrutta.Windows;
 using QueryManager;
 
 namespace PosizioniRoverfrutta.Tests.ViewModels
@@ -18,6 +20,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
+
+            _windowManager = new Mock<IWindowManager>();
 
             CreateBasicData();
             Thread.Sleep(10000);
@@ -77,7 +81,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_position_has_an_associated_loading_document_the_HasLoadingDocument_property_is_true()
         {
-            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, _windowManager.Object);
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
@@ -99,15 +103,15 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_position_has_an_associated_price_confirmation_the_HasPriceConfirmation_property_is_true()
         {
-            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, _windowManager.Object);
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
             var loadingDocumentId = loadingDocumentViewModel.Id;
 
-            var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, null);
+            var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, _windowManager.Object);
             priceConfirmationViewModel.Id = loadingDocumentViewModel.Id;
-            loadingDocumentViewModel.SaveAll.Execute(null);
+            priceConfirmationViewModel.SaveAll.Execute(null);
 
             var priceConfirmationId = priceConfirmationViewModel.Id;
 
@@ -153,7 +157,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         public void when_a_row_with_loadingdocument_is_selected_the_OpenSaleConfirmation_and_OpenLoadingDocument_buttons_are_active()
         {
             _mainViewModel.HasFocus = true;
-            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, _windowManager.Object);
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
@@ -178,15 +182,15 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         public void when_a_row_with_priceconfirmation_is_selected_the_OpenSaleConfirmation_and_OpenLoadingDocument_and_PriceConfirmation_buttons_are_active()
         {
             _mainViewModel.HasFocus = true;
-            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, null);
+            var loadingDocumentViewModel = new LoadingDocumentViewModel(_dataStorage, _windowManager.Object);
             loadingDocumentViewModel.Id = _mainViewModel.PositionsList[0].ProgressiveNumber;
             loadingDocumentViewModel.SaveAll.Execute(null);
 
             var loadingDocumentId = loadingDocumentViewModel.Id;
 
-            var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, null);
+            var priceConfirmationViewModel = new PriceConfirmationViewModel(_dataStorage, _windowManager.Object);
             priceConfirmationViewModel.Id = loadingDocumentViewModel.Id;
-            loadingDocumentViewModel.SaveAll.Execute(null);
+            priceConfirmationViewModel.SaveAll.Execute(null);
 
             var priceConfirmationId = priceConfirmationViewModel.Id;
 
@@ -305,5 +309,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
         private RavenDataStorage _dataStorage;
         private ListPositionsViewModel _mainViewModel;
+        private Mock<IWindowManager> _windowManager;
     }
 }

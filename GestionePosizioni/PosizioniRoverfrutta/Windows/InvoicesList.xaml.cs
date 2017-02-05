@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using CustomWPFControls;
 using Models.Companies;
 using PosizioniRoverfrutta.Services;
 using PosizioniRoverfrutta.ViewModels;
@@ -12,23 +11,23 @@ using QueryManager;
 namespace PosizioniRoverfrutta.Windows
 {
     /// <summary>
-    /// Interaction logic for SummaryAndInvoicesWindow.xaml
+    /// Interaction logic for InvoicesList.xaml
     /// </summary>
-    public partial class SummaryAndInvoicesWindow : BaseWindow
+    public partial class InvoicesList : BaseWindow
     {
-        public SummaryAndInvoicesWindow()
+        public InvoicesList()
             : this(null, null)
         {
-            
+
         }
 
-        public SummaryAndInvoicesWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
+        public InvoicesList(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
             : this(windowManager, dataStorage)
         {
-            
+
         }
 
-        public SummaryAndInvoicesWindow(IWindowManager windowManager, IDataStorage dataStorage)
+        public InvoicesList(IWindowManager windowManager, IDataStorage dataStorage)
             :base(windowManager, dataStorage)
         {
             InitializeComponent();
@@ -63,13 +62,24 @@ namespace PosizioniRoverfrutta.Windows
             SetPrintInvoicButtonBinding(viewModel);
             SetStatusBinding();
 
-            BuildDataGridColumns();
+            BuildSummaryDataGridColumns();
+            SetSummaryDataGridBinding(viewModel);
 
-            SetDataGridBinding(viewModel);
+            BuildPartialsDataGridColumns();
+            SetPartialsDataGridBinding(viewModel);
+
             SetVatVisibility(viewModel);
         }
 
-        private void BuildDataGridColumns()
+        private void BuildPartialsDataGridColumns()
+        {
+            var companyColumn = BuildReadOnlyTextColumn("Cliente/Fornitore", "CompanyName", 3);
+            PartialsDataGrid.Columns.Add(companyColumn);
+            var totalColumn = BuildReadOnlyDecimalColumn("Totale Commissioni", "Total", 1);
+            PartialsDataGrid.Columns.Add(totalColumn);
+        }
+
+        private void BuildSummaryDataGridColumns()
         {
             var idColumn = BuildReadOnlyTextColumn("Posizione", "DocumentId", 1);
             SummaryDataGrid.Columns.Add(idColumn);
@@ -154,13 +164,23 @@ namespace PosizioniRoverfrutta.Windows
             };
         }
 
-        private void SetDataGridBinding(SummaryAndInvoiceViewModel viewModel)
+        private void SetSummaryDataGridBinding(SummaryAndInvoiceViewModel viewModel)
         {
             SummaryDataGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
             {
                 Source = viewModel,
                 Path = new PropertyPath("SummaryRows"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            });
+        }
+
+        private void SetPartialsDataGridBinding(SummaryAndInvoiceViewModel viewModel)
+        {
+            PartialsDataGrid.SetBinding(DataGrid.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("PartialsByCompanyName"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -32,12 +33,16 @@ namespace PosizioniRoverfrutta.ViewModels
             using (var session = _dataStorage.CreateSession())
             {
                 var defaults = session.Load<DefaultValues>(1);
-                _summaryAndInvoice.InvoiceVat = defaults.InvoiceVat;
-                _summaryAndInvoice.Witholding = defaults.Witholding;
+                if (defaults != null)
+                {
+                    _summaryAndInvoice.InvoiceVat = defaults.InvoiceVat;
+                    _summaryAndInvoice.Witholding = defaults.Witholding;
+                }
             }
 
             SummaryRows = new ObservableCollection<SummaryRowViewModel>();
             SummaryRows.CollectionChanged += SummaryRows_CollectionChanged;
+            PartialsByCompanyName = new ObservableCollection<PartialByCompanyName>();
         }
 
         public string CustomerName
@@ -210,6 +215,8 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return printSummmary ?? (printSummmary = new DelegateCommand(PrintSummaryDocument())); }
         }
 
+        public ObservableCollection<PartialByCompanyName> PartialsByCompanyName { get; private set; }
+
         private Action PrintInvoiceCommand()
         {
             return delegate
@@ -238,17 +245,33 @@ namespace PosizioniRoverfrutta.ViewModels
                     return;
                 }
                 _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
-                _summaryAndInvoice.SummaryRows.Clear();
-                foreach (var summaryRowViewModel in SummaryRows)
-                {
-                    if (summaryRowViewModel.CanMakeInvoice)
-                        _summaryAndInvoice.SummaryRows.Add(summaryRowViewModel.SummaryRow);
-                }
+                RefreshSummaryRowsInModel();
+
+                RefreshPartialsByCompanyNameInModel();
 
                 var report = new SummaryReport(_summaryAndInvoice, path);
                 report.CreatePdf();
                 Status = string.Format("PDF del Documento creato correttamente");
             };
+        }
+
+        private void RefreshPartialsByCompanyNameInModel()
+        {
+            _summaryAndInvoice.PartialsByCompanyName.Clear();
+            foreach (var partialByCompanyName in PartialsByCompanyName)
+            {
+                _summaryAndInvoice.PartialsByCompanyName.Add(partialByCompanyName);
+            }
+        }
+
+        private void RefreshSummaryRowsInModel()
+        {
+            _summaryAndInvoice.SummaryRows.Clear();
+            foreach (var summaryRowViewModel in SummaryRows)
+            {
+                if (summaryRowViewModel.CanMakeInvoice)
+                    _summaryAndInvoice.SummaryRows.Add(summaryRowViewModel.SummaryRow);
+            }
         }
 
         private string OpenSavePdfDialog(string filePrefix)
@@ -300,7 +323,23 @@ namespace PosizioniRoverfrutta.ViewModels
                 SummaryRows.AddRange(orderedList.OrderBy(r => r.DocumentId));
             }
             UpdateTotals();
+            UpdatePartialsByCompanyName();
             OnPropertyChanged("ShowVatArea");
+        }
+
+        private void UpdatePartialsByCompanyName()
+        {
+            PartialsByCompanyName.Clear();
+            var partialResults = SummaryRows
+                .GroupBy(summaryRow => summaryRow.CompanyName)
+                .Select(group => new PartialByCompanyName
+                {
+                    CompanyName = group.Key,
+                    Total = group.Sum(row => row.PayableAmount)
+                })
+                .OrderBy(row => row.CompanyName)
+                .ToList();
+            PartialsByCompanyName.AddRange(partialResults);
         }
 
         private void LoadSalesConfirmations(List<SummaryRowViewModel> orderedList, IDocumentSession session)
@@ -376,7 +415,7 @@ namespace PosizioniRoverfrutta.ViewModels
             NetAmount = TaxedAmount - CalculatedWitholding;
         }
 
-        void SummaryRows_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void SummaryRows_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (SummaryRowViewModel item in e.NewItems)
@@ -400,10 +439,16 @@ namespace PosizioniRoverfrutta.ViewModels
         }
 
         private readonly IDataStorage _dataStorage;
+
         private readonly IWindowManager _windowManager;
+
         private SummaryAndInvoice _summaryAndInvoice;
+
         private ICommand printSummmary;
+
         private string _status;
+
         private ICommand printInvoice;
+
     }
 }

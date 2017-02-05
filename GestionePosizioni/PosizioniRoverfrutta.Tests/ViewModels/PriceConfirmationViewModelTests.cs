@@ -88,7 +88,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_searching_for_a_non_existing_document_all_buttons_are_disabled()
         {
-            _mainViewModel.Id = 1;
+            _mainViewModel.Id = 999999;
             Assert.That(_mainViewModel.SaveButtonEnabled, Is.False);
             Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
             Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);

@@ -63,6 +63,7 @@
     <Compile Include="Entities\CustomerRow.cs" />
     <Compile Include="Entities\DefaultValues.cs" />
     <Compile Include="Entities\PalletType.cs" />
+    <Compile Include="Entities\PartialByCompanyName.cs" />
     <Compile Include="Entities\PositionsListRow.cs" />
     <Compile Include="Entities\ProductDescription.cs" />
     <Compile Include="Entities\ProductRow.cs" />

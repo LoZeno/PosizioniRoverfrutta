@@ -131,7 +131,7 @@
 
 </head>
 <body>
-    
+
     <table class="header">
         <tr>
             <td>
@@ -164,11 +164,11 @@
                 </table>
             </td>
         </tr>
-        
+
     </table>
 
-    <div style="width: 100%; height: 2em;"></div>    
-    
+    <div style="width: 100%; height: 2em;"></div>
+
     <div class="normalText" style="width: 45%; display: inline-block; margin-left: 1em;">
         Spett.le<br />
         @Model.Customer.CompanyName<br />
@@ -178,13 +178,13 @@
         @Model.Customer.Country<br />
         P. IVA: @Model.Customer.VatCode
     </div>
-    
+
     <div class="title" style="float: left; display: inline-block">
         Riepilogo Provvigioni Maturate da @Model.StartDateString a @Model.EndDateString
     </div>
-    
-    <div style="width: 100%; height: 2em;"></div>    
-    
+
+    <div style="width: 100%; height: 2em;"></div>
+
     <table class="borderedTable">
         <thead class="borderedThickTable">
             <tr class="boldGridHeader">
@@ -238,6 +238,29 @@
         </tfoot>
     </table>
 
+    <div style="width: 100%; height: 2em;"></div>
+
+    <table class="borderedTable">
+        <thead class="borderedThickTable">
+            <tr class="boldGridHeader">
+                <td>Cliente/Fornitore</td>
+                <td>Provvigione</td>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var partialsRow in Model.PartialsByCompanyName)
+        {
+        <tr class="normalText">
+            <td class="borderedColumn">
+                @partialsRow.CompanyName
+            </td>
+            <td class="borderedColumn">
+                
+            </td>
+        </tr>
+        }
+        </tbody>
+    </table>
 
 </body>
 </html>
