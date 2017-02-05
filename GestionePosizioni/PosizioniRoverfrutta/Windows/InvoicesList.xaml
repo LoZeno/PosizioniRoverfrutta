@@ -27,6 +27,10 @@
                     <RibbonButton SmallImageSource="../Content/Pictures/Help/question-faq-icon.png" />
                 </Ribbon.HelpPaneContent>
                 <RibbonTab Header="Riepilogo e Fattura">
+                    <RibbonGroup Header="Salvataggio" Height="88" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
+                        <RibbonButton x:Name="AddButton" LargeImageSource="../Content/Pictures/Customer/add-symbol.png" Label="Crea Nuova Fattura"/>
+                        <RibbonButton x:Name="SaveButton" LargeImageSource="../Content/Pictures/Save/floppy-mount-icon-128.png" SmallImageSource="../Content/Pictures/Save/floppy-mount-icon-16.png" Label="Salva Fattura" />
+                    </RibbonGroup>
                     <RibbonGroup Header="Stampa Riepilogo" VerticalAlignment="Top">
                         <RibbonButton x:Name="SummaryPdfButton" LargeImageSource="../Content/Pictures/Pdf/pdf-icon.png" Label="Salva Riepilogo in formato PDF"></RibbonButton>
                     </RibbonGroup>
@@ -46,7 +50,7 @@
                 <Label Grid.Row="0" Name="TitleLabel" FontWeight="Bold" FontStyle="Italic" FontSize="20">RIEPILOGO ORDINI E STAMPA FATTURA</Label>
                 <DockPanel Grid.Row="1" LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="DockPanel2">
                     
-                    <Expander DockPanel.Dock="Left" ExpandDirection="Right" IsExpanded="True">
+                    <Expander DockPanel.Dock="Left" ExpandDirection="Right" IsExpanded="True" Visibility="Collapsed">
                         <StackPanel Name="InvoiceListPanel" CanVerticallyScroll="True" Orientation="Vertical" Width="120">
                         </StackPanel>
                     </Expander>

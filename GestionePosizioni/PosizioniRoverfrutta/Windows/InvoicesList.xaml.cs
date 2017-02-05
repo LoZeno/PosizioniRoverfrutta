@@ -58,6 +58,7 @@ namespace PosizioniRoverfrutta.Windows
             SetBindingsForPriceTotals("NetAmount", NetAmountTextBlock);
             SetBindingsForNumericTextBox("InvoiceNumber", InvoiceNumberBox);
             SetBindingsForDatePickers("InvoiceDate", InvoiceDatePicker);
+            SetSaveButtonBinding(viewModel);
             SetPrintSummaryButtonBinding(viewModel);
             SetPrintInvoicButtonBinding(viewModel);
             SetStatusBinding();
@@ -69,6 +70,12 @@ namespace PosizioniRoverfrutta.Windows
             SetPartialsDataGridBinding(viewModel);
 
             SetVatVisibility(viewModel);
+        }
+
+        private void SetSaveButtonBinding(SummaryAndInvoiceViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, SaveButton, "Save", viewModel.Save);
+            SaveButton.SetBinding(IsEnabledProperty, new Binding("SaveButtonEnabled"));
         }
 
         private void BuildPartialsDataGridColumns()

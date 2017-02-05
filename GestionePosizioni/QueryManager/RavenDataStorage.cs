@@ -39,9 +39,24 @@ namespace QueryManager
                     ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
             }
 
-            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>((dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
+            SetSaleConfirmationsToUseProgressiveIndexes();
+
+            SetSummaryAndInvoiceTypeToUseProgressiveIndexes();
+
             _documentStore.Initialize();
             CreateIndexes();
+        }
+
+        private void SetSummaryAndInvoiceTypeToUseProgressiveIndexes()
+        {
+            _documentStore.Conventions.RegisterIdConvention<SummaryAndInvoice>(
+                (dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
+        }
+
+        private void SetSaleConfirmationsToUseProgressiveIndexes()
+        {
+            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>(
+                (dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
         }
 
         public void StartBackup(string path, bool incremental)

@@ -12,8 +12,28 @@ namespace Models.DocumentTypes
             SummaryRows = new List<SummaryRow>();
             PartialsByCompanyName = new List<PartialByCompanyName>();
         }
+
+        public string Id { get; set; }
+
+        public int? InvoiceNumber
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(Id))
+                {
+                    var strings = Id.Split('/');
+                    if (strings.Length > 1 && !string.IsNullOrWhiteSpace(strings[1]))
+                        return int.Parse(strings[1]);
+                    return 0;
+                }
+                return null;
+            }
+            set { Id = value.HasValue ? "SummaryAndInvoices/" + value : "SummaryAndInvoices/"; }
+        }
+
         public Customer Customer { get; set; }
         public DateTime? StartDate { get; set; }
+
         public string StartDateString
         {
             get
@@ -21,7 +41,9 @@ namespace Models.DocumentTypes
                 return StartDate.HasValue ? StartDate.Value.ToLongDateString() : string.Empty;
             }
         }
+
         public DateTime? EndDate { get; set; }
+
         public string EndDateString
         {
             get
@@ -29,6 +51,7 @@ namespace Models.DocumentTypes
                 return EndDate.HasValue ? EndDate.Value.ToLongDateString() : string.Empty;
             }
         }
+
         public bool IncludeOpenPositions { get; set; }
         public List<SummaryRow> SummaryRows { get; set; }
         public decimal CommissionsTotal { get; set; }
@@ -40,7 +63,6 @@ namespace Models.DocumentTypes
         public decimal NetAmount { get; set; }
 
         public string Base64Logo { get; set; }
-        public int? InvoiceNumber { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public string InvoiceDateString
         {

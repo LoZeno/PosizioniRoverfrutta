@@ -78,7 +78,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <OutputPath>..\..\..\..\LoZeno\Google Drive\GestorePosizioniRoverfrutta\</OutputPath>
+    <OutputPath>..\..\..\..\Lo Zeno\Google Drive\GestorePosizioniRoverfrutta\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>true</Optimize>

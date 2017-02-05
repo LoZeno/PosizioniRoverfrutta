@@ -41,8 +41,8 @@ namespace PosizioniRoverfrutta.ViewModels
             }
 
             SummaryRows = new ObservableCollection<SummaryRowViewModel>();
-            SummaryRows.CollectionChanged += SummaryRows_CollectionChanged;
             PartialsByCompanyName = new ObservableCollection<PartialByCompanyName>();
+            SummaryRows.CollectionChanged += SummaryRows_CollectionChanged;
         }
 
         public string CustomerName
@@ -216,6 +216,25 @@ namespace PosizioniRoverfrutta.ViewModels
         }
 
         public ObservableCollection<PartialByCompanyName> PartialsByCompanyName { get; private set; }
+
+        public ICommand Save
+        {
+            get { return saveCommand ?? (saveCommand = new DelegateCommand(SaveInvoiceInDatabase())); }
+        }
+
+        private Action SaveInvoiceInDatabase()
+        {
+            return delegate
+            {
+                using (var session = _dataStorage.CreateSession())
+                {
+                    RefreshSummaryRowsInModel();
+                    RefreshPartialsByCompanyNameInModel();
+                    session.Store(_summaryAndInvoice);
+                    session.SaveChanges();
+                }
+            };
+        }
 
         private Action PrintInvoiceCommand()
         {
@@ -449,6 +468,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
 
         private ICommand printInvoice;
-
+        private ICommand saveCommand;
     }
 }
