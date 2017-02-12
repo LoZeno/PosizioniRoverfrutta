@@ -11,6 +11,7 @@ using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
+using Models.Mappers;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Services;
@@ -466,28 +467,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var loadingDocument = session.Load<LoadingDocument>("LoadingDocuments/"+value);
                     if (loadingDocument != null)
                     {
-                        priceConfirmation = new PriceConfirmation
-                        {
-                            Id = "PriceConfirmations/"+value,
-                            Customer = loadingDocument.Customer,
-                            Provider = loadingDocument.Provider,
-                            Transporter = loadingDocument.Transporter,
-                            DocumentDate = DateTime.Today,
-                            ProductDetails = loadingDocument.ProductDetails,
-                            ShippingDate = loadingDocument.ShippingDate,
-                            DeliveryDate = loadingDocument.DeliveryDate,
-                            TruckLicensePlate = loadingDocument.TruckLicensePlate,
-                            Rental = loadingDocument.Rental,
-                            DeliveryEx = loadingDocument.DeliveryEx,
-                            TermsOfPayment = loadingDocument.TermsOfPayment,
-                            InvoiceDiscount = loadingDocument.InvoiceDiscount,
-                            CustomerCommission = loadingDocument.CustomerCommission,
-                            ProviderCommission = loadingDocument.ProviderCommission,
-                            Notes = loadingDocument.Notes,
-                            Lot = loadingDocument.Lot,
-                            OrderCode = loadingDocument.OrderCode,
-                            TransportDocument = loadingDocument.TransportDocument
-                        };
+                        priceConfirmation = loadingDocument.MapToPriceConfirmation();
                         var initialVat = session.Load<DefaultValues>(1).Vat;
                         priceConfirmation.Vat = initialVat;
                         Status = "Documento numero " + value + " caricato correttamente";

@@ -70,6 +70,10 @@
     <Compile Include="Entities\ProductStatistics.cs" />
     <Compile Include="Entities\SummaryRow.cs" />
     <Compile Include="Entities\TermOfPayment.cs" />
+    <Compile Include="Mappers\CustomerMapper.cs" />
+    <Compile Include="Mappers\LoadingDocumentMapper.cs" />
+    <Compile Include="Mappers\PriceConfirmationMapper.cs" />
+    <Compile Include="Mappers\TransporterMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

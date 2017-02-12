@@ -11,6 +11,7 @@ using Microsoft.Practices.Prism.Commands;
 using Models.Companies;
 using Models.DocumentTypes;
 using Models.Entities;
+using Models.Mappers;
 using PosizioniRoverfrutta.Annotations;
 using PosizioniRoverfrutta.Reports;
 using PosizioniRoverfrutta.Windows;
@@ -411,27 +412,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     var saleconfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
                     if (saleconfirmation != null)
                     {
-                        loadingDocument = new LoadingDocument
-                        {
-                            Id = "LoadingDocuments/"+value,
-                            Customer = saleconfirmation.Customer,
-                            Provider = saleconfirmation.Provider,
-                            Transporter = saleconfirmation.Transporter,
-                            DocumentDate = DateTime.Today,
-                            ProductDetails = saleconfirmation.ProductDetails,
-                            ShippingDate = saleconfirmation.ShippingDate,
-                            DeliveryDate = saleconfirmation.DeliveryDate,
-                            TruckLicensePlate = saleconfirmation.TruckLicensePlate,
-                            Rental = saleconfirmation.Rental,
-                            DeliveryEx = saleconfirmation.DeliveryEx,
-                            TermsOfPayment = saleconfirmation.TermsOfPayment,
-                            InvoiceDiscount = saleconfirmation.InvoiceDiscount,
-                            CustomerCommission = saleconfirmation.CustomerCommission,
-                            ProviderCommission = saleconfirmation.ProviderCommission,
-                            Notes = saleconfirmation.Notes,
-                            Lot = saleconfirmation.Lot,
-                            OrderCode = saleconfirmation.OrderCode
-                        };
+                        loadingDocument = saleconfirmation.MapToLoadingDocument();
                         Status = "Documento numero " + value + " caricato correttamente";
                         canSave = true;
                         canUseActions = false;
