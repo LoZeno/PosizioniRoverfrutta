@@ -12,7 +12,7 @@ namespace QueryManager
 {
     public class RavenDataStorage : IDataStorage
     {
-        private string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        private static string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             @"Posizioni\Archive");
 
         private EmbeddableDocumentStore _documentStore;
@@ -81,10 +81,7 @@ namespace QueryManager
             }
         }
 
-        public EmbeddableDocumentStore DocumentStore
-        {
-            get { return _documentStore; }
-        }
+        public EmbeddableDocumentStore DocumentStore => _documentStore;
 
         public IDocumentSession CreateSession()
         {

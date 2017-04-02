@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
@@ -11,7 +12,9 @@ namespace PosizioniRoverfrutta.Windows
     {
         private readonly IDataStorage _dataStorage;
         private readonly Dictionary<string, Window> _windows;
-        private readonly Dictionary<WindowTypes, Type> _windowClasses; 
+        private readonly Dictionary<WindowTypes, Type> _windowClasses;
+        private static string _attachmentsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+    @"Posizioni\Allegati");
 
         public WindowManager(IDataStorage dataStorage)
         {
@@ -62,6 +65,13 @@ namespace PosizioniRoverfrutta.Windows
             var result = savefileDialog.ShowDialog();
 
             return result == true ? Path.GetDirectoryName(savefileDialog.FileName) : null;
+        }
+
+        public void OpenAttachmentWindow(int positionNumber)
+        {
+            var documentAttachmentsPath = Path.Combine(_attachmentsDirectory, positionNumber.ToString());
+            Directory.CreateDirectory(documentAttachmentsPath);
+            Process.Start(documentAttachmentsPath);
         }
 
         private string OpenSaveFileDialog(string filename, string extension, string filter)

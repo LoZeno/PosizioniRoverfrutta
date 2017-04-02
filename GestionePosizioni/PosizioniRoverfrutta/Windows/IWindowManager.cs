@@ -8,5 +8,6 @@ namespace PosizioniRoverfrutta.Windows
         void PopupMessage(string message, string caption);
         string OpenSaveToPdfDialog(string filename);
         string OpenSelectFolderDialog();
+        void OpenAttachmentWindow(int positionNumber);
     }
 }

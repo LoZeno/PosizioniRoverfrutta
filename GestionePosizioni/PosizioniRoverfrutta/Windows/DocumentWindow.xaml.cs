@@ -47,6 +47,8 @@ namespace PosizioniRoverfrutta.Windows
             SetPrintButtonBinding(viewModel);
 
             SetCloneButtonBinding(viewModel);
+
+            SetAttachmentButtonBinding(viewModel);
         }
 
         public DocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
@@ -204,6 +206,11 @@ namespace PosizioniRoverfrutta.Windows
         {
             SetButtonBinding(viewModel, CloneButton, "Clone", viewModel.Clone);
             CloneButton.SetBinding(IsEnabledProperty, new Binding("ActionButtonsEnabled"));
+        }
+
+        private void SetAttachmentButtonBinding(SaleConfirmationViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, OpenAttachmentsButton, "OpenAttachments", viewModel.OpenAttachments);
         }
     }
 }

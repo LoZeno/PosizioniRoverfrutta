@@ -194,6 +194,16 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);
         }
 
+        [Test]
+        public void when_selecting_open_attachments_it_opens_windows_explorer_to_the_correct_folder()
+        {
+            CreateBasicData(false);
+            _mainViewModel.Id = _documentId;
+            _mainViewModel.OpenAttachments.Execute(null);
+
+            _mockWindowManager.Verify(manager => manager.OpenAttachmentWindow(_documentId));
+        }
+
         private void CreateBasicData(bool AddProduct)
         {
             var document = new PriceConfirmation

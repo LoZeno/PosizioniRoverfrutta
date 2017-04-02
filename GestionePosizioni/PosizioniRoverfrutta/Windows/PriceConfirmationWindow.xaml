@@ -42,6 +42,11 @@
                         <RibbonButton x:Name="ProviderEmailButton" SmallImageSource="../Content/Pictures/Email/email-small.png" Label="Email a Fornitore"></RibbonButton>
                     </RibbonGroup>
                 </RibbonTab>
+                <RibbonTab Header="Allegati">
+                    <RibbonGroup Header="Documenti Allegati">
+                        <RibbonButton x:Name="OpenAttachmentsButton" LargeImageSource="../Content/Pictures/Attachment/clip.png" SmallImageSource="../Content/Pictures/Attachment/clip.png" Label="Apri Cartella Allegati"></RibbonButton>
+                    </RibbonGroup>
+                </RibbonTab>
             </Ribbon>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Name="MyPanel">
                 <StackPanel.Background>

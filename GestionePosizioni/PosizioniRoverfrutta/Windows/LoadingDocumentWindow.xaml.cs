@@ -45,6 +45,8 @@ namespace PosizioniRoverfrutta.Windows
             SetStatusBinding();
 
             SetPrintButtonBinding(viewModel);
+
+            SetAttachmentButtonBinding(viewModel);
         }
 
         public LoadingDocumentWindow(IWindowManager windowManager, IDataStorage dataStorage, string documentId)
@@ -207,6 +209,11 @@ namespace PosizioniRoverfrutta.Windows
             SetButtonBinding(viewModel, EmailButton, "Email", viewModel.Email);
             SetButtonBinding(viewModel, ProviderEmailButton, "EmailToProvider", viewModel.EmailToProvider);
             SetButtonBinding(viewModel, CustomerEmailButton, "EmailToCustomer", viewModel.EmailToCustomer);
+        }
+
+        private void SetAttachmentButtonBinding(LoadingDocumentViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, OpenAttachmentsButton, "OpenAttachments", viewModel.OpenAttachments);
         }
     }
 }

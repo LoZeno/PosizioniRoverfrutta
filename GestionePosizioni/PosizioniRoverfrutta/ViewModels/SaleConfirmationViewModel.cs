@@ -370,6 +370,19 @@ namespace PosizioniRoverfrutta.ViewModels
             get { return cloneDocument ?? (cloneDocument = new DelegateCommand(CloneCurrentDocument())); }
         }
 
+        public ICommand OpenAttachments
+        {
+            get { return openAttachments ?? (openAttachments = new DelegateCommand(OpenAttachmentsCommand())); }
+        }
+
+        private Action OpenAttachmentsCommand()
+        {
+            return delegate
+            {
+                _windowManager.OpenAttachmentWindow(Id);
+            };
+        }
+
         private Action CloneCurrentDocument()
         {
             return delegate
@@ -696,8 +709,7 @@ namespace PosizioniRoverfrutta.ViewModels
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
             {
                 if (!SaveButtonEnabled)
@@ -741,6 +753,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocumentToProvider;
         private ICommand emailDocumentToTransporter;
         private ICommand cloneDocument;
+        private ICommand openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }

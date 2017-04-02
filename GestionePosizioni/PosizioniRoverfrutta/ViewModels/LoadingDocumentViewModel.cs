@@ -317,18 +317,25 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public ICommand EmailToProvider
         {
-            get
-            {
-                return emailDocumentToProvider ?? (emailDocumentToProvider = new DelegateCommand(SendEmail(true, false)));
-            }
+            get { return emailDocumentToProvider ?? (emailDocumentToProvider = new DelegateCommand(SendEmail(true, false))); }
         }
 
         public ICommand EmailToCustomer
         {
-            get
+            get { return emailDocumentToCustomer ?? (emailDocumentToCustomer = new DelegateCommand(SendEmail(false, true))); }
+        }
+
+        public ICommand OpenAttachments
+        {
+            get { return openAttachments ?? (openAttachments = new DelegateCommand(OpenAttachmentsCommand())); }
+        }
+
+        private Action OpenAttachmentsCommand()
+        {
+            return delegate
             {
-                return emailDocumentToCustomer ?? (emailDocumentToCustomer = new DelegateCommand(SendEmail(false, true)));
-            }
+                _windowManager.OpenAttachmentWindow(Id);
+            };
         }
 
         private Action SendEmail(bool printForProvider, bool printForCustomer)
@@ -660,6 +667,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocument;
         private ICommand emailDocumentToCustomer;
         private ICommand emailDocumentToProvider;
+        private ICommand openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
     }
 }
