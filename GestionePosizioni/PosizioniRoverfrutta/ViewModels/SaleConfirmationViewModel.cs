@@ -267,6 +267,16 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
+        public bool OpenAttachmentsButtonEnabled
+        {
+            get { return _openAttachmentsButtonEnabled; }
+            private set
+            {
+                _openAttachmentsButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
 
         public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
@@ -531,6 +541,7 @@ namespace PosizioniRoverfrutta.ViewModels
             SaveButtonEnabled = false;
             ReloadButtonEnabled = false;
             ActionButtonsEnabled = canUseActions;
+            OpenAttachmentsButtonEnabled = !Id.Equals(0);
 
             Status = "Documento numero " + SaleConfirmation.ProgressiveNumber + " caricato correttamente";
         }
@@ -575,6 +586,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 SaveButtonEnabled = false;
                 ActionButtonsEnabled = true;
                 ReloadButtonEnabled = false;
+                OpenAttachmentsButtonEnabled = true;
             }
             catch (Exception exception)
             {
@@ -710,7 +722,7 @@ namespace PosizioniRoverfrutta.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "Status"))
+            if (!propertyName.In("SaveButtonEnabled", "ActionButtonsEnabled", "ReloadButtonEnabled", "OpenAttachmentsButtonEnabled", "Status"))
             {
                 if (!SaveButtonEnabled)
                 {
@@ -738,6 +750,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private bool _saveButtonEnabled = false;
         private bool _actionButtonsEnabled = false;
         private bool _reloadButtonEnabled = false;
+        private bool _openAttachmentsButtonEnabled = false;
 
         private ICommand reloadCommand;
 

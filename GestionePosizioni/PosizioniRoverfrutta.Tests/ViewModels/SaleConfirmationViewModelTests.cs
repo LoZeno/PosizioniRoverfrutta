@@ -127,7 +127,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             Assert.That(_mainViewModel.ActionButtonsEnabled, Is.False);
             Assert.That(_mainViewModel.ReloadButtonEnabled, Is.False);
         }
-
+        
         [Test]
         public void when_loading_a_document_the_save_button_is_disabled_and_action_buttons_are_enabled_and_reload_button_is_disabled()
         {
@@ -247,6 +247,29 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             _mainViewModel.OpenAttachments.Execute(null);
 
             _mockWindowManager.Verify(manager => manager.OpenAttachmentWindow(_documentId));
+        }
+
+        [Test]
+        public void when_creating_a_new_position_the_attachments_button_is_disabled()
+        {
+            CreateBasicData(false);
+            Assert.That(_mainViewModel.OpenAttachmentsButtonEnabled, Is.False);
+        }
+
+        [Test]
+        public void when_saving_a_new_position_the_attachments_button_is_enabled()
+        {
+            CreateBasicData(false);
+            _mainViewModel.SaveAll.Execute(null);
+            Assert.That(_mainViewModel.OpenAttachmentsButtonEnabled, Is.True);
+        }
+
+        [Test]
+        public void when_loading_an_existing_position_the_attachments_button_is_enabled()
+        {
+            CreateBasicData(false);
+            _mainViewModel.Id = _documentId;
+            Assert.That(_mainViewModel.OpenAttachmentsButtonEnabled, Is.True);
         }
 
         private void CreateBasicData(bool AddProduct)

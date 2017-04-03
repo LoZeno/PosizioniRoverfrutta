@@ -211,6 +211,7 @@ namespace PosizioniRoverfrutta.Windows
         private void SetAttachmentButtonBinding(SaleConfirmationViewModel viewModel)
         {
             SetButtonBinding(viewModel, OpenAttachmentsButton, "OpenAttachments", viewModel.OpenAttachments);
+            OpenAttachmentsButton.SetBinding(IsEnabledProperty, new Binding("OpenAttachmentsButtonEnabled"));
         }
     }
 }
