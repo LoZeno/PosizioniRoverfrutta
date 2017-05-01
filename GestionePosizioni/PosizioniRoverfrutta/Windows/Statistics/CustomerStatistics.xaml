@@ -6,6 +6,7 @@
         xmlns:toolkit="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:local="clr-namespace:PosizioniRoverfrutta.Windows.Statistics"
+        xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
         mc:Ignorable="d"
         Title="Statistiche clienti e fornitori" MinHeight="300" MinWidth="300"
                     Height="600" Width="900">
@@ -27,17 +28,17 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
             <Grid Grid.Column="0" Grid.Row="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <WrapPanel Grid.Row="0">
+                <StackPanel Grid.Row="0" Orientation="Horizontal" FlowDirection="LeftToRight">
                     <TextBlock Name="CompanyNameLabel" FontWeight="Bold" FontStyle="Italic" FontSize="20" Margin="10,5">Company Name</TextBlock>
                     <GroupBox Header="Modalità di raccolta dati">
                         <StackPanel Orientation="Horizontal">
@@ -49,7 +50,7 @@
                             </RadioButton>
                         </StackPanel>
                     </GroupBox>
-                </WrapPanel>
+                </StackPanel>
 
                 <DockPanel LastChildFill="False" Grid.Row="1" Margin="10,0,10,0">
                     <GroupBox Header="Periodo DA:" DockPanel.Dock="Left">
@@ -62,12 +63,31 @@
 
             </Grid>
 
-
-
-            <DataGrid Name="ProductStatisticsGrid" Grid.Column="0" Grid.Row="1" Margin="10px" HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+            <DockPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+                <Expander DockPanel.Dock="Bottom" Header="Visualizzazione grafico a torta" BorderBrush="DarkGray" ExpandDirection="Down" VerticalAlignment="Top">
+                    <Expander.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" MinHeight="5"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            
+                            <GridSplitter Grid.Row="0" Height="5" ResizeBehavior="CurrentAndNext" HorizontalAlignment="Stretch" ResizeDirection="Rows"></GridSplitter>
+                            <metroChart:PieChart Grid.Row="1" Name="ProductsChart" ChartTitleVisibility="Collapsed">
+                                <metroChart:PieChart.Series>
+                                    <metroChart:ChartSeries Name="ProductChartDataSeries" SeriesTitle="Prodotti"></metroChart:ChartSeries>
+                                </metroChart:PieChart.Series>
+                            </metroChart:PieChart>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+                
+                <DataGrid Name="ProductStatisticsGrid" Margin="10px" HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows ="False"
                       SelectionMode="Extended" SelectionChanged="ProductStatisticsGrid_OnSelectionChanged"></DataGrid>
-
+                
+            </DockPanel>
+            
             <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="5">
                 <Grid Margin="5">
                     <TextBlock Text="Categoria" Foreground="{StaticResource brushWatermarkForeground}" Margin="2"
@@ -80,8 +100,31 @@
                 <Button Name="DeleteCathegoryButton" Margin="5" ToolTip="Rimuovi categoria"><Image Source="../../Content/Pictures/Eraser/eraser_48x48.png" Height="20" Width="20" Margin="1"></Image></Button>
             </StackPanel>
 
-            <DataGrid Name="CathegoriesStatisticsGrid" Grid.Column="1" Grid.Row="1" Margin="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
+            <DockPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LastChildFill="True">
+                <Expander DockPanel.Dock="Bottom" Header="Visualizzazione grafico a torta" BorderBrush="DarkGray" ExpandDirection="Down" VerticalAlignment="Top">
+                    <Expander.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" MinHeight="5"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <GridSplitter Grid.Row="0" Height="5" ResizeBehavior="CurrentAndNext" HorizontalAlignment="Stretch" ResizeDirection="Rows"></GridSplitter>
+                            <metroChart:PieChart Grid.Row="1" Name="CathegoriesChart" ChartTitleVisibility="Collapsed">
+                                <metroChart:PieChart.Series>
+                                    <metroChart:ChartSeries Name="CathegoriesChartDataSeries" SeriesTitle="Prodotti"></metroChart:ChartSeries>
+                                </metroChart:PieChart.Series>
+                            </metroChart:PieChart>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+
+                <DataGrid Name="CathegoriesStatisticsGrid" Margin="10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" SelectionMode="Single"
                       SelectionChanged="CathegoriesStatisticsGrid_OnSelectionChanged"></DataGrid>
+
+            </DockPanel>
+
+
         </Grid>
     </DockPanel>
 </windows:BaseWindow>

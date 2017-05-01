@@ -47,21 +47,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 LoadDocument(value);
 
-                OnPropertyChanged();
-                OnPropertyChanged("SaleConfirmation");
-                OnPropertyChanged("DocumentDate");
-                OnPropertyChanged("ShippingDate");
-                OnPropertyChanged("DeliveryDate");
-                OnPropertyChanged("TruckLicensePlate");
-                OnPropertyChanged("Rental");
-                OnPropertyChanged("DeliveryEx");
-                OnPropertyChanged("TermsOfPayment");
-                OnPropertyChanged("InvoiceDiscount");
-                OnPropertyChanged("CustomerCommission");
-                OnPropertyChanged("ProviderCommission");
-                OnPropertyChanged("Notes");
-                OnPropertyChanged("Lot");
-                OnPropertyChanged("OrderCode");
+                OnPropertyChanged(string.Empty);
                 SaveButtonEnabled = false;
                 ActionButtonsEnabled = true;
                 ReloadButtonEnabled = false;

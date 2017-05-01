@@ -49,6 +49,9 @@ namespace PosizioniRoverfrutta.Windows.Statistics
 
             BuildCathegoriesDataGridColumns();
             SetCathegoriesDataGridBinding(viewModel);
+
+            SetProductPieChartDataBindings(viewModel);
+            SetCathegoriesPieChartDataBindings(viewModel);
         }
 
         private void SetCathegoriesDataGridBinding(CustomerStatisticsViewModel viewModel)
@@ -86,6 +89,30 @@ namespace PosizioniRoverfrutta.Windows.Statistics
                 Source = viewModel,
                 Path = new PropertyPath("ProductStatisticsRows"),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+            });
+        }
+
+        private void SetProductPieChartDataBindings(CustomerStatisticsViewModel viewModel)
+        {
+            ProductChartDataSeries.DisplayMember = "Description";
+            ProductChartDataSeries.ValueMember = "NetWeight";
+            ProductChartDataSeries.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("ProductStatisticsRows"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            });
+        }
+
+        private void SetCathegoriesPieChartDataBindings(CustomerStatisticsViewModel viewModel)
+        {
+            CathegoriesChartDataSeries.DisplayMember = "Description";
+            CathegoriesChartDataSeries.ValueMember = "NetWeight";
+            CathegoriesChartDataSeries.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
+            {
+                Source = viewModel,
+                Path = new PropertyPath("CathegoryStatisticsRows"),
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
         }
 
