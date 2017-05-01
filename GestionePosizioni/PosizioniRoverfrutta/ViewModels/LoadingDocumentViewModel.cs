@@ -48,21 +48,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 bool canSave, canUseActions;
                 LoadDocument(value, out canSave, out canUseActions);
 
-                OnPropertyChanged();
-                OnPropertyChanged("LoadingDocument");
-                OnPropertyChanged("DocumentDate");
-                OnPropertyChanged("ShippingDate");
-                OnPropertyChanged("TransportDocument");
-                OnPropertyChanged("TruckLicensePlate");
-                OnPropertyChanged("Rental");
-                OnPropertyChanged("DeliveryEx");
-                OnPropertyChanged("TermsOfPayment");
-                OnPropertyChanged("InvoiceDiscount");
-                OnPropertyChanged("CustomerCommission");
-                OnPropertyChanged("ProviderCommission");
-                OnPropertyChanged("Notes");
-                OnPropertyChanged("Lot");
-                OnPropertyChanged("OrderCode");
+                OnPropertyChanged(string.Empty);
 
                 SaveButtonEnabled = canSave;
                 ActionButtonsEnabled = canUseActions;

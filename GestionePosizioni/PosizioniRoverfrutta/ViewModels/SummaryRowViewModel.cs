@@ -26,15 +26,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _summaryRow = value;
-                OnPropertyChanged();
-                OnPropertyChanged("DocumentId");
-                OnPropertyChanged("ShippingDate");
-                OnPropertyChanged("TransportDocument");
-                OnPropertyChanged("CompanyName");
-                OnPropertyChanged("TaxableAmount");
-                OnPropertyChanged("Commission");
-                OnPropertyChanged("PayableAmount");
-                OnPropertyChanged("CanMakeInvoice");
+                OnPropertyChanged(string.Empty);
             }
         }
 

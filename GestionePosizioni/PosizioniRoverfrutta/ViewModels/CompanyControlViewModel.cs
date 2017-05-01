@@ -22,17 +22,7 @@ namespace PosizioniRoverfrutta.ViewModels
             set
             {
                 _company = value;
-                OnPropertyChanged();
-                OnPropertyChanged("Id");
-                OnPropertyChanged("CompanyName");
-                OnPropertyChanged("Address");
-                OnPropertyChanged("PostCode");
-                OnPropertyChanged("City");
-                OnPropertyChanged("StateOrProvince");
-                OnPropertyChanged("Country");
-                OnPropertyChanged("VatCode");
-                OnPropertyChanged("EmailAddress");
-                OnPropertyChanged("DoNotApplyVat");
+                OnPropertyChanged(string.Empty);
             }
         }
 
