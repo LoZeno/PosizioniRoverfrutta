@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Security.Policy;
 using Models.DocumentTypes;
 using Raven.Abstractions.Data;
 using Raven.Client;
@@ -43,8 +44,18 @@ namespace QueryManager
 
             SetSummaryAndInvoiceTypeToUseProgressiveIndexes();
 
+            DisableLayer2Caching();
+
             _documentStore.Initialize();
+            _documentStore.DisableAggressiveCaching();
+
             CreateIndexes();
+        }
+
+        private void DisableLayer2Caching()
+        {
+            _documentStore.Conventions.ShouldCacheRequest = url => false;
+            _documentStore.Conventions.DisableProfiling = true;
         }
 
         private void SetSummaryAndInvoiceTypeToUseProgressiveIndexes()
