@@ -159,34 +159,53 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
                     var products = enumerator.Current.Document.ProductDetails;
                     foreach (var product in products)
                     {
-                        if (temporaryData.Any(x => x.ProductId.Equals(product.ProductId)))
+                        if (string.IsNullOrWhiteSpace(product.Description))
                         {
-                            var single = temporaryData.Single(x => x.ProductId.Equals(product.ProductId));
-                            single.Instances += 1;
-                            single.NetWeight += product.NetWeight;
-                            single.PriceSum += product.Price;
-                            single.MinimumPrice = Math.Min(single.MinimumPrice, product.Price);
-                            single.MaximumPrice = Math.Max(single.MaximumPrice, product.Price);
-                            single.TotalAmount += product.TotalPrice;
+                            product.Description = "[No Name]";
+                        }
+                        if (ProductExistsInTemporaryData(temporaryData, product))
+                        {
+                            UpdateExistingProductInTemporaryData(temporaryData, product);
                         }
                         else
                         {
-                            temporaryData.Add(new ProductStatistics
-                            {
-                                ProductId = product.ProductId,
-                                MinimumPrice = product.Price,
-                                MaximumPrice = product.Price,
-                                PriceSum = product.Price,
-                                Instances = 1,
-                                Description = product.Description,
-                                NetWeight = product.NetWeight,
-                                TotalAmount = product.TotalPrice
-                            });
+                            AddNewProductToTemporaryData(temporaryData, product);
                         }
                     }
                 }
                 ProductStatisticsRows.AddRange(temporaryData.OrderBy(x => x.Description).ToList());
             }
+        }
+
+        private static bool ProductExistsInTemporaryData(List<ProductStatistics> temporaryData, ProductDetails product)
+        {
+            return temporaryData.Any(x => x.ProductId.Equals(product.ProductId));
+        }
+
+        private static void AddNewProductToTemporaryData(List<ProductStatistics> temporaryData, ProductDetails product)
+        {
+            temporaryData.Add(new ProductStatistics
+            {
+                ProductId = product.ProductId,
+                MinimumPrice = product.Price,
+                MaximumPrice = product.Price,
+                PriceSum = product.Price,
+                Instances = 1,
+                Description = product.Description,
+                NetWeight = product.NetWeight,
+                TotalAmount = product.TotalPrice
+            });
+        }
+
+        private static void UpdateExistingProductInTemporaryData(List<ProductStatistics> temporaryData, ProductDetails product)
+        {
+            var single = temporaryData.Single(x => x.ProductId.Equals(product.ProductId));
+            single.Instances += 1;
+            single.NetWeight += product.NetWeight;
+            single.PriceSum += product.Price;
+            single.MinimumPrice = Math.Min(single.MinimumPrice, product.Price);
+            single.MaximumPrice = Math.Max(single.MaximumPrice, product.Price);
+            single.TotalAmount += product.TotalPrice;
         }
 
         private IRavenQueryable<PriceConfirmation> UpdateQueryBasedOnCustomerOrProviderChoice(IRavenQueryable<PriceConfirmation> query)
