@@ -32,42 +32,19 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             }
         }
 
-        public string CustomerName
-        {
-            get { return _customer.CompanyName; }
-        }
+        public string CustomerName => _customer.CompanyName;
 
-        public string Address
-        {
-            get { return _customer.Address; }
-        }
-        public string City
-        {
-            get { return _customer.City; }
-        }
-        public string Country
-        {
-            get { return _customer.Country; }
-        }
-        public string EmailAddress
-        {
-            get { return _customer.EmailAddress; }
-        }
-        public string PostCode
-        {
-            get { return _customer.PostCode; }
-        }
-        public string StateOrProvince
-        {
-            get { return _customer.StateOrProvince; }
-        }
-        public string VatCode
-        {
-            get { return _customer.VatCode; }
-        }
+        public string Address => _customer.Address;
+        public string City => _customer.City;
+        public string Country => _customer.Country;
+        public string EmailAddress => _customer.EmailAddress;
+        public string PostCode => _customer.PostCode;
+        public string StateOrProvince => _customer.StateOrProvince;
+        public string VatCode => _customer.VatCode;
+
         public DateTime? FromDate
         {
-            get { return _fromDate; }
+            get => _fromDate;
             set
             {
                 _fromDate = value;
@@ -78,7 +55,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         }
         public DateTime? ToDate
         {
-            get { return _toDate; }
+            get => _toDate;
             set
             {
                 _toDate = value;
@@ -90,7 +67,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
 
         public StatisticsMode CustomerOrProvider
         {
-            get { return _customerOrProvider; }
+            get => _customerOrProvider;
             set
             {
                 _customerOrProvider = value;
@@ -101,7 +78,7 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         }
         public string Cathegory
         {
-            get { return _cathegory; }
+            get => _cathegory;
             set
             {
                 _cathegory = value;
@@ -110,34 +87,28 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
         }
         public IList<ProductStatistics> SelectedProductRows
         {
-            get { return _selectedProductRows; }
+            get => _selectedProductRows;
             set
             {
                 _selectedProductRows = value;
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<ProductStatistics> ProductStatisticsRows { get; private set; }
-        public ObservableCollection<ProductStatistics> CathegoryStatisticsRows { get; private set; }
+        public ObservableCollection<ProductStatistics> ProductStatisticsRows { get; }
+        public ObservableCollection<ProductStatistics> CathegoryStatisticsRows { get; }
 
-        public IAutoCompleteBoxDataProvider CathegoryNamesProvider { get; private set; }
+        public IAutoCompleteBoxDataProvider CathegoryNamesProvider { get; }
 
-        public ICommand AddToCathegory
-        {
-            get { return addToCathegoryCommand ?? (addToCathegoryCommand = new DelegateCommand(AddSelectedRowsToCathegory)); }
-        }
+        public ICommand AddToCathegory => _addToCathegoryCommand ?? (_addToCathegoryCommand = new DelegateCommand(AddSelectedRowsToCathegory));
 
-        public ICommand RemoveCathegory
-        {
-            get { return removeFromCathegories ?? (removeFromCathegories = new DelegateCommand(RemoveSelectedCathegory)); }
-        }
+        public ICommand RemoveCathegory => _removeFromCathegories ?? (_removeFromCathegories = new DelegateCommand(RemoveSelectedCathegory));
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void UpdateProductRows()
@@ -265,16 +236,16 @@ namespace PosizioniRoverfrutta.ViewModels.Statistics
             _productsPerCathegory.Clear();
         }
 
-        private Customer _customer;
-        private IDataStorage _dataStorage;
+        private readonly Customer _customer;
+        private readonly IDataStorage _dataStorage;
         private DateTime? _fromDate;
         private DateTime? _toDate;
         private StatisticsMode _customerOrProvider;
         private string _cathegory;
         private IList<ProductStatistics> _selectedProductRows;
-        private ICommand addToCathegoryCommand;
-        private ICommand removeFromCathegories;
-        private Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
+        private ICommand _addToCathegoryCommand;
+        private ICommand _removeFromCathegories;
+        private readonly Dictionary<string, List<string>> _productsPerCathegory = new Dictionary<string, List<string>>();
 
         private class AutocompleteCathegoryNamesProvider : IAutoCompleteBoxDataProvider
         {
