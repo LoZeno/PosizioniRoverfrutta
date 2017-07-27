@@ -1,13 +1,14 @@
 ﻿using Models.DocumentTypes;
+using RazorEngine.Templating;
 using ReportManager;
 
 namespace PosizioniRoverfrutta.Reports
 {
     public class PriceConfirmationReport : ReportGeneratorBase<PriceConfirmation>
     {
-        public PriceConfirmationReport(PriceConfirmation model, string destinationPath, bool printForProvider, bool printForCustomer)
-            : base(model, destinationPath)
+        public void SetPrintDestination(bool printForProvider, bool printForCustomer)
         {
+            ViewBag = new DynamicViewBag();
             AddToViewBag("PrintForProvider", printForProvider);
             AddToViewBag("PrintForCustomer", printForCustomer);
         }

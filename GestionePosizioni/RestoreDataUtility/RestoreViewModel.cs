@@ -58,7 +58,7 @@ namespace RestoreDataUtility
                             BackupLocation = selectedPath,
                             Defrag = true,
                         };
-                        await Task.Run(() => Raven.Database.Actions.MaintenanceActions.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory }, databaseRestoreRequest, WriteOutput));
+                        await Task.Run(() => Raven.Database.Actions.MaintenanceActions.Restore(new Raven.Database.Config.RavenConfiguration { DataDirectory = _dataDirectory, DatabaseName = "PosizioniRoverfrutta"}, databaseRestoreRequest, WriteOutput));
                         MessageBox.Show("Ripristino dei dati completato", "Ripristino completato", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception error)

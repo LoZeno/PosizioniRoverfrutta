@@ -6,11 +6,11 @@ namespace ReportManager
 {
     public abstract class CreateEmail<T>
     {
-        protected CreateEmail(T model, string destinationPath)
+
+        protected CreateEmail()
         {
-            _model = model;
-            _destinationPath = destinationPath;
             _viewBag = new DynamicViewBag();
+            Engine.Razor.Compile(LoadTemplate(), TemplatePath(), typeof(T));
         }
 
         protected void AddToViewBag(string property, object value)
@@ -18,10 +18,10 @@ namespace ReportManager
             _viewBag.AddValue(property, value);
         }
 
-        public void GenerateEmail()
+        public void GenerateEmail(T model, string destinationPath)
         {
-            var htmlMail = Razor.Parse<T>(LoadTemplate(), _model, _viewBag, null);
-            File.WriteAllBytes(_destinationPath, System.Text.Encoding.ASCII.GetBytes(htmlMail));
+            var htmlMail = Engine.Razor.Run(TemplatePath(), typeof(T), model, _viewBag);
+            File.WriteAllBytes(destinationPath, System.Text.Encoding.ASCII.GetBytes(htmlMail));
         }
 
         private string LoadTemplate()
@@ -34,8 +34,6 @@ namespace ReportManager
 
         public abstract string TemplatePath();
 
-        private readonly T _model;
-        private readonly string _destinationPath;
-        private DynamicViewBag _viewBag;
+        private readonly DynamicViewBag _viewBag;
     }
 }

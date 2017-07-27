@@ -43,6 +43,7 @@ namespace PosizioniRoverfrutta.ViewModels
             SummaryRows = new ObservableCollection<SummaryRowViewModel>();
             PartialsByCompanyName = new ObservableCollection<PartialByCompanyName>();
             SummaryRows.CollectionChanged += SummaryRows_CollectionChanged;
+            _invoiceReport = new InvoiceReport();
         }
 
         public string CustomerName
@@ -247,8 +248,7 @@ namespace PosizioniRoverfrutta.ViewModels
                     return;
                 }
                 _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
-                var report = new InvoiceReport(_summaryAndInvoice, path);
-                report.CreatePdf();
+                _invoiceReport.CreatePdf(_summaryAndInvoice, path);
                 Status = string.Format("PDF della Fattura creato correttamente");
             };
         }
@@ -263,13 +263,11 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Creazione del PDF annullata";
                     return;
                 }
-                _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
                 RefreshSummaryRowsInModel();
 
                 RefreshPartialsByCompanyNameInModel();
-
-                var report = new SummaryReport(_summaryAndInvoice, path);
-                report.CreatePdf();
+                _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
+                _invoiceReport.CreatePdf(_summaryAndInvoice, path);
                 Status = string.Format("PDF del Documento creato correttamente");
             };
         }
@@ -469,5 +467,6 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private ICommand printInvoice;
         private ICommand saveCommand;
+        private InvoiceReport _invoiceReport;
     }
 }

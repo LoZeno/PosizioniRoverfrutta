@@ -79,7 +79,7 @@ namespace MailWrapper
             int size = Marshal.SizeOf(typeof(MapiRecipDesc));
             IntPtr intPtr = Marshal.AllocHGlobal(m_recipients.Count * size);
 
-            int ptr = (int)intPtr;
+            Int64 ptr = (Int64)intPtr;
             foreach (MapiRecipDesc mapiDesc in m_recipients)
             {
                 Marshal.StructureToPtr(mapiDesc, (IntPtr)ptr, false);
@@ -104,7 +104,7 @@ namespace MailWrapper
 
             MapiFileDesc mapiFileDesc = new MapiFileDesc();
             mapiFileDesc.position = -1;
-            int ptr = (int)intPtr;
+            Int64 ptr = (Int64)intPtr;
 
             foreach (string strAttachment in m_attachments)
             {
@@ -121,11 +121,11 @@ namespace MailWrapper
         void Cleanup(ref MapiMessage msg)
         {
             int size = Marshal.SizeOf(typeof(MapiRecipDesc));
-            int ptr = 0;
+            Int64 ptr = 0;
 
             if (msg.recips != IntPtr.Zero)
             {
-                ptr = (int)msg.recips;
+                ptr = (Int64)msg.recips;
                 for (int i = 0; i < msg.recipCount; i++)
                 {
                     Marshal.DestroyStructure((IntPtr)ptr, typeof(MapiRecipDesc));
@@ -138,7 +138,7 @@ namespace MailWrapper
             {
                 size = Marshal.SizeOf(typeof(MapiFileDesc));
 
-                ptr = (int)msg.files;
+                ptr = (Int64)msg.files;
                 for (int i = 0; i < msg.fileCount; i++)
                 {
                     Marshal.DestroyStructure((IntPtr)ptr, typeof(MapiFileDesc));

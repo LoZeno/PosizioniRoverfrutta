@@ -38,6 +38,8 @@ namespace PosizioniRoverfrutta.ViewModels
             SaleConfirmation = new SaleConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
+            _saleConfirmationReport = new SaleConfirmationReport();
+            _saleConfirmationEmail = new SaleConfirmationEmail();
         }
 
         public int Id
@@ -420,13 +422,13 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("EmailTrasportatore.{0}.html", SaleConfirmation.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
-                var emailText = new SaleConfirmationEmail(SaleConfirmation, path, ResourceHelpers.LoadBase64Logo());
-                emailText.GenerateEmail();
-                MAPI email = new MAPI();
+                _saleConfirmationEmail.AddLogo(ResourceHelpers.LoadBase64Logo());
+                _saleConfirmationEmail.GenerateEmail(SaleConfirmation, path);
+                var email = new MAPI();
                 if (!string.IsNullOrWhiteSpace(SaleConfirmation.Transporter.EmailAddress))
                     email.AddRecipientTo(SaleConfirmation.Transporter.EmailAddress);
                 email.AddAttachment(path);
-                email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber),null);
+                email.SendMailPopup($"Invio Conferma di Vendita n° {SaleConfirmation.ProgressiveNumber}",null);
             };
         }
 
@@ -436,8 +438,8 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf",FormatFileName(printForProvider, printForCustomer), SaleConfirmation.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
-                var report = new SaleConfirmationReport(SaleConfirmation, path, printForProvider, printForCustomer);
-                report.CreatePdf();
+                _saleConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
+                _saleConfirmationReport.CreatePdf(SaleConfirmation, path);
                 MAPI email = new MAPI();
                 if (printForProvider && !string.IsNullOrWhiteSpace(SaleConfirmation.Provider.EmailAddress))
                     email.AddRecipientTo(SaleConfirmation.Provider.EmailAddress);
@@ -475,8 +477,8 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Creazione del PDF annullata";
                     return;
                 }
-                var report = new SaleConfirmationReport(SaleConfirmation, path, printForProvider, printForCustomer);
-                report.CreatePdf();
+                _saleConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
+                _saleConfirmationReport.CreatePdf(SaleConfirmation, path);
                 Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
             }
             catch (Exception ex)
@@ -754,5 +756,7 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand cloneDocument;
         private ICommand openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
+        private SaleConfirmationReport _saleConfirmationReport;
+        private SaleConfirmationEmail _saleConfirmationEmail;
     }
 }

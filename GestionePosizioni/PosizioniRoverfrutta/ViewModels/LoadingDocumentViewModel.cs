@@ -38,6 +38,7 @@ namespace PosizioniRoverfrutta.ViewModels
             LoadingDocument = new LoadingDocument();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
+            _loadingDocumentReport = new LoadingDocumentReport();
         }
 
         public int Id
@@ -330,8 +331,8 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf", FormatFileName(printForProvider, printForCustomer), LoadingDocument.ProgressiveNumber));
                 (new FileInfo(path)).Directory.Create();
-                var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
-                report.CreatePdf();
+                _loadingDocumentReport.SetPrintDestinations(printForProvider, printForCustomer);
+                _loadingDocumentReport.CreatePdf(LoadingDocument, path);
                 MAPI email = new MAPI();
                 if (printForProvider && !string.IsNullOrWhiteSpace(LoadingDocument.Provider.EmailAddress))
                     email.AddRecipientTo(LoadingDocument.Provider.EmailAddress);
@@ -369,13 +370,13 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Creazione del PDF annullata";
                     return;
                 }
-                var report = new LoadingDocumentReport(LoadingDocument, path, printForProvider, printForCustomer);
-                report.CreatePdf();
-                Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
+                _loadingDocumentReport.SetPrintDestinations(printForProvider, printForCustomer);
+                _loadingDocumentReport.CreatePdf(LoadingDocument, path);
+                Status = $"PDF del Documento n° {Id} creato correttamente";
             }
             catch (Exception ex)
             {
-                Status = string.Format("Errore durante la creazione del PDF: {0}", ex.Message);
+                Status = $"Errore durante la creazione del PDF: {ex.Message}";
             }
         }
 
@@ -655,5 +656,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocumentToProvider;
         private ICommand openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
+        private LoadingDocumentReport _loadingDocumentReport;
     }
 }

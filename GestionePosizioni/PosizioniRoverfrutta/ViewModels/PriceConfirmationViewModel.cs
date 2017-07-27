@@ -39,6 +39,7 @@ namespace PosizioniRoverfrutta.ViewModels
             PriceConfirmation = new PriceConfirmation();
             ProductDetails = new ObservableCollection<ProductRowViewModel>();
             ProductDetails.CollectionChanged += ProductDetails_CollectionChanged;
+            _priceConfirmationReport = new PriceConfirmationReport();
         }
 
         public int Id
@@ -395,10 +396,10 @@ namespace PosizioniRoverfrutta.ViewModels
             return delegate
             {
                 SaveAllData();
-                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf", FormatFileName(printForProvider, printForCustomer), PriceConfirmation.ProgressiveNumber));
+                var path = Path.Combine(_tempEmailAttachmentFolder, $"{FormatFileName(printForProvider, printForCustomer)}.{PriceConfirmation.ProgressiveNumber}.pdf");
                 (new FileInfo(path)).Directory.Create();
-                var report = new PriceConfirmationReport(PriceConfirmation, path, printForProvider, printForCustomer);
-                report.CreatePdf();
+                _priceConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
+                _priceConfirmationReport.CreatePdf(PriceConfirmation, path);
                 MAPI email = new MAPI();
                 if (printForProvider && !string.IsNullOrWhiteSpace(PriceConfirmation.Provider.EmailAddress))
                     email.AddRecipientTo(PriceConfirmation.Provider.EmailAddress);
@@ -429,8 +430,8 @@ namespace PosizioniRoverfrutta.ViewModels
                     Status = "Creazione del PDF annullata";
                     return;
                 }
-                var report = new PriceConfirmationReport(PriceConfirmation, path, printForProvider, printForCustomer);
-                report.CreatePdf();
+                _priceConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
+                _priceConfirmationReport.CreatePdf(PriceConfirmation, path);
                 Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
             }
             catch (Exception ex)
@@ -739,5 +740,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand emailDocumentToProvider;
         private ICommand openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
+        private PriceConfirmationReport _priceConfirmationReport;
     }
 }

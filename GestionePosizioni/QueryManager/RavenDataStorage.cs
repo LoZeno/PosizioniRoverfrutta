@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
-using System.Security.Policy;
 using Models.DocumentTypes;
 using Raven.Abstractions.Data;
 using Raven.Client;
@@ -23,7 +22,10 @@ namespace QueryManager
         /// </summary>
         public void Initialize()
         {
-            _documentStore = new EmbeddableDocumentStore { DataDirectory = ConnectionString};
+            _documentStore = new EmbeddableDocumentStore
+            {
+                DataDirectory = ConnectionString,
+            };
 
             var turnOnManagementStudio = ConfigurationManager.AppSettings["ActivateManagementStudio"];
             if ("True" == turnOnManagementStudio)
@@ -72,7 +74,7 @@ namespace QueryManager
 
         public void StartBackup(string path, bool incremental)
         {
-            _documentStore.DocumentDatabase.Maintenance.StartBackup(path, incremental, new DatabaseDocument());
+            _documentStore.DocumentDatabase.Maintenance.StartBackup(path, incremental, new DatabaseDocument(), new ResourceBackupState());
         }
 
         private void CreateIndexes()

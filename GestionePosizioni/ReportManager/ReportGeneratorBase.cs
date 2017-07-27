@@ -1,38 +1,52 @@
 ﻿using System.Drawing.Printing;
 using System.IO;
-using Pechkin;
 using RazorEngine;
 using RazorEngine.Templating;
+using TuesPechkin;
 
 namespace ReportManager
 {
     public abstract class ReportGeneratorBase<T>
     {
-        protected ReportGeneratorBase(T model, string destinationPath)
+        private static readonly IConverter Converter = new StandardConverter(
+            new PdfToolset(
+                new Win64EmbeddedDeployment(
+                    new TempFolderDeployment())));
+
+        protected ReportGeneratorBase()
         {
-            _model = model;
-            _destinationPath = destinationPath;
-            _viewBag = new DynamicViewBag();
+            ViewBag = new DynamicViewBag();
+            Engine.Razor.Compile(LoadTemplate(), TemplatePath(), typeof(T));
         }
 
         public abstract string TemplatePath();
 
         protected void AddToViewBag(string property, object value)
         {
-            _viewBag.AddValue(property, value);
+            ViewBag.AddValue(property, value);
         }
 
-        public void CreatePdf()
+        public void CreatePdf(T model, string destinationPath)
         {
-            var template = LoadTemplate();
-            var htmlDocument = Razor.Parse<T>(template, _model, _viewBag, null);
+            var htmlDocument = Engine.Razor.Run(TemplatePath(), typeof(T), model, ViewBag);
 
-            var globalConfig = new GlobalConfig();
-            globalConfig.SetPaperSize(PaperKind);
-
-            var pdfBuf = new SimplePechkin(globalConfig).Convert(htmlDocument);
-
-            File.WriteAllBytes(_destinationPath, pdfBuf);
+            var document = new HtmlToPdfDocument
+            {
+                GlobalSettings = new GlobalSettings
+                {
+                    ProduceOutline = true,
+                    PaperSize = PaperKind,
+                },
+                Objects =
+                {
+                    new ObjectSettings
+                    {
+                        HtmlText = htmlDocument
+                    }
+                }
+            };
+            var pdfBuf = Converter.Convert(document);
+            File.WriteAllBytes(destinationPath, pdfBuf);
         }
 
         private string LoadTemplate()
@@ -43,9 +57,7 @@ namespace ReportManager
             }
         }
 
-        private readonly string _destinationPath;
-        private readonly T _model;
         protected PaperKind PaperKind = PaperKind.A4;
-        protected readonly DynamicViewBag _viewBag;
+        protected DynamicViewBag ViewBag;
     }
 }

@@ -61,7 +61,7 @@
                 <Grid Name="ContentGrid">
                     <Grid.RowDefinitions>
                         <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
-                        <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="120"></RowDefinition>
+                        <RowDefinition Name="CompaniesRow" Height="3*" MinHeight="150"></RowDefinition>
                         <RowDefinition Name="DetailsFirstRow" Height="1*" MaxHeight="50"></RowDefinition>
                         <RowDefinition Name="DetailsSecondRow" Height="1*" MaxHeight="50"></RowDefinition>
                         <RowDefinition Name="ProductsRow" Height="3*" MinHeight="100"></RowDefinition>

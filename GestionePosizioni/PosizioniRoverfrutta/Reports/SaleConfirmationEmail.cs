@@ -5,7 +5,7 @@ namespace PosizioniRoverfrutta.Reports
 {
     public class SaleConfirmationEmail : CreateEmail<SaleConfirmation>
     {
-        public SaleConfirmationEmail(SaleConfirmation model, string path, string base64Logo) : base(model, path)
+        public void AddLogo(string base64Logo)
         {
             AddToViewBag("Base64Logo", base64Logo);
         }

@@ -288,25 +288,29 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
 
         private void InsertInitialData()
         {
-            using (var session = _dataStorage.CreateSession())
+            for (int i = 99; i >= 0; i--)
             {
-                for (int i = 99; i >= 0; i--)
+                using (var session = _dataStorage.CreateSession())
                 {
                     var newProduct = new ProductDescription
                     {
                         Description = "Product Number " + i,
                     };
                     session.Store(newProduct);
+                    session.SaveChanges();
                 }
-                for (int i = 0; i < 100; i++)
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                using (var session = _dataStorage.CreateSession())
                 {
                     var newProduct = new ProductDescription
                     {
                         Description = "Another thing " + i,
                     };
                     session.Store(newProduct);
+                    session.SaveChanges();
                 }
-                session.SaveChanges();
             }
         }
 
