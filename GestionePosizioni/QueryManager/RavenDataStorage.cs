@@ -31,8 +31,6 @@ namespace QueryManager
             if ("True" == turnOnManagementStudio)
             {
                 _documentStore.UseEmbeddedHttpServer = true;
-                _documentStore.Configuration.ServerName = "localhost";
-                _documentStore.Configuration.Port = 6666;
             }
 
             var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];

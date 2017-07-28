@@ -220,6 +220,7 @@
                                 </StackPanel>
                             </StackPanel>
                         </Border>
+                        <Border BorderBrush="Transparent" Height="80px"></Border>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
