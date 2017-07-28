@@ -11,7 +11,7 @@ namespace ReportManager
         private static readonly IConverter Converter = new StandardConverter(
             new PdfToolset(
                 new Win64EmbeddedDeployment(
-                    new TempFolderDeployment())));
+                    new StaticDeployment(Path.Combine(Path.GetTempPath(), "RoverfruttaTempLib")))));
 
         protected ReportGeneratorBase()
         {
