@@ -44,7 +44,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int Id
         {
-            get { return SaleConfirmation.ProgressiveNumber; }
+            get => SaleConfirmation.ProgressiveNumber;
             set
             {
                 LoadDocument(value);
@@ -58,7 +58,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public DateTime? DocumentDate
         {
-            get { return SaleConfirmation.DocumentDate; }
+            get => SaleConfirmation.DocumentDate;
             set
             {
                 SaleConfirmation.DocumentDate = value;
@@ -68,7 +68,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public DateTime? ShippingDate
         {
-            get { return SaleConfirmation.ShippingDate; }
+            get => SaleConfirmation.ShippingDate;
             set
             {
                 SaleConfirmation.ShippingDate = value;
@@ -78,7 +78,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public DateTime? DeliveryDate
         {
-            get { return SaleConfirmation.DeliveryDate; }
+            get => SaleConfirmation.DeliveryDate;
             set
             {
                 SaleConfirmation.DeliveryDate = value;
@@ -88,7 +88,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string TruckLicensePlate
         {
-            get { return SaleConfirmation.TruckLicensePlate; }
+            get => SaleConfirmation.TruckLicensePlate;
             set
             {
                 SaleConfirmation.TruckLicensePlate = value;
@@ -98,7 +98,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal? Rental
         {
-            get { return SaleConfirmation.Rental; }
+            get => SaleConfirmation.Rental;
             set
             {
                 SaleConfirmation.Rental = value;
@@ -108,7 +108,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string DeliveryEx
         {
-            get { return SaleConfirmation.DeliveryEx; }
+            get => SaleConfirmation.DeliveryEx;
             set
             {
                 SaleConfirmation.DeliveryEx = value;
@@ -118,7 +118,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string TermsOfPayment
         {
-            get { return SaleConfirmation.TermsOfPayment; }
+            get => SaleConfirmation.TermsOfPayment;
             set
             {
                 SaleConfirmation.TermsOfPayment = value;
@@ -128,7 +128,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal? InvoiceDiscount
         {
-            get { return SaleConfirmation.InvoiceDiscount; }
+            get => SaleConfirmation.InvoiceDiscount;
             set
             {
                 SaleConfirmation.InvoiceDiscount = value;
@@ -138,7 +138,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal? CustomerCommission
         {
-            get { return SaleConfirmation.CustomerCommission; }
+            get => SaleConfirmation.CustomerCommission;
             set
             {
                 SaleConfirmation.CustomerCommission = value;
@@ -149,7 +149,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal? ProviderCommission
         {
-            get { return SaleConfirmation.ProviderCommission; }
+            get => SaleConfirmation.ProviderCommission;
             set
             {
                 SaleConfirmation.ProviderCommission = value;
@@ -159,7 +159,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Notes
         {
-            get { return SaleConfirmation.Notes; }
+            get => SaleConfirmation.Notes;
             set
             {
                 SaleConfirmation.Notes = value;
@@ -170,7 +170,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Lot
         {
-            get { return SaleConfirmation.Lot; }
+            get => SaleConfirmation.Lot;
             set
             {
                 SaleConfirmation.Lot = value;
@@ -181,7 +181,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string OrderCode
         {
-            get { return SaleConfirmation.OrderCode; }
+            get => SaleConfirmation.OrderCode;
             set
             {
                 SaleConfirmation.OrderCode = value;
@@ -217,7 +217,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Status
         {
-            get { return _status; }
+            get => _status;
             private set
             {
                 _status = value;
@@ -227,7 +227,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool SaveButtonEnabled 
         { 
-            get { return _saveButtonEnabled; }
+            get => _saveButtonEnabled;
             private set
             {
                 _saveButtonEnabled = value;
@@ -237,7 +237,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool ActionButtonsEnabled
         {
-            get { return _actionButtonsEnabled; }
+            get => _actionButtonsEnabled;
             private set
             {
                 _actionButtonsEnabled = value;
@@ -247,7 +247,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool ReloadButtonEnabled
         {
-            get { return _reloadButtonEnabled; }
+            get => _reloadButtonEnabled;
             private set
             {
                 _reloadButtonEnabled = value;
@@ -257,7 +257,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool OpenAttachmentsButtonEnabled
         {
-            get { return _openAttachmentsButtonEnabled; }
+            get => _openAttachmentsButtonEnabled;
             private set
             {
                 _openAttachmentsButtonEnabled = value;
@@ -265,26 +265,23 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public CompanyControlViewModel<Customer> CompanyControlViewModel { get; private set; }
+        public CompanyControlViewModel<Customer> CompanyControlViewModel { get; }
 
-        public CompanyControlViewModel<Customer> ProviderControlViewModel { get; private set; }
+        public CompanyControlViewModel<Customer> ProviderControlViewModel { get; }
 
-        public CompanyControlViewModel<Transporter> TransporterControlViewModel { get; private set; }
+        public CompanyControlViewModel<Transporter> TransporterControlViewModel { get; }
 
-        public ObservableCollection<ProductRowViewModel> ProductDetails { get; private set; }
+        public ObservableCollection<ProductRowViewModel> ProductDetails { get; }
 
-        public ICommand Reload
-        {
-            get { return reloadCommand ?? (reloadCommand = new DelegateCommand(ReloadAction())); }
-        }
+        public ICommand Reload => _reloadCommand ?? (_reloadCommand = new DelegateCommand(ReloadAction()));
 
-        private SaleConfirmation saleConfirmation;
+        private SaleConfirmation _saleConfirmation;
 
         public SaleConfirmation SaleConfirmation {
-            get { return saleConfirmation; }
+            get => _saleConfirmation;
             set
             {
-                saleConfirmation = value;
+                _saleConfirmation = value;
                 OnPropertyChanged();
                 OnPropertyChanged("Id");
                 OnPropertyChanged("DocumentDate");
@@ -306,72 +303,27 @@ namespace PosizioniRoverfrutta.ViewModels
             } 
         }
 
-        public ICommand SaveAll
-        {
-            get
-            {
-                return saveAllCommand ?? (saveAllCommand = new DelegateCommand(SaveDocumentAction()));
-            }
-        }
+        public ICommand SaveAll => _saveAllCommand ?? (_saveAllCommand = new DelegateCommand(SaveDocumentAction()));
 
-        public ICommand Print
-        {
-            get { return printDocument ?? (printDocument = new DelegateCommand(PrintDocument(true, true))); }
-        }
+        public ICommand Print => _printDocument ?? (_printDocument = new DelegateCommand(PrintDocument(true, true)));
 
-        public ICommand PrintForProvider
-        {
-            get { return printDocumentForProvider ?? (printDocumentForProvider = new DelegateCommand(PrintDocument(true, false))); }
-        }
+        public ICommand PrintForProvider => _printDocumentForProvider ?? (_printDocumentForProvider = new DelegateCommand(PrintDocument(true, false)));
 
-        public ICommand PrintForCustomer
-        {
-            get { return printDocumentForCustomer ?? (printDocumentForCustomer = new DelegateCommand(PrintDocument(false, true))); }
-        }
+        public ICommand PrintForCustomer => _printDocumentForCustomer ?? (_printDocumentForCustomer = new DelegateCommand(PrintDocument(false, true)));
 
-        public ICommand Convert
-        {
-            get { return convertDocument ?? (convertDocument = new DelegateCommand(ConvertDocument())); }
-        }
+        public ICommand Convert => _convertDocument ?? (_convertDocument = new DelegateCommand(ConvertDocument()));
 
-        public ICommand Email
-        {
-            get { return emailDocument ?? (emailDocument = new DelegateCommand(SendEmail(true, true))); }
-        }
+        public ICommand Email => _emailDocument ?? (_emailDocument = new DelegateCommand(SendEmail(true, true)));
 
-        public ICommand EmailToProvider
-        {
-            get
-            {
-                return emailDocumentToProvider ?? (emailDocumentToProvider = new DelegateCommand(SendEmail(true, false)));
-            }
-        }
+        public ICommand EmailToProvider => _emailDocumentToProvider ?? (_emailDocumentToProvider = new DelegateCommand(SendEmail(true, false)));
 
-        public ICommand EmailToCustomer
-        {
-            get
-            {
-                return emailDocumentToCustomer ?? (emailDocumentToCustomer = new DelegateCommand(SendEmail(false, true)));
-            }
-        }
+        public ICommand EmailToCustomer => _emailDocumentToCustomer ?? (_emailDocumentToCustomer = new DelegateCommand(SendEmail(false, true)));
 
-        public ICommand EmailToTransporter
-        {
-            get
-            {
-                return emailDocumentToTransporter ?? (emailDocumentToTransporter = new DelegateCommand(SendEmailNoAttachment()));
-            }
-        }
+        public ICommand EmailToTransporter => _emailDocumentToTransporter ?? (_emailDocumentToTransporter = new DelegateCommand(SendEmailNoAttachment()));
 
-        public ICommand Clone
-        {
-            get { return cloneDocument ?? (cloneDocument = new DelegateCommand(CloneCurrentDocument())); }
-        }
+        public ICommand Clone => _cloneDocument ?? (_cloneDocument = new DelegateCommand(CloneCurrentDocument()));
 
-        public ICommand OpenAttachments
-        {
-            get { return openAttachments ?? (openAttachments = new DelegateCommand(OpenAttachmentsCommand())); }
-        }
+        public ICommand OpenAttachments => _openAttachments ?? (_openAttachments = new DelegateCommand(OpenAttachmentsCommand()));
 
         private Action OpenAttachmentsCommand()
         {
@@ -385,26 +337,7 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                var newModel = new SaleConfirmation
-                {
-                    Customer = SaleConfirmation.Customer,
-                    CustomerCommission = SaleConfirmation.CustomerCommission,
-                    DeliveryDate = SaleConfirmation.DeliveryDate,
-                    DeliveryEx = SaleConfirmation.DeliveryEx,
-                    DocumentDate = SaleConfirmation.DocumentDate,
-                    InvoiceDiscount = SaleConfirmation.InvoiceDiscount,
-                    Lot = SaleConfirmation.Lot,
-                    Notes = SaleConfirmation.Notes,
-                    OrderCode = SaleConfirmation.OrderCode,
-                    ProductDetails = SaleConfirmation.ProductDetails,
-                    Provider = SaleConfirmation.Provider,
-                    ProviderCommission = SaleConfirmation.ProviderCommission,
-                    Rental = SaleConfirmation.Rental,
-                    ShippingDate = SaleConfirmation.ShippingDate,
-                    TermsOfPayment = SaleConfirmation.TermsOfPayment,
-                    Transporter = SaleConfirmation.Transporter,
-                    TruckLicensePlate = SaleConfirmation.TruckLicensePlate
-                };
+                var newModel = CloneModel(SaleConfirmation);
 
                 SaleConfirmation = newModel;
 
@@ -416,11 +349,35 @@ namespace PosizioniRoverfrutta.ViewModels
             };
         }
 
+        private static SaleConfirmation CloneModel(SaleConfirmation modelToClone)
+        {
+            return new SaleConfirmation
+            {
+                Customer = modelToClone.Customer,
+                CustomerCommission = modelToClone.CustomerCommission,
+                DeliveryDate = modelToClone.DeliveryDate,
+                DeliveryEx = modelToClone.DeliveryEx,
+                DocumentDate = modelToClone.DocumentDate,
+                InvoiceDiscount = modelToClone.InvoiceDiscount,
+                Lot = modelToClone.Lot,
+                Notes = modelToClone.Notes,
+                OrderCode = modelToClone.OrderCode,
+                ProductDetails = modelToClone.ProductDetails,
+                Provider = modelToClone.Provider,
+                ProviderCommission = modelToClone.ProviderCommission,
+                Rental = modelToClone.Rental,
+                ShippingDate = modelToClone.ShippingDate,
+                TermsOfPayment = modelToClone.TermsOfPayment,
+                Transporter = modelToClone.Transporter,
+                TruckLicensePlate = modelToClone.TruckLicensePlate
+            };
+        }
+
         private Action SendEmailNoAttachment()
         {
             return delegate
             {
-                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("EmailTrasportatore.{0}.html", SaleConfirmation.ProgressiveNumber));
+                var path = Path.Combine(_tempEmailAttachmentFolder, $"EmailTrasportatore.{SaleConfirmation.ProgressiveNumber}.html");
                 (new FileInfo(path)).Directory.Create();
                 _saleConfirmationEmail.AddLogo(ResourceHelpers.LoadBase64Logo());
                 _saleConfirmationEmail.GenerateEmail(SaleConfirmation, path);
@@ -436,17 +393,17 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
-                var path = Path.Combine(_tempEmailAttachmentFolder, string.Format("{0}.{1}.pdf",FormatFileName(printForProvider, printForCustomer), SaleConfirmation.ProgressiveNumber));
+                var path = Path.Combine(_tempEmailAttachmentFolder, $"{FormatFileName(printForProvider, printForCustomer)}.{SaleConfirmation.ProgressiveNumber}.pdf");
                 (new FileInfo(path)).Directory.Create();
                 _saleConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
                 _saleConfirmationReport.CreatePdf(SaleConfirmation, path);
-                MAPI email = new MAPI();
+                var email = new MAPI();
                 if (printForProvider && !string.IsNullOrWhiteSpace(SaleConfirmation.Provider.EmailAddress))
                     email.AddRecipientTo(SaleConfirmation.Provider.EmailAddress);
                 if (printForCustomer && !string.IsNullOrWhiteSpace(SaleConfirmation.Customer.EmailAddress))
                     email.AddRecipientTo(SaleConfirmation.Customer.EmailAddress);
                 email.AddAttachment(path);
-                email.SendMailPopup(string.Format("Invio Conferma di Vendita n° {0}", SaleConfirmation.ProgressiveNumber), string.Format("In allegato la conferma di vendita n° {0}", SaleConfirmation.ProgressiveNumber) );
+                email.SendMailPopup($"Invio Conferma di Vendita n° {SaleConfirmation.ProgressiveNumber}", $"In allegato la conferma di vendita n° {SaleConfirmation.ProgressiveNumber}");
             };
         }
 
@@ -471,7 +428,7 @@ namespace PosizioniRoverfrutta.ViewModels
             try
             {
                 var documentName = FormatFileName(printForProvider, printForCustomer);
-                var path = _windowManager.OpenSaveToPdfDialog(string.Format("{0}-{1}", documentName, Id));
+                var path = _windowManager.OpenSaveToPdfDialog($"{documentName}-{Id}");
                 if (string.IsNullOrWhiteSpace(path))
                 {
                     Status = "Creazione del PDF annullata";
@@ -479,11 +436,11 @@ namespace PosizioniRoverfrutta.ViewModels
                 }
                 _saleConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
                 _saleConfirmationReport.CreatePdf(SaleConfirmation, path);
-                Status = string.Format("PDF del Documento n° {0} creato correttamente", Id);
+                Status = $"PDF del Documento n° {Id} creato correttamente";
             }
             catch (Exception ex)
             {
-                Status = string.Format("Errore durante la creazione del PDF: {0}", ex.Message);
+                Status = $"Errore durante la creazione del PDF: {ex.Message}";
             }
         }
 
@@ -503,8 +460,8 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void LoadDocument(int value)
         {
-            SaleConfirmation saleConfirmation = null;
-            bool canUseActions = false;
+            SaleConfirmation saleConfirmation;
+            var canUseActions = false;
             using (var session = _dataStorage.CreateSession())
             {
                 saleConfirmation = session.Load<SaleConfirmation>("SaleConfirmations/"+value);
@@ -604,8 +561,7 @@ namespace PosizioniRoverfrutta.ViewModels
             CheckIfPalletTypeIsNew(productDetails.PalletType, session, savedPalletTypesIds);
         }
 
-        private static void CheckIfProductDescriptionIsNew(ProductDetails productDetails, IDocumentSession session,
-            List<int?> savedProductIds)
+        private static void CheckIfProductDescriptionIsNew(ProductDetails productDetails, IDocumentSession session, List<int?> savedProductIds)
         {
             if (!productDetails.ProductId.HasValue || !savedProductIds.Contains(productDetails.ProductId))
             {
@@ -675,7 +631,7 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalAmount");
         }
 
-        void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
                 foreach (ProductRowViewModel item in e.NewItems)
@@ -689,7 +645,7 @@ namespace PosizioniRoverfrutta.ViewModels
             ReloadButtonEnabled = true;
         }
 
-        void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void observableCollectionItem_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateTotals();
             SaveButtonEnabled = true;
@@ -697,7 +653,7 @@ namespace PosizioniRoverfrutta.ViewModels
             ReloadButtonEnabled = true;
         }
 
-        void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void SubViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveButtonEnabled = true;
             ActionButtonsEnabled = false;
@@ -727,7 +683,7 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        private ICommand saveAllCommand;
+        private ICommand _saveAllCommand;
 
         private readonly IDataStorage _dataStorage;
 
@@ -740,23 +696,23 @@ namespace PosizioniRoverfrutta.ViewModels
         private bool _reloadButtonEnabled = false;
         private bool _openAttachmentsButtonEnabled = false;
 
-        private ICommand reloadCommand;
+        private ICommand _reloadCommand;
 
-        private ICommand printDocument;
+        private ICommand _printDocument;
 
-        private ICommand printDocumentForCustomer;
+        private ICommand _printDocumentForCustomer;
 
-        private ICommand printDocumentForProvider;
+        private ICommand _printDocumentForProvider;
 
-        private ICommand convertDocument;
-        private ICommand emailDocument;
-        private ICommand emailDocumentToCustomer;
-        private ICommand emailDocumentToProvider;
-        private ICommand emailDocumentToTransporter;
-        private ICommand cloneDocument;
-        private ICommand openAttachments;
+        private ICommand _convertDocument;
+        private ICommand _emailDocument;
+        private ICommand _emailDocumentToCustomer;
+        private ICommand _emailDocumentToProvider;
+        private ICommand _emailDocumentToTransporter;
+        private ICommand _cloneDocument;
+        private ICommand _openAttachments;
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
-        private SaleConfirmationReport _saleConfirmationReport;
-        private SaleConfirmationEmail _saleConfirmationEmail;
+        private readonly SaleConfirmationReport _saleConfirmationReport;
+        private readonly SaleConfirmationEmail _saleConfirmationEmail;
     }
 }
