@@ -36,6 +36,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomWPFControls", "Custom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestoreDataUtility", "RestoreDataUtility\RestoreDataUtility.csproj", "{38ABEB75-927E-46F3-81F6-C7CF22A1A79A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prerequisites", "Prerequisites", "{10900B60-3072-4E1B-B41D-1C0732B6DC4F}"
+	ProjectSection(SolutionItems) = preProject
+		Prerequisites\vcredist_x64.exe = Prerequisites\vcredist_x64.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

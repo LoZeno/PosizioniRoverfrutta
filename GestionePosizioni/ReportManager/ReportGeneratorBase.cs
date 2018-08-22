@@ -1,4 +1,5 @@
-﻿using System.Drawing.Printing;
+﻿using System;
+using System.Drawing.Printing;
 using System.IO;
 using RazorEngine;
 using RazorEngine.Templating;
@@ -8,10 +9,7 @@ namespace ReportManager
 {
     public abstract class ReportGeneratorBase<T>
     {
-        private static readonly IConverter Converter = new StandardConverter(
-            new PdfToolset(
-                new Win64EmbeddedDeployment(
-                    new StaticDeployment(Path.Combine(Path.GetTempPath(), "RoverfruttaTempLib")))));
+        private readonly IConverter _converter = ReportConverter.Converter;
 
         protected ReportGeneratorBase()
         {
@@ -45,7 +43,7 @@ namespace ReportManager
                     }
                 }
             };
-            var pdfBuf = Converter.Convert(document);
+            var pdfBuf = _converter.Convert(document);
             File.WriteAllBytes(destinationPath, pdfBuf);
         }
 

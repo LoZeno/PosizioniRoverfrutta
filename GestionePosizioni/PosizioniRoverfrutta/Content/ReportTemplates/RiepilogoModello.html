@@ -127,6 +127,30 @@
             margin-left: auto;
             width: 20%;
         }
+        table {
+         page-break-inside: auto !important;
+        }
+
+        thead {
+         display: table-header-group !important;
+        }
+
+        tfoot {
+         display: table-row-group !important;
+        }
+
+        tr {
+         page-break-inside: avoid !important;
+         page-break-after: auto !important;
+        }
+
+        td, th {
+         page-break-inside: avoid !important;
+        }
+
+        .table-responsive {
+         overflow: visible !important;
+        }
     </style>
 
 </head>
@@ -185,7 +209,7 @@
 
     <div style="width: 100%; height: 2em;"></div>
 
-    <table class="borderedTable">
+    <table class="borderedTable table-responsive">
         <thead class="borderedThickTable">
             <tr class="boldGridHeader">
                 <td>Posizione N°</td>
@@ -244,7 +268,7 @@
         Provvigioni Divise Per Cliente/Fornitore
     </div>
 
-    <table class="borderedTable">
+    <table class="borderedTable table-responsive">
         <thead class="borderedThickTable">
             <tr class="boldGridHeader">
                 <td>Cliente/Fornitore</td>

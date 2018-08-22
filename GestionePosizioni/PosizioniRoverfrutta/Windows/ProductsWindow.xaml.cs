@@ -41,6 +41,7 @@ namespace PosizioniRoverfrutta.Windows
             SetDeleteButtonBindings(viewModel);
             SetPreviousPageButtonBindings(viewModel);
             SetNextPageButtonBindings(viewModel);
+            SetStatisticsButtonBindings(viewModel);
 
             BuildDataGridColumns();
 
@@ -130,6 +131,11 @@ namespace PosizioniRoverfrutta.Windows
         private void SetNextPageButtonBindings(ProductsWindowGridViewModel viewModel)
         {
             SetButtonBinding(viewModel, NextPageButton, "NextPage", viewModel.NextPage);
+        }
+
+        private void SetStatisticsButtonBindings(ProductsWindowGridViewModel viewModel)
+        {
+            SetButtonBinding(viewModel, OpenStatsButton, "OpenProductsStatistics", viewModel.OpenProductsStatistics);
         }
 
         private void SetDataGridBinding(ProductsWindowGridViewModel viewModel)

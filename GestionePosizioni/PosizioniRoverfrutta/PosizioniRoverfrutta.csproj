@@ -18,7 +18,7 @@
     <RestorePackages>true</RestorePackages>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>publish/</PublishUrl>
+    <PublishUrl>K:\PosizioniRoverfrutta\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -31,8 +31,8 @@
     <ProductName>Archivio Posizioni Roverfrutta</ProductName>
     <PublisherName>LoZeno</PublisherName>
     <SuiteName>Roverfrutta</SuiteName>
-    <ApplicationRevision>5</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -237,6 +237,7 @@
     <Compile Include="ViewModels\SaleConfirmationViewModel.cs" />
     <Compile Include="ViewModels\SendGmailViewModel.cs" />
     <Compile Include="ViewModels\Statistics\CustomerStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\Statistics\ProductsStatisticsViewModel.cs" />
     <Compile Include="ViewModels\SummaryAndInvoiceViewModel.cs" />
     <Compile Include="ViewModels\SummaryRowViewModel.cs" />
     <Compile Include="ViewModels\TransporterWindowGridViewModel.cs" />
@@ -266,10 +267,14 @@
     <Compile Include="Windows\Statistics\CustomerStatistics.xaml.cs">
       <DependentUpon>CustomerStatistics.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Statistics\ProductsStatistics.xaml.cs">
+      <DependentUpon>ProductsStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TransportersWindow.xaml.cs">
       <DependentUpon>TransportersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\WindowManager.cs" />
+    <Compile Include="Windows\WindowTypes.cs" />
     <Page Include="CustomControls\CompanyDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -344,6 +349,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Statistics\ProductsStatistics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\TransportersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -381,7 +390,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomControls\CustomWPFControls.csproj">
@@ -403,10 +414,6 @@
     <ProjectReference Include="..\ReportManager\ReportManager.csproj">
       <Project>{7E0509B2-AD1C-4299-9964-F5408ADF85DB}</Project>
       <Name>ReportManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RestoreDataUtility\RestoreDataUtility.csproj">
-      <Project>{38abeb75-927e-46f3-81f6-c7cf22a1a79a}</Project>
-      <Name>RestoreDataUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -526,9 +533,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -540,6 +547,11 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Visual.C++.14.0.x64">
+      <Visible>False</Visible>
+      <ProductName>Visual C++ "14" Runtime Libraries %28x64%29</ProductName>
+      <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

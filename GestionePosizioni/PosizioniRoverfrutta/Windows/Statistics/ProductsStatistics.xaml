@@ -1,0 +1,39 @@
+﻿<windows:BaseWindow x:Class="PosizioniRoverfrutta.Windows.Statistics.ProductsStatistics"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PosizioniRoverfrutta.Windows.Statistics"
+        xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
+        xmlns:customWpfControls="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
+        mc:Ignorable="d"
+        Title="ProductsStatistics" MinHeight="450" Height="460" Width="900" MinWidth="450">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/SharedResources.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="TitleRow" Height="40"></RowDefinition>
+            <RowDefinition Name="SearchRow" Height="40"></RowDefinition>
+            <RowDefinition Name="FilterRow"></RowDefinition>
+            <RowDefinition Name="ProductsTableRow"></RowDefinition>
+            <RowDefinition Name="GraphRow"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Name="TitleLabel" Grid.Row="0" FontWeight="Bold" FontStyle="Italic" FontSize="20" Margin="10,5">Statistiche Prodotti</TextBlock>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Grid Style="{StaticResource EntryFieldStyle}">
+                <TextBlock Text="Digita il nome del prodotto" Foreground="{StaticResource brushWatermarkForeground}"
+                       Visibility="{Binding ElementName=ProductNameBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <AdornerDecorator>
+                    <customWpfControls:AutoCompleteBoxAsync Name="ProductNameBox" MinWidth="400" Background="Transparent" />
+                </AdornerDecorator>
+            </Grid>
+            <Button>Bottone</Button>
+        </StackPanel>
+    </Grid>
+</windows:BaseWindow>
+

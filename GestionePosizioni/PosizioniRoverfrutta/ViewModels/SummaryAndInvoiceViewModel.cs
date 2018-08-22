@@ -44,6 +44,7 @@ namespace PosizioniRoverfrutta.ViewModels
             PartialsByCompanyName = new ObservableCollection<PartialByCompanyName>();
             SummaryRows.CollectionChanged += SummaryRows_CollectionChanged;
             _invoiceReport = new InvoiceReport();
+            _summaryReport = new SummaryReport();
         }
 
         public string CustomerName
@@ -266,8 +267,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 RefreshSummaryRowsInModel();
 
                 RefreshPartialsByCompanyNameInModel();
-                _summaryAndInvoice.Base64Logo = ResourceHelpers.LoadBase64Logo();
-                _invoiceReport.CreatePdf(_summaryAndInvoice, path);
+                _summaryReport.CreatePdf(_summaryAndInvoice, path);
                 Status = string.Format("PDF del Documento creato correttamente");
             };
         }
@@ -468,5 +468,6 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand printInvoice;
         private ICommand saveCommand;
         private InvoiceReport _invoiceReport;
+        private SummaryReport _summaryReport;
     }
 }

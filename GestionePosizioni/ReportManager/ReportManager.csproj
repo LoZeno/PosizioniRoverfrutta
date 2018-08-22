@@ -125,6 +125,7 @@
   <ItemGroup>
     <Compile Include="CreateEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportConverter.cs" />
     <Compile Include="ReportGeneratorBase.cs" />
   </ItemGroup>
   <ItemGroup>

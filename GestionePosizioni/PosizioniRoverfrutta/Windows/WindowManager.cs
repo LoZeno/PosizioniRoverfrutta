@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -13,8 +14,7 @@ namespace PosizioniRoverfrutta.Windows
         private readonly IDataStorage _dataStorage;
         private readonly Dictionary<string, Window> _windows;
         private readonly Dictionary<WindowTypes, Type> _windowClasses;
-        private static string _attachmentsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-    @"Posizioni\Allegati");
+        private static string _attachmentsDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ConfigurationManager.AppSettings["DatabaseFolderName"], @"Allegati");
 
         public WindowManager(IDataStorage dataStorage)
         {
@@ -125,17 +125,5 @@ namespace PosizioniRoverfrutta.Windows
             _windows[name].Activate();
             return true;
         }
-    }
-
-    public enum WindowTypes
-    {
-        ConfermaVendita,
-        DistintaCarico,
-        ConfermaPrezzi,
-        Riepiloghi,
-        AnagraficaClienti,
-        AnagraficaTrasportatori,
-        AnagraficaProdotti,
-        StatisticheClienti
     }
 }

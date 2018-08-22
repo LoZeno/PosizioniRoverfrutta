@@ -18,7 +18,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public T Company
         {
-            get { return _company; }
+            get => _company;
             set
             {
                 _company = value;
@@ -28,7 +28,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Id
         {
-            get { return Company.Id; }
+            get => Company.Id;
             set
             {
                 Company.Id = value;
@@ -38,10 +38,8 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string CompanyName
         {
-            get { return Company.CompanyName; }
-            set {
-                Company = LoadCustomerByName(value);
-            }
+            get => Company.CompanyName;
+            set => Company = LoadCustomerByName(value);
         }
 
         private T LoadCustomerByName(string companyName)
@@ -58,7 +56,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Address
         {
-            get { return Company.Address; }
+            get => Company.Address;
             set
             {
                 Company.Address = value; 
@@ -68,7 +66,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string City
         {
-            get { return Company.City; }
+            get => Company.City;
             set
             {
                 Company.City = value;
@@ -78,7 +76,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string StateOrProvince
         {
-            get { return Company.StateOrProvince; }
+            get => Company.StateOrProvince;
             set
             {
                 Company.StateOrProvince = value;
@@ -88,7 +86,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string PostCode
         {
-            get { return Company.PostCode; }
+            get => Company.PostCode;
             set
             {
                 Company.PostCode = value;
@@ -98,7 +96,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Country
         {
-            get { return Company.Country; }
+            get => Company.Country;
             set
             {
                 Company.Country = value;
@@ -108,7 +106,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string VatCode
         {
-            get { return Company.VatCode; }
+            get => Company.VatCode;
             set
             {
                 Company.VatCode = value;
@@ -118,7 +116,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string EmailAddress
         {
-            get { return Company.EmailAddress; }
+            get => Company.EmailAddress;
             set
             {
                 Company.EmailAddress = value;
@@ -128,7 +126,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public bool DoNotApplyVat
         {
-            get { return Company.DoNotApplyVat; }
+            get => Company.DoNotApplyVat;
             set
             {
                 Company.DoNotApplyVat = value;
@@ -142,7 +140,7 @@ namespace PosizioniRoverfrutta.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private T _company;

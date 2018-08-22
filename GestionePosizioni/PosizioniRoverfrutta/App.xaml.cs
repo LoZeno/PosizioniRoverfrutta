@@ -58,6 +58,7 @@ namespace PosizioniRoverfrutta
             _windowManager.RegisterWindowClass(WindowTypes.AnagraficaTrasportatori, typeof(TransportersWindow));
             _windowManager.RegisterWindowClass(WindowTypes.AnagraficaProdotti, typeof(ProductsWindow));
             _windowManager.RegisterWindowClass(WindowTypes.StatisticheClienti, typeof(CustomerStatistics));
+            _windowManager.RegisterWindowClass(WindowTypes.StatisticheProdotti, typeof(ProductsStatistics));
         }
 
         private void ShowMainWindow()

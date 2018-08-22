@@ -393,6 +393,12 @@ namespace PosizioniRoverfrutta.ViewModels
         {
             return delegate
             {
+                SetSubmodelsIntoModel();
+                SaleConfirmation.ProductDetails.Clear();
+                foreach (var productRowViewModel in ProductDetails)
+                {
+                    SaleConfirmation.ProductDetails.Add(productRowViewModel.ProductDetails);
+                }
                 var path = Path.Combine(_tempEmailAttachmentFolder, $"{FormatFileName(printForProvider, printForCustomer)}.{SaleConfirmation.ProgressiveNumber}.pdf");
                 (new FileInfo(path)).Directory.Create();
                 _saleConfirmationReport.SetPrintDestination(printForProvider, printForCustomer);
@@ -425,6 +431,12 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void SavePdf(bool printForProvider, bool printForCustomer)
         {
+            SetSubmodelsIntoModel();
+            SaleConfirmation.ProductDetails.Clear();
+            foreach (var productRowViewModel in ProductDetails)
+            {
+                SaleConfirmation.ProductDetails.Add(productRowViewModel.ProductDetails);
+            }
             try
             {
                 var documentName = FormatFileName(printForProvider, printForCustomer);
@@ -498,9 +510,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         private void SaveAllData()
         {
-            SaleConfirmation.Customer = CompanyControlViewModel.Company;
-            SaleConfirmation.Provider = ProviderControlViewModel.Company;
-            SaleConfirmation.Transporter = TransporterControlViewModel.Company;
+            SetSubmodelsIntoModel();
             SaleConfirmation.ProductDetails = new List<ProductDetails>();
             try
             {
@@ -631,6 +641,13 @@ namespace PosizioniRoverfrutta.ViewModels
             OnPropertyChanged("TotalAmount");
         }
 
+        private void SetSubmodelsIntoModel()
+        {
+            SaleConfirmation.Customer = CompanyControlViewModel.Company;
+            SaleConfirmation.Provider = ProviderControlViewModel.Company;
+            SaleConfirmation.Transporter = TransporterControlViewModel.Company;
+        }
+
         private void ProductDetails_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
@@ -692,8 +709,11 @@ namespace PosizioniRoverfrutta.ViewModels
         private string _status;
 
         private bool _saveButtonEnabled = false;
+
         private bool _actionButtonsEnabled = false;
+
         private bool _reloadButtonEnabled = false;
+
         private bool _openAttachmentsButtonEnabled = false;
 
         private ICommand _reloadCommand;
@@ -705,14 +725,23 @@ namespace PosizioniRoverfrutta.ViewModels
         private ICommand _printDocumentForProvider;
 
         private ICommand _convertDocument;
+
         private ICommand _emailDocument;
+
         private ICommand _emailDocumentToCustomer;
+
         private ICommand _emailDocumentToProvider;
+
         private ICommand _emailDocumentToTransporter;
+
         private ICommand _cloneDocument;
+
         private ICommand _openAttachments;
+
         private readonly string _tempEmailAttachmentFolder = Path.Combine(Path.GetTempPath(), "RoverfruttaAttachment");
+
         private readonly SaleConfirmationReport _saleConfirmationReport;
+
         private readonly SaleConfirmationEmail _saleConfirmationEmail;
     }
 }

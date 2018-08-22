@@ -21,7 +21,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int? ProductId 
         {
-            get { return ProductDetails.ProductId; }
+            get => ProductDetails.ProductId;
             set
             {
                 ProductDetails.ProductId = value;
@@ -31,7 +31,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Description 
         {
-            get { return ProductDetails.Description; }
+            get => ProductDetails.Description;
             set
             {
                 ProductDetails.Description = value;
@@ -41,7 +41,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal Pallets
         {
-            get { return ProductDetails.Pallets; }
+            get => ProductDetails.Pallets;
             set
             {
                 ProductDetails.Pallets = value;
@@ -51,7 +51,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string PalletType
         {
-            get { return ProductDetails.PalletType; }
+            get => ProductDetails.PalletType;
             set
             {
                 ProductDetails.PalletType = value;
@@ -61,7 +61,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public int Packages 
         { 
-            get { return ProductDetails.Packages; }
+            get => ProductDetails.Packages;
             set
             {
                 ProductDetails.Packages = value;
@@ -71,7 +71,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal GrossWeight
         {
-            get { return ProductDetails.GrossWeight; }
+            get => ProductDetails.GrossWeight;
             set
             {
                 ProductDetails.GrossWeight = value;
@@ -81,7 +81,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal NetWeight
         {
-            get { return ProductDetails.NetWeight; }
+            get => ProductDetails.NetWeight;
             set
             {
                 ProductDetails.NetWeight = value;
@@ -91,7 +91,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal Price
         {
-            get { return ProductDetails.Price; }
+            get => ProductDetails.Price;
             set
             {
                 ProductDetails.Price = value;
@@ -102,7 +102,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public string Currency
         {
-            get { return ProductDetails.Currency; }
+            get => ProductDetails.Currency;
             set
             {
                 ProductDetails.Currency = value;
@@ -112,7 +112,7 @@ namespace PosizioniRoverfrutta.ViewModels
 
         public decimal PriceParameter
         {
-            get { return ProductDetails.PriceParameter; }
+            get => ProductDetails.PriceParameter;
             set
             {
                 ProductDetails.PriceParameter = value;
@@ -121,10 +121,7 @@ namespace PosizioniRoverfrutta.ViewModels
             }
         }
 
-        public decimal TotalPrice
-        {
-            get { return Math.Round(Price*PriceParameter, 2); }
-        }
+        public decimal TotalPrice => Math.Round(Price*PriceParameter, 2);
 
         public ProductDetails ProductDetails { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -133,7 +130,7 @@ namespace PosizioniRoverfrutta.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
