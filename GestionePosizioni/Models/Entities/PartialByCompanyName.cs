@@ -1,9 +1,7 @@
-namespace Models.Entities
-{
-    public class PartialByCompanyName
-    {
-        public string CompanyName { get; set; }
+namespace Models.Entities;
 
-        public decimal Total { get; set; }
-    }
+public class PartialByCompanyName
+{
+    public string CompanyName { get; set; } = string.Empty;
+    public decimal Total { get; set; }
 }

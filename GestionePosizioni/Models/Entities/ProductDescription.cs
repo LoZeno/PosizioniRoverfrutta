@@ -1,8 +1,7 @@
-﻿namespace Models.Entities
+﻿namespace Models.Entities;
+
+public class ProductDescription
 {
-    public class ProductDescription
-    {
-        public int Id { get; set; }
-        public string Description { get; set; } 
-    }
+    public string Id { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

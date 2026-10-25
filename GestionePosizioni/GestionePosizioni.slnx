@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Test/">
+    <Project Path="Tests/QueryManager.Tests/QueryManager.Tests.csproj" />
+    <Project Path="PosizioniRoverfrutta.Tests/PosizioniRoverfrutta.Tests.csproj" />
+    <Project Path="ReportManager.Tests/ReportManager.Tests.csproj" />
+    <Project Path="Mapi.Integration.Test/Mapi.Integration.Test.csproj" />
+  </Folder>
+  <Folder Name="/Prerequisites/">
+    <File Path="Prerequisites/vcredist_x64.exe" />
+  </Folder>
+  <Project Path="Models/Models.csproj" />
+  <Project Path="QueryManager/QueryManager.csproj" />
+  <Project Path="ReportManager/ReportManager.csproj" />
+  <Project Path="MailWrapper/MailWrapper.csproj" />
+  <Project Path="CustomControls/CustomWPFControls.csproj" />
+  <Project Path="PosizioniRoverfrutta/PosizioniRoverfrutta.csproj" />
+  <Project Path="RestoreDataUtility/RestoreDataUtility.csproj" />
+</Solution>

@@ -57,15 +57,9 @@ namespace PosizioniRoverfrutta.Windows
             if (ProductsGrid.SelectedItem != null)
             {
                 var customerRow = (ProductRow)ProductsGrid.SelectedItem;
-                var originalId = customerRow.Id.Split('/');
-                if (originalId.Count() > 1)
-                {
-                    selectedId = int.Parse(originalId[1]);
-                }
-                else
-                {
-                    selectedId = int.Parse(originalId[0]);
-                }
+                selectedId = Models.DocumentTypes.DocumentBase.TryParseIdNumber(customerRow.Id);
+                if (selectedId == 0)
+                    selectedId = null;
             }
             ((ProductsWindowGridViewModel)DataContext).LoadSelectedProduct(selectedId);
         }

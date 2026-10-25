@@ -1,7 +1,6 @@
-namespace Models.DocumentTypes
+namespace Models.DocumentTypes;
+
+public class LoadingDocument : DocumentBase
 {
-    public class LoadingDocument : DocumentBase
-    {
-        public string TransportDocument { get; set; }
-    }
+    public string TransportDocument { get; set; } = string.Empty;
 }

@@ -1,0 +1,3 @@
+namespace Raven.Client.Linq
+{
+}

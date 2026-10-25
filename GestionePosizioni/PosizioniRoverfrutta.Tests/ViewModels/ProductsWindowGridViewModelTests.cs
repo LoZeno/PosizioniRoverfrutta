@@ -24,8 +24,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
-            _dataStorage.DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
-            _dataStorage.DocumentStore.Conventions.ShouldSaveChangesForceAggressiveCacheCheck = true;
             InsertInitialData();
             _viewModel = new ProductsWindowGridViewModel(_dataStorage, _mockWindowManager.Object);
         }
@@ -103,7 +101,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_refreshing_data_if_the_selected_product_is_deleted_elsewhere_then_the_selected_product_fields_are_emptied()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             using (var session = _dataStorage.CreateSession())
             {
@@ -118,7 +116,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_refreshing_data_if_the_selected_product_has_changed_then_the_field_is_updated()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             using (var session = _dataStorage.CreateSession())
             {
@@ -133,7 +131,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_editing_a_product_and_clicking_save_it_refreshes_the_data_in_the_grid_and_empties_the_editing_controls()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             _viewModel.Description = "AAA New Description";
 
@@ -152,7 +150,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_with_no_associated_positions_is_selected_the_delete_button_is_enabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             Assert.That(_viewModel.DeleteButtonEnabled, Is.True);
         }
@@ -160,7 +158,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_with_at_least_one_associated_saleconfirmation_is_selected_the_delete_button_is_disabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             using (var session = _dataStorage.CreateSession())
             {
                 var product = session.Load<ProductDescription>(selectedProductId);
@@ -176,7 +174,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_with_at_least_one_associated_loadingDocument_is_selected_the_delete_button_is_disabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             using (var session = _dataStorage.CreateSession())
             {
                 var product = session.Load<ProductDescription>(selectedProductId);
@@ -192,7 +190,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_with_at_least_one_associated_priceConfirmation_is_selected_the_delete_button_is_disabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             using (var session = _dataStorage.CreateSession())
             {
                 var product = session.Load<ProductDescription>(selectedProductId);
@@ -215,7 +213,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_is_selected_but_not_edited_the_save_button_is_disabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             Assert.That(_viewModel.SaveButtonEnabled, Is.False);
         }
@@ -223,7 +221,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_the_selected_product_is_edited_the_save_button_is_enabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             _viewModel.Description = "Some New Description";
             Assert.That(_viewModel.SaveButtonEnabled, Is.True);
@@ -240,7 +238,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_a_product_does_not_have_a_Description_then_the_save_button_is_disabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             _viewModel.Description = string.Empty;
             Assert.That(_viewModel.SaveButtonEnabled, Is.False);
@@ -281,7 +279,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         [Test]
         public void when_selected_product_is_existing_product_edit_controls_are_enabled()
         {
-            var selectedProductId = int.Parse(_viewModel.ProductsList[0].Id.Split('/')[1]);
+            var selectedProductId = DocumentBase.TryParseIdNumber(_viewModel.ProductsList[0].Id);
             _viewModel.LoadSelectedProduct(selectedProductId);
             Assert.That(_viewModel.EditControlsEnabled, Is.True);
         }

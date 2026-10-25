@@ -18,8 +18,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
-            _dataStorage.DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
-            _dataStorage.DocumentStore.Conventions.ShouldSaveChangesForceAggressiveCacheCheck = true;
             _mockWindowManager = new Mock<IWindowManager>();
         }
 

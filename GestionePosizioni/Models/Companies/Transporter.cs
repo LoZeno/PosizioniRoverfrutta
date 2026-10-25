@@ -1,6 +1,5 @@
-﻿namespace Models.Companies
+namespace Models.Companies;
+
+public class Transporter : CompanyBase
 {
-    public class Transporter : CompanyBase
-    {
-    }
 }

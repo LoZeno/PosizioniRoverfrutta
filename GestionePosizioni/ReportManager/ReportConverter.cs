@@ -1,17 +1,18 @@
-﻿using TuesPechkin;
+using System.Threading.Tasks;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
 
-namespace ReportManager
+namespace ReportManager;
+
+internal static class ReportConverter
 {
-    internal class ReportConverter
+    public static async Task ConvertHtmlToPdfAsync(string html, string destinationPath, PaperFormat paperFormat)
     {
-        private ReportConverter()
-        {
-            
-        }
-
-        public static IConverter Converter { get; } = new StandardConverter(
-            new PdfToolset(
-                new Win64EmbeddedDeployment(
-                    new TempFolderDeployment())));
+        var browserFetcher = new BrowserFetcher();
+        await browserFetcher.DownloadAsync();
+        await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+        await using var page = await browser.NewPageAsync();
+        await page.SetContentAsync(html);
+        await page.PdfAsync(destinationPath, new PdfOptions { Format = paperFormat, PrintBackground = true });
     }
 }

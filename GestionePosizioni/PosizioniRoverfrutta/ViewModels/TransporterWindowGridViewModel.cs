@@ -201,7 +201,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 else
                 {
                     var transportersQuery = session.Query<CustomerRow, TransportersWithNumberOfDocuments>();
-                    var queryByName = SearchBox.Split(' ').Aggregate(transportersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
+                    var queryByName = SearchBox.Split(' ').Aggregate(transportersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", @operator: SearchOperator.And));
                     TransportersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100).ToList());
                 }
             }

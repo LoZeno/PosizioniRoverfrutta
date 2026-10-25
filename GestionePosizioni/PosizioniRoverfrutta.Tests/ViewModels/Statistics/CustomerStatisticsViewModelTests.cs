@@ -18,7 +18,6 @@ namespace PosizioniRoverfrutta.Tests.ViewModels.Statistics
         {
             _dataStorage = new RavenDataStorage();
             _dataStorage.Initialize();
-            _dataStorage.DocumentStore.Conventions.DefaultQueryingConsistency = ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
 
             using (var session = _dataStorage.CreateSession())
             {

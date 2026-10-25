@@ -1,101 +1,129 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.IO;
 using Models.DocumentTypes;
-using Raven.Abstractions.Data;
-using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Embedded;
-using Raven.Client.Indexes;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Operations.Backups;
+using Raven.Client.Documents.Session;
+using Raven.Embedded;
+using Sparrow;
 
-namespace QueryManager
+namespace QueryManager;
+
+public class RavenDataStorage : IDataStorage
 {
-    public class RavenDataStorage : IDataStorage
+    private static readonly object ServerSync = new();
+    private static string _dataDirectory = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+        ConfigurationManager.AppSettings["DatabaseFolderName"] ?? "Roverfrutta",
+        "Archive");
+
+    private IDocumentStore _documentStore;
+    private bool _waitForNonStaleResults;
+
+    public void Initialize()
     {
-        private static string _dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ConfigurationManager.AppSettings["DatabaseFolderName"], @"Archive");
+        var turnOnManagementStudio = ConfigurationManager.AppSettings["ActivateManagementStudio"];
+        var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
+        var runInMemory = string.Equals(ConfigurationManager.AppSettings["Raven/RunInMemory"], "True", StringComparison.OrdinalIgnoreCase);
+        _waitForNonStaleResults = string.Equals(alwaysWaitForLastWrite, "True", StringComparison.OrdinalIgnoreCase);
 
-        private EmbeddableDocumentStore _documentStore;
-
-        /// <summary>
-        /// Initializes the database and creates the necessary indexes
-        /// </summary>
-        public void Initialize()
+        var options = new ServerOptions
         {
-            _documentStore = new EmbeddableDocumentStore
-            {
-                DataDirectory = ConnectionString,
-            };
+            DataDirectory = runInMemory
+                ? Path.Combine(Path.GetTempPath(), "RoverfruttaEmbedded")
+                : ConnectionString,
+            FrameworkVersion = "10.0.13",
+            ServerUrl = string.Equals(turnOnManagementStudio, "True", StringComparison.OrdinalIgnoreCase)
+                ? "http://127.0.0.1:8080"
+                : "http://127.0.0.1:0"
+        };
+        if (runInMemory)
+            options.CommandLineArgs.Add("--RunInMemory=true");
 
-            var turnOnManagementStudio = ConfigurationManager.AppSettings["ActivateManagementStudio"];
-            if ("True" == turnOnManagementStudio)
+        Directory.CreateDirectory(options.DataDirectory);
+
+        lock (ServerSync)
+        {
+            try
             {
-                _documentStore.UseEmbeddedHttpServer = true;
+                EmbeddedServer.Instance.StartServer(options);
             }
-
-            var alwaysWaitForLastWrite = ConfigurationManager.AppSettings["AlwaysWaitForLastWrite"];
-            if ("True" == alwaysWaitForLastWrite)
+            catch (InvalidOperationException ex) when (IsAlreadyStarted(ex))
             {
-                _documentStore.Conventions.DefaultQueryingConsistency =
-                    ConsistencyOptions.AlwaysWaitForNonStaleResultsAsOfLastWrite;
+                // process-wide singleton
             }
-
-            SetSaleConfirmationsToUseProgressiveIndexes();
-
-            SetSummaryAndInvoiceTypeToUseProgressiveIndexes();
-
-            DisableLayer2Caching();
-
-            _documentStore.Initialize();
-            _documentStore.DisableAggressiveCaching();
-
-            CreateIndexes();
-        }
-
-        private void DisableLayer2Caching()
-        {
-            _documentStore.Conventions.ShouldCacheRequest = url => false;
-            _documentStore.Conventions.DisableProfiling = true;
-        }
-
-        private void SetSummaryAndInvoiceTypeToUseProgressiveIndexes()
-        {
-            _documentStore.Conventions.RegisterIdConvention<SummaryAndInvoice>(
-                (dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
-        }
-
-        private void SetSaleConfirmationsToUseProgressiveIndexes()
-        {
-            _documentStore.Conventions.RegisterIdConvention<SaleConfirmation>(
-                (dbname, commands, entity) => _documentStore.Conventions.GetTypeTagName(entity.GetType()) + "/");
-        }
-
-        public void StartBackup(string path, bool incremental)
-        {
-            _documentStore.DocumentDatabase.Maintenance.StartBackup(path, incremental, new DatabaseDocument(), new ResourceBackupState());
-        }
-
-        private void CreateIndexes()
-        {
-            IndexCreation.CreateIndexes(GetType().Assembly, _documentStore);
-        }
-
-        public string ConnectionString
-        {
-            get
+            catch (InvalidOperationException)
             {
-                return _dataDirectory;
-            }
-            set
-            {
-                _dataDirectory = value;
+                options.DataDirectory = Path.Combine(Path.GetTempPath(), "RoverfruttaEmbedded", Guid.NewGuid().ToString("N"));
+                Directory.CreateDirectory(options.DataDirectory);
+                try
+                {
+                    EmbeddedServer.Instance.StartServer(options);
+                }
+                catch (InvalidOperationException retry) when (IsAlreadyStarted(retry))
+                {
+                }
             }
         }
 
-        public EmbeddableDocumentStore DocumentStore => _documentStore;
-
-        public IDocumentSession CreateSession()
+        var conventions = new DocumentConventions
         {
-            return _documentStore.OpenSession();
+            MaxHttpCacheSize = new Size(0, SizeUnit.Bytes)
+        };
+        RegisterProgressiveIdConvention<SaleConfirmation>(conventions);
+        RegisterProgressiveIdConvention<SummaryAndInvoice>(conventions);
+
+        var databaseName = runInMemory
+            ? "Archive-" + Guid.NewGuid().ToString("N")
+            : "Archive";
+
+        _documentStore = EmbeddedServer.Instance.GetDocumentStore(new DatabaseOptions(databaseName)
+        {
+            Conventions = conventions
+        });
+
+        if (_waitForNonStaleResults)
+        {
+            _documentStore.OnBeforeQuery += (_, args) =>
+                args.QueryCustomization.WaitForNonStaleResults();
         }
+
+        IndexCreation.CreateIndexes(GetType().Assembly, _documentStore);
+    }
+
+    private static bool IsAlreadyStarted(InvalidOperationException ex) =>
+        ex.Message.IndexOf("already started", StringComparison.OrdinalIgnoreCase) >= 0;
+
+    private static void RegisterProgressiveIdConvention<T>(DocumentConventions conventions)
+    {
+        // Trailing '|' requests a server identity so IDs become Collection/1, Collection/2, ...
+        conventions.RegisterAsyncIdConvention<T>(
+            (_, entity) => System.Threading.Tasks.Task.FromResult(
+                conventions.GetCollectionName(entity.GetType()) + "|"));
+    }
+
+    public void StartBackup(string path, bool incremental)
+    {
+        _documentStore.Maintenance.Send(new BackupOperation(new BackupConfiguration
+        {
+            LocalSettings = new LocalSettings { FolderPath = path },
+            BackupType = incremental ? BackupType.Backup : BackupType.Snapshot
+        }));
+    }
+
+    public string ConnectionString
+    {
+        get => _dataDirectory;
+        set => _dataDirectory = value;
+    }
+
+    public IDocumentStore DocumentStore => _documentStore;
+
+    public IDocumentSession CreateSession()
+    {
+        return _documentStore.OpenSession();
     }
 }

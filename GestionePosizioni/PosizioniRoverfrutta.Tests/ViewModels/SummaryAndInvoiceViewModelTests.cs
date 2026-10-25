@@ -40,7 +40,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             viewModel.StartDate = DateTime.Today.AddDays(-1);
             viewModel.EndDate = DateTime.Today.AddDays(1);
 
-            Assert.AreEqual(2, viewModel.PartialsByCompanyName.Count);
+            Assert.That(viewModel.PartialsByCompanyName.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             viewModel.StartDate = DateTime.Today.AddDays(-1);
             viewModel.EndDate = DateTime.Today.AddDays(1);
 
-            Assert.AreEqual(40, viewModel.PartialsByCompanyName.First(row => row.CompanyName.Equals(CompanyName1)).Total);
-            Assert.AreEqual(60, viewModel.PartialsByCompanyName.First(row => row.CompanyName.Equals(CompanyName2)).Total);
+            Assert.That(viewModel.PartialsByCompanyName.First(row => row.CompanyName.Equals(CompanyName1)).Total, Is.EqualTo(40));
+            Assert.That(viewModel.PartialsByCompanyName.First(row => row.CompanyName.Equals(CompanyName2)).Total, Is.EqualTo(60));
         }
 
         private void StoreInitialData()

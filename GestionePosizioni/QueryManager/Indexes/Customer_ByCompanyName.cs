@@ -1,19 +1,17 @@
-﻿using System.Linq;
-using Models;
+using System.Linq;
 using Models.Companies;
-using Raven.Client.Indexes;
+using Raven.Client.Documents.Indexes;
 
-namespace QueryManager.Indexes
+namespace QueryManager.Indexes;
+
+public class Customer_ByCompanyName : AbstractIndexCreationTask<Customer>
 {
-    public class Customer_ByCompanyName : AbstractIndexCreationTask<Customer>
+    public Customer_ByCompanyName()
     {
-        public Customer_ByCompanyName()
-        {
-            Map = customers => from customer in customers
-                select new
-                {
-                    customer.CompanyName
-                };
-        }
+        Map = customers => from customer in customers
+            select new
+            {
+                customer.CompanyName
+            };
     }
 }

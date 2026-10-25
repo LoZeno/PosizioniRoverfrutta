@@ -1,7 +1,6 @@
-﻿namespace Models.Entities
+﻿namespace Models.Entities;
+
+public class Currency
 {
-    public class Currency
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; } = string.Empty;
 }

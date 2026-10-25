@@ -22,6 +22,8 @@ namespace QueryManager.Tests
         [Test]
         public void WhenSavingSummaryAndInvoiceItGeneratesSequentialIds()
         {
+            string id1;
+            string id2;
             using (var session = _storage.CreateSession())
             {
                 var invoice1 = new SummaryAndInvoice
@@ -37,18 +39,20 @@ namespace QueryManager.Tests
                 };
                 session.Store(invoice2);
                 session.SaveChanges();
+                id1 = invoice1.Id;
+                id2 = invoice2.Id;
             }
             SummaryAndInvoice invoiceNumberOne;
             SummaryAndInvoice invoiceNumberTwo;
             using (var newSession = _storage.CreateSession())
             {
-                invoiceNumberOne = newSession.Load<SummaryAndInvoice>("summaryandinvoices/1");
-                invoiceNumberTwo = newSession.Load<SummaryAndInvoice>("SummaryAndInvoices/2");
+                invoiceNumberOne = newSession.Load<SummaryAndInvoice>(id1);
+                invoiceNumberTwo = newSession.Load<SummaryAndInvoice>(id2);
             }
-            Assert.AreEqual(1, invoiceNumberOne.InvoiceNumber);
-            Assert.AreEqual(2, invoiceNumberTwo.InvoiceNumber);
-            Assert.AreEqual(CompanyName, invoiceNumberOne.Customer.CompanyName);
-            Assert.AreEqual(SecondCompanyName, invoiceNumberTwo.Customer.CompanyName);
+            Assert.That(invoiceNumberOne.InvoiceNumber, Is.EqualTo(1));
+            Assert.That(invoiceNumberTwo.InvoiceNumber, Is.EqualTo(2));
+            Assert.That(invoiceNumberOne.Customer.CompanyName, Is.EqualTo(CompanyName));
+            Assert.That(invoiceNumberTwo.Customer.CompanyName, Is.EqualTo(SecondCompanyName));
         }
 
         [Test]
@@ -71,12 +75,12 @@ namespace QueryManager.Tests
             {
                 invoiceToLoad = newSession.Load<SummaryAndInvoice>("SummaryAndInvoices/23");
             }
-            Assert.AreEqual(23, invoiceToLoad.InvoiceNumber);
-            Assert.AreEqual(CompanyName, invoiceToLoad.Customer.CompanyName);
+            Assert.That(invoiceToLoad.InvoiceNumber, Is.EqualTo(23));
+            Assert.That(invoiceToLoad.Customer.CompanyName, Is.EqualTo(CompanyName));
         }
 
         [Test]
-        [Ignore]
+        [Ignore("Sequential IDs after arbitrary numbers are not guaranteed")]
         public void WhenSavingAnInvoiceAfterAnotherWithAnArbitraryNumberThenTheNextOneHasASequentialId()
         {
             using (var session = _storage.CreateSession())
@@ -105,8 +109,8 @@ namespace QueryManager.Tests
             {
                 invoiceToLoad = newSession.Load<SummaryAndInvoice>("SummaryAndInvoices/100");
             }
-            Assert.AreEqual(100, invoiceToLoad.InvoiceNumber);
-            Assert.AreEqual(SecondCompanyName, invoiceToLoad.Customer.CompanyName);
+            Assert.That(invoiceToLoad.InvoiceNumber, Is.EqualTo(100));
+            Assert.That(invoiceToLoad.Customer.CompanyName, Is.EqualTo(SecondCompanyName));
         }
     }
 }

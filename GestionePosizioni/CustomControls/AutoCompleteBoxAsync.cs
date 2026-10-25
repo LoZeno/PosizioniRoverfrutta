@@ -1,53 +1,51 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace CustomWPFControls
+namespace CustomWPFControls;
+
+public class AutoCompleteBoxAsync : AutoCompleteBox
 {
-    public class AutoCompleteBoxAsync : AutoCompleteBox
+    public AutoCompleteBoxAsync()
     {
-        public AutoCompleteBoxAsync()
+        FilterMode = AutoCompleteFilterMode.None;
+        Populating += AutoCompleteBoxAsync_Populating;
+    }
+
+    private void AutoCompleteBoxAsync_Populating(object? sender, PopulatingEventArgs e)
+    {
+        var populateInfo = new PopulateInfo
         {
-            this.FilterMode = AutoCompleteFilterMode.None;
-            this.Populating += AutoCompleteBoxAsync_Populating;
-        }
+            AutoCompleteBox = sender as AutoCompleteBox,
+            SearchText = (sender as AutoCompleteBox)?.SearchText ?? string.Empty,
+        };
+        e.Cancel = true;
+        var ui = TaskScheduler.FromCurrentSynchronizationContext();
+        var populate = Task.Factory.StartNew(() => Populate(populateInfo));
+        populate.ContinueWith(task => OnPopulateComplete(task.Result), ui);
+    }
 
-        private void AutoCompleteBoxAsync_Populating(object sender, PopulatingEventArgs e)
+    public IAutoCompleteBoxDataProvider? DataProvider { get; set; }
+
+    private PopulateInfo Populate(PopulateInfo populateInfo)
+    {
+        populateInfo.Results = DataProvider?.GetItems(populateInfo.SearchText) ?? [];
+        return populateInfo;
+    }
+
+    private void OnPopulateComplete(PopulateInfo populateInfo)
+    {
+        if (populateInfo.AutoCompleteBox != null &&
+            populateInfo.SearchText == populateInfo.AutoCompleteBox.SearchText)
         {
-            var populateInfo = new PopulateInfo
-            {
-                AutoCompleteBox = sender as AutoCompleteBox,
-                SearchText = (sender as AutoCompleteBox).SearchText,
-            };
-            e.Cancel = true;
-            var ui = TaskScheduler.FromCurrentSynchronizationContext();
-            var populate = Task.Factory.StartNew<PopulateInfo>(() => Populate(populateInfo));
-            populate.ContinueWith(task => OnPopulateComplete(task.Result), ui);
+            populateInfo.AutoCompleteBox.ItemsSource = populateInfo.Results;
+            populateInfo.AutoCompleteBox.PopulateComplete();
         }
+    }
 
-        public IAutoCompleteBoxDataProvider DataProvider { get; set; }
-
-
-        private PopulateInfo Populate(PopulateInfo populateInfo)
-        {
-            populateInfo.Results = DataProvider.GetItems(populateInfo.SearchText);
-            return populateInfo;
-        }
-
-        private void OnPopulateComplete(PopulateInfo populateInfo)
-        {
-            if (populateInfo.SearchText == populateInfo.AutoCompleteBox.SearchText)
-            {
-                populateInfo.AutoCompleteBox.ItemsSource = populateInfo.Results;
-                populateInfo.AutoCompleteBox.PopulateComplete();
-            }
-        }
-
-        private class PopulateInfo
-        {
-            public AutoCompleteBox AutoCompleteBox { get; set; }
-            public string SearchText { get; set; }
-            public IEnumerable<string> Results { get; set; }
-        }
+    private class PopulateInfo
+    {
+        public AutoCompleteBox? AutoCompleteBox { get; set; }
+        public string SearchText { get; set; } = string.Empty;
+        public IEnumerable<string>? Results { get; set; }
     }
 }

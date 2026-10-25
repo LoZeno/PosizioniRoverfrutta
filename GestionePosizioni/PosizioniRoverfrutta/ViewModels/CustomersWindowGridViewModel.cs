@@ -238,7 +238,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 else
                 {
                     var customersQuery = session.Query<CustomerRow, CustomersWithNumberOfDocuments>();
-                    var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
+                    var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.CompanyName, "*" + term + "*", @operator: SearchOperator.And));
                     CustomersList.AddRange(queryByName.OrderBy(c => c.CompanyName).Take(100).ToList());
                 }
             }

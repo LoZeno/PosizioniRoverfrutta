@@ -94,8 +94,7 @@ namespace PosizioniRoverfrutta.Windows.Statistics
 
         private void SetProductPieChartDataBindings(CustomerStatisticsViewModel viewModel)
         {
-            ProductChartDataSeries.DisplayMember = "Description";
-            ProductChartDataSeries.ValueMember = "NetWeight";
+            // Pie chart control replaced; keep ItemsSource binding only.
             ProductChartDataSeries.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
             {
                 Source = viewModel,
@@ -106,8 +105,7 @@ namespace PosizioniRoverfrutta.Windows.Statistics
 
         private void SetCathegoriesPieChartDataBindings(CustomerStatisticsViewModel viewModel)
         {
-            CathegoriesChartDataSeries.DisplayMember = "Description";
-            CathegoriesChartDataSeries.ValueMember = "NetWeight";
+            // Pie chart control replaced; keep ItemsSource binding only.
             CathegoriesChartDataSeries.SetBinding(ItemsControl.ItemsSourceProperty, new Binding
             {
                 Source = viewModel,

@@ -6,7 +6,7 @@
              xmlns:watermarkAdorner="clr-namespace:GestionePosizioni.CustomControls.WatermarkAdorner"
              xmlns:viewModels="clr-namespace:GestionePosizioni.ViewModels"
              xmlns:baseClasses="clr-namespace:GestionePosizioni.BaseClasses"
-             xmlns:control="clr-namespace:dragonz.actb.control;assembly=dragonz.actb"
+             xmlns:control="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

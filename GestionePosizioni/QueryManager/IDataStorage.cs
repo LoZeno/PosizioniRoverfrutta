@@ -1,14 +1,13 @@
-using Raven.Client;
-using Raven.Client.Embedded;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
-namespace QueryManager
+namespace QueryManager;
+
+public interface IDataStorage
 {
-    public interface IDataStorage
-    {
-        void Initialize();
-        string ConnectionString { get; set; }
-        EmbeddableDocumentStore DocumentStore { get; }
-        IDocumentSession CreateSession();
-        void StartBackup(string path, bool incremental);
-    }
+    void Initialize();
+    string ConnectionString { get; set; }
+    IDocumentStore DocumentStore { get; }
+    IDocumentSession CreateSession();
+    void StartBackup(string path, bool incremental);
 }

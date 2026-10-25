@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace CustomWPFControls
+namespace CustomWPFControls;
+
+public interface IAutoCompleteBoxDataProvider
 {
-    public interface IAutoCompleteBoxDataProvider
-    {
-        IEnumerable<string> GetItems(string textPattern);
-    }
+    IEnumerable<string> GetItems(string textPattern);
 }

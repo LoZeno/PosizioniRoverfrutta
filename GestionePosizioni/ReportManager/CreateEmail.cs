@@ -1,39 +1,41 @@
-﻿using System.IO;
-using RazorEngine;
-using RazorEngine.Templating;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.IO;
+using RazorLight;
 
-namespace ReportManager
+namespace ReportManager;
+
+public abstract class CreateEmail<T>
 {
-    public abstract class CreateEmail<T>
+    private readonly RazorLightEngine _engine;
+    private readonly ExpandoObject _viewBag;
+
+    protected CreateEmail()
     {
-
-        protected CreateEmail()
-        {
-            _viewBag = new DynamicViewBag();
-            Engine.Razor.Compile(LoadTemplate(), TemplatePath(), typeof(T));
-        }
-
-        protected void AddToViewBag(string property, object value)
-        {
-            _viewBag.AddValue(property, value);
-        }
-
-        public void GenerateEmail(T model, string destinationPath)
-        {
-            var htmlMail = Engine.Razor.Run(TemplatePath(), typeof(T), model, _viewBag);
-            File.WriteAllBytes(destinationPath, System.Text.Encoding.ASCII.GetBytes(htmlMail));
-        }
-
-        private string LoadTemplate()
-        {
-            using (var streamReader = new StreamReader(TemplatePath(), System.Text.Encoding.UTF8))
-            {
-                return streamReader.ReadToEnd();
-            }
-        }
-
-        public abstract string TemplatePath();
-
-        private readonly DynamicViewBag _viewBag;
+        _viewBag = new ExpandoObject();
+        _engine = new RazorLightEngineBuilder()
+            .UseMemoryCachingProvider()
+            .Build();
     }
+
+    protected void AddToViewBag(string property, object value)
+    {
+        ((IDictionary<string, object>)_viewBag)[property] = value;
+    }
+
+    public void GenerateEmail(T model, string destinationPath)
+    {
+        var template = LoadTemplate();
+        var htmlMail = _engine.CompileRenderStringAsync(TemplatePath(), template, model, _viewBag)
+            .GetAwaiter().GetResult();
+        File.WriteAllBytes(destinationPath, System.Text.Encoding.ASCII.GetBytes(htmlMail));
+    }
+
+    private string LoadTemplate()
+    {
+        using var streamReader = new StreamReader(TemplatePath(), System.Text.Encoding.UTF8);
+        return streamReader.ReadToEnd();
+    }
+
+    public abstract string TemplatePath();
 }

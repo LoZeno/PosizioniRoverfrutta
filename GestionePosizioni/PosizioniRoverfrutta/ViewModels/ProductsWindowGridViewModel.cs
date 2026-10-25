@@ -89,7 +89,7 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 using (var session = _dataStorage.CreateSession())
                 {
-                    _selectedProduct = session.Load<ProductDescription>(selectedProductId);
+                    _selectedProduct = session.Load<ProductDescription>("ProductDescriptions/" + selectedProductId.Value);
                     OnPropertyChanged("EditControlsEnabled");
                 }
             }
@@ -129,7 +129,7 @@ namespace PosizioniRoverfrutta.ViewModels
                 else
                 {
                     var customersQuery = session.Query<ProductRow, ProductsWithNumberOfDocuments>();
-                    var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.Description, "*" + term + "*", options: SearchOptions.And, escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards));
+                    var queryByName = SearchBox.Split(' ').Aggregate(customersQuery, (current, term) => current.Search(c => c.Description, "*" + term + "*", @operator: SearchOperator.And));
                     ProductsList.AddRange(queryByName.OrderBy(c => c.Description).Take(100).ToList());
                 }
             }
@@ -137,7 +137,9 @@ namespace PosizioniRoverfrutta.ViewModels
             {
                 DecreaseSkip();
             }
-            var selectedProductId = _selectedProduct?.Id;
+            int? selectedProductId = string.IsNullOrWhiteSpace(_selectedProduct?.Id)
+                ? null
+                : Models.DocumentTypes.DocumentBase.TryParseIdNumber(_selectedProduct.Id);
             LoadSelectedProduct(selectedProductId);
         }
 

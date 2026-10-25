@@ -1,7 +1,5 @@
-﻿namespace Models.Companies
-{
-    public class Customer : CompanyBase
-    {
+namespace Models.Companies;
 
-    }
+public class Customer : CompanyBase
+{
 }

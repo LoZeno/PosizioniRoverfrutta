@@ -6,7 +6,7 @@
         xmlns:toolkit="clr-namespace:CustomWPFControls;assembly=CustomWPFControls"
         xmlns:windows="clr-namespace:PosizioniRoverfrutta.Windows"
         xmlns:local="clr-namespace:PosizioniRoverfrutta.Windows.Statistics"
-        xmlns:metroChart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
+        xmlns:metroChart="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
         mc:Ignorable="d"
         Title="Statistiche clienti e fornitori" MinHeight="300" MinWidth="300"
                     Height="600" Width="900">
@@ -73,11 +73,9 @@
                             </Grid.RowDefinitions>
                             
                             <GridSplitter Grid.Row="0" Height="5" ResizeBehavior="CurrentAndNext" HorizontalAlignment="Stretch" ResizeDirection="Rows"></GridSplitter>
-                            <metroChart:PieChart Grid.Row="1" Name="ProductsChart" ChartTitleVisibility="Collapsed">
-                                <metroChart:PieChart.Series>
-                                    <metroChart:ChartSeries Name="ProductChartDataSeries" SeriesTitle="Prodotti"></metroChart:ChartSeries>
-                                </metroChart:PieChart.Series>
-                            </metroChart:PieChart>
+                            <metroChart:ContentControl Grid.Row="1" Name="ProductsChart">
+                                <metroChart:ContentControl Name="ProductChartDataSeries" />
+                            </metroChart:ContentControl>
                         </Grid>
                     </Expander.Content>
                 </Expander>
@@ -110,11 +108,9 @@
                             </Grid.RowDefinitions>
 
                             <GridSplitter Grid.Row="0" Height="5" ResizeBehavior="CurrentAndNext" HorizontalAlignment="Stretch" ResizeDirection="Rows"></GridSplitter>
-                            <metroChart:PieChart Grid.Row="1" Name="CathegoriesChart" ChartTitleVisibility="Collapsed">
-                                <metroChart:PieChart.Series>
-                                    <metroChart:ChartSeries Name="CathegoriesChartDataSeries" SeriesTitle="Prodotti"></metroChart:ChartSeries>
-                                </metroChart:PieChart.Series>
-                            </metroChart:PieChart>
+                            <metroChart:ContentControl Grid.Row="1" Name="CathegoriesChart">
+                                <metroChart:ContentControl Name="CathegoriesChartDataSeries" />
+                            </metroChart:ContentControl>
                         </Grid>
                     </Expander.Content>
                 </Expander>
