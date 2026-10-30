@@ -179,7 +179,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             {
                 var product = session.Load<ProductDescription>(selectedProductId);
                 var ld = new LoadingDocument();
-                ld.ProductDetails.Add(new ProductDetails { ProductId = product.Id, Description = product.Description});
+                ld.ProductDetails.Add(new ProductDetails { ProductId = DocumentBase.TryParseIdNumber(product.Id), Description = product.Description});
                 session.Store(ld);
                 session.SaveChanges();
             }
@@ -195,7 +195,7 @@ namespace PosizioniRoverfrutta.Tests.ViewModels
             {
                 var product = session.Load<ProductDescription>(selectedProductId);
                 var pc = new PriceConfirmation();
-                pc.ProductDetails.Add(new ProductDetails { ProductId = product.Id, Description = product.Description });
+                pc.ProductDetails.Add(new ProductDetails { ProductId = DocumentBase.TryParseIdNumber(product.Id), Description = product.Description });
                 session.Store(pc);
                 session.SaveChanges();
             }

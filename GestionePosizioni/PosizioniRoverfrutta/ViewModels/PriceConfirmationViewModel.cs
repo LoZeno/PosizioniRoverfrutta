@@ -600,8 +600,8 @@ namespace PosizioniRoverfrutta.ViewModels
                     };
                     session.Store(productDescription);
                 }
-                productDetails.ProductId = productDescription.Id;
-                savedProductIds.Add(productDescription.Id);
+                productDetails.ProductId = DocumentBase.TryParseIdNumber(productDescription.Id);
+                savedProductIds.Add(productDetails.ProductId);
             }
         }
 

@@ -28,15 +28,20 @@ public abstract class DocumentBase
         }
     }
 
-    internal static int TryParseIdNumber(string id)
+    public static int TryParseIdNumber(string? id)
     {
+        if (string.IsNullOrWhiteSpace(id))
+            return 0;
+
         var strings = id.Split('/', StringSplitOptions.RemoveEmptyEntries);
         if (strings.Length < 2)
             return 0;
+
         var last = strings[^1];
         var dash = last.IndexOf('-');
         if (dash >= 0)
             last = last[..dash];
+
         return int.TryParse(last, out var n) ? n : 0;
     }
 

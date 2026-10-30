@@ -215,3 +215,5 @@ pip-log.txt
 .mr.developer.cfg
 /GestionePosizioni/.vs/GestionePosizioni/v15/Server/sqlite3
 /.vs
+
+.github/

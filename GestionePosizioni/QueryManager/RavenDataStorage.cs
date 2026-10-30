@@ -35,7 +35,6 @@ public class RavenDataStorage : IDataStorage
             DataDirectory = runInMemory
                 ? Path.Combine(Path.GetTempPath(), "RoverfruttaEmbedded")
                 : ConnectionString,
-            FrameworkVersion = "10.0.13",
             ServerUrl = string.Equals(turnOnManagementStudio, "True", StringComparison.OrdinalIgnoreCase)
                 ? "http://127.0.0.1:8080"
                 : "http://127.0.0.1:0"
